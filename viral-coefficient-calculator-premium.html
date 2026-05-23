@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Viral Coefficient Calculator — Premium Growth Analytics</title>
+    <title>SaaS Viral Coefficient Calculator — Premium Viral Analytics</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -174,45 +175,45 @@
 <body>
     <div class="container">
         <h1>SaaS Viral Coefficient Calculator</h1>
-        <p class="subtitle">Premium viral growth and referral analytics</p>
+        <p class="subtitle">Premium viral growth and K-factor analytics</p>
 
         <div class="input-grid">
             <div class="input-group">
-                <label>Current Users <span class="tooltip" title="Total current user base">?</span></label>
+                <label>Current Users <span class="tooltip" title="Total current users">?</span></label>
                 <input type="number" id="users" placeholder="1000" value="1000">
             </div>
             <div class="input-group">
-                <label>Invites Sent/Month</label>
+                <label>Monthly Invites Sent</label>
                 <input type="number" id="invites" placeholder="500" value="500">
             </div>
             <div class="input-group">
-                <label>Invite Conversion (%)</label>
-                <input type="number" id="conversion" placeholder="10" value="10">
+                <label>Invites Accepted</label>
+                <input type="number" id="accepted" placeholder="100" value="100">
             </div>
             <div class="input-group">
-                <label>Organic Growth (%/mo)</label>
-                <input type="number" id="organic" placeholder="15" value="15">
+                <label>Referral Signups</label>
+                <input type="number" id="referralSignups" placeholder="50" value="50">
             </div>
         </div>
 
-        <button class="cta" onclick="calculate()">Calculate Viral Analytics</button>
+        <button class="cta" onclick="calculate()">Calculate Viral Coefficient</button>
 
         <div class="results" id="results">
             <div class="result-card">
                 <div class="result-header">
                     <div class="result-title">Viral Coefficient (K)</div>
-                    <div class="result-value" id="k">0</div>
+                    <div class="result-value" id="kFactor">0</div>
                 </div>
-                <div class="result-detail" id="kDetail">Average new users each existing user generates</div>
+                <div class="result-detail" id="kDetail">Average new users generated per existing user</div>
                 
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value" id="viralUsers">0</div>
-                        <div class="metric-label">Viral Users/Month</div>
+                        <div class="metric-value" id="inviteRate">0%</div>
+                        <div class="metric-label">Invite Rate</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="totalGrowth">0%</div>
-                        <div class="metric-label">Total Growth</div>
+                        <div class="metric-value" id="acceptRate">0%</div>
+                        <div class="metric-label">Accept Rate</div>
                     </div>
                     <div class="metric-box">
                         <div class="metric-value" id="yourStatus">Unknown</div>
@@ -221,7 +222,7 @@
                 </div>
 
                 <div class="recommendation">
-                    <div class="recommendation-title">💡 Viral Insights</div>
+                    <div class="recommendation-title">💡 Viral Growth Insights</div>
                     <div id="recommendationText">Calculate to see personalized viral growth recommendations.</div>
                 </div>
             </div>
@@ -232,16 +233,16 @@
                 </div>
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value">0.7</div>
-                        <div class="metric-label">Good</div>
+                        <div class="metric-value">0.3+</div>
+                        <div class="metric-label">Good K</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">0.7+</div>
+                        <div class="metric-label">Strong K</div>
                     </div>
                     <div class="metric-box">
                         <div class="metric-value">1.0+</div>
                         <div class="metric-label">Viral</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">1.5+</div>
-                        <div class="metric-label">Hyper Viral</div>
                     </div>
                 </div>
             </div>
@@ -252,34 +253,33 @@
         function calculate() {
             const users = parseFloat(document.getElementById('users').value) || 1;
             const invites = parseFloat(document.getElementById('invites').value) || 0;
-            const conversion = parseFloat(document.getElementById('conversion').value) || 0;
-            const organic = parseFloat(document.getElementById('organic').value) || 0;
+            const accepted = parseFloat(document.getElementById('accepted').value) || 0;
+            const referralSignups = parseFloat(document.getElementById('referralSignups').value) || 0;
 
-            // Viral coefficient K = (invites per user) * conversion rate
-            const invitesPerUser = invites / users;
-            const k = invitesPerUser * (conversion / 100);
-            
-            const viralUsers = Math.round(users * k);
-            const totalGrowth = organic + (k * 100);
+            const kFactor = referralSignups / users;
+            const inviteRate = (invites / users) * 100;
+            const acceptRate = (accepted / invites) * 100;
 
             let yourStatus = 'Unknown';
-            if (k >= 1.5) yourStatus = 'Hyper Viral';
-            else if (k >= 1.0) yourStatus = 'Viral';
-            else if (k >= 0.7) yourStatus = 'Good';
-            else yourStatus = 'Weak';
+            if (kFactor >= 1.0) yourStatus = 'Viral';
+            else if (kFactor >= 0.7) yourStatus = 'Strong';
+            else if (kFactor >= 0.3) yourStatus = 'Good';
+            else yourStatus = 'At Risk';
 
-            document.getElementById('k').textContent = k.toFixed(2);
-            document.getElementById('viralUsers').textContent = viralUsers.toLocaleString('en-US');
-            document.getElementById('totalGrowth').textContent = totalGrowth.toFixed(1) + '%';
+            document.getElementById('kFactor').textContent = kFactor.toFixed(2);
+            document.getElementById('inviteRate').textContent = inviteRate.toFixed(1) + '%';
+            document.getElementById('acceptRate').textContent = acceptRate.toFixed(1) + '%';
             document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (k >= 1.0) {
-                recommendation = '🎉 Viral growth! Each user brings more than one new user. To sustain: 1) Optimize invite flow UX, 2. Add incentives for both inviter and invitee, 3. Create viral loops in core product usage.';
-            } else if (k >= 0.7) {
-                recommendation = '✅ Good viral coefficient. To reach viral: 1. Improve invite conversion with better messaging, 2. Add social proof to invite emails, 3. Make sharing frictionless with one-click invites.';
+            if (kFactor >= 1.0) {
+                recommendation = '🏆 Viral growth! Each user brings in more than one new user. To scale: 1) Invest in infrastructure to handle growth, 2. Optimize referral flow for speed, 3. Add viral loops to more touchpoints, 4. Consider referral rewards/incentives.';
+            } else if (kFactor >= 0.7) {
+                recommendation = '✅ Strong viral coefficient. To reach viral: 1. Improve invite conversion rate, 2. Add social proof to referral pages, 3. Test different referral incentives, 4. Make sharing easier (one-click invites).'
+            } else if (kFactor >= 0.3) {
+                recommendation = '✓ Good viral coefficient. To improve: 1. Increase invite rate — prompt users at moments of delight, 2. Improve invite message copy, 3. Add referral tracking and rewards, 4. Test different sharing channels.';
             } else {
-                recommendation = '⚠️ Weak viral growth. To improve: 1. Identify why users aren\'t inviting — survey them, 2. Add value to both inviter and invitee, 3. Create collaborative features that require invites, 4. Gamify the referral process.';
+                recommendation = '🚨 Low viral coefficient — growth relies mostly on paid channels. To improve: 1. Identify moments of delight for referral prompts, 2. Add viral features (collaboration, sharing, public profiles), 3. Test referral incentives (credits, premium features), 4. Simplify invite flow to reduce friction.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
