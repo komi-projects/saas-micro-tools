@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-LD Structured Data Generator — Free SEO Tool</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { opacity: 0.9; }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus, select:focus { outline: none; border-color: #f5576c; }
+        .hint { font-size: 0.85rem; color: #666; margin-top: 5px; }
+        .generate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .output {
+            background: #1a1a2e;
+            color: #a6e22e;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-top: 20px;
+        }
+        .copy-btn {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .footer { text-align: center; color: white; margin-top: 40px; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ JSON-LD Generator</h1>
+            <p>Generate structured data for rich snippets</p>
+        </div>
+
+        <div class="card">
+            <div class="input-group">
+                <label>Schema Type</label>
+                <select id="schema-type">
+                    <option value="software">SoftwareApplication (SaaS)</option>
+                    <option value="organization">Organization</option>
+                    <option value="product">Product</option>
+                    <option value="article">Article</option>
+                    <option value="faq">FAQPage</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" id="name" placeholder="SimpleRecover">
+            </div>
+
+            <div class="input-group">
+                <label>Description</label>
+                <input type="text" id="description" placeholder="Payment recovery tool for SaaS">
+            </div>
+
+            <div class="input-group">
+                <label>URL</label>
+                <input type="text" id="url" placeholder="https://simplerecover.io">
+            </div>
+
+            <div class="input-group">
+                <label>Image URL</label>
+                <input type="text" id="image" placeholder="https://simplerecover.io/logo.png">
+            </div>
+
+            <button class="generate-btn" onclick="generateSchema()">Generate JSON-LD</button>
+
+            <div id="output-section" style="display:none;">
+                <div class="output" id="schema-output"></div>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Free tool by SimpleRecover | No data stored</p>
+        </div>
+    </div>
+
+    <script>
+        function generateSchema() {
+            const type = document.getElementById('schema-type').value;
+            const name = document.getElementById('name').value || 'Your Product';
+            const description = document.getElementById('description').value || 'Description';
+            const url = document.getElementById('url').value || 'https://example.com';
+            const image = document.getElementById('image').value;
+
+            let schema;
+
+            switch(type) {
+                case 'software':
+                    schema = {
+                        "@context": "https://schema.org",
+                        "@type": "SoftwareApplication",
+                        name,
+                        description,
+                        url,
+                        applicationCategory: "BusinessApplication",
+                        operatingSystem: "Web",
+                        offers: {
+                            "@type": "Offer",
+                            price: "19.00",
+                            priceCurrency: "USD"
+                        }
+                    };
+                    break;
+                case 'organization':
+                    schema = {
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        name,
+                        description,
+                        url,
+                        logo: image || undefined
+                    };
+                    break;
+                case 'product':
+                    schema = {
+                        "@context": "https://schema.org",
+                        "@type": "Product",
+                        name,
+                        description,
+                        image: image || undefined,
+                        offers: {
+                            "@type": "Offer",
+                            price: "19.00",
+                            priceCurrency: "USD"
+                        }
+                    };
+                    break;
+                case 'article':
+                    schema = {
+                        "@context": "https://schema.org",
+                        "@type": "Article",
+                        headline: name,
+                        description,
+                        image: image || undefined,
+                        author: {
+                            "@type": "Organization",
+                            name: "Your Company"
+                        }
+                    };
+                    break;
+                case 'faq':
+                    schema = {
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        mainEntity: [
+                            {
+                                "@type": "Question",
+                                name: "What is " + name + "?",
+                                acceptedAnswer: {
+                                    "@type": "Answer",
+                                    text: description
+                                }
+                            }
+                        ]
+                    };
+                    break;
+            }
+
+            const output = JSON.stringify(schema, null, 2);
+            document.getElementById('schema-output').textContent = 
+                '<script type="application/ld+json">\n' + output + '\n</script>';
+            document.getElementById('output-section').style.display = 'block';
+            document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(document.getElementById('schema-output').textContent).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+            });
+        }
+    </script>
+</body>
+</html>
