@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recovery Notification Templates — SimpleRecover</title>
+  <style>
+    :root {
+      --indigo: #4f46e5;
+      --indigo-dark: #3730a3;
+      --cyan: #06b6d4;
+      --dark: #0f172a;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --red: #ef4444;
+      --green: #10b981;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+    .header {
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--cyan) 100%);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .header p { opacity: 0.9; font-size: 1rem; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .brand-icon {
+      width: 28px; height: 28px;
+      background: white;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--indigo);
+      font-weight: 800;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    .template-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: 2px solid var(--gray-200);
+      background: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .tab-btn:hover { border-color: var(--indigo); color: var(--indigo); }
+    .tab-btn.active {
+      background: var(--indigo);
+      color: white;
+      border-color: var(--indigo);
+    }
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .panel-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--indigo); }
+    .var-chip {
+      display: inline-block;
+      background: rgba(79,70,229,0.1);
+      color: var(--indigo);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .var-chip:hover { background: var(--indigo); color: white; }
+    .email-mockup {
+      background: #f7f7f7;
+      border-radius: 8px;
+      padding: 0;
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+    .email-header {
+      background: white;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .email-from {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin-bottom: 0.3rem;
+    }
+    .email-from strong { color: var(--gray-800); }
+    .email-subj {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .email-body {
+      background: white;
+      padding: 1.25rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--gray-800);
+      min-height: 200px;
+    }
+    .email-body p { margin-bottom: 1rem; }
+    .email-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--indigo), var(--cyan));
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+    .email-footer {
+      background: var(--gray-50);
+      padding: 1rem 1.25rem;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-200);
+    }
+    .sms-mockup {
+      background: linear-gradient(180deg, #e8f4f8 0%, #d4e9f2 100%);
+      border-radius: 16px;
+      padding: 1rem;
+      max-width: 320px;
+      margin: 1rem auto 0;
+      position: relative;
+    }
+    .sms-bubble {
+      background: white;
+      border-radius: 16px 16px 4px 16px;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 0.5rem;
+    }
+    .sms-time {
+      text-align: right;
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+    .copy-btns {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .btn {
+      padding: 0.6rem 1rem;
+      background: var(--indigo);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-outline {
+      background: white;
+      color: var(--indigo);
+      border: 2px solid var(--indigo);
+    }
+    .format-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .fmt-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--gray-200);
+      background: white;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .fmt-btn.active {
+      background: var(--gray-800);
+      color: white;
+      border-color: var(--gray-800);
+    }
+    .cta-section {
+      background: linear-gradient(135deg, var(--indigo-dark) 0%, var(--indigo) 50%, var(--cyan) 100%);
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .cta-section h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .cta-section p { opacity: 0.9; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .email-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .email-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.875rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    .btn-dark {
+      padding: 0.875rem 1.5rem;
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+      .editor-grid { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.4rem; }
+      .email-form { flex-direction: column; }
+      .email-input, .btn-dark { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">S</div>
+      SimpleRecover
+    </div>
+    <h1>Recovery Notification Templates</h1>
+    <p>Generate tested email & SMS templates for every stage of payment recovery</p>
+  </div>
+
+  <div class="container">
+    <div class="template-tabs">
+      <button class="tab-btn active" onclick="switchTemplate('initial')">Initial Failure</button>
+      <button class="tab-btn" onclick="switchTemplate('success')">Retry Success</button>
+      <button class="tab-btn" onclick="switchTemplate('failure')">Retry Failure + Offer</button>
+      <button class="tab-btn" onclick="switchTemplate('final')">Final Notice</button>
+    </div>
+
+    <div class="editor-grid">
+      <div class="panel">
+        <div class="panel-title">📝 Variables</div>
+        <div style="margin-bottom:1rem;">
+          <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" id="varName" value="Sarah" oninput="renderPreview()">
+          </div>
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="text" id="varAmount" value="$99.00" oninput="renderPreview()">
+          </div>
+          <div class="form-group">
+            <label>Plan Name</label>
+            <input type="text" id="varPlan" value="Pro Plan" oninput="renderPreview()">
+          </div>
+          <div class="form-group">
+            <label>Retry Date</label>
+            <input type="text" id="varRetry" value="March 25, 2026" oninput="renderPreview()">
+          </div>
+          <div class="form-group">
+            <label>Support Link</label>
+            <input type="text" id="varSupport" value="https://help.example.com" oninput="renderPreview()">
+          </div>
+          <div class="form-group">
+            <label>Offer / Discount</label>
+            <input type="text" id="varOffer" value="20% off your next 3 months" oninput="renderPreview()">
+          </div>
+        </div>
+        <div class="panel-title">🏷️ Insert Variables</div>
+        <div>
+          <span class="var-chip" onclick="insertVar('{{name}}')">{{name}}</span>
+          <span class="var-chip" onclick="insertVar('{{amount}}')">{{amount}}</span>
+          <span class="var-chip" onclick="insertVar('{{plan}}')">{{plan}}</span>
+          <span class="var-chip" onclick="insertVar('{{retry_date}}')">{{retry_date}}</span>
+          <span class="var-chip" onclick="insertVar('{{support_link}}')">{{support_link}}</span>
+          <span class="var-chip" onclick="insertVar('{{offer}}')">{{offer}}</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">👁️ Live Preview</div>
+        <div class="format-tabs">
+          <button class="fmt-btn active" onclick="setFormat('email')">Email</button>
+          <button class="fmt-btn" onclick="setFormat('sms')">SMS</button>
+        </div>
+        <div id="previewArea">
+          <div class="email-mockup" id="emailPreview"></div>
+          <div class="sms-mockup" id="smsPreview" style="display:none;"></div>
+        </div>
+        <div class="copy-btns">
+          <button class="btn" onclick="copyHTML()">📋 Copy HTML</button>
+          <button class="btn btn-outline" onclick="copyPlain()">Copy Plain Text</button>
+          <button class="btn btn-outline" onclick="copySMS()">Copy SMS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Send the right message at the right time</h2>
+    <p>SimpleRecover's automated templates are A/B tested and personalized — so your customers actually respond.</p>
+    <form class="email-form" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch.');">
+      <input type="email" class="email-input" placeholder="Enter your email" required>
+      <button type="submit" class="btn-dark">Get Early Access</button>
+    </form>
+  </div>
+
+  <script>
+    let currentTemplate = 'initial';
+    let currentFormat = 'email';
+    let templates = {};
+
+    function interpolate(str) {
+      const name = document.getElementById('varName').value;
+      const amount = document.getElementById('varAmount').value;
+      const plan = document.getElementById('varPlan').value;
+      const retry = document.getElementById('varRetry').value;
+      const support = document.getElementById('varSupport').value;
+      const offer = document.getElementById('varOffer').value;
+      return str
+        .replace(/\{\{name\}\}/g, name)
+        .replace(/\{\{amount\}\}/g, amount)
+        .replace(/\{\{plan\}\}/g, plan)
+        .replace(/\{\{retry_date\}\}/g, retry)
+        .replace(/\{\{support_link\}\}/g, support)
+        .replace(/\{\{offer\}\}/g, offer);
+    }
+
+    function buildTemplates() {
+      const n = document.getElementById('varName').value;
+      const a = document.getElementById('varAmount').value;
+      const p = document.getElementById('varPlan').value;
+      const r = document.getElementById('varRetry').value;
+      const s = document.getElementById('varSupport').value;
+      const o = document.getElementById('varOffer').value;
+
+      templates = {
+        initial: {
+          subject: `Payment failed for your ${p}`,
+          email: `<p>Hi ${n},</p>
+<p>We tried to process your payment of <strong>${a}</strong> for your <strong>${p}</strong>, but it didn't go through. This happens sometimes — cards expire, banks get cautious, or accounts run low.</p>
+<p>We'll automatically retry your payment on <strong>${r}</strong>. If you'd like to update your payment method before then, it takes less than a minute:</p>
+<p><a href="#" class="email-cta">Update Payment Method</a></p>
+<p>If you have any questions, just reply to this email or <a href="${s}">chat with our support team</a>. We're here to help.</p>
+<p>— The Team</p>`,
+          sms: `Hi ${n}, your ${p} payment of ${a} failed. We'll retry on ${r}. Update your card: ${s} —Team`,
+          plain: `Hi ${n},\n\nWe tried to process your payment of ${a} for your ${p}, but it didn't go through.\n\nWe'll automatically retry your payment on ${r}. If you'd like to update your payment method before then, it takes less than a minute:\n\n[Update Payment Method]\n\nIf you have any questions, reply to this email or chat with our support team at ${s}.\n\n— The Team`
+        },
+        success: {
+          subject: `Payment successful — you're all set!`,
+          email: `<p>Hi ${n},</p>
+<p>Good news! Your payment of <strong>${a}</strong> for your <strong>${p}</strong> went through successfully. You're all set.</p>
+<p>No action needed — everything is back to normal. Thanks for being a valued customer.</p>
+<p>— The Team</p>`,
+          sms: `Hi ${n}, your ${p} payment of ${a} went through successfully. You're all set! —Team`,
+          plain: `Hi ${n},\n\nGood news! Your payment of ${a} for your ${p} went through successfully. You're all set.\n\nNo action needed — everything is back to normal.\n\n— The Team`
+        },
+        failure: {
+          subject: `We really don't want to lose you — here's ${o}`,
+          email: `<p>Hi ${n},</p>
+<p>We tried charging your card again for <strong>${a}</strong> (${p}), but it failed. We know this is frustrating.</p>
+<p>Before we have to pause your account, we'd love to keep you around. Here's <strong>${o}</strong> if you update your payment method today:</p>
+<p><a href="#" class="email-cta">Update & Claim ${o}</a></p>
+<p>This offer expires in 48 hours. If your payment method has changed or your card expired, a quick update is all it takes.</p>
+<p>Questions? <a href="${s}">Talk to us</a> — we're real humans and we want to help.</p>
+<p>— The Team</p>`,
+          sms: `Hi ${n}, your ${p} payment failed again. Update your card today and get ${o}: ${s} —Team`,
+          plain: `Hi ${n},\n\nWe tried charging your card again for ${a} (${p}), but it failed.\n\nBefore we have to pause your account, here's ${o} if you update your payment method today:\n\n[Update & Claim ${o}]\n\nThis offer expires in 48 hours.\n\nQuestions? Talk to us at ${s}.\n\n— The Team`
+        },
+        final: {
+          subject: `FINAL NOTICE: Your ${p} will be cancelled in 48 hours`,
+          email: `<p>Hi ${n},</p>
+<p>This is our final notice regarding your <strong>${p}</strong> subscription.</p>
+<p>Your payment of <strong>${a}</strong> remains overdue. Without an updated payment method, we will be forced to cancel your account and delete your data in 48 hours.</p>
+<p>If you want to keep your account active, update your payment method now:</p>
+<p><a href="#" class="email-cta">Update Payment Method — 48h Left</a></p>
+<p>After cancellation, you have 90 days to reactivate with all data intact. <a href="${s}">Contact support</a> if you need help.</p>
+<p>— The Team</p>`,
+          sms: `FINAL NOTICE ${n}: Your ${p} (${a}) will be cancelled in 48h. Update now: ${s} —Team`,
+          plain: `Hi ${n},\n\nThis is our final notice regarding your ${p} subscription.\n\nYour payment of ${a} remains overdue. Without an updated payment method, we will be forced to cancel your account in 48 hours.\n\nUpdate your payment method now:\n\n[Update Payment Method — 48h Left]\n\nAfter cancellation, you have 90 days to reactivate. Contact support at ${s} if you need help.\n\n— The Team`
+        }
+      };
+    }
+
+    function renderPreview() {
+      buildTemplates();
+      const t = templates[currentTemplate];
+      const emailDiv = document.getElementById('emailPreview');
+      const smsDiv = document.getElementById('smsPreview');
+
+      emailDiv.innerHTML = `
+        <div class="email-header">
+          <div class="email-from">From: <strong>SimpleRecover</strong> \u003cbilling@simple.recover\u003e</div>
+          <div class="email-subj">${interpolate(t.subject)}</div>
+        </div>
+        <div class="email-body">${interpolate(t.email)}</div>
+        <div class="email-footer">SimpleRecover · Automated Payment Recovery · <a href="#" style="color:var(--gray-400)">Unsubscribe</a></div>
+      `;
+
+      smsDiv.innerHTML = `
+        <div class="sms-bubble">${interpolate(t.sms)}</div>
+        <div class="sms-time">Now</div>
+      `;
+
+      if (currentFormat === 'email') {
+        emailDiv.style.display = 'block';
+        smsDiv.style.display = 'none';
+      } else {
+        emailDiv.style.display = 'none';
+        smsDiv.style.display = 'block';
+      }
+    }
+
+    function switchTemplate(name) {
+      currentTemplate = name;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderPreview();
+    }
+
+    function setFormat(fmt) {
+      currentFormat = fmt;
+      document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderPreview();
+    }
+
+    function insertVar(v) {
+      // Visual feedback only — variables auto-replace on render
+      alert('Variable ' + v + ' will be replaced in preview');
+    }
+
+    function copyHTML() {
+      const t = templates[currentTemplate];
+      const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family:sans-serif;line-height:1.6;color:#1e293b;">
+<h2>${interpolate(t.subject)}</h2>
+${interpolate(t.email)}
+</body>
+</html>`;
+      navigator.clipboard.writeText(html).then(() => alert('HTML copied!'));
+    }
+
+    function copyPlain() {
+      const t = templates[currentTemplate];
+      navigator.clipboard.writeText(interpolate(t.plain)).then(() => alert('Plain text copied!'));
+    }
+
+    function copySMS() {
+      const t = templates[currentTemplate];
+      navigator.clipboard.writeText(interpolate(t.sms)).then(() => alert('SMS copied!'));
+    }
+
+    renderPreview();
+  </script>
+</body>
+</html>
