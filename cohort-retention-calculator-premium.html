@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,7 +175,7 @@
 <body>
     <div class="container">
         <h1>SaaS Cohort Retention Calculator</h1>
-        <p class="subtitle">Premium cohort-based retention analytics</p>
+        <p class="subtitle">Premium cohort retention and churn analytics</p>
 
         <div class="input-grid">
             <div class="input-group">
@@ -182,41 +183,41 @@
                 <input type="number" id="cohortSize" placeholder="100" value="100">
             </div>
             <div class="input-group">
-                <label>Remaining at Month 3</label>
-                <input type="number" id="month3" placeholder="85" value="85">
+                <label>Month 1 Retained</label>
+                <input type="number" id="month1" placeholder="80" value="80">
             </div>
             <div class="input-group">
-                <label>Remaining at Month 6</label>
-                <input type="number" id="month6" placeholder="70" value="70">
+                <label>Month 3 Retained</label>
+                <input type="number" id="month3" placeholder="60" value="60">
             </div>
             <div class="input-group">
-                <label>Remaining at Month 12</label>
-                <input type="number" id="month12" placeholder="55" value="55">
+                <label>Month 6 Retained</label>
+                <input type="number" id="month6" placeholder="45" value="45">
             </div>
         </div>
 
-        <button class="cta" onclick="calculate()">Calculate Cohort Analytics</button>
+        <button class="cta" onclick="calculate()">Calculate Cohort Retention</button>
 
         <div class="results" id="results">
             <div class="result-card">
                 <div class="result-header">
-                    <div class="result-title">Cohort Retention Rate</div>
-                    <div class="result-value" id="retention12">0%</div>
+                    <div class="result-title">Month 6 Retention</div>
+                    <div class="result-value" id="retention6">0%</div>
                 </div>
-                <div class="result-detail" id="retentionDetail">Percentage of cohort retained at month 12</div>
+                <div class="result-detail" id="retentionDetail">Percentage of cohort retained at month 6</div>
                 
                 <div class="metrics-grid">
                     <div class="metric-box">
+                        <div class="metric-value" id="retention1">0%</div>
+                        <div class="metric-label">Month 1</div>
+                    </div>
+                    <div class="metric-box">
                         <div class="metric-value" id="retention3">0%</div>
-                        <div class="metric-label">Month 3 Retention</div>
+                        <div class="metric-label">Month 3</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="retention6">0%</div>
-                        <div class="metric-label">Month 6 Retention</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="churned">0</div>
-                        <div class="metric-label">Churned (12mo)</div>
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
                     </div>
                 </div>
 
@@ -232,16 +233,16 @@
                 </div>
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value">80%</div>
-                        <div class="metric-label">Good (M3)</div>
+                        <div class="metric-value">60%+</div>
+                        <div class="metric-label">Good M1</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value">60%</div>
-                        <div class="metric-label">Good (M12)</div>
+                        <div class="metric-value">40%+</div>
+                        <div class="metric-label">Good M3</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="yourStatus">Unknown</div>
-                        <div class="metric-label">Your Status</div>
+                        <div class="metric-value">30%+</div>
+                        <div class="metric-label">Good M6</div>
                     </div>
                 </div>
             </div>
@@ -251,33 +252,34 @@
     <script>
         function calculate() {
             const cohortSize = parseFloat(document.getElementById('cohortSize').value) || 1;
+            const month1 = parseFloat(document.getElementById('month1').value) || 0;
             const month3 = parseFloat(document.getElementById('month3').value) || 0;
             const month6 = parseFloat(document.getElementById('month6').value) || 0;
-            const month12 = parseFloat(document.getElementById('month12').value) || 0;
 
+            const retention1 = (month1 / cohortSize) * 100;
             const retention3 = (month3 / cohortSize) * 100;
             const retention6 = (month6 / cohortSize) * 100;
-            const retention12 = (month12 / cohortSize) * 100;
-            const churned = cohortSize - month12;
 
             let yourStatus = 'Unknown';
-            if (retention12 >= 60 && retention3 >= 80) yourStatus = 'Strong';
-            else if (retention12 >= 40 && retention3 >= 60) yourStatus = 'Average';
-            else yourStatus = 'Weak';
+            if (retention6 >= 40) yourStatus = 'Excellent';
+            else if (retention6 >= 30) yourStatus = 'Good';
+            else if (retention6 >= 20) yourStatus = 'Average';
+            else yourStatus = 'At Risk';
 
-            document.getElementById('retention3').textContent = retention3.toFixed(1) + '%';
             document.getElementById('retention6').textContent = retention6.toFixed(1) + '%';
-            document.getElementById('retention12').textContent = retention12.toFixed(1) + '%';
-            document.getElementById('churned').textContent = churned.toLocaleString('en-US');
+            document.getElementById('retention1').textContent = retention1.toFixed(1) + '%';
+            document.getElementById('retention3').textContent = retention3.toFixed(1) + '%';
             document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (retention12 >= 60) {
-                recommendation = '🎉 Strong cohort retention! Your product has stickiness. To maintain: 1) Identify what power users do differently, 2. Build onboarding around those behaviors, 3. Create cohort-based health scoring.';
-            } else if (retention12 >= 40) {
-                recommendation = '✅ Average retention. To improve: 1) Focus on first 30-day experience — that\'s where most churn happens, 2. Implement activation milestones, 3. Add progress indicators for setup.';
+            if (retention6 >= 40) {
+                recommendation = '🏆 Excellent cohort retention! Your product has strong stickiness. To maintain: 1) Identify what drives retention — double down on those features, 2. Use high-retention cohorts as proof for sales, 3. Monitor new cohorts to catch any degradation early.';
+            } else if (retention6 >= 30) {
+                recommendation = '✅ Good retention. To reach excellent: 1. Analyze month 1-3 drop-off — why do early churners leave?, 2. Improve onboarding to bridge the gap from trial to habit, 3. Add engagement features that increase stickiness.';
+            } else if (retention6 >= 20) {
+                recommendation = '✓ Average retention. To improve: 1. Identify the "aha moment" that predicts retention, 2. Guide users to that moment faster, 3. Add retention hooks (notifications, reports, workflows), 4. Consider win-back campaigns for churned users.';
             } else {
-                recommendation = '🚨 Weak cohort retention! Customers are leaving quickly. Urgent: 1) Audit onboarding — are users achieving first value?, 2. Survey churned users within 24 hours, 3. Add in-app guidance for core features.';
+                recommendation = '🚨 Low retention — most customers churn within 6 months. Urgent: 1. Interview churned customers — what made them leave?, 2. Audit product-market fit — are you solving the right problem?, 3. Simplify the product — too many features can overwhelm, 4. Improve customer success outreach, 5. Consider pricing/model changes.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
