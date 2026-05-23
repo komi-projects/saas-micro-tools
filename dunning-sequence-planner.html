@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dunning Sequence Planner — SimpleRecover</title>
+  <style>
+    :root {
+      --indigo: #4f46e5;
+      --indigo-dark: #3730a3;
+      --cyan: #06b6d4;
+      --cyan-light: #67e8f9;
+      --dark: #0f172a;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --green: #10b981;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+    .header {
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--cyan) 100%);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .header p { opacity: 0.9; font-size: 1rem; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .brand-icon {
+      width: 28px; height: 28px;
+      background: white;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--indigo);
+      font-weight: 800;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    .presets {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    .preset-btn {
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      border: 2px solid var(--gray-200);
+      background: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+    .preset-btn:hover { border-color: var(--indigo); color: var(--indigo); }
+    .preset-btn.active {
+      background: var(--indigo);
+      color: white;
+      border-color: var(--indigo);
+    }
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--indigo), var(--cyan));
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 0 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+    .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+    .timeline-dot {
+      position: absolute;
+      width: 20px; height: 20px;
+      background: white;
+      border: 4px solid var(--indigo);
+      border-radius: 50%;
+      top: 0.5rem;
+      z-index: 2;
+    }
+    .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+    .timeline-item:nth-child(even) .timeline-dot { left: -10px; }
+    .timeline-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .timeline-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .timeline-card.active { border-color: var(--indigo); }
+    .day-label {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--indigo), var(--cyan));
+      color: white;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .day-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .day-desc {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+    .editor-panel {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+    .editor-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--indigo); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .storyboard {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+    .story-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .story-item:last-child { border-bottom: none; }
+    .story-day {
+      min-width: 60px;
+      text-align: center;
+    }
+    .story-day-num {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--indigo), var(--cyan));
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin: 0 auto 0.3rem;
+    }
+    .story-day-label {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      font-weight: 600;
+    }
+    .story-content {
+      flex: 1;
+    }
+    .story-type {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--indigo);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .story-tone {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-left: 0.5rem;
+    }
+    .story-text {
+      color: var(--gray-600);
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+    .story-offer {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+    .export-btns {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .btn {
+      padding: 0.75rem 1.25rem;
+      background: var(--indigo);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-outline {
+      background: white;
+      color: var(--indigo);
+      border: 2px solid var(--indigo);
+    }
+    .cta-section {
+      background: linear-gradient(135deg, var(--indigo-dark) 0%, var(--indigo) 50%, var(--cyan) 100%);
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .cta-section h2 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .cta-section p { opacity: 0.9; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .email-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .email-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.875rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    .btn-dark {
+      padding: 0.875rem 1.5rem;
+      background: var(--dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+      .timeline::before { left: 20px; }
+      .timeline-item { width: 100%; left: 0 !important; padding-left: 50px; padding-right: 0; text-align: left !important; }
+      .timeline-item:nth-child(odd) .timeline-dot { left: 10px; right: auto; }
+      .timeline-item:nth-child(even) .timeline-dot { left: 10px; }
+      .form-row { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.4rem; }
+      .email-form { flex-direction: column; }
+      .email-input, .btn-dark { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">S</div>
+      SimpleRecover
+    </div>
+    <h1>Dunning Sequence Planner</h1>
+    <p>Build and preview your payment recovery email timeline</p>
+  </div>
+
+  <div class="container">
+    <div class="presets">
+      <button class="preset-btn" onclick="loadPreset('gentle')">Gentle</button>
+      <button class="preset-btn active" onclick="loadPreset('standard')">Standard</button>
+      <button class="preset-btn" onclick="loadPreset('aggressive')">Aggressive</button>
+    </div>
+
+    <div class="timeline" id="timeline"></div>
+
+    <div class="editor-panel" id="editorPanel" style="display:none">
+      <div class="editor-title">Edit Step: <span id="editDayLabel"></span></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Message Type</label>
+          <select id="editType">
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="in-app">In-App Notification</option>
+            <option value="call">Phone Call</option>
+            <option value="cancel">Cancellation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tone</label>
+          <select id="editTone">
+            <option value="friendly">Friendly</option>
+            <option value="neutral">Neutral</option>
+            <option value="urgent">Urgent</option>
+            <option value="final">Final Warning</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Subject / Title</label>
+        <input type="text" id="editSubject" placeholder="e.g., Your payment failed — let's fix it">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Body Message</label>
+        <textarea id="editBody" placeholder="Enter the message content..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Offer / Discount</label>
+          <input type="text" id="editOffer" placeholder="e.g., 20% off next 3 months">
+        </div>
+        <div class="form-group">
+          <label>Delay (hours from previous)</label>
+          <input type="number" id="editDelay" min="0" max="720">
+        </div>
+      </div>
+      <div class="export-btns" style="margin-top:1.5rem;">
+        <button class="btn" onclick="saveEdit()">Save Changes</button>
+        <button class="btn btn-outline" onclick="document.getElementById('editorPanel').style.display='none'">Close</button>
+      </div>
+    </div>
+
+    <div class="storyboard">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <div class="editor-title" style="margin:0">Sequence Storyboard</div>
+        <div class="export-btns" style="margin:0">
+          <button class="btn" onclick="exportJSON()">Export JSON</button>
+          <button class="btn btn-outline" onclick="exportCSV()">Export CSV</button>
+        </div>
+      </div>
+      <div id="storyboard"></div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Deploy smart dunning sequences in minutes</h2>
+    <p>SimpleRecover runs your payment recovery on autopilot — personalized sequences, A/B tested templates, and real-time analytics.</p>
+    <form class="email-form" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch.');">
+      <input type="email" class="email-input" placeholder="Enter your email" required>
+      <button type="submit" class="btn-dark">Get Early Access</button>
+    </form>
+  </div>
+
+  <script>
+    let steps = [];
+    let editingIndex = null;
+
+    const presets = {
+      gentle: [
+        { day: 0, label: 'Payment Fails', type: 'in-app', tone: 'friendly', subject: 'We noticed a payment hiccup', body: 'Hi there! Looks like your recent payment didn\'t go through. No worries — it happens. Update your payment method and we\'ll retry automatically.', offer: '', delay: 0 },
+        { day: 1, label: 'Friendly Email', type: 'email', tone: 'friendly', subject: 'Quick fix needed: your payment method', body: 'Hey! Your payment for [Plan] failed yesterday. This is just a friendly nudge to update your card so your service stays uninterrupted. Update here: [link]', offer: '', delay: 24 },
+        { day: 3, label: 'Gentle Reminder', type: 'email', tone: 'friendly', subject: 'Don\'t lose access to [Product]', body: 'We\'d hate for you to lose access. Your payment is still pending. Take 30 seconds to update your card and everything continues smoothly.', offer: 'Extended 7-day grace period', delay: 48 },
+        { day: 7, label: 'Value Reminder', type: 'email', tone: 'neutral', subject: 'You\'re missing out', body: 'Your account is on pause. Here\'s what you\'ve accomplished with us so far — and what you\'ll miss if we don\'t hear from you.', offer: '', delay: 96 },
+        { day: 14, label: 'Soft Final', type: 'email', tone: 'urgent', subject: 'Account suspension in 7 days', body: 'We\'ve tried reaching you a few times. Without an updated payment method, we\'ll need to suspend your account in 7 days. We\'d love to keep you!', offer: '10% discount if you update today', delay: 168 },
+        { day: 30, label: 'Pause Account', type: 'cancel', tone: 'final', subject: 'Account paused — come back anytime', body: 'Your account has been paused. All your data is saved for 90 days. When you\'re ready, reactivate in one click and pick up right where you left off.', offer: '50% off first month back', delay: 384 },
+      ],
+      standard: [
+        { day: 0, label: 'Payment Fails', type: 'in-app', tone: 'neutral', subject: 'Payment failed', body: 'Your payment for [Plan] could not be processed. We\'ll retry automatically in 24 hours.', offer: '', delay: 0 },
+        { day: 1, label: 'Retry Email', type: 'email', tone: 'neutral', subject: 'Payment retry failed — update required', body: 'We tried charging your card again but it failed. Please update your payment method to avoid service interruption.', offer: '', delay: 24 },
+        { day: 3, label: 'Reminder', type: 'email', tone: 'neutral', subject: 'Action required: update payment method', body: 'Your account will be restricted soon. Update your payment method now to maintain full access.', offer: '', delay: 48 },
+        { day: 7, label: 'Urgent Notice', type: 'email', tone: 'urgent', subject: 'Urgent: account restriction imminent', body: 'Your payment is 7 days overdue. Update your card within 48 hours or your account will be restricted.', offer: '', delay: 96 },
+        { day: 14, label: 'Final Notice', type: 'email', tone: 'final', subject: 'FINAL NOTICE: payment overdue', body: 'This is our final notice. Your account will be cancelled in 48 hours unless payment is received. Update now to keep your service active.', offer: '20% discount to stay', delay: 168 },
+        { day: 30, label: 'Cancel', type: 'cancel', tone: 'final', subject: 'Account cancelled', body: 'Your subscription has been cancelled due to non-payment. You can reactivate within 90 days with all data intact.', offer: 'Reactivation discount available', delay: 384 },
+      ],
+      aggressive: [
+        { day: 0, label: 'Payment Fails', type: 'email', tone: 'urgent', subject: 'PAYMENT FAILED — immediate action required', body: 'Your payment FAILED. Update your payment method NOW or your service will be disrupted within 24 hours.', offer: '', delay: 0 },
+        { day: 1, label: 'Hard Retry', type: 'email', tone: 'urgent', subject: 'SECOND ATTEMPT FAILED', body: 'We retried your card and it FAILED again. Service restriction begins in 48 hours. Update payment method immediately.', offer: '', delay: 24 },
+        { day: 3, label: 'Warning', type: 'email', tone: 'urgent', subject: 'WARNING: service restriction in 24h', body: 'Your account WILL be restricted tomorrow. Update payment method immediately to prevent loss of access.', offer: 'Last chance — no discount', delay: 48 },
+        { day: 7, label: 'Restriction', type: 'email', tone: 'final', subject: 'ACCOUNT RESTRICTED', body: 'Your account is now RESTRICTED. Full functionality will be restored immediately upon successful payment.', offer: '', delay: 96 },
+        { day: 14, label: 'Final Warning', type: 'email', tone: 'final', subject: 'FINAL WARNING: cancellation in 24 hours', body: 'Your account will be PERMANENTLY CANCELLED in 24 hours. No further warnings. Update payment method or lose all data.', offer: '', delay: 168 },
+        { day: 30, label: 'Cancel', type: 'cancel', tone: 'final', subject: 'ACCOUNT CANCELLED', body: 'Your account has been cancelled. Data retention expires in 30 days. Contact support to discuss reactivation.', offer: '', delay: 384 },
+      ],
+    };
+
+    function loadPreset(name) {
+      steps = JSON.parse(JSON.stringify(presets[name]));
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      render();
+    }
+
+    function render() {
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+      steps.forEach((step, i) => {
+        const div = document.createElement('div');
+        div.className = 'timeline-item';
+        div.innerHTML = `
+          <div class="timeline-dot"></div>
+          <div class="timeline-card ${editingIndex === i ? 'active' : ''}" onclick="editStep(${i})">
+            <div class="day-label">Day ${step.day}</div>
+            <div class="day-title">${step.label}</div>
+            <div class="day-desc">${step.type} · ${step.tone}${step.offer ? ' · Offer included' : ''}</div>
+          </div>
+        `;
+        timeline.appendChild(div);
+      });
+
+      const story = document.getElementById('storyboard');
+      story.innerHTML = '';
+      steps.forEach(step => {
+        const div = document.createElement('div');
+        div.className = 'story-item';
+        div.innerHTML = `
+          <div class="story-day">
+            <div class="story-day-num">${step.day}</div>
+            <div class="story-day-label">${step.type}</div>
+          </div>
+          <div class="story-content">
+            <div>
+              <span class="story-type">${step.label}</span>
+              <span class="story-tone">${step.tone}</span>
+            </div>
+            <div class="story-text">${step.body}</div>
+            ${step.offer ? `<span class="story-offer">${step.offer}</span>` : ''}
+          </div>
+        `;
+        story.appendChild(div);
+      });
+    }
+
+    function editStep(i) {
+      editingIndex = i;
+      const step = steps[i];
+      document.getElementById('editDayLabel').textContent = `Day ${step.day} — ${step.label}`;
+      document.getElementById('editType').value = step.type;
+      document.getElementById('editTone').value = step.tone;
+      document.getElementById('editSubject').value = step.subject;
+      document.getElementById('editBody').value = step.body;
+      document.getElementById('editOffer').value = step.offer;
+      document.getElementById('editDelay').value = step.delay;
+      document.getElementById('editorPanel').style.display = 'block';
+      render();
+      document.getElementById('editorPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function saveEdit() {
+      if (editingIndex === null) return;
+      steps[editingIndex] = {
+        ...steps[editingIndex],
+        type: document.getElementById('editType').value,
+        tone: document.getElementById('editTone').value,
+        subject: document.getElementById('editSubject').value,
+        body: document.getElementById('editBody').value,
+        offer: document.getElementById('editOffer').value,
+        delay: parseInt(document.getElementById('editDelay').value) || 0,
+      };
+      document.getElementById('editorPanel').style.display = 'none';
+      editingIndex = null;
+      render();
+    }
+
+    function exportJSON() {
+      const data = JSON.stringify(steps, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dunning-sequence.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportCSV() {
+      const headers = ['day', 'label', 'type', 'tone', 'subject', 'body', 'offer', 'delay_hours'];
+      const rows = steps.map(s => [s.day, s.label, s.type, s.tone, `"${s.subject.replace(/"/g, '""')}"`, `"${s.body.replace(/"/g, '""')}"`, `"${(s.offer || '').replace(/"/g, '""')}"`, s.delay]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dunning-sequence.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    loadPreset('standard');
+  </script>
+</body>
+</html>
