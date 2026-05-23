@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,7 +175,7 @@
 <body>
     <div class="container">
         <h1>SaaS Payback Period Calculator</h1>
-        <p class="subtitle">Premium CAC payback and LTV analytics</p>
+        <p class="subtitle">Premium CAC payback and unit economics analytics</p>
 
         <div class="input-grid">
             <div class="input-group">
@@ -182,20 +183,20 @@
                 <input type="number" id="cac" placeholder="500" value="500">
             </div>
             <div class="input-group">
-                <label>ARPU ($/mo)</label>
-                <input type="number" id="arpu" placeholder="99" value="99">
+                <label>Average Revenue Per User ($/mo)</label>
+                <input type="number" id="arpu" placeholder="50" value="50">
             </div>
             <div class="input-group">
                 <label>Gross Margin (%)</label>
                 <input type="number" id="margin" placeholder="80" value="80">
             </div>
             <div class="input-group">
-                <label>Monthly Churn (%)</label>
+                <label>Monthly Churn Rate (%)</label>
                 <input type="number" id="churn" placeholder="5" value="5">
             </div>
         </div>
 
-        <button class="cta" onclick="calculate()">Calculate Payback Analytics</button>
+        <button class="cta" onclick="calculate()">Calculate Payback Period</button>
 
         <div class="results" id="results">
             <div class="result-card">
@@ -212,11 +213,11 @@
                     </div>
                     <div class="metric-box">
                         <div class="metric-value" id="ltvCac">0x</div>
-                        <div class="metric-label">LTV:CAC Ratio</div>
+                        <div class="metric-label">LTV:CAC</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="monthlyProfit">$0</div>
-                        <div class="metric-label">Monthly Profit/Customer</div>
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
                     </div>
                 </div>
 
@@ -232,16 +233,16 @@
                 </div>
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value">6mo</div>
-                        <div class="metric-label">Good Payback</div>
+                        <div class="metric-value"><12mo</div>
+                        <div class="metric-label">Good</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value"><6mo</div>
+                        <div class="metric-label">Strong</div>
                     </div>
                     <div class="metric-box">
                         <div class="metric-value">3x+</div>
-                        <div class="metric-label">Good LTV:CAC</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="yourStatus">Unknown</div>
-                        <div class="metric-label">Your Status</div>
+                        <div class="metric-label">LTV:CAC</div>
                     </div>
                 </div>
             </div>
@@ -251,35 +252,35 @@
     <script>
         function calculate() {
             const cac = parseFloat(document.getElementById('cac').value) || 1;
-            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+            const arpu = parseFloat(document.getElementById('arpu').value) || 1;
             const margin = parseFloat(document.getElementById('margin').value) || 0;
-            const churn = parseFloat(document.getElementById('churn').value) || 0;
+            const churn = parseFloat(document.getElementById('churn').value) || 1;
 
             const monthlyProfit = arpu * (margin / 100);
-            const payback = monthlyProfit > 0 ? (cac / monthlyProfit).toFixed(1) : '∞';
-            
-            // LTV calculation using simple formula: ARPU * margin / churn
-            const ltv = churn > 0 ? (arpu * (margin / 100)) / (churn / 100) : 0;
+            const payback = cac / monthlyProfit;
+            const ltv = (monthlyProfit / (churn / 100));
             const ltvCac = ltv / cac;
 
             let yourStatus = 'Unknown';
-            if (ltvCac >= 3 && payback <= 12) yourStatus = 'Healthy';
-            else if (ltvCac >= 2 && payback <= 18) yourStatus = 'Fair';
+            if (payback <= 6 && ltvCac >= 3) yourStatus = 'Excellent';
+            else if (payback <= 12 && ltvCac >= 3) yourStatus = 'Good';
+            else if (payback <= 18) yourStatus = 'Average';
             else yourStatus = 'At Risk';
 
-            document.getElementById('payback').textContent = payback === '∞' ? '∞' : payback + 'mo';
-            document.getElementById('ltv').textContent = '$' + ltv.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('payback').textContent = payback.toFixed(1) + 'mo';
+            document.getElementById('ltv').textContent = '$' + Math.round(ltv).toLocaleString();
             document.getElementById('ltvCac').textContent = ltvCac.toFixed(1) + 'x';
-            document.getElementById('monthlyProfit').textContent = '$' + monthlyProfit.toFixed(2);
             document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (ltvCac >= 3 && payback <= 12) {
-                recommendation = '🎉 Excellent unit economics! You recover CAC quickly and have strong LTV. To maintain: 1) Keep CAC efficient, 2. Focus on retention to extend LTV, 3. Scale acquisition channels that maintain these ratios.';
-            } else if (ltvCac >= 2) {
-                recommendation = '✅ Acceptable unit economics. To improve: 1) Reduce CAC through organic channels, 2. Increase ARPU through upsells, 3. Improve gross margin through economies of scale.';
+            if (payback <= 6 && ltvCac >= 3) {
+                recommendation = '🏆 Excellent unit economics! Fast payback and strong LTV:CAC. To scale: 1) Invest aggressively in customer acquisition — the math works, 2. Consider raising capital to accelerate growth, 3. Monitor for any degradation as you scale.';
+            } else if (payback <= 12 && ltvCac >= 3) {
+                recommendation = '✅ Good payback period. To improve: 1. Reduce CAC through organic channels (content, SEO, referrals), 2. Increase ARPU through upsells, 3. Improve gross margin through efficiency.';
+            } else if (payback <= 18) {
+                recommendation = '✓ Average payback. To improve: 1. Focus on reducing churn — even small improvements have big impact, 2. Increase pricing or ARPU, 3. Improve onboarding to reduce CAC, 4. Consider freemium for lower CAC.';
             } else {
-                recommendation = '🚨 Weak unit economics! You\'re spending too much to acquire customers. Urgent: 1) Cut inefficient acquisition channels, 2. Focus on product-led growth, 3. Reduce churn to extend LTV, 4. Consider pricing optimization.';
+                recommendation = '🚨 Long payback period — cash flow will be strained. Urgent: 1. Reduce CAC immediately — cut underperforming channels, 2. Increase pricing if market allows, 3. Reduce churn through better customer success, 4. Improve gross margin, 5. Consider annual prepay to improve cash flow.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
