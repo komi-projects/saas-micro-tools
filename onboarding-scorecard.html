@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS User Onboarding Scorecard — Is Your Onboarding Working?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-sky-500 via-blue-500 to-indigo-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🎓 User Onboarding Scorecard</h1>
+            <p class="opacity-90">Score your onboarding flow and get actionable improvements.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Time to first value (&lt; 5 min)</span>
+                    <input type="checkbox" id="q1" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Progress indicator during setup</span>
+                    <input type="checkbox" id="q2" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Skip option for advanced users</span>
+                    <input type="checkbox" id="q3" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Tooltips/contextual help</span>
+                    <input type="checkbox" id="q4" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Celebration on first milestone</span>
+                    <input type="checkbox" id="q5" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Email follow-up at day 1, 3, 7</span>
+                    <input type="checkbox" id="q6" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Empty state with CTA</span>
+                    <input type="checkbox" id="q7" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Demo data pre-loaded</span>
+                    <input type="checkbox" id="q8" class="w-5 h-5 text-blue-500 rounded">
+                </div>
+            </div>
+
+            <button onclick="calculateScore()" class="w-full py-3 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate Score →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Onboarding Score</div>
+                        <div class="text-3xl font-bold" id="scoreValue"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Grade</div>
+                        <div class="text-3xl font-bold" id="grade"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Missing Items (Fix These First)</h3>
+                    <ul class="space-y-2 text-sm text-gray-600" id="missing"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const items = [
+            { id: 'q1', text: 'Time to first value (< 5 min)' },
+            { id: 'q2', text: 'Progress indicator during setup' },
+            { id: 'q3', text: 'Skip option for advanced users' },
+            { id: 'q4', text: 'Tooltips/contextual help' },
+            { id: 'q5', text: 'Celebration on first milestone' },
+            { id: 'q6', text: 'Email follow-up at day 1, 3, 7' },
+            { id: 'q7', text: 'Empty state with CTA' },
+            { id: 'q8', text: 'Demo data pre-loaded' }
+        ];
+
+        function calculateScore() {
+            let checked = 0;
+            const missing = [];
+            
+            items.forEach(item => {
+                if (document.getElementById(item.id).checked) {
+                    checked++;
+                } else {
+                    missing.push(item.text);
+                }
+            });
+            
+            const score = Math.round((checked / items.length) * 100);
+            
+            document.getElementById('scoreValue').textContent = score + '/100';
+            document.getElementById('scoreValue').className = 'text-3xl font-bold ' + 
+                (score >= 80 ? 'text-green-600' : score >= 60 ? 'text-yellow-600' : 'text-red-600');
+            
+            const grade = score >= 90 ? 'A 🏆' : score >= 80 ? 'B ✅' : score >= 70 ? 'C ⚠️' : score >= 60 ? 'D 🚨' : 'F 💀';
+            document.getElementById('grade').textContent = grade;
+            document.getElementById('grade').className = 'text-3xl font-bold ' + 
+                (score >= 80 ? 'text-green-600' : score >= 60 ? 'text-yellow-600' : 'text-red-600');
+            
+            document.getElementById('missing').innerHTML = missing.length > 0 ? 
+                missing.map(m => `<li>❌ ${m}</li>`).join('') : 
+                '<li class="text-green-600">✅ All items checked! Your onboarding is solid.</li>';
+            
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

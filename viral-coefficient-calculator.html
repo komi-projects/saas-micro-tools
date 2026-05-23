@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Viral Coefficient Calculator — Will Your Product Grow Itself?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🦠 Viral Coefficient Calculator</h1>
+            <p class="opacity-90">Will your SaaS grow through word-of-mouth? Find out.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Users</label>
+                    <input type="number" id="currentUsers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="1000" value="1000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Invitations per User / Month</label>
+                    <input type="number" id="invitations" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="5" value="5">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Conversion Rate (%)</label>
+                    <input type="number" id="conversion" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="20" value="20">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Months to Project</label>
+                    <input type="number" id="months" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="12" value="12">
+                </div>
+            </div>
+
+            <button onclick="calculateViral()" class="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate Viral Growth →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Viral Coefficient (K)</div>
+                        <div class="text-3xl font-bold" id="kValue"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Viral Status</div>
+                        <div class="text-xl font-bold" id="viralStatus"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Projected Users (12 mo)</div>
+                        <div class="text-xl font-bold" id="projectedUsers"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Growth Projection</h3>
+                    <div class="space-y-2 text-sm" id="growthProjection"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateViral() {
+            const currentUsers = parseFloat(document.getElementById('currentUsers').value);
+            const invitations = parseFloat(document.getElementById('invitations').value);
+            const conversion = parseFloat(document.getElementById('conversion').value) / 100;
+            const months = parseInt(document.getElementById('months').value);
+
+            const k = invitations * conversion;
+            
+            document.getElementById('kValue').textContent = k.toFixed(2);
+            document.getElementById('kValue').className = 'text-3xl font-bold ' + 
+                (k >= 1 ? 'text-green-600' : k >= 0.5 ? 'text-yellow-600' : 'text-red-600');
+
+            const status = k >= 1 ? 'Viral 🚀' : k >= 0.5 ? 'Growth Loop ⚡' : 'Not Viral 📉';
+            document.getElementById('viralStatus').textContent = status;
+            document.getElementById('viralStatus').className = 'text-xl font-bold ' + 
+                (k >= 1 ? 'text-green-600' : k >= 0.5 ? 'text-yellow-600' : 'text-red-600');
+
+            // Project growth
+            let users = currentUsers;
+            let projection = '';
+            for (let i = 1; i <= Math.min(months, 12); i++) {
+                const newUsers = users * invitations * conversion;
+                users += newUsers;
+                projection += `<div class="flex justify-between"><span>Month ${i}:</span><span class="font-medium">${Math.round(users).toLocaleString()} users (+${Math.round(newUsers).toLocaleString()} new)</span></div>`;
+            }
+
+            document.getElementById('projectedUsers').textContent = Math.round(users).toLocaleString();
+            document.getElementById('growthProjection').innerHTML = projection;
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Feature Prioritization Matrix — What to Build Next</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">📋 Feature Prioritization Matrix</h1>
+            <p class="opacity-90">Score features by impact, effort, and confidence to decide what to build next.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Feature Name</label>
+                    <input type="text" id="featureName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="Dark mode" value="Dark mode">
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Impact (1-10)</label>
+                        <input type="number" id="impact" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="7" value="7" min="1" max="10">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Effort (1-10, 10=hard)</label>
+                        <input type="number" id="effort" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="3" value="3" min="1" max="10">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Confidence (%)</label>
+                        <input type="number" id="confidence" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="80" value="80" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="addFeature()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Add Feature →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-4">Prioritized Features (RICE Score = Impact × Confidence / Effort)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead><tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-2">Feature</th>
+                                <th class="text-center py-2">Impact</th>
+                                <th class="text-center py-2">Effort</th>
+                                <th class="text-center py-2">Confidence</th>
+                                <th class="text-center py-2">RICE Score</th>
+                                <th class="text-center py-2">Priority</th>
+                            </tr></thead>
+                            <tbody id="featureTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let features = [];
+        
+        function addFeature() {
+            const name = document.getElementById('featureName').value;
+            const impact = parseFloat(document.getElementById('impact').value);
+            const effort = parseFloat(document.getElementById('effort').value);
+            const confidence = parseFloat(document.getElementById('confidence').value) / 100;
+            
+            const rice = (impact * confidence / effort).toFixed(1);
+            
+            features.push({ name, impact, effort, confidence: confidence * 100, rice });
+            features.sort((a, b) => b.rice - a.rice);
+            
+            renderFeatures();
+        }
+        
+        function renderFeatures() {
+            document.getElementById('featureTable').innerHTML = features.map((f, i) => `
+                <tr class="border-b">
+                    <td class="py-2 font-medium">${f.name}</td>
+                    <td class="text-center py-2">${f.impact}</td>
+                    <td class="text-center py-2">${f.effort}</td>
+                    <td class="text-center py-2">${f.confidence.toFixed(0)}%</td>
+                    <td class="text-center py-2 font-bold">${f.rice}</td>
+                    <td class="text-center py-2 ${i < 3 ? 'text-green-600 font-bold' : 'text-gray-500'}">${i < 3 ? 'Do First' : i < 6 ? 'Do Next' : 'Later'}</td>
+                </tr>
+            `).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

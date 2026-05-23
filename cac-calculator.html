@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAC Calculator — Customer Acquisition Cost</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🎯 CAC Calculator</h1>
+            <p class="opacity-90">Calculate your Customer Acquisition Cost and see if it's healthy.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Marketing Spend ($)</label>
+                    <input type="number" id="marketing" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="5000" value="5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Sales Spend ($)</label>
+                    <input type="number" id="sales" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="3000" value="3000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Customers This Month</label>
+                    <input type="number" id="customers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="50" value="50">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">ARPU ($/month)</label>
+                    <input type="number" id="arpu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="50" value="50">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate CAC →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-cyan-50 p-4 rounded-xl border-l-4 border-cyan-500">
+                        <div class="text-sm text-gray-600 mb-1">Customer Acquisition Cost</div>
+                        <div class="text-2xl font-bold text-cyan-700" id="cac">$0</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                        <div class="text-sm text-gray-600 mb-1">LTV:CAC Ratio</div>
+                        <div class="text-2xl font-bold text-blue-700" id="ratio">0:1</div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-xl border-l-4 border-green-500">
+                        <div class="text-sm text-gray-600 mb-1">Payback Period</div>
+                        <div class="text-2xl font-bold text-green-700" id="payback">0 months</div>
+                    </div>
+                </div>
+
+                <div id="assessment" class="p-4 rounded-xl mb-4"></div>
+
+                <div class="bg-gray-50 p-4 rounded-xl">
+                    <h3 class="font-semibold mb-3">Benchmarks:</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✅ Healthy: LTV:CAC > 3:1, Payback < 12 months</li>
+                        <li>⚠️ Caution: LTV:CAC 1-3:1, Payback 12-18 months</li>
+                        <li>❌ Unhealthy: LTV:CAC < 1:1, Payback > 18 months</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const marketing = parseFloat(document.getElementById('marketing').value) || 0;
+            const sales = parseFloat(document.getElementById('sales').value) || 0;
+            const customers = parseFloat(document.getElementById('customers').value) || 1;
+            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+
+            const cac = (marketing + sales) / customers;
+            const ltv = arpu * 12; // simplified 12-month LTV
+            const ratio = ltv / cac;
+            const payback = cac / arpu;
+
+            document.getElementById('cac').textContent = '$' + cac.toFixed(0);
+            document.getElementById('ratio').textContent = ratio.toFixed(1) + ':1';
+            document.getElementById('payback').textContent = payback.toFixed(1) + ' months';
+
+            const assessment = document.getElementById('assessment');
+            if (ratio >= 3 && payback <= 12) {
+                assessment.className = 'bg-green-50 p-4 rounded-xl border-l-4 border-green-500';
+                assessment.innerHTML = '<strong class="text-green-700">✅ Healthy:</strong> Your unit economics are solid. Keep scaling!';
+            } else if (ratio >= 1 && payback <= 18) {
+                assessment.className = 'bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500';
+                assessment.innerHTML = '<strong class="text-yellow-700">⚠️ Caution:</strong> You can acquire customers but margins are tight. Focus on reducing CAC or increasing LTV.';
+            } else {
+                assessment.className = 'bg-red-50 p-4 rounded-xl border-l-4 border-red-500';
+                assessment.innerHTML = '<strong class="text-red-700">❌ Unhealthy:</strong> You\'re spending more to acquire customers than they\'re worth. Fix this before scaling.';
+            }
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

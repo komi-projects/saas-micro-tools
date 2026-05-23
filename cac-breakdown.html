@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAC Breakdown — Where Your Money Goes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 via-indigo-500 to-violet-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💸 CAC Breakdown</h1>
+            <p class="opacity-90">See exactly where your customer acquisition budget goes.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Marketing Budget ($)</label>
+                    <input type="number" id="marketingBudget" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="5000" value="5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Customers/Month</label>
+                    <input type="number" id="newCustomers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="50" value="50">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-3">Budget Allocation (%)</label>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-4">
+                        <span class="w-24 text-sm">Content/SEO</span>
+                        <input type="range" id="contentSeo" min="0" max="100" value="30" class="flex-1" oninput="updateTotal()">
+                        <span class="w-12 text-sm" id="contentSeoVal">30%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-24 text-sm">Paid Ads</span>
+                        <input type="range" id="paidAds" min="0" max="100" value="40" class="flex-1" oninput="updateTotal()">
+                        <span class="w-12 text-sm" id="paidAdsVal">40%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-24 text-sm">Events</span>
+                        <input type="range" id="events" min="0" max="100" value="10" class="flex-1" oninput="updateTotal()">
+                        <span class="w-12 text-sm" id="eventsVal">10%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-24 text-sm">Partnerships</span>
+                        <input type="range" id="partnerships" min="0" max="100" value="10" class="flex-1" oninput="updateTotal()">
+                        <span class="w-12 text-sm" id="partnershipsVal">10%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-24 text-sm">Other</span>
+                        <input type="range" id="other" min="0" max="100" value="10" class="flex-1" oninput="updateTotal()">
+                        <span class="w-12 text-sm" id="otherVal">10%</span>
+                    </div>
+                </div>
+                <div class="mt-2 text-sm font-medium" id="totalPercent">Total: 100%</div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Break Down CAC →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Total CAC</div>
+                        <div class="text-2xl font-bold text-blue-600" id="totalCAC"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">CAC per Channel</div>
+                        <div class="text-2xl font-bold text-indigo-600" id="channelCAC"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Channel Breakdown</h3>
+                    <div class="space-y-2 text-sm" id="breakdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTotal() {
+            const total = parseInt(document.getElementById('contentSeo').value) +
+                         parseInt(document.getElementById('paidAds').value) +
+                         parseInt(document.getElementById('events').value) +
+                         parseInt(document.getElementById('partnerships').value) +
+                         parseInt(document.getElementById('other').value);
+            document.getElementById('totalPercent').textContent = 'Total: ' + total + '%';
+            document.getElementById('totalPercent').className = total === 100 ? 'mt-2 text-sm font-medium text-green-600' : 'mt-2 text-sm font-medium text-red-600';
+            
+            document.getElementById('contentSeoVal').textContent = document.getElementById('contentSeo').value + '%';
+            document.getElementById('paidAdsVal').textContent = document.getElementById('paidAds').value + '%';
+            document.getElementById('eventsVal').textContent = document.getElementById('events').value + '%';
+            document.getElementById('partnershipsVal').textContent = document.getElementById('partnerships').value + '%';
+            document.getElementById('otherVal').textContent = document.getElementById('other').value + '%';
+        }
+
+        function calculate() {
+            const budget = parseFloat(document.getElementById('marketingBudget').value);
+            const customers = parseFloat(document.getElementById('newCustomers').value);
+            const totalCAC = budget / customers;
+
+            const contentSeo = parseInt(document.getElementById('contentSeo').value) / 100;
+            const paidAds = parseInt(document.getElementById('paidAds').value) / 100;
+            const events = parseInt(document.getElementById('events').value) / 100;
+            const partnerships = parseInt(document.getElementById('partnerships').value) / 100;
+            const other = parseInt(document.getElementById('other').value) / 100;
+
+            document.getElementById('totalCAC').textContent = '$' + totalCAC.toFixed(0);
+            document.getElementById('channelCAC').textContent = '$' + (totalCAC / 5).toFixed(0) + ' avg';
+
+            const breakdown = [
+                { name: 'Content/SEO', pct: contentSeo, amount: budget * contentSeo },
+                { name: 'Paid Ads', pct: paidAds, amount: budget * paidAds },
+                { name: 'Events', pct: events, amount: budget * events },
+                { name: 'Partnerships', pct: partnerships, amount: budget * partnerships },
+                { name: 'Other', pct: other, amount: budget * other }
+            ];
+
+            document.getElementById('breakdown').innerHTML = breakdown.map(b => 
+                `<div class="flex justify-between">
+                    <span>${b.name} (${(b.pct * 100).toFixed(0)}%)</span>
+                    <span>$${b.amount.toFixed(0)}/mo → $${(b.amount / customers).toFixed(0)}/customer</span>
+                </div>`
+            ).join('');
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Competitive Differentiation Matrix — Stand Out from the Crowd</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🏆 Competitive Differentiation Matrix</h1>
+            <p class="opacity-90">Map your product against competitors to find your unique position.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Product</label>
+                        <input type="text" id="yourProduct" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="SimpleRecover" value="SimpleRecover">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Competitor 1</label>
+                        <input type="text" id="comp1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Churnbuster" value="Churnbuster">
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Feature: Setup Time</label>
+                        <select id="setupTime" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="you">You win (5 min)</option>
+                            <option value="comp">Competitor wins</option>
+                            <option value="tie">Tie</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Feature: Price</label>
+                        <select id="price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="you">You win (cheaper)</option>
+                            <option value="comp">Competitor wins</option>
+                            <option value="tie">Tie</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Feature: Automation</label>
+                        <select id="automation" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                            <option value="you">You win (full auto)</option>
+                            <option value="comp">Competitor wins</option>
+                            <option value="tie">Tie</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="generateMatrix()" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Matrix →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-4">Competitive Scorecard</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm" id="matrixTable">
+                            <thead><tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-2">Feature</th>
+                                <th class="text-center py-2">You</th>
+                                <th class="text-center py-2">Competitor</th>
+                                <th class="text-center py-2">Winner</th>
+                            </tr></thead>
+                            <tbody id="matrixBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 p-4 bg-indigo-50 rounded-lg">
+                        <div class="font-semibold text-indigo-800 mb-2">Your Differentiation Strategy</div>
+                        <div class="text-sm text-indigo-700" id="differentiation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateMatrix() {
+            const yourProduct = document.getElementById('yourProduct').value;
+            const comp = document.getElementById('comp1').value;
+            const setup = document.getElementById('setupTime').value;
+            const price = document.getElementById('price').value;
+            const auto = document.getElementById('automation').value;
+            
+            const features = [
+                { name: 'Setup Time', winner: setup },
+                { name: 'Price', winner: price },
+                { name: 'Automation', winner: auto }
+            ];
+            
+            let youScore = 0;
+            let compScore = 0;
+            
+            document.getElementById('matrixBody').innerHTML = features.map(f => {
+                if (f.winner === 'you') youScore++;
+                else if (f.winner === 'comp') compScore++;
+                
+                return `<tr class="border-b">
+                    <td class="py-2">${f.name}</td>
+                    <td class="text-center py-2 ${f.winner === 'you' ? 'text-green-600 font-bold' : ''}">${f.winner === 'you' ? '✅ Win' : f.winner === 'tie' ? '—' : ''}</td>
+                    <td class="text-center py-2 ${f.winner === 'comp' ? 'text-green-600 font-bold' : ''}">${f.winner === 'comp' ? '✅ Win' : f.winner === 'tie' ? '—' : ''}</td>
+                    <td class="text-center py-2 font-medium">${f.winner === 'you' ? yourProduct : f.winner === 'comp' ? comp : 'Tie'}</td>
+                </tr>`;
+            }).join('');
+            
+            let strategy = '';
+            if (youScore > compScore) {
+                strategy = `🏆 ${yourProduct} wins ${youScore}-${compScore}. Lead with your strengths in ${features.filter(f => f.winner === 'you').map(f => f.name).join(', ')}.`;
+            } else if (compScore > youScore) {
+                strategy = `⚠️ ${comp} wins ${compScore}-${youScore}. Focus on improving ${features.filter(f => f.winner === 'comp').map(f => f.name).join(', ')} or find a different angle.`;
+            } else {
+                strategy = `🤝 It's a tie. You need a clearer differentiator — something neither of you does well that you can own.`;
+            }
+            
+            document.getElementById('differentiation').textContent = strategy;
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

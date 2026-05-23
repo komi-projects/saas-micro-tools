@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Hunt Launch Template — Go #1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🚀 Product Hunt Launch Template</h1>
+            <p class="opacity-90">Everything you need for a successful Product Hunt launch.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="product" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="MyApp" value="MyApp">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tagline (under 60 chars)</label>
+                    <input type="text" id="tagline" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="The simplest way to..." value="The simplest way to automate your workflow">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                        <option value="productivity">Productivity</option>
+                        <option value="developer">Developer Tools</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="finance">Finance</option>
+                        <option value="design">Design Tools</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Launch Kit →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">📌 Product Hunt Post Title</div>
+                    <div class="text-lg font-bold mb-2" id="phTitle"></div>
+                    <div class="text-sm text-gray-600" id="phTagline"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">📝 First Comment (Maker Story)</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="firstComment"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">📣 Twitter Announcement Thread</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="twitterThread"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">📧 Email to Waiting List</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="emailBlast"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">✅ Launch Day Checklist</div>
+                    <ul class="space-y-2 text-sm" id="checklist"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const product = document.getElementById('product').value;
+            const tagline = document.getElementById('tagline').value;
+            const category = document.getElementById('category').value;
+
+            const catMap = {
+                productivity: 'Productivity',
+                developer: 'Developer Tools',
+                marketing: 'Marketing',
+                finance: 'Finance',
+                design: 'Design Tools'
+            };
+
+            document.getElementById('phTitle').textContent = product;
+            document.getElementById('phTagline').textContent = tagline;
+
+            document.getElementById('firstComment').textContent = `Hi Product Hunt! 👋
+
+I'm [Your Name], the solo founder behind ${product}.
+
+**The problem:** I was spending [X hours/week] on [manual task]. Every SaaS founder I talked to had the same issue.
+
+**The solution:** ${product} — ${tagline}
+
+**What makes it different:**
+• [Differentiator 1]
+• [Differentiator 2]
+• [Differentiator 3]
+
+**Built for:** Indie founders, small teams, and bootstrappers who need [outcome] without [pain point].
+
+**Pricing:** [Free tier / $X/mo]. No credit card required to start.
+
+I'd love your feedback! What feature would make this a must-have for you?
+
+— [Your Name]`;
+
+            document.getElementById('twitterThread').textContent = `🧵 We just launched ${product} on @ProductHunt!
+
+${tagline}
+
+Here's the story behind it 👇
+
+1/ [Your personal story — why you built it]
+
+2/ [The problem you solved]
+
+3/ [What makes it different]
+
+4/ [Call to action — upvote on PH]
+
+🔗 [Product Hunt link]
+
+#buildinpublic #indiehackers #${category}`;
+
+            document.getElementById('emailBlast').textContent = `Subject: 🚀 We launched on Product Hunt — Need your support!
+
+Hi [Name],
+
+Big news: ${product} just launched on Product Hunt!
+
+${tagline}
+
+If you've been waiting for the right time to try it, this is it. We're offering [special launch deal] to celebrate.
+
+**Support us on Product Hunt:**
+[Link]
+
+Every upvote helps us reach more founders who need this.
+
+Thanks for being an early supporter!
+
+— [Your Name]`;
+
+            document.getElementById('checklist').innerHTML = `
+                <li>✅ Post goes live at 12:01 AM PST (set alarm)</li>
+                <li>✅ First comment (maker story) posted within 5 minutes</li>
+                <li>✅ Twitter thread published immediately</li>
+                <li>✅ Email blast sent to waiting list</li>
+                <li>✅ Slack/Discord communities notified</li>
+                <li>✅ Respond to EVERY comment within 30 minutes</li>
+                <li>✅ Update throughout the day (milestones, thank-yous)</li>
+                <li>✅ Engage with other products (be a good community member)</li>
+            `;
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

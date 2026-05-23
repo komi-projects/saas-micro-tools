@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Proof Generator — Testimonials That Convert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">⭐ Social Proof Generator</h1>
+            <p class="opacity-90">Generate high-converting testimonials and social proof elements.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                    <input type="text" id="customerName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="Jane Smith" value="Jane Smith">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Customer Title</label>
+                    <input type="text" id="customerTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="CEO at TechStart" value="CEO at TechStart">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="productName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="SimpleRecover" value="SimpleRecover">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Result (with number)</label>
+                    <input type="text" id="result" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="recovered $12K in 30 days" value="recovered $12K in 30 days">
+                </div>
+            </div>
+
+            <button onclick="generateTestimonial()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Testimonial →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Generated Testimonial:</div>
+                    <div class="text-gray-700 italic text-lg" id="testimonialText"></div>
+                    <div class="mt-4 text-sm font-medium text-gray-700" id="testimonialAuthor"></div>
+                </div>
+                <button onclick="copyTestimonial()" class="w-full py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition">Copy Testimonial</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateTestimonial() {
+            const name = document.getElementById('customerName').value;
+            const title = document.getElementById('customerTitle').value;
+            const product = document.getElementById('productName').value;
+            const result = document.getElementById('result').value;
+
+            const testimonials = [
+                `"We ${result} using ${product}. It's now an essential part of our stack."`,
+                `"${product} helped us ${result}. The ROI was obvious within the first week."`,
+                `"I was skeptical at first, but ${product} delivered. We ${result} — can't imagine operating without it now."`,
+                `"After trying 3 alternatives, ${product} was the only one that actually helped us ${result}."`
+            ];
+
+            const randomTestimonial = testimonials[Math.floor(Math.random() * testimonials.length)];
+            
+            document.getElementById('testimonialText').textContent = randomTestimonial;
+            document.getElementById('testimonialAuthor').textContent = `— ${name}, ${title}`;
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyTestimonial() {
+            const text = document.getElementById('testimonialText').textContent + ' ' + document.getElementById('testimonialAuthor').textContent;
+            navigator.clipboard.writeText(text);
+            alert('Testimonial copied!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Positioning Statement Generator — Find Your Unique Voice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🎤 Positioning Statement Generator</h1>
+            <p class="opacity-90">Generate a clear positioning statement that explains who you serve and why you're different.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Product Name</label>
+                    <input type="text" id="productName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="SimpleRecover" value="SimpleRecover">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
+                    <input type="text" id="targetAudience" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="bootstrapped SaaS founders" value="bootstrapped SaaS founders">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Problem You Solve</label>
+                    <input type="text" id="problem" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="losing revenue to failed payments" value="losing revenue to failed payments">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Solution (in 3 words)</label>
+                    <input type="text" id="solution" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="automated payment recovery" value="automated payment recovery">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Differentiator (what makes you unique)</label>
+                    <input type="text" id="differentiator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="takes 5 min to set up, works 24/7" value="takes 5 min to set up, works 24/7">
+                </div>
+            </div>
+
+            <button onclick="generatePositioning()" class="w-full py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Positioning Statement →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Positioning Statement:</div>
+                    <div class="text-lg text-gray-800" id="positioningStatement"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Short Pitch (30 words):</div>
+                    <div class="text-gray-700" id="shortPitch"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Tagline Options:</div>
+                    <div class="text-gray-700 space-y-2" id="taglines"></div>
+                </div>
+
+                <button onclick="copyAll()" class="w-full py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-700 transition">Copy All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePositioning() {
+            const product = document.getElementById('productName').value;
+            const audience = document.getElementById('targetAudience').value;
+            const problem = document.getElementById('problem').value;
+            const solution = document.getElementById('solution').value;
+            const differentiator = document.getElementById('differentiator').value;
+
+            const statement = `For ${audience} who struggle with ${problem}, ${product} is a ${solution} tool that ${differentiator}. Unlike complex enterprise solutions, we focus on simplicity and immediate results.`;
+
+            const shortPitch = `${product} helps ${audience} stop ${problem} through ${solution}. ${differentiator}.`;
+
+            const tags = [
+                `"Stop ${problem.split(' ').slice(0, 2).join(' ')} with ${product}"`,
+                `"${solution.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} for ${audience.split(' ').slice(0, 2).join(' ')}"`,
+                `"${product}: ${differentiator.split(',').slice(0, 1).join('').trim()}"`
+            ];
+
+            document.getElementById('positioningStatement').textContent = statement;
+            document.getElementById('shortPitch').textContent = shortPitch;
+            document.getElementById('taglines').innerHTML = tags.map(t => `<p>${t}</p>`).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyAll() {
+            const text = document.getElementById('positioningStatement').textContent + '\n\n' + 
+                        document.getElementById('shortPitch').textContent + '\n\n' +
+                        document.getElementById('taglines').textContent;
+            navigator.clipboard.writeText(text);
+            alert('Copied!');
+        }
+    </script>
+</body>
+</html>

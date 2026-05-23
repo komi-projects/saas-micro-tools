@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Churn Calculator — See How Much Revenue You're Losing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .calculator {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 24px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        .results {
+            display: none;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 2px solid #e5e7eb;
+        }
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
+        }
+        .result-card.negative {
+            border-left-color: #ef4444;
+        }
+        .result-card.positive {
+            border-left-color: #10b981;
+        }
+        .result-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        .result-value.negative { color: #ef4444; }
+        .result-value.positive { color: #10b981; }
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 24px;
+        }
+        .cta-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+        }
+        .disclaimer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+        }
+        .affiliate-links {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .affiliate-links h3 {
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .affiliate-link {
+            display: block;
+            padding: 12px 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .affiliate-link:hover {
+            background: #f3f4f6;
+        }
+        @media (max-width: 600px) {
+            .input-row { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.8rem; }
+            .calculator { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💸 SaaS Churn Calculator</h1>
+            <p>See exactly how much revenue you're losing to failed payments — and how much you could recover.</p>
+        </div>
+
+        <div class="calculator">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="mrr">Monthly Recurring Revenue (MRR)</label>
+                    <input type="number" id="mrr" placeholder="10000" value="10000">
+                </div>
+                <div class="input-group">
+                    <label for="churnRate">Monthly Churn Rate (%)</label>
+                    <input type="number" id="churnRate" placeholder="5" value="5" step="0.1">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="involuntaryPercent">% of Churn That's Involuntary</label>
+                    <input type="number" id="involuntaryPercent" placeholder="30" value="30" step="1">
+                </div>
+                <div class="input-group">
+                    <label for="currentRecovery">Current Recovery Rate (%)</label>
+                    <select id="currentRecovery">
+                        <option value="0">None (0%)</option>
+                        <option value="25">Basic retries (25%)</option>
+                        <option value="38" selected>Stripe Smart Retries (38%)</option>
+                        <option value="50">Good dunning tool (50%)</option>
+                        <option value="65">Optimized dunning (65%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="targetRecovery">Target Recovery Rate (%)</label>
+                    <select id="targetRecovery">
+                        <option value="50">Good (50%)</option>
+                        <option value="60" selected>Better (60%)</option>
+                        <option value="70">Optimized (70%)</option>
+                        <option value="80">Best-in-class (80%)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="dunningCost">Dunning Tool Cost ($/mo)</label>
+                    <input type="number" id="dunningCost" placeholder="19" value="19">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculate()">Calculate My Losses →</button>
+
+            <div class="results" id="results">
+                <div class="result-card negative">
+                    <div class="result-label">Monthly Revenue Lost to Involuntary Churn</div>
+                    <div class="result-value negative" id="monthlyLoss">$0</div>
+                </div>
+
+                <div class="result-card negative">
+                    <div class="result-label">Annual Revenue Lost</div>
+                    <div class="result-value negative" id="annualLoss">$0</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Currently Recovered (with your setup)</div>
+                    <div class="result-value" id="currentlyRecovered">$0</div>
+                </div>
+
+                <div class="result-card positive">
+                    <div class="result-label">Additional Revenue Recoverable</div>
+                    <div class="result-value positive" id="recoverable">$0</div>
+                </div>
+
+                <div class="result-card positive">
+                    <div class="result-label">Net Annual Gain (after tool cost)</div>
+                    <div class="result-value positive" id="netGain">$0</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">ROI on Dunning Tool</div>
+                    <div class="result-value" id="roi">0x</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Payback Period</div>
+                    <div class="result-value" id="payback">0 days</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section" id="ctaSection" style="display:none;">
+            <h2>🚀 Stop Leaving Money on the Table</h2>
+            <p>SimpleRecover helps indie SaaS founders recover 60-80% of failed payments with smart retries + email dunning. $19/mo flat. No revenue share. 5-minute setup.</p>
+            <a href="https://simplerecover.com" class="cta-btn">Start Recovering Revenue →</a>
+        </div>
+
+        <div class="affiliate-links" id="affiliateSection" style="display:none;">
+            <h3>🔧 Tools to Fix This</h3>
+            <a href="https://simplerecover.com" class="affiliate-link">SimpleRecover — $19/mo, flat pricing, built for indie founders →</a>
+            <a href="https://churnward.com" class="affiliate-link">ChurnWard — $29/mo, automated dunning →</a>
+            <a href="https://churnbuster.io" class="affiliate-link">Churn Buster — $99/mo, best for Shopify →</a>
+            <a href="https://churnkey.io" class="affiliate-link">Churnkey — $250+/mo, full retention suite →</a>
+        </div>
+
+        <p class="disclaimer">
+            Built by a bootstrapped founder, for bootstrapped founders. <br>
+            This calculator uses industry-standard benchmarks. Your actual results may vary.
+        </p>
+    </div>
+
+    <script>
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function calculate() {
+            const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
+            const involuntaryPercent = parseFloat(document.getElementById('involuntaryPercent').value) || 0;
+            const currentRecovery = parseFloat(document.getElementById('currentRecovery').value) || 0;
+            const targetRecovery = parseFloat(document.getElementById('targetRecovery').value) || 0;
+            const dunningCost = parseFloat(document.getElementById('dunningCost').value) || 0;
+
+            // Calculations
+            const monthlyChurned = mrr * (churnRate / 100);
+            const involuntaryChurn = monthlyChurned * (involuntaryPercent / 100);
+            const monthlyLoss = involuntaryChurn;
+            const annualLoss = monthlyLoss * 12;
+
+            const currentlyRecovered = monthlyLoss * (currentRecovery / 100);
+            const targetRecovered = monthlyLoss * (targetRecovery / 100);
+            const additionalRecoverable = targetRecovered - currentlyRecovered;
+            const annualAdditional = additionalRecoverable * 12;
+            const annualToolCost = dunningCost * 12;
+            const netAnnualGain = annualAdditional - annualToolCost;
+            const roi = annualToolCost > 0 ? (annualAdditional / annualToolCost).toFixed(1) : '∞';
+            const paybackDays = additionalRecoverable > 0 ? Math.ceil(dunningCost / additionalRecoverable * 30) : 0;
+
+            // Display results
+            document.getElementById('monthlyLoss').textContent = formatCurrency(monthlyLoss);
+            document.getElementById('annualLoss').textContent = formatCurrency(annualLoss);
+            document.getElementById('currentlyRecovered').textContent = formatCurrency(currentlyRecovered) + '/mo';
+            document.getElementById('recoverable').textContent = formatCurrency(additionalRecoverable) + '/mo';
+            document.getElementById('netGain').textContent = formatCurrency(netAnnualGain) + '/yr';
+            document.getElementById('roi').textContent = roi + 'x';
+            document.getElementById('payback').textContent = paybackDays + (paybackDays === 1 ? ' day' : ' days');
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('ctaSection').style.display = 'block';
+            document.getElementById('affiliateSection').style.display = 'block';
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

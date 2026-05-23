@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Pricing Calculator — Find Your Optimal Price</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #1f2937;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        .header h1 { font-size: 2.5rem; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header p { font-size: 1.1rem; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+        .calculator {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 24px;
+        }
+        .input-group { margin-bottom: 24px; }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 87, 108, 0.3);
+        }
+        .results { display: none; margin-top: 32px; padding-top: 32px; border-top: 2px solid #e5e7eb; }
+        .results.show { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #f5576c;
+        }
+        .result-label { font-size: 14px; color: #6b7280; margin-bottom: 4px; }
+        .result-value { font-size: 2rem; font-weight: 700; color: #1f2937; }
+        .tiers-section { margin-top: 24px; }
+        .tier-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .tier-card:hover {
+            transform: translateY(-2px);
+            border-color: #f5576c;
+        }
+        .tier-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .tier-price { font-size: 2rem; font-weight: 700; color: #f5576c; margin-bottom: 8px; }
+        .tier-desc { color: #6b7280; font-size: 14px; }
+        .cta-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 24px;
+        }
+        .cta-section h2 { font-size: 1.5rem; margin-bottom: 16px; }
+        .cta-section p { opacity: 0.9; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: #f5576c;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover { transform: translateY(-2px); }
+        .disclaimer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            .input-row { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.8rem; }
+            .calculator { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 SaaS Pricing Calculator</h1>
+            <p>Find the optimal price for your SaaS. Based on costs, competition, and value metrics.</p>
+        </div>
+
+        <div class="calculator">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="monthlyCosts">Monthly Costs ($)</label>
+                    <input type="number" id="monthlyCosts" placeholder="500" value="500">
+                </div>
+                <div class="input-group">
+                    <label for="targetCustomers">Target Customers (mo)</label>
+                    <input type="number" id="targetCustomers" placeholder="100" value="100">
+                </div>
+                <div class="input-group">
+                    <label for="targetMargin">Target Gross Margin (%)</label>
+                    <input type="number" id="targetMargin" placeholder="85" value="85">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="competitorLow">Competitor Low Price ($)</label>
+                    <input type="number" id="competitorLow" placeholder="19" value="19">
+                </div>
+                <div class="input-group">
+                    <label for="competitorHigh">Competitor High Price ($)</label>
+                    <input type="number" id="competitorHigh" placeholder="99" value="99">
+                </div>
+                <div class="input-group">
+                    <label for="valueMetric">Value Metric</label>
+                    <select id="valueMetric">
+                        <option value="per_user">Per User</option>
+                        <option value="per_month">Per Month Flat</option>
+                        <option value="per_usage">Per Usage/Action</option>
+                        <option value="per_revenue">% of Revenue</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="ltvMonths">Expected Customer LTV (months)</label>
+                    <input type="number" id="ltvMonths" placeholder="18" value="18">
+                </div>
+                <div class="input-group">
+                    <label for="cac">Target CAC ($)</label>
+                    <input type="number" id="cac" placeholder="100" value="100">
+                </div>
+                <div class="input-group">
+                    <label for="conversionRate">Trial-to-Paid Conversion (%)</label>
+                    <input type="number" id="conversionRate" placeholder="15" value="15">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculate()">Calculate Optimal Pricing →</button>
+
+            <div class="results" id="results">
+                <div class="result-card">
+                    <div class="result-label">Minimum Viable Price (cost coverage)</div>
+                    <div class="result-value" id="minPrice">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Target Margin Price</div>
+                    <div class="result-value" id="targetPrice">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Market-Aligned Price</div>
+                    <div class="result-value" id="marketPrice">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Recommended Price</div>
+                    <div class="result-value" id="recommendedPrice" style="color: #f5576c;">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Monthly Revenue at Target</div>
+                    <div class="result-value" id="projectedRevenue">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Customer LTV</div>
+                    <div class="result-value" id="ltvValue">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">LTV:CAC Ratio</div>
+                    <div class="result-value" id="ltvCac">0:1</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Months to Break Even on CAC</div>
+                    <div class="result-value" id="breakEven">0</div>
+                </div>
+
+                <div class="tiers-section">
+                    <h3 style="margin-bottom: 16px;">💡 Suggested Pricing Tiers</h3>
+                    <div id="tiersContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section" id="ctaSection" style="display:none;">
+            <h2>🚀 Want Help Recovering That Revenue?</h2>
+            <p>SimpleRecover helps indie SaaS founders recover 60-80% of failed payments. $19/mo flat. No revenue share.</p>
+            <a href="https://simplerecover.com" class="cta-btn">Start Recovering →</a>
+        </div>
+
+        <p class="disclaimer">
+            This calculator provides estimates based on standard SaaS economics. Adjust for your specific market and customer base.<br>
+            Built by indie founders, for indie founders.
+        </p>
+    </div>
+
+    <script>
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function calculate() {
+            const monthlyCosts = parseFloat(document.getElementById('monthlyCosts').value) || 0;
+            const targetCustomers = parseFloat(document.getElementById('targetCustomers').value) || 1;
+            const targetMargin = parseFloat(document.getElementById('targetMargin').value) || 0;
+            const competitorLow = parseFloat(document.getElementById('competitorLow').value) || 0;
+            const competitorHigh = parseFloat(document.getElementById('competitorHigh').value) || 0;
+            const ltvMonths = parseFloat(document.getElementById('ltvMonths').value) || 1;
+            const cac = parseFloat(document.getElementById('cac').value) || 0;
+            const conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+
+            // Cost per customer
+            const costPerCustomer = monthlyCosts / targetCustomers;
+
+            // Minimum price (covers costs)
+            const minPrice = costPerCustomer * 1.2; // 20% buffer
+
+            // Target margin price
+            const targetPrice = costPerCustomer / (1 - targetMargin / 100);
+
+            // Market-aligned price (midpoint of competitors)
+            const marketPrice = (competitorLow + competitorHigh) / 2;
+
+            // Recommended price (weighted average)
+            const recommendedPrice = Math.max(minPrice, targetPrice * 0.6 + marketPrice * 0.4);
+
+            // Revenue projections
+            const projectedRevenue = recommendedPrice * targetCustomers;
+            const ltvValue = recommendedPrice * ltvMonths;
+            const ltvCac = cac > 0 ? (ltvValue / cac).toFixed(1) : '∞';
+            const breakEven = recommendedPrice > 0 ? Math.ceil(cac / recommendedPrice) : 0;
+
+            // Display results
+            document.getElementById('minPrice').textContent = formatCurrency(minPrice);
+            document.getElementById('targetPrice').textContent = formatCurrency(targetPrice);
+            document.getElementById('marketPrice').textContent = formatCurrency(marketPrice);
+            document.getElementById('recommendedPrice').textContent = formatCurrency(recommendedPrice);
+            document.getElementById('projectedRevenue').textContent = formatCurrency(projectedRevenue) + '/mo';
+            document.getElementById('ltvValue').textContent = formatCurrency(ltvValue);
+            document.getElementById('ltvCac').textContent = ltvCac + ':1';
+            document.getElementById('breakEven').textContent = breakEven + (breakEven === 1 ? ' month' : ' months');
+
+            // Generate tiers
+            const tiersContainer = document.getElementById('tiersContainer');
+            const starterPrice = Math.round(recommendedPrice * 0.5);
+            const proPrice = Math.round(recommendedPrice);
+            const scalePrice = Math.round(recommendedPrice * 1.8);
+
+            tiersContainer.innerHTML = `
+                <div class="tier-card">
+                    <div class="tier-name">🌱 Starter</div>
+                    <div class="tier-price">${formatCurrency(starterPrice)}/mo</div>
+                    <div class="tier-desc">For early-stage founders testing the waters. Core features only.</div>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-name">🚀 Pro (Recommended)</div>
+                    <div class="tier-price">${formatCurrency(proPrice)}/mo</div>
+                    <div class="tier-desc">For growing SaaS. Full feature set, priority support, integrations.</div>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-name">🏢 Scale</div>
+                    <div class="tier-price">${formatCurrency(scalePrice)}/mo</div>
+                    <div class="tier-desc">For established SaaS. Unlimited everything, white-label, API access, dedicated support.</div>
+                </div>
+            `;
+
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('ctaSection').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Signature Generator — Professional HTML Signatures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">📧 Email Signature Generator</h1>
+            <p class="opacity-90">Create a professional HTML email signature in seconds.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="John Doe" value="John Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                    <input type="text" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Founder & CEO" value="Founder & CEO">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                    <input type="text" id="company" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Acme Inc." value="Acme Inc.">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="john@acme.com" value="john@acme.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <input type="text" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="+1 (555) 123-4567" value="+1 (555) 123-4567">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                    <input type="text" id="website" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="https://acme.com" value="https://acme.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                    <input type="text" id="linkedin" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="linkedin.com/in/johndoe" value="linkedin.com/in/johndoe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Twitter/X</label>
+                    <input type="text" id="twitter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="@johndoe" value="@johndoe">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                <div class="flex gap-3">
+                    <button onclick="setColor('#4f46e5')" class="w-10 h-10 rounded-full bg-indigo-600 border-2 border-white shadow-md"></button>
+                    <button onclick="setColor('#dc2626')" class="w-10 h-10 rounded-full bg-red-600 border-2 border-white shadow-md"></button>
+                    <button onclick="setColor('#059669')" class="w-10 h-10 rounded-full bg-green-600 border-2 border-white shadow-md"></button>
+                    <button onclick="setColor('#d97706')" class="w-10 h-10 rounded-full bg-amber-600 border-2 border-white shadow-md"></button>
+                    <button onclick="setColor('#7c3aed')" class="w-10 h-10 rounded-full bg-violet-600 border-2 border-white shadow-md"></button>
+                    <button onclick="setColor('#db2777')" class="w-10 h-10 rounded-full bg-pink-600 border-2 border-white shadow-md"></button>
+                </div>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Signature →</button>
+
+            <div id="output" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 hidden">
+                <h3 class="font-semibold mb-3">Preview:</h3>
+                <div id="preview" class="mb-4"></div>
+                <h3 class="font-semibold mb-3">HTML Code (copy this into your email client):</h3>
+                <textarea id="htmlCode" class="w-full h-40 px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm" readonly></textarea>
+                <button onclick="copyCode()" class="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Copy HTML</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let accentColor = '#4f46e5';
+
+        function setColor(color) {
+            accentColor = color;
+        }
+
+        function generate() {
+            const name = document.getElementById('name').value;
+            const title = document.getElementById('title').value;
+            const company = document.getElementById('company').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const website = document.getElementById('website').value;
+            const linkedin = document.getElementById('linkedin').value;
+            const twitter = document.getElementById('twitter').value;
+
+            const html = `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,sans-serif;font-size:14px;color:#333;">
+  <tr>
+    <td style="padding-bottom:8px;">
+      <strong style="font-size:16px;color:${accentColor};">${name}</strong><br>
+      <span style="color:#666;">${title} at ${company}</span>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-bottom:8px;">
+      ${email ? `<a href="mailto:${email}" style="color:${accentColor};text-decoration:none;">${email}</a><br>` : ''}
+      ${phone ? `<span style="color:#666;">${phone}</span><br>` : ''}
+      ${website ? `<a href="${website}" style="color:${accentColor};text-decoration:none;">${website.replace('https://', '')}</a>` : ''}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      ${linkedin ? `<a href="https://${linkedin}" style="color:${accentColor};text-decoration:none;margin-right:12px;">LinkedIn</a>` : ''}
+      ${twitter ? `<a href="https://twitter.com/${twitter.replace('@', '')}" style="color:${accentColor};text-decoration:none;">Twitter</a>` : ''}
+    </td>
+  </tr>
+</table>`;
+
+            document.getElementById('preview').innerHTML = html;
+            document.getElementById('htmlCode').value = html;
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyCode() {
+            const textarea = document.getElementById('htmlCode');
+            textarea.select();
+            document.execCommand('copy');
+            alert('HTML copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

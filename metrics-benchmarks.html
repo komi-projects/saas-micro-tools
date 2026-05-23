@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Benchmarks — What's Good?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Hero -->
+    <section class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 py-16 px-4">
+        <div class="max-w-4xl mx-auto text-center text-white">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">📊 SaaS Metrics Benchmarks</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto">What does "good" look like? Compare your metrics to industry averages.</p>
+        </div>
+    </section>
+
+    <!-- Benchmarks -->
+    <section class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Churn Rate -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-4 text-red-600">💸 Churn Rate</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium">Excellent</span>
+                            <span class="font-bold text-green-700">< 2%/month</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <span class="font-medium">Good</span>
+                            <span class="font-bold text-yellow-700">2-5%/month</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                            <span class="font-medium">Average</span>
+                            <span class="font-bold text-orange-700">5-7%/month</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <span class="font-medium">Poor</span>
+                            <span class="font-bold text-red-700">> 7%/month</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">B2B SaaS typically has lower churn (2-5%) than B2C (5-10%).</p>
+                </div>
+
+                <!-- LTV:CAC Ratio -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-600">📈 LTV:CAC Ratio</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium">Excellent</span>
+                            <span class="font-bold text-green-700">> 5:1</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <span class="font-medium">Good</span>
+                            <span class="font-bold text-yellow-700">3-5:1</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                            <span class="font-medium">Caution</span>
+                            <span class="font-bold text-orange-700">1-3:1</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <span class="font-medium">Danger</span>
+                            <span class="font-bold text-red-700">< 1:1</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">If your LTV:CAC is < 3:1, you may be spending too much to acquire customers.</p>
+                </div>
+
+                <!-- Payback Period -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-600">⏱️ CAC Payback Period</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium">Excellent</span>
+                            <span class="font-bold text-green-700">< 6 months</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <span class="font-medium">Good</span>
+                            <span class="font-bold text-yellow-700">6-12 months</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                            <span class="font-medium">Caution</span>
+                            <span class="font-bold text-orange-700">12-18 months</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <span class="font-medium">Danger</span>
+                            <span class="font-bold text-red-700">> 18 months</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Longer payback = more capital needed. Most VCs want < 12 months.</p>
+                </div>
+
+                <!-- ARPU -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-4 text-teal-600">💰 ARPU (Average Revenue Per User)</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium">High</span>
+                            <span class="font-bold text-green-700">> $100/mo</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <span class="font-medium">Average</span>
+                            <span class="font-bold text-yellow-700">$50-100/mo</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                            <span class="font-medium">Low</span>
+                            <span class="font-bold text-orange-700">$20-50/mo</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <span class="font-medium">Very Low</span>
+                            <span class="font-bold text-red-700">< $20/mo</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">Low ARPU needs high volume. High ARPU can support sales-led growth.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-600">📋 Quick Reference Table</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-3">Metric</th>
+                                <th class="text-right py-3">Early Stage</th>
+                                <th class="text-right py-3">Growth Stage</th>
+                                <th class="text-right py-3">Scale Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 font-medium">Monthly Churn</td>
+                                <td class="text-right">< 5%</td>
+                                <td class="text-right">< 3%</td>
+                                <td class="text-right">< 2%</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 font-medium">LTV:CAC</td>
+                                <td class="text-right">> 2:1</td>
+                                <td class="text-right">> 3:1</td>
+                                <td class="text-right">> 5:1</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 font-medium">Payback Period</td>
+                                <td class="text-right">< 18 mo</td>
+                                <td class="text-right">< 12 mo</td>
+                                <td class="text-right">< 6 mo</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 font-medium">NRR (Net Revenue Retention)</td>
+                                <td class="text-right">> 100%</td>
+                                <td class="text-right">> 110%</td>
+                                <td class="text-right">> 120%</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 font-medium">Gross Margin</td>
+                                <td class="text-right">> 70%</td>
+                                <td class="text-right">> 75%</td>
+                                <td class="text-right">> 80%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 px-4 bg-gradient-to-r from-indigo-600 to-purple-600">
+        <div class="max-w-4xl mx-auto text-center text-white">
+            <h2 class="text-3xl font-bold mb-4">Calculate Your Metrics</h2>
+            <p class="text-indigo-100 mb-8">Use our free calculators to see where you stand.</p>
+            <a href="../tools-hub/index.html" class="inline-block px-8 py-4 bg-white text-indigo-600 rounded-xl font-semibold hover:bg-gray-100 transition">All Tools →</a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center text-sm">
+        <p class="mb-2">Built by a bootstrapped founder, for bootstrapped founders.</p>
+        <p>© 2026 Komi</p>
+    </footer>
+</body>
+</html>

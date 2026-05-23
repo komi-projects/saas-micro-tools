@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Net Revenue Retention Calculator — The King of Metrics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-yellow-500 via-amber-500 to-orange-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">👑 Net Revenue Retention (NRR) Calculator</h1>
+            <p class="opacity-90">The king of SaaS metrics. NRR &gt; 100% means you're growing without adding new customers.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Starting MRR ($)</label>
+                    <input type="number" id="startingMrr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500" placeholder="50000" value="50000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Expansion MRR ($)</label>
+                    <input type="number" id="expansionMrr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500" placeholder="8000" value="8000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Contraction MRR ($)</label>
+                    <input type="number" id="contractionMrr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500" placeholder="2000" value="2000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Churned MRR ($)</label>
+                    <input type="number" id="churnedMrr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500" placeholder="3000" value="3000">
+                </div>
+            </div>
+
+            <button onclick="calculateNrr()" class="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate NRR →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Net Revenue Retention</div>
+                        <div class="text-3xl font-bold" id="nrrValue"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Ending MRR</div>
+                        <div class="text-xl font-bold text-blue-600" id="endingMrr"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Growth Without New Sales</div>
+                        <div class="text-xl font-bold text-green-600" id="growthWithoutSales"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">NRR Benchmarks</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><strong>&gt; 120%:</strong> Exceptional — Best-in-class. Companies like Snowflake, Datadog operate here.</li>
+                        <li><strong>110% – 120%:</strong> Great — Strong expansion, healthy business.</li>
+                        <li><strong>100% – 110%:</strong> Good — Offsetting churn with expansion.</li>
+                        <li><strong>&lt; 100%:</strong> Concerning — Losing more revenue than gaining from existing customers.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateNrr() {
+            const startingMrr = parseFloat(document.getElementById('startingMrr').value);
+            const expansion = parseFloat(document.getElementById('expansionMrr').value);
+            const contraction = parseFloat(document.getElementById('contractionMrr').value);
+            const churned = parseFloat(document.getElementById('churnedMrr').value);
+
+            const endingMrr = startingMrr + expansion - contraction - churned;
+            const nrr = ((endingMrr / startingMrr) * 100).toFixed(1);
+            const growth = endingMrr - startingMrr;
+
+            document.getElementById('nrrValue').textContent = nrr + '%';
+            document.getElementById('nrrValue').className = 'text-3xl font-bold ' + 
+                (nrr >= 110 ? 'text-green-600' : nrr >= 100 ? 'text-yellow-600' : 'text-red-600');
+
+            document.getElementById('endingMrr').textContent = '$' + endingMrr.toLocaleString();
+            document.getElementById('growthWithoutSales').textContent = (growth >= 0 ? '+' : '') + '$' + growth.toLocaleString();
+            document.getElementById('growthWithoutSales').className = 'text-xl font-bold ' + (growth >= 0 ? 'text-green-600' : 'text-red-600');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

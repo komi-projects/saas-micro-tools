@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Content Ideation Generator — Never Run Out of Ideas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💡 Content Ideation Generator</h1>
+            <p class="opacity-90">Generate blog post ideas, tweet threads, and newsletter topics for your SaaS.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Your SaaS Product</label>
+                <input type="text" id="product" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="Payment recovery tool for SaaS" value="Payment recovery tool for SaaS">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
+                <input type="text" id="audience" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500" placeholder="Bootstrapped SaaS founders" value="Bootstrapped SaaS founders">
+            </div>
+
+            <button onclick="generateIdeas()" class="w-full py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Content Ideas →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">📝 Blog Post Ideas</h3>
+                    <ul class="space-y-2 text-sm text-gray-700" id="blogIdeas"></ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">🐦 Tweet Thread Ideas</h3>
+                    <ul class="space-y-2 text-sm text-gray-700" id="tweetIdeas"></ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">📧 Newsletter Topics</h3>
+                    <ul class="space-y-2 text-sm text-gray-700" id="newsletterIdeas"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateIdeas() {
+            const product = document.getElementById('product').value;
+            const audience = document.getElementById('audience').value;
+
+            const blogs = [
+                `How ${audience} Can Recover 15% More Revenue Without Writing Code`,
+                `The Hidden Cost of Failed Payments: A ${audience} Guide`,
+                `5 ${product} Strategies That Work in 2026`,
+                `Why ${audience} Lose Customers to "Payment Failed" Emails`,
+                `Building a ${product}: Lessons from 6 Months of Iteration`,
+                `The ${audience} Playbook for Reducing Involuntary Churn`,
+                `How One ${audience} Increased MRR by $3K/Month with One Tool`
+            ];
+
+            const tweets = [
+                `Thread: I built a ${product} in 48 hours. Here's what I learned. 🧵`,
+                `3 things every ${audience} gets wrong about failed payments 👇`,
+                `Hot take: Your ${product} strategy is costing you more than you think. Here's why.`,
+                `I analyzed 100 ${audience} churn patterns. The #1 cause surprised me.`,
+                `The ${product} checklist I wish I had when I started.`
+            ];
+
+            const newsletters = [
+                `This Week in ${product}: New features, tips, and founder stories`,
+                `The ${audience} Digest: Payment recovery insights you can't miss`,
+                `Weekly Wins: How ${audience} recovered $10K+ this week`,
+                `Behind the Scenes: Building ${product} — the unfiltered story`
+            ];
+
+            document.getElementById('blogIdeas').innerHTML = blogs.map(i => `<li>• ${i}</li>`).join('');
+            document.getElementById('tweetIdeas').innerHTML = tweets.map(i => `<li>• ${i}</li>`).join('');
+            document.getElementById('newsletterIdeas').innerHTML = newsletters.map(i => `<li>• ${i}</li>`).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

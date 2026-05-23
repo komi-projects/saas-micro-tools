@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Break-Even Analysis — When Do You Start Making Money?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💰 SaaS Break-Even Analysis</h1>
+            <p class="opacity-90">When do you start making money? Find your break-even point.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fixed Costs ($/month)</label>
+                    <input type="number" id="fixedCosts" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="5000" value="5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Price per Customer ($/month)</label>
+                    <input type="number" id="pricePerCustomer" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="49" value="49">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Variable Cost per Customer ($/month)</label>
+                    <input type="number" id="variableCost" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="5" value="5">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Customers</label>
+                    <input type="number" id="currentCustomers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="50" value="50">
+                </div>
+            </div>
+
+            <button onclick="calculateBreakEven()" class="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate Break-Even →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Break-Even Customers</div>
+                        <div class="text-3xl font-bold text-green-600" id="breakEvenCustomers"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Break-Even MRR</div>
+                        <div class="text-xl font-bold text-emerald-600" id="breakEvenMrr"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Distance to Break-Even</div>
+                        <div class="text-xl font-bold" id="distanceToBreakEven"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Monthly Profit at Current Scale</h3>
+                    <div class="text-2xl font-bold" id="currentProfit"></div>
+                    <div class="text-sm text-gray-500 mt-1" id="currentProfitText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateBreakEven() {
+            const fixedCosts = parseFloat(document.getElementById('fixedCosts').value);
+            const pricePerCustomer = parseFloat(document.getElementById('pricePerCustomer').value);
+            const variableCost = parseFloat(document.getElementById('variableCost').value);
+            const currentCustomers = parseFloat(document.getElementById('currentCustomers').value);
+
+            const contributionMargin = pricePerCustomer - variableCost;
+            const breakEvenCustomers = Math.ceil(fixedCosts / contributionMargin);
+            const breakEvenMrr = breakEvenCustomers * pricePerCustomer;
+            const currentMrr = currentCustomers * pricePerCustomer;
+            const currentVariableCosts = currentCustomers * variableCost;
+            const currentProfit = currentMrr - fixedCosts - currentVariableCosts;
+            const distance = breakEvenCustomers - currentCustomers;
+
+            document.getElementById('breakEvenCustomers').textContent = breakEvenCustomers;
+            document.getElementById('breakEvenMrr').textContent = '$' + breakEvenMrr.toLocaleString();
+            document.getElementById('distanceToBreakEven').textContent = distance > 0 ? distance + ' more needed' : 'Already there ✅';
+            document.getElementById('distanceToBreakEven').className = 'text-xl font-bold ' + (distance > 0 ? 'text-red-600' : 'text-green-600');
+
+            document.getElementById('currentProfit').textContent = '$' + currentProfit.toLocaleString();
+            document.getElementById('currentProfit').className = 'text-2xl font-bold ' + (currentProfit >= 0 ? 'text-green-600' : 'text-red-600');
+            document.getElementById('currentProfitText').textContent = currentProfit >= 0 ? 'You are profitable!' : 'You are losing money. Need ' + Math.abs(distance) + ' more customers to break even.';
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

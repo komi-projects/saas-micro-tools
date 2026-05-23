@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Proposal Template — Close More Deals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">📄 Freelance Proposal Template</h1>
+            <p class="opacity-90">Generate a professional freelance proposal in seconds.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Client Name</label>
+                    <input type="text" id="clientName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="Acme Corp" value="Acme Corp">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Project Type</label>
+                    <input type="text" id="projectType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="Stripe integration" value="Stripe integration">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Rate ($)</label>
+                    <input type="number" id="rate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="300" value="300">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Timeline (days)</label>
+                    <input type="number" id="timeline" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500" placeholder="5" value="5">
+                </div>
+            </div>
+
+            <button onclick="generateProposal()" class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Proposal →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Generated Proposal:</div>
+                    <div class="text-gray-700 whitespace-pre-wrap" id="proposalText"></div>
+                </div>
+                <button onclick="copyProposal()" class="mt-4 w-full py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition">Copy Proposal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateProposal() {
+            const client = document.getElementById('clientName').value;
+            const project = document.getElementById('projectType').value;
+            const rate = document.getElementById('rate').value;
+            const timeline = document.getElementById('timeline').value;
+            const total = rate * timeline;
+
+            const proposal = `PROPOSAL: ${project} for ${client}
+
+Scope of Work:
+• ${project} implementation
+• Testing and quality assurance
+• Documentation and handoff
+• 30 days of post-launch support
+
+Timeline: ${timeline} business days
+
+Investment: $${total} ($${rate}/day)
+
+Payment Terms:
+• 50% upfront ($${Math.round(total * 0.5)})
+• 50% on completion ($${Math.round(total * 0.5)})
+
+Next Steps:
+1. Review and approve this proposal
+2. Send upfront payment
+3. I'll begin work within 24 hours
+
+Looking forward to working with you,
+[Your Name]`;
+
+            document.getElementById('proposalText').textContent = proposal;
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyProposal() {
+            navigator.clipboard.writeText(document.getElementById('proposalText').textContent);
+            alert('Proposal copied!');
+        }
+    </script>
+</body>
+</html>

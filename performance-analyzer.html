@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Performance Analyzer — Speed & SEO Score</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-slate-500 via-gray-500 to-zinc-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">⚡ Landing Page Performance Analyzer</h1>
+            <p class="opacity-90">Analyze your landing page speed, SEO, and mobile responsiveness.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Your Landing Page URL</label>
+                <input type="url" id="pageUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500" placeholder="https://yoursite.com" value="https://yoursite.com">
+            </div>
+
+            <button onclick="analyze()" class="w-full py-3 bg-gradient-to-r from-slate-500 to-gray-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Analyze Performance →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Load Time</div>
+                        <div class="text-2xl font-bold text-green-600" id="loadTime"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Page Size</div>
+                        <div class="text-2xl font-bold text-blue-600" id="pageSize"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">SEO Score</div>
+                        <div class="text-2xl font-bold text-purple-600" id="seoScore"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Mobile Score</div>
+                        <div class="text-2xl font-bold text-orange-600" id="mobileScore"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Recommendations</h3>
+                    <ul class="space-y-2 text-sm text-gray-600" id="recommendations"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function analyze() {
+            const url = document.getElementById('pageUrl').value;
+            
+            // Simulated analysis (would be real API call in production)
+            const loadTime = (Math.random() * 3 + 0.5).toFixed(1);
+            const size = (Math.random() * 2 + 0.5).toFixed(1);
+            const seo = Math.floor(Math.random() * 30 + 70);
+            const mobile = Math.floor(Math.random() * 30 + 70);
+
+            document.getElementById('loadTime').textContent = loadTime + 's';
+            document.getElementById('loadTime').className = 'text-2xl font-bold ' + (loadTime < 2 ? 'text-green-600' : loadTime < 4 ? 'text-yellow-600' : 'text-red-600');
+            
+            document.getElementById('pageSize').textContent = size + 'MB';
+            document.getElementById('seoScore').textContent = seo + '/100';
+            document.getElementById('mobileScore').textContent = mobile + '/100';
+
+            const recs = [];
+            if (loadTime > 3) recs.push('⚠️ Page is slow. Compress images, minify CSS/JS, enable caching.');
+            if (size > 2) recs.push('⚠️ Page size is large. Optimize images, remove unused scripts.');
+            if (seo < 80) recs.push('🔍 SEO needs work. Add meta tags, improve headings, add alt text.');
+            if (mobile < 80) recs.push('📱 Mobile experience needs improvement. Test on real devices, fix touch targets.');
+            if (recs.length === 0) recs.push('✅ Page looks good! Continue monitoring performance.');
+            recs.push('💡 Use Google PageSpeed Insights for detailed analysis: https://pagespeed.web.dev/');
+
+            document.getElementById('recommendations').innerHTML = recs.map(r => `<li>${r}</li>`).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancellation Flow Copy — Reduce Churn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-red-600 via-orange-500 to-amber-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🚪 Cancellation Flow Copy</h1>
+            <p class="opacity-90">Generate churn-reducing cancellation page copy with save offers and exit surveys.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="product" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="MyApp" value="MyApp">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Price ($)</label>
+                    <input type="number" id="price" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="29" value="29">
+                </div>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Cancellation Flow →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Step 1: Exit Survey</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="exitSurvey"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Step 2: Save Offer (Pause)</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="pauseOffer"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Step 3: Save Offer (Discount)</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="discountOffer"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Step 4: Final Confirmation</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="finalConfirm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const product = document.getElementById('product').value;
+            const price = document.getElementById('price').value;
+            const discountPrice = Math.round(price * 0.5);
+
+            document.getElementById('exitSurvey').textContent = `Before you go, help us improve:
+
+**Why are you leaving?**
+□ Too expensive
+□ Missing features
+□ Too complex
+□ Found alternative
+□ Not using it enough
+□ Technical issues
+□ Other: ___________
+
+**What would make you stay?**
+[Open text field]
+
+[Submit & Continue to Cancel]`;
+
+            document.getElementById('pauseOffer').textContent = `Wait! Instead of canceling, would you like to pause your account?
+
+**Pause for 30 days (free)**
+• Keep all your data
+• Resume anytime with one click
+• No charges during pause
+
+Many users who pause come back stronger. Your setup will be exactly as you left it.
+
+[Pause Account] [No thanks, cancel anyway]`;
+
+            document.getElementById('discountOffer').textContent = `We'd hate to see you go. How about a special offer?
+
+**50% off for 3 months**
+• Pay $${discountPrice}/mo instead of $${price}
+• Same full access
+• Cancel anytime
+
+That's a $${Math.round(price * 1.5)} saving. Use it to get more value from ${product}.
+
+[Accept 50% Off] [No thanks, cancel anyway]`;
+
+            document.getElementById('finalConfirm').textContent = `Are you sure?
+
+Your ${product} account will be closed and your data will be deleted in 30 days.
+
+**What you'll lose:**
+• All your [data/projects/settings]
+• [X hours] of setup work
+• Access to [key feature]
+
+If you're sure, we understand. Thanks for being a customer.
+
+[Yes, Cancel My Account] [Wait, I changed my mind]`;
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

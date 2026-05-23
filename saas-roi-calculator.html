@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS ROI Calculator — Is Your SaaS Profitable?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">📈 SaaS ROI Calculator</h1>
+            <p class="opacity-90">Calculate your return on investment and break-even timeline.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Initial Investment ($)</label>
+                    <input type="number" id="investment" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="50000" value="50000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Revenue ($)</label>
+                    <input type="number" id="mrr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="10000" value="10000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Costs ($)</label>
+                    <input type="number" id="costs" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="3000" value="3000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Growth Rate (%)</label>
+                    <input type="number" id="growth" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="10" value="10">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Churn Rate (%)</label>
+                    <input type="number" id="churn" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="5" value="5">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Target ROI (%)</label>
+                    <input type="number" id="targetRoi" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" placeholder="100" value="100">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate ROI →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-500">
+                        <div class="text-sm text-gray-600 mb-1">Monthly Profit</div>
+                        <div class="text-2xl font-bold text-emerald-700" id="monthlyProfit">$0</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                        <div class="text-sm text-gray-600 mb-1">Break-Even Months</div>
+                        <div class="text-2xl font-bold text-blue-700" id="breakEven">0</div>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-xl border-l-4 border-purple-500">
+                        <div class="text-sm text-gray-600 mb-1">ROI After 12 Months</div>
+                        <div class="text-2xl font-bold text-purple-700" id="roi12">0%</div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl">
+                    <h3 class="font-semibold mb-3">12-Month Projection:</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-2">Month</th>
+                                    <th class="text-right py-2">MRR</th>
+                                    <th class="text-right py-2">Costs</th>
+                                    <th class="text-right py-2">Profit</th>
+                                    <th class="text-right py-2">Cumulative</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectionTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function calculate() {
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+            let mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const costs = parseFloat(document.getElementById('costs').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+            const churn = parseFloat(document.getElementById('churn').value) || 0;
+            const targetRoi = parseFloat(document.getElementById('targetRoi').value) || 100;
+
+            const netGrowth = growth - churn;
+            let cumulative = -investment;
+            let breakEvenMonth = null;
+            let tableHtml = '';
+            let totalProfit12 = 0;
+
+            for (let month = 1; month <= 12; month++) {
+                const profit = mrr - costs;
+                cumulative += profit;
+                totalProfit12 += profit;
+
+                if (breakEvenMonth === null && cumulative >= 0) {
+                    breakEvenMonth = month;
+                }
+
+                tableHtml += `
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2">${month}</td>
+                        <td class="text-right">${formatCurrency(mrr)}</td>
+                        <td class="text-right">${formatCurrency(costs)}</td>
+                        <td class="text-right ${profit >= 0 ? 'text-emerald-600' : 'text-red-600'}">${formatCurrency(profit)}</td>
+                        <td class="text-right ${cumulative >= 0 ? 'text-emerald-600' : 'text-red-600'}">${formatCurrency(cumulative)}</td>
+                    </tr>
+                `;
+
+                mrr = mrr * (1 + netGrowth / 100);
+            }
+
+            const roi12 = investment > 0 ? ((totalProfit12 / investment) * 100).toFixed(0) : 0;
+
+            document.getElementById('monthlyProfit').textContent = formatCurrency(parseFloat(document.getElementById('mrr').value) - costs);
+            document.getElementById('breakEven').textContent = breakEvenMonth ? breakEvenMonth + ' months' : '>12 months';
+            document.getElementById('roi12').textContent = roi12 + '%';
+            document.getElementById('projectionTable').innerHTML = tableHtml;
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

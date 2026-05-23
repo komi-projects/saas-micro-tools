@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Runway Calculator — Months Until Bankruptcy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-red-600 via-orange-500 to-yellow-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">⏱️ Startup Runway Calculator</h1>
+            <p class="opacity-90">How many months until you run out of money? Plan your fundraising.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cash in Bank ($)</label>
+                    <input type="number" id="cash" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="100000" value="100000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Burn Rate ($)</label>
+                    <input type="number" id="burn" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="15000" value="15000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Revenue ($)</label>
+                    <input type="number" id="revenue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="5000" value="5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Revenue Growth (%/mo)</label>
+                    <input type="number" id="growth" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="10" value="10">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate Runway →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-500">
+                        <div class="text-sm text-gray-600 mb-1">Net Burn Rate</div>
+                        <div class="text-2xl font-bold text-red-700" id="netBurn">$0</div>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-xl border-l-4 border-orange-500">
+                        <div class="text-sm text-gray-600 mb-1">Runway (Months)</div>
+                        <div class="text-2xl font-bold text-orange-700" id="runway">0</div>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500">
+                        <div class="text-sm text-gray-600 mb-1">Break-Even Month</div>
+                        <div class="text-2xl font-bold text-yellow-700" id="breakeven">Never</div>
+                    </div>
+                </div>
+
+                <div id="assessment" class="p-4 rounded-xl mb-4"></div>
+
+                <div class="bg-gray-50 p-4 rounded-xl">
+                    <h3 class="font-semibold mb-3">Month-by-Month Projection:</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-2">Month</th>
+                                    <th class="text-right py-2">Revenue</th>
+                                    <th class="text-right py-2">Burn</th>
+                                    <th class="text-right py-2">Net</th>
+                                    <th class="text-right py-2">Cash Left</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectionTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            let cash = parseFloat(document.getElementById('cash').value) || 0;
+            const burn = parseFloat(document.getElementById('burn').value) || 0;
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+
+            const netBurn = burn - revenue;
+            let months = 0;
+            let currentCash = cash;
+            let currentRevenue = revenue;
+            let breakEvenMonth = null;
+            let tableHtml = '';
+
+            while (currentCash > 0 && months < 48) {
+                months++;
+                const net = currentRevenue - burn;
+                currentCash += net;
+                currentRevenue = currentRevenue * (1 + growth / 100);
+
+                if (breakEvenMonth === null && currentRevenue >= burn) {
+                    breakEvenMonth = months;
+                }
+
+                tableHtml += `
+                    <tr class="border-b border-gray-200 ${currentCash <= 0 ? 'bg-red-50' : ''}">
+                        <td class="py-2">${months}</td>
+                        <td class="text-right">$${currentRevenue.toFixed(0)}</td>
+                        <td class="text-right">$${burn.toFixed(0)}</td>
+                        <td class="text-right ${net >= 0 ? 'text-green-600' : 'text-red-600'}">$${net.toFixed(0)}</td>
+                        <td class="text-right ${currentCash <= 0 ? 'text-red-600 font-bold' : ''}">$${currentCash.toFixed(0)}</td>
+                    </tr>
+                `;
+
+                if (currentCash <= 0) break;
+            }
+
+            document.getElementById('netBurn').textContent = '$' + netBurn.toLocaleString();
+            document.getElementById('runway').textContent = months + ' months';
+            document.getElementById('breakeven').textContent = breakEvenMonth ? 'Month ' + breakEvenMonth : 'Never';
+            document.getElementById('projectionTable').innerHTML = tableHtml;
+
+            const assessment = document.getElementById('assessment');
+            if (months >= 18) {
+                assessment.className = 'bg-green-50 p-4 rounded-xl border-l-4 border-green-500';
+                assessment.innerHTML = '<strong class="text-green-700">✅ Comfortable:</strong> You have ' + months + ' months of runway. Plenty of time to hit milestones.';
+            } else if (months >= 12) {
+                assessment.className = 'bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500';
+                assessment.innerHTML = '<strong class="text-yellow-700">⚠️ Tight:</strong> You have ' + months + ' months. Start fundraising conversations now.';
+            } else {
+                assessment.className = 'bg-red-50 p-4 rounded-xl border-l-4 border-red-500';
+                assessment.innerHTML = '<strong class="text-red-700">❌ Critical:</strong> Only ' + months + ' months left. Reduce burn or raise immediately.';
+            }
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Response Templates — Handle Any Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💬 Support Response Templates</h1>
+            <p class="opacity-90">Pre-written responses for common customer support scenarios.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Scenario</label>
+                <select id="scenario" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="billing">Billing Issue</option>
+                    <option value="refund">Refund Request</option>
+                    <option value="onboarding">Onboarding Help</option>
+                    <option value="churn">Cancellation/Save</option>
+                </select>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Response →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-4">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Response Template:</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="responseText"></div>
+                </div>
+                <button onclick="copyResponse()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Copy Response</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const scenario = document.getElementById('scenario').value;
+
+            const responses = {
+                bug: `Hi [Name],
+
+Thanks for reporting this! I can see how that's frustrating.
+
+I'm looking into it right now. To help me reproduce it:
+
+1. What browser/device are you using?
+2. Can you share a screenshot?
+3. What were you doing when it happened?
+
+I'll get back to you within 2 hours with an update.
+
+— [Your Name]`,
+                feature: `Hi [Name],
+
+Thanks for the suggestion! That's a great idea.
+
+I track all feature requests and prioritize based on what our users need most. I've added your vote for this.
+
+While I can't promise a timeline, I can tell you that [related feature] is coming next month — it might solve part of what you're looking for.
+
+Would you be open to a quick call to discuss your use case? It helps me build the right thing.
+
+— [Your Name]`,
+                billing: `Hi [Name],
+
+I see the issue with your billing. Let me fix this right away.
+
+[Explain the specific issue and resolution]
+
+I've [refunded/credited/adjusted] your account. You should see the change within 24 hours.
+
+If anything else looks off, just reply to this email.
+
+— [Your Name]`,
+                refund: `Hi [Name],
+
+I'm sorry ${product} didn't work out for you. That's on us.
+
+I've processed a full refund. You should see it in your account within 5-7 business days.
+
+If you're willing to share: what would have made it worth keeping? I read every response and it directly shapes what I build.
+
+No hard feelings either way. Thanks for giving us a shot.
+
+— [Your Name]`,
+                onboarding: `Hi [Name],
+
+Welcome! Let me get you unstuck.
+
+[Specific answer to their question]
+
+Also, here are the best resources for new users:
+• Quick start guide: [link]
+• Video walkthrough: [link]
+• Office hours (Tuesdays 2pm): [link]
+
+If you're still stuck after trying this, reply and I'll hop on a quick call with you.
+
+— [Your Name]`,
+                churn: `Hi [Name],
+
+I'm sorry to hear you're thinking of leaving. Let me help.
+
+[If specific issue mentioned: address it directly]
+
+A few options that might work for you:
+1. Pause your account (free, keep all data)
+2. Switch to our lighter plan ($[X]/mo)
+3. 50% off for 3 months while we fix [issue]
+
+Would any of these work? I'm here to find a solution.
+
+— [Your Name]`
+            };
+
+            document.getElementById('responseText').textContent = responses[scenario];
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyResponse() {
+            const text = document.getElementById('responseText').textContent;
+            navigator.clipboard.writeText(text);
+            alert('Response copied!');
+        }
+    </script>
+</body>
+</html>

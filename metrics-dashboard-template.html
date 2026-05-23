@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Dashboard — Track What Matters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}
+        .metric-card { @apply bg-white rounded-xl p-6 shadow-sm border border-gray-100; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">📊 SaaS Metrics Dashboard</h1>
+            <p class="text-gray-600">Track the metrics that actually matter for your SaaS.</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid md:grid-cols-4 gap-4 mb-8">
+            <div class="metric-card">
+                <div class="text-sm text-gray-500">MRR</div>
+                <div class="text-2xl font-bold text-gray-800">$12,450</div>
+                <div class="text-sm text-green-600">+15% vs last month</div>
+            </div>
+            <div class="metric-card">
+                <div class="text-sm text-gray-500">Churn Rate</div>
+                <div class="text-2xl font-bold text-gray-800">4.2%</div>
+                <div class="text-sm text-green-600">-0.5% vs last month</div>
+            </div>
+            <div class="metric-card">
+                <div class="text-sm text-gray-500">LTV:CAC Ratio</div>
+                <div class="text-2xl font-bold text-gray-800">3.2x</div>
+                <div class="text-sm text-gray-500">Target: >3x</div>
+            </div>
+            <div class="metric-card">
+                <div class="text-sm text-gray-500">NPS</div>
+                <div class="text-2xl font-bold text-gray-800">42</div>
+                <div class="text-sm text-green-600">+8 vs last quarter</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-semibold mb-4">MRR Growth (12 months)</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-16 text-sm text-gray-500">Jan</div>
+                        <div class="flex-1 bg-gray-100 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 30%"></div>
+                        </div>
+                        <div class="w-16 text-sm text-gray-700">$5.2K</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-16 text-sm text-gray-500">Feb</div>
+                        <div class="flex-1 bg-gray-100 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 40%"></div>
+                        </div>
+                        <div class="w-16 text-sm text-gray-700">$6.8K</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-16 text-sm text-gray-500">Mar</div>
+                        <div class="flex-1 bg-gray-100 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 50%"></div>
+                        </div>
+                        <div class="w-16 text-sm text-gray-700">$8.1K</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-16 text-sm text-gray-500">Apr</div>
+                        <div class="flex-1 bg-gray-100 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 65%"></div>
+                        </div>
+                        <div class="w-16 text-sm text-gray-700">$10.5K</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-16 text-sm text-gray-500">May</div>
+                        <div class="flex-1 bg-gray-100 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: 80%"></div>
+                        </div>
+                        <div class="w-16 text-sm text-gray-700">$12.4K</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-semibold mb-4">Customer Acquisition Channels</h3>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Organic Search</span>
+                            <span class="font-medium">45%</span>
+                        </div>
+                        <div class="bg-gray-100 rounded-full h-3">
+                            <div class="bg-green-500 h-3 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Direct/Referral</span>
+                            <span class="font-medium">30%</span>
+                        </div>
+                        <div class="bg-gray-100 rounded-full h-3">
+                            <div class="bg-blue-500 h-3 rounded-full" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Social Media</span>
+                            <span class="font-medium">15%</span>
+                        </div>
+                        <div class="bg-gray-100 rounded-full h-3">
+                            <div class="bg-purple-500 h-3 rounded-full" style="width: 15%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Paid Ads</span>
+                            <span class="font-medium">10%</span>
+                        </div>
+                        <div class="bg-gray-100 rounded-full h-3">
+                            <div class="bg-orange-500 h-3 rounded-full" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary Metrics -->
+        <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-semibold mb-3">Activation Funnel</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Signup</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Onboarding Complete</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>First Payment</span>
+                        <span>40%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Activation (Day 7)</span>
+                        <span>35%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-semibold mb-3">Revenue Breakdown</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>New MRR</span>
+                        <span class="text-green-600">+$2,100</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Expansion</span>
+                        <span class="text-green-600">+$800</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Churned</span>
+                        <span class="text-red-600">-$500</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-medium border-t pt-2">
+                        <span>Net MRR Change</span>
+                        <span class="text-green-600">+$2,400</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-semibold mb-3">Team Health</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Active Users</span>
+                        <span>234</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>DAU/MAU</span>
+                        <span>42%</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Support Tickets</span>
+                        <span>12 (↓ 3)</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Feature Adoption</span>
+                        <span>68%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

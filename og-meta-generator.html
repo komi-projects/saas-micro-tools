@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Meta Tag Generator — SEO Social Preview Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🔗 OG Meta Tag Generator</h1>
+            <p class="opacity-90">Generate Open Graph and Twitter Card meta tags for perfect social sharing.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
+                    <input type="text" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="My Awesome SaaS" value="My Awesome SaaS">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <input type="text" id="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="The best tool for..." value="The best tool for indie founders.">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+                    <input type="text" id="url" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="https://example.com" value="https://example.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                    <input type="text" id="image" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="https://example.com/og-image.jpg" value="https://example.com/og-image.jpg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Site Name</label>
+                    <input type="text" id="siteName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="My Company" value="My Company">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Twitter Handle</label>
+                    <input type="text" id="twitter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="@mycompany" value="@mycompany">
+                </div>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Meta Tags →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <h3 class="font-semibold mb-3">Preview:</h3>
+                <div id="preview" class="bg-gray-100 rounded-lg p-4 mb-4 border border-gray-200"></div>
+                
+                <h3 class="font-semibold mb-3">HTML Code (copy into &lt;head&gt;):</h3>
+                <textarea id="htmlCode" class="w-full h-48 px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm" readonly></textarea>
+                <button onclick="copyCode()" class="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Copy HTML</button>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl p-6 text-center">
+            <h2 class="text-xl font-bold mb-2">Need a landing page that converts?</h2>
+            <p class="opacity-90 mb-4">I build SaaS landing pages with perfect SEO meta tags in 24 hours.</p>
+            <a href="#" class="inline-block px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-100 transition">Hire Me →</a>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const url = document.getElementById('url').value;
+            const image = document.getElementById('image').value;
+            const siteName = document.getElementById('siteName').value;
+            const twitter = document.getElementById('twitter').value;
+
+            const html = `<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${description}">
+<meta property="og:image" content="${image}">
+<meta property="og:site_name" content="${siteName}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="${url}">
+<meta property="twitter:title" content="${title}">
+<meta property="twitter:description" content="${description}">
+<meta property="twitter:image" content="${image}">
+<meta property="twitter:creator" content="${twitter}">
+
+<!-- Standard Meta -->
+<meta name="description" content="${description}">
+<title>${title}</title>`;
+
+            document.getElementById('htmlCode').value = html;
+            document.getElementById('preview').innerHTML = `
+                <div class="border rounded-lg overflow-hidden bg-white">
+                    <img src="${image}" class="w-full h-48 object-cover" onerror="this.style.display='none'">
+                    <div class="p-4">
+                        <div class="text-xs text-gray-500 mb-1">${url}</div>
+                        <div class="font-bold text-lg mb-1">${title}</div>
+                        <div class="text-gray-600 text-sm">${description}</div>
+                        <div class="text-xs text-gray-400 mt-2">${siteName}</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyCode() {
+            const textarea = document.getElementById('htmlCode');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Meta tags copied!');
+        }
+    </script>
+</body>
+</html>

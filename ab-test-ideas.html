@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page A/B Test Ideas — Conversion Optimization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-purple-500 via-violet-500 to-indigo-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🧪 Landing Page A/B Test Ideas</h1>
+            <p class="opacity-90">Generate conversion optimization test ideas for your SaaS landing page.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">What type of SaaS?</label>
+                <select id="saasType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <option value="b2b">B2B SaaS</option>
+                    <option value="b2c">B2C SaaS</option>
+                    <option value="developer">Developer Tools</option>
+                    <option value="ecommerce">E-commerce</option>
+                    <option value="productivity">Productivity</option>
+                </select>
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Test Ideas →</button>
+
+            <div id="output" class="mt-8 hidden space-y-4">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-semibold mb-3">Headline Tests:</h3>
+                    <ul class="space-y-2 text-sm" id="headlineTests"></ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-semibold mb-3">CTA Tests:</h3>
+                    <ul class="space-y-2 text-sm" id="ctaTests"></ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-semibold mb-3">Pricing Tests:</h3>
+                    <ul class="space-y-2 text-sm" id="pricingTests"></ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-semibold mb-3">Trust/Social Proof Tests:</h3>
+                    <ul class="space-y-2 text-sm" id="trustTests"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const type = document.getElementById('saasType').value;
+            
+            const headlines = {
+                b2b: [
+                    "Test: Benefit-driven vs. Feature-driven headlines",
+                    "Test: 'Save X hours/week' vs. 'The best tool for Y'",
+                    "Test: Question headline vs. Statement headline",
+                    "Test: With vs. without social proof in headline"
+                ],
+                b2c: [
+                    "Test: Emotional benefit vs. Functional benefit",
+                    "Test: 'Free' prominently displayed vs. subtle",
+                    "Test: Short headline vs. Longer descriptive headline",
+                    "Test: Personal pronouns ('You') vs. Generic"
+                ],
+                developer: [
+                    "Test: Technical specs vs. Outcome-focused",
+                    "Test: 'Built for X' vs. 'The fastest way to Y'",
+                    "Test: Code snippet vs. Product screenshot",
+                    "Test: GitHub stars count in headline"
+                ],
+                ecommerce: [
+                    "Test: Price-focused vs. Quality-focused",
+                    "Test: 'Free shipping' prominence",
+                    "Test: Urgency ('Limited time') vs. Evergreen",
+                    "Test: Discount percentage vs. Dollar amount"
+                ],
+                productivity: [
+                    "Test: Time saved vs. Output increased",
+                    "Test: 'Simple' vs. 'Powerful' framing",
+                    "Test: Before/After scenario vs. Feature list",
+                    "Test: Single focus vs. Multiple benefits"
+                ]
+            };
+
+            const ctas = {
+                b2b: [
+                    "Test: 'Start Free Trial' vs. 'Get Started'",
+                    "Test: 'Book Demo' vs. 'Try Free'",
+                    "Test: Button color: Blue vs. Green vs. Orange",
+                    "Test: 'No credit card required' near CTA"
+                ],
+                b2c: [
+                    "Test: 'Sign Up Free' vs. 'Join Now'",
+                    "Test: 'Get Started' vs. 'Create Account'",
+                    "Test: CTA above the fold vs. after social proof",
+                    "Test: Single CTA vs. Multiple options"
+                ],
+                developer: [
+                    "Test: 'npm install' vs. 'Get Started'",
+                    "Test: GitHub button vs. Sign up button",
+                    "Test: 'Read Docs' vs. 'Try It Now'",
+                    "Test: Command-line style CTA"
+                ],
+                ecommerce: [
+                    "Test: 'Buy Now' vs. 'Add to Cart'",
+                    "Test: 'Shop Now' vs. 'Get Yours'",
+                    "Test: Sticky CTA bar vs. Inline button",
+                    "Test: Urgency countdown near CTA"
+                ],
+                productivity: [
+                    "Test: 'Try Free' vs. 'See How It Works'",
+                    "Test: Video play button vs. Sign up CTA",
+                    "Test: 'Import your data' vs. 'Start from scratch'",
+                    "Test: Progress indicator ('Takes 2 minutes')"
+                ]
+            };
+
+            const pricing = [
+                "Test: Monthly vs. Annual pricing displayed first",
+                "Test: Price ending in .99 vs. .00 vs. round number",
+                "Test: '$19/month' vs. '$228/year (save 20%)'",
+                "Test: Show most popular plan vs. Don't highlight",
+                "Test: Free plan prominently vs. Hidden",
+                "Test: 'Contact Us' for Enterprise vs. Self-serve"
+            ];
+
+            const trust = [
+                "Test: Number of users ('10,000+') vs. Logos",
+                "Test: Testimonials with photos vs. Without",
+                "Test: Star rating vs. Written testimonials",
+                "Test: Security badges placement",
+                "Test: 'As seen on' logos vs. Customer logos",
+                "Test: Live chat widget vs. No chat"
+            ];
+
+            document.getElementById('headlineTests').innerHTML = headlines[type].map(t => `<li>• ${t}</li>`).join('');
+            document.getElementById('ctaTests').innerHTML = ctas[type].map(t => `<li>• ${t}</li>`).join('');
+            document.getElementById('pricingTests').innerHTML = pricing.map(t => `<li>• ${t}</li>`).join('');
+            document.getElementById('trustTests').innerHTML = trust.map(t => `<li>• ${t}</li>`).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

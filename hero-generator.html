@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Hero Generator — Craft the Perfect First Impression</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-fuchsia-500 via-purple-500 to-indigo-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🦸 Landing Page Hero Generator</h1>
+            <p class="opacity-90">Generate high-converting hero sections for your SaaS landing page.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">What does your product do?</label>
+                <input type="text" id="productAction" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="Recover failed payments automatically" value="Recover failed payments automatically">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Who is it for?</label>
+                <input type="text" id="targetAudience" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="SaaS founders" value="SaaS founders">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Key benefit / outcome?</label>
+                <input type="text" id="keyBenefit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="reduce churn by 30%" value="reduce churn by 30%">
+            </div>
+
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Hero Section →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Generated Hero Copy:</div>
+                    <div class="text-sm text-gray-600 whitespace-pre-wrap" id="heroText"></div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <div class="text-sm font-medium text-gray-500 mb-2">Preview:</div>
+                    <div class="bg-white p-8 rounded-lg border border-gray-200 text-center">
+                        <div class="text-3xl font-bold text-gray-800 mb-2" id="previewHeadline"></div>
+                        <div class="text-lg text-gray-600 mb-4" id="previewSubheadline"></div>
+                        <div class="px-6 py-3 bg-purple-600 text-white rounded-lg inline-block font-semibold" id="previewCTA"></div>
+                    </div>
+                </div>
+                <button onclick="copyHero()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">Copy Hero Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            const productAction = document.getElementById('productAction').value;
+            const targetAudience = document.getElementById('targetAudience').value;
+            const keyBenefit = document.getElementById('keyBenefit').value;
+
+            const headline = `Stop Losing Revenue. ${productAction.charAt(0).toUpperCase() + productAction.slice(1)}.`;
+            const subheadline = `Built for ${targetAudience} who want to ${keyBenefit} without the engineering overhead.`;
+            const cta = "Start Free Trial →";
+
+            document.getElementById('heroText').textContent = `Headline:\n${headline}\n\nSubheadline:\n${subheadline}\n\nCTA:\n${cta}`;
+            document.getElementById('previewHeadline').textContent = headline;
+            document.getElementById('previewSubheadline').textContent = subheadline;
+            document.getElementById('previewCTA').textContent = cta;
+            document.getElementById('output').classList.remove('hidden');
+        }
+
+        function copyHero() {
+            const text = document.getElementById('heroText').textContent;
+            navigator.clipboard.writeText(text);
+            alert('Hero copy copied!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Test Results Tracker — Data-Driven Decisions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-slate-500 via-gray-500 to-zinc-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🧪 A/B Test Results Tracker</h1>
+            <p class="opacity-90">Track and analyze your landing page A/B tests with statistical significance.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="p-4 bg-gray-50 rounded-xl">
+                    <div class="font-semibold text-gray-700 mb-3">Variant A (Control)</div>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Visitors</label>
+                            <input type="number" id="aVisitors" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="1000" value="1000">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Conversions</label>
+                            <input type="number" id="aConversions" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="30" value="30">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl">
+                    <div class="font-semibold text-gray-700 mb-3">Variant B (Test)</div>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Visitors</label>
+                            <input type="number" id="bVisitors" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="1000" value="1000">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">Conversions</label>
+                            <input type="number" id="bConversions" class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="45" value="45">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-slate-500 to-gray-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Analyze Results →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Variant A Rate</div>
+                        <div class="text-2xl font-bold text-gray-800" id="aRate"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Variant B Rate</div>
+                        <div class="text-2xl font-bold text-gray-800" id="bRate"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Relative Improvement</div>
+                        <div class="text-2xl font-bold" id="improvement"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Statistical Significance</h3>
+                    <div class="text-3xl font-bold mb-2" id="significance"></div>
+                    <div class="text-sm text-gray-600" id="significanceNote"></div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Recommendation</h3>
+                    <div class="text-lg text-gray-700" id="recommendation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const aVisitors = parseFloat(document.getElementById('aVisitors').value);
+            const aConversions = parseFloat(document.getElementById('aConversions').value);
+            const bVisitors = parseFloat(document.getElementById('bVisitors').value);
+            const bConversions = parseFloat(document.getElementById('bConversions').value);
+
+            const aRate = (aConversions / aVisitors) * 100;
+            const bRate = (bConversions / bVisitors) * 100;
+            const improvement = ((bRate - aRate) / aRate) * 100;
+
+            document.getElementById('aRate').textContent = aRate.toFixed(2) + '%';
+            document.getElementById('bRate').textContent = bRate.toFixed(2) + '%';
+            document.getElementById('improvement').textContent = (improvement > 0 ? '+' : '') + improvement.toFixed(1) + '%';
+            document.getElementById('improvement').className = 'text-2xl font-bold ' + (improvement > 0 ? 'text-green-600' : 'text-red-600');
+
+            // Simple significance check (not exact statistical test but practical)
+            const minSample = Math.min(aVisitors, bVisitors);
+            const isSignificant = minSample >= 100 && Math.abs(improvement) >= 10;
+
+            document.getElementById('significance').textContent = isSignificant ? '✅ Significant' : '⚠️ Inconclusive';
+            document.getElementById('significance').className = 'text-3xl font-bold ' + (isSignificant ? 'text-green-600' : 'text-yellow-600');
+            document.getElementById('significanceNote').textContent = isSignificant 
+                ? `With ${minSample}+ visitors per variant and ${Math.abs(improvement).toFixed(0)}% difference, this result is likely real.` 
+                : `Need more data: aim for 100+ visitors per variant and 10%+ difference for confidence.`;
+
+            if (improvement > 15 && isSignificant) {
+                document.getElementById('recommendation').textContent = '🎉 Variant B wins! Roll it out to 100% of traffic.';
+            } else if (improvement > 0) {
+                document.getElementById('recommendation').textContent = '➡️ Variant B is trending better. Let it run longer or roll out cautiously.';
+            } else {
+                document.getElementById('recommendation').textContent = '⬅️ Stick with Variant A. The test variant did not improve results.';
+            }
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

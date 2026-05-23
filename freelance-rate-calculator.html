@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Rate Calculator — Charge What You're Worth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💰 Freelance Rate Calculator</h1>
+            <p class="opacity-90">Calculate your hourly, daily, and project rates based on your income goals.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Annual Income Goal ($)</label>
+                    <input type="number" id="annualGoal" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" placeholder="100000" value="100000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Billable Hours/Week</label>
+                    <input type="number" id="billableHours" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" placeholder="20" value="20">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Weeks Off/Year</label>
+                    <input type="number" id="weeksOff" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" placeholder="4" value="4">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Expenses/Month ($)</label>
+                    <input type="number" id="expenses" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" placeholder="2000" value="2000">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate My Rates →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Hourly Rate</div>
+                        <div class="text-2xl font-bold text-violet-600" id="hourlyRate"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Daily Rate (8h)</div>
+                        <div class="text-2xl font-bold text-purple-600" id="dailyRate"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Weekly Rate</div>
+                        <div class="text-2xl font-bold text-fuchsia-600" id="weeklyRate"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Project Pricing Guidelines</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>Landing Page</span><span id="landingPagePrice"></span></div>
+                        <div class="flex justify-between"><span>Stripe Integration</span><span id="stripePrice"></span></div>
+                        <div class="flex justify-between"><span>MVP (2-week sprint)</span><span id="mvpPrice"></span></div>
+                        <div class="flex justify-between"><span>Full SaaS Build</span><span id="saasPrice"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const annualGoal = parseFloat(document.getElementById('annualGoal').value);
+            const billableHours = parseFloat(document.getElementById('billableHours').value);
+            const weeksOff = parseFloat(document.getElementById('weeksOff').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+
+            const totalExpenses = expenses * 12;
+            const totalNeeded = annualGoal + totalExpenses;
+            const workWeeks = 52 - weeksOff;
+            const totalBillableHours = workWeeks * billableHours;
+            const hourlyRate = Math.ceil(totalNeeded / totalBillableHours);
+            const dailyRate = hourlyRate * 8;
+            const weeklyRate = dailyRate * 5;
+
+            document.getElementById('hourlyRate').textContent = '$' + hourlyRate + '/hr';
+            document.getElementById('dailyRate').textContent = '$' + dailyRate + '/day';
+            document.getElementById('weeklyRate').textContent = '$' + weeklyRate + '/week';
+
+            // Project estimates (hours × rate)
+            document.getElementById('landingPagePrice').textContent = '$' + (hourlyRate * 10).toLocaleString() + ' (10h)';
+            document.getElementById('stripePrice').textContent = '$' + (hourlyRate * 8).toLocaleString() + ' (8h)';
+            document.getElementById('mvpPrice').textContent = '$' + (hourlyRate * 80).toLocaleString() + ' (80h)';
+            document.getElementById('saasPrice').textContent = '$' + (hourlyRate * 200).toLocaleString() + ' (200h)';
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Customer Support Response Time Calculator — SLA Optimizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-teal-500 via-emerald-500 to-green-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">⏱️ Support Response Time Calculator</h1>
+            <p class="opacity-90">Calculate SLA targets, staffing needs, and customer satisfaction impact.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Support Tickets/Day</label>
+                    <input type="number" id="ticketsPerDay" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="50" value="50">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Target Response Time (hours)</label>
+                    <input type="number" id="targetResponse" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="4" value="4">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Avg Handle Time (minutes)</label>
+                    <input type="number" id="avgHandleTime" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="15" value="15">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Support Agents</label>
+                    <input type="number" id="agents" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="2" value="2">
+                </div>
+            </div>
+
+            <button onclick="calculateSupport()" class="w-full py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate SLA & Staffing →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">SLA Achievement Rate</div>
+                        <div class="text-3xl font-bold" id="slaRate"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Agents Needed</div>
+                        <div class="text-xl font-bold text-blue-600" id="agentsNeeded"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">CSAT Impact</div>
+                        <div class="text-xl font-bold text-green-600" id="csatImpact"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Recommendations</h3>
+                    <ul class="space-y-2 text-sm text-gray-600" id="recommendations"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSupport() {
+            const ticketsPerDay = parseFloat(document.getElementById('ticketsPerDay').value);
+            const targetResponse = parseFloat(document.getElementById('targetResponse').value);
+            const avgHandleTime = parseFloat(document.getElementById('avgHandleTime').value);
+            const agents = parseFloat(document.getElementById('agents').value);
+
+            const totalMinutesPerDay = ticketsPerDay * avgHandleTime;
+            const availableMinutesPerDay = agents * 8 * 60; // 8 hours per agent
+            const capacity = (totalMinutesPerDay / availableMinutesPerDay * 100).toFixed(0);
+            const slaAchievement = Math.max(100 - capacity / 2, 20).toFixed(0);
+            const agentsNeeded = Math.ceil(totalMinutesPerDay / (8 * 60));
+            const csat = Math.min(95, 100 - (targetResponse - 1) * 5).toFixed(0);
+
+            document.getElementById('slaRate').textContent = slaAchievement + '%';
+            document.getElementById('slaRate').className = 'text-3xl font-bold ' + (slaAchievement >= 90 ? 'text-green-600' : slaAchievement >= 70 ? 'text-yellow-600' : 'text-red-600');
+
+            document.getElementById('agentsNeeded').textContent = agentsNeeded;
+            document.getElementById('csatImpact').textContent = csat + '/100';
+
+            const recs = [];
+            if (slaAchievement < 80) recs.push('🚨 SLA at risk. Add ' + (agentsNeeded - agents) + ' more agents or reduce ticket volume.');
+            if (targetResponse > 8) recs.push('⚠️ Response time too slow. Aim for < 4 hours for good CSAT.');
+            if (avgHandleTime > 20) recs.push('💡 Handle time high. Create better docs, templates, or self-service.');
+            if (recs.length === 0) recs.push('✅ Support operations look healthy. Keep monitoring.');
+            recs.push('📊 Industry benchmark: 80% of tickets resolved in 24h, 90% in 48h.');
+
+            document.getElementById('recommendations').innerHTML = recs.map(r => `<li>${r}</li>`).join('');
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Hunt Launch Checklist — Go Live with Confidence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-orange-500 via-red-500 to-rose-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🚀 Product Hunt Launch Checklist</h1>
+            <p class="opacity-90">Everything you need for a successful Product Hunt launch.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="space-y-6" id="checklist">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item1" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item1" class="text-gray-700">Create hunter account 2+ weeks before launch</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item2" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item2" class="text-gray-700">Prepare 3-5 screenshots/GIFs (800x600, high quality)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item3" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item3" class="text-gray-700">Write maker story (personal journey, not product pitch)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item4" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item4" class="text-gray-700">Record 60-sec demo video (not a slideshow)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item5" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item5" class="text-gray-700">Prepare first comment: thank hunters, share story, ask for feedback</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item6" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item6" class="text-gray-700">Set up PH badge on website (gets you traffic back)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item7" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item7" class="text-gray-700">Line up 20+ friends/colleagues to upvote in first hour</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item8" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item8" class="text-gray-700">Prepare email to existing users: "We launched on PH, need your support"</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item9" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item9" class="text-gray-700">Schedule social posts for launch day (Twitter, LinkedIn, Reddit)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item10" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item10" class="text-gray-700">Prepare special offer for PH visitors (discount, extended trial, swag)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item11" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item11" class="text-gray-700">Set up analytics: track PH traffic, conversions, signups</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="item12" class="mt-1 w-5 h-5 text-orange-500 rounded">
+                    <label for="item12" class="text-gray-700">Be online 12:01 AM PT launch day to reply to every comment</label>
+                </div>
+            </div>
+
+            <div class="mt-8 flex items-center justify-between bg-gray-50 p-4 rounded-xl">
+                <span class="font-semibold text-gray-700">Progress:</span>
+                <span class="text-2xl font-bold text-orange-600" id="progress">0/12 (0%)</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+        
+        function updateProgress() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            document.getElementById('progress').textContent = `${checked}/${total} (${Math.round(checked/total*100)}%)`;
+        }
+    </script>
+</body>
+</html>

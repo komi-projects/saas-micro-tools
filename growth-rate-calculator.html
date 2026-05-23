@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Growth Rate Calculator — Project Your MRR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-lime-500 via-green-500 to-emerald-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">📊 SaaS Growth Rate Calculator</h1>
+            <p class="opacity-90">Project your MRR over 12 months with churn and expansion.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Current MRR ($)</label>
+                    <input type="number" id="currentMRR" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="5000" value="5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Growth Rate (%)</label>
+                    <input type="number" id="growthRate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="15" value="15">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Churn (%)</label>
+                    <input type="number" id="churnRate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="5" value="5">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Expansion Revenue (%)</label>
+                    <input type="number" id="expansionRate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" placeholder="3" value="3">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-lime-500 to-green-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Project Growth →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left p-3 font-semibold text-gray-700">Month</th>
+                                <th class="text-right p-3 font-semibold text-gray-700">Starting MRR</th>
+                                <th class="text-right p-3 font-semibold text-gray-700">New Revenue</th>
+                                <th class="text-right p-3 font-semibold text-gray-700">Churned</th>
+                                <th class="text-right p-3 font-semibold text-gray-700">Expansion</th>
+                                <th class="text-right p-3 font-semibold text-gray-700">Ending MRR</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectionTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">12-Month Summary</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-sm text-gray-500">Final MRR</div>
+                            <div class="text-2xl font-bold text-green-600" id="finalMRR"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-sm text-gray-500">Total Growth</div>
+                            <div class="text-2xl font-bold text-blue-600" id="totalGrowth"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-sm text-gray-500">Net Revenue Retention</div>
+                            <div class="text-2xl font-bold text-purple-600" id="netRetention"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            let mrr = parseFloat(document.getElementById('currentMRR').value);
+            const growthRate = parseFloat(document.getElementById('growthRate').value) / 100;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) / 100;
+            const expansionRate = parseFloat(document.getElementById('expansionRate').value) / 100;
+
+            const startMRR = mrr;
+            let tableHTML = '';
+
+            for (let month = 1; month <= 12; month++) {
+                const startingMRR = mrr;
+                const newRevenue = mrr * growthRate;
+                const churned = mrr * churnRate;
+                const expansion = mrr * expansionRate;
+                mrr = mrr + newRevenue - churned + expansion;
+
+                tableHTML += `<tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="p-3">Month ${month}</td>
+                    <td class="p-3 text-right">$${Math.round(startingMRR).toLocaleString()}</td>
+                    <td class="p-3 text-right text-green-600">+$${Math.round(newRevenue).toLocaleString()}</td>
+                    <td class="p-3 text-right text-red-600">-$${Math.round(churned).toLocaleString()}</td>
+                    <td class="p-3 text-right text-blue-600">+$${Math.round(expansion).toLocaleString()}</td>
+                    <td class="p-3 text-right font-bold">$${Math.round(mrr).toLocaleString()}</td>
+                </tr>`;
+            }
+
+            document.getElementById('projectionTable').innerHTML = tableHTML;
+            document.getElementById('finalMRR').textContent = '$' + Math.round(mrr).toLocaleString();
+            
+            const growth = ((mrr - startMRR) / startMRR) * 100;
+            document.getElementById('totalGrowth').textContent = '+' + growth.toFixed(0) + '%';
+            
+            const retention = ((mrr - (startMRR * growthRate * 12)) / startMRR) * 100;
+            document.getElementById('netRetention').textContent = retention.toFixed(0) + '%';
+
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product-Market Fit Survey — The Sean Ellis Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">🎯 Product-Market Fit Survey</h1>
+            <p class="opacity-90">The Sean Ellis test: How disappointed would users be if your product disappeared?</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">How would you feel if you could no longer use [Product]?</label>
+                <select id="feeling" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500">
+                    <option value="very disappointed">Very disappointed</option>
+                    <option value="somewhat disappointed">Somewhat disappointed</option>
+                    <option value="not disappointed">Not disappointed</option>
+                    <option value="n/a">I no longer use it</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">What type of people do you think would most benefit from [Product]?</label>
+                <textarea id="benefitUsers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" rows="3" placeholder="Early-stage SaaS founders who struggle with churn"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">What is the main benefit you receive from [Product]?</label>
+                <textarea id="mainBenefit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" rows="3" placeholder="I recover failed payments automatically without thinking about it"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">How can we improve [Product] for you?</label>
+                <textarea id="improvement" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500" rows="3" placeholder="I'd love SMS notifications when a payment is recovered"></textarea>
+            </div>
+
+            <button onclick="analyzePMF()" class="w-full py-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Analyze PMF →</button>
+
+            <div id="output" class="mt-8 hidden space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">PMF Score</div>
+                        <div class="text-3xl font-bold" id="pmfScore"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl text-center">
+                        <div class="text-sm text-gray-500">Status</div>
+                        <div class="text-xl font-bold" id="pmfStatus"></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">What This Means</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><strong>&gt; 40% "Very Disappointed":</strong> Strong PMF. You have product-market fit. Focus on growth.</li>
+                        <li><strong>25-40% "Very Disappointed":</strong> Moderate PMF. Close, but needs iteration.</li>
+                        <li><strong>&lt; 25% "Very Disappointed":</strong> Weak PMF. Go back to the drawing board.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="font-semibold mb-3">Your Responses</h3>
+                    <div class="text-sm text-gray-600 space-y-2" id="responses"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function analyzePMF() {
+            const feeling = document.getElementById('feeling').value;
+            const benefitUsers = document.getElementById('benefitUsers').value;
+            const mainBenefit = document.getElementById('mainBenefit').value;
+            const improvement = document.getElementById('improvement').value;
+
+            const isVeryDisappointed = feeling === 'very disappointed';
+            const pmfScore = isVeryDisappointed ? 100 : feeling === 'somewhat disappointed' ? 50 : 0;
+
+            document.getElementById('pmfScore').textContent = pmfScore + '%';
+            document.getElementById('pmfScore').className = 'text-3xl font-bold ' + 
+                (pmfScore >= 40 ? 'text-green-600' : pmfScore >= 25 ? 'text-yellow-600' : 'text-red-600');
+
+            const status = pmfScore >= 40 ? 'Strong PMF ✅' : pmfScore >= 25 ? 'Moderate PMF ⚠️' : 'Weak PMF 🚨';
+            document.getElementById('pmfStatus').textContent = status;
+            document.getElementById('pmfStatus').className = 'text-xl font-bold ' + 
+                (pmfScore >= 40 ? 'text-green-600' : pmfScore >= 25 ? 'text-yellow-600' : 'text-red-600');
+
+            document.getElementById('responses').innerHTML = `
+                <p><strong>Target Users:</strong> ${benefitUsers || 'Not specified'}</p>
+                <p><strong>Main Benefit:</strong> ${mainBenefit || 'Not specified'}</p>
+                <p><strong>Improvement:</strong> ${improvement || 'Not specified'}</p>
+            `;
+            document.getElementById('output').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

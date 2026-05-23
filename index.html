@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-SaaS Tools Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+        header p {
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+        .stats {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #64ffda;
+            font-size: 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .tool-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tool-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+        }
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .tool-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #ccd6f6;
+            line-height: 1.3;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #8892b0;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Micro-SaaS Tools Hub</h1>
+            <p>A collection of free tools for SaaS founders, makers, and growth teams.</p>
+        </header>
+        <div class="stats" id="stats"></div>
+        <div class="grid" id="grid"></div>
+        <footer>
+            <p>Built by <a href="https://github.com/komi-projects" style="color:#64ffda; text-decoration:none;">komi-projects</a></p>
+        </footer>
+    </div>
+    <script>
+        const tools = [
+            { name: "01 Sales Page", file: "01-sales-page.html", emoji: "🎨" },
+            { name: "02 Pricing Page", file: "02-pricing-page.html", emoji: "🎨" },
+            { name: "03 Features Page", file: "03-features-page.html", emoji: "🎨" },
+            { name: "04 Signup Page", file: "04-signup-page.html", emoji: "🎨" },
+            { name: "Ab Test Ideas", file: "ab-test-ideas.html", emoji: "🔧" },
+            { name: "Ab Test Ideas Landing Page", file: "ab-test-ideas-landing-page.html", emoji: "🎨" },
+            { name: "Ab Test Tracker", file: "ab-test-tracker.html", emoji: "🔧" },
+            { name: "Api Docs Template", file: "api-docs-template.html", emoji: "🔧" },
+            { name: "Api Rate Limit Calculator", file: "api-rate-limit-calculator.html", emoji: "📊" },
+            { name: "Break Even Analysis", file: "break-even-analysis.html", emoji: "📊" },
+            { name: "Burn Multiple Calculator", file: "burn-multiple-calculator.html", emoji: "📊" },
+            { name: "Cac Breakdown", file: "cac-breakdown.html", emoji: "📊" },
+            { name: "Cac Calculator", file: "cac-calculator.html", emoji: "📊" },
+            { name: "Cancellation Flow", file: "cancellation-flow.html", emoji: "🔧" },
+            { name: "Churn Calculator", file: "churn-calculator.html", emoji: "📊" },
+            { name: "Cohort Retention Analyzer", file: "cohort-retention-analyzer.html", emoji: "🤝" },
+            { name: "Competitive Matrix", file: "competitive-matrix.html", emoji: "🎯" },
+            { name: "Competitive Pricing", file: "competitive-pricing.html", emoji: "💰" },
+            { name: "Competitor Analysis", file: "competitor-analysis.html", emoji: "🎯" },
+            { name: "Content Calendar Generator", file: "content-calendar-generator.html", emoji: "✍️" },
+            { name: "Content Ideation Generator", file: "content-ideation-generator.html", emoji: "✍️" },
+            { name: "Conversion Checklist", file: "conversion-checklist.html", emoji: "✅" },
+            { name: "Copy Swipe File", file: "copy-swipe-file.html", emoji: "✍️" },
+            { name: "Copywriting Formulas", file: "copywriting-formulas.html", emoji: "✍️" },
+            { name: "Customer Feedback Survey", file: "customer-feedback-survey.html", emoji: "🤝" },
+            { name: "Customer Feedback Survey Template", file: "customer-feedback-survey-template.html", emoji: "🤝" },
+            { name: "Customer Health Score", file: "customer-health-score.html", emoji: "🤝" },
+            { name: "Customer Interview Script", file: "customer-interview-script.html", emoji: "🤝" },
+            { name: "Customer Journey Map", file: "customer-journey-map.html", emoji: "🤝" },
+            { name: "Customer Retention Calculator", file: "customer-retention-calculator.html", emoji: "📊" },
+            { name: "Customer Success Emails", file: "customer-success-emails.html", emoji: "📧" },
+            { name: "Customer Success Playbook", file: "customer-success-playbook.html", emoji: "🤝" },
+            { name: "Dunning Email Generator", file: "dunning-email-generator.html", emoji: "📧" },
+            { name: "Email Deliverability Checker", file: "email-deliverability-checker.html", emoji: "📧" },
+            { name: "Email Signature Generator", file: "email-signature-generator.html", emoji: "📧" },
+            { name: "Faq Generator", file: "faq-generator.html", emoji: "✍️" },
+            { name: "Feature Prioritization", file: "feature-prioritization.html", emoji: "🔧" },
+            { name: "Feature Request Template", file: "feature-request-template.html", emoji: "🔧" },
+            { name: "Feedback Form", file: "feedback-form.html", emoji: "🤝" },
+            { name: "Founder Health Tracker", file: "founder-health-tracker.html", emoji: "🔧" },
+            { name: "Freelance Contract Template", file: "freelance-contract-template.html", emoji: "📄" },
+            { name: "Freelance Invoice Template", file: "freelance-invoice-template.html", emoji: "📄" },
+            { name: "Freelance Negotiation Script", file: "freelance-negotiation-script.html", emoji: "💼" },
+            { name: "Freelance Portfolio Builder", file: "freelance-portfolio-builder.html", emoji: "💼" },
+            { name: "Freelance Proposal Template", file: "freelance-proposal-template.html", emoji: "💼" },
+            { name: "Freelance Rate Calculator", file: "freelance-rate-calculator.html", emoji: "📊" },
+            { name: "Freemium Conversion Calculator", file: "freemium-conversion-calculator.html", emoji: "📊" },
+            { name: "Freemium Funnel", file: "freemium-funnel.html", emoji: "💰" },
+            { name: "Growth Rate Calculator", file: "growth-rate-calculator.html", emoji: "📊" },
+            { name: "Heatmap Analysis", file: "heatmap-analysis.html", emoji: "📈" },
+            { name: "Hero Generator", file: "hero-generator.html", emoji: "🎨" },
+            { name: "Landing Page Copy Formula", file: "landing-page-copy-formula.html", emoji: "🎨" },
+            { name: "Landing Page Roi", file: "landing-page-roi.html", emoji: "📊" },
+            { name: "Launch Checklist", file: "launch-checklist.html", emoji: "🚀" },
+            { name: "Launch Page Wireframe", file: "launch-page-wireframe.html", emoji: "🎨" },
+            { name: "Ltv Calculator", file: "ltv-calculator.html", emoji: "📊" },
+            { name: "Maker Story Guide", file: "maker-story-guide.html", emoji: "🔧" },
+            { name: "Metrics Benchmarks", file: "metrics-benchmarks.html", emoji: "🔧" },
+            { name: "Metrics Benchmarks Table", file: "metrics-benchmarks-table.html", emoji: "🔧" },
+            { name: "Metrics Dashboard Template", file: "metrics-dashboard-template.html", emoji: "🔧" },
+            { name: "Mrr Growth Calculator", file: "mrr-growth-calculator.html", emoji: "📊" },
+            { name: "Newsletter Signup", file: "newsletter-signup.html", emoji: "📧" },
+            { name: "Nrr Calculator", file: "nrr-calculator.html", emoji: "📊" },
+            { name: "Og Meta Generator", file: "og-meta-generator.html", emoji: "🔧" },
+            { name: "Onboarding Checklist", file: "onboarding-checklist.html", emoji: "📧" },
+            { name: "Onboarding Email Sequence", file: "onboarding-email-sequence.html", emoji: "📧" },
+            { name: "Onboarding Emails", file: "onboarding-emails.html", emoji: "📧" },
+            { name: "Onboarding Scorecard", file: "onboarding-scorecard.html", emoji: "📧" },
+            { name: "Performance Analyzer", file: "performance-analyzer.html", emoji: "📈" },
+            { name: "Ph Launch Checklist", file: "ph-launch-checklist.html", emoji: "🚀" },
+            { name: "Pmf Survey", file: "pmf-survey.html", emoji: "🤝" },
+            { name: "Positioning Generator", file: "positioning-generator.html", emoji: "🔧" },
+            { name: "Pricing Calculator", file: "pricing-calculator.html", emoji: "📊" },
+            { name: "Pricing Page Copy", file: "pricing-page-copy.html", emoji: "🎨" },
+            { name: "Pricing Psychology Guide", file: "pricing-psychology-guide.html", emoji: "💰" },
+            { name: "Pricing Strategy Guide", file: "pricing-strategy-guide.html", emoji: "💰" },
+            { name: "Pricing Tier Generator", file: "pricing-tier-generator.html", emoji: "💰" },
+            { name: "Privacy Policy Generator", file: "privacy-policy-generator.html", emoji: "📄" },
+            { name: "Product Hunt Launch", file: "product-hunt-launch.html", emoji: "🚀" },
+            { name: "Product Hunt Strategy", file: "product-hunt-strategy.html", emoji: "🚀" },
+            { name: "Referral Calculator", file: "referral-calculator.html", emoji: "📊" },
+            { name: "Resources", file: "resources.html", emoji: "🔧" },
+            { name: "Retention Playbook", file: "retention-playbook.html", emoji: "🤝" },
+            { name: "Runway Calculator", file: "runway-calculator.html", emoji: "📊" },
+            { name: "Saas Metrics Dashboard", file: "saas-metrics-dashboard.html", emoji: "🔧" },
+            { name: "Saas Roi Calculator", file: "saas-roi-calculator.html", emoji: "📊" },
+            { name: "Seo Checklist", file: "seo-checklist.html", emoji: "📈" },
+            { name: "Seo Checklist Landing Page", file: "seo-checklist-landing-page.html", emoji: "🎨" },
+            { name: "Social Proof Generator", file: "social-proof-generator.html", emoji: "🔧" },
+            { name: "Support Sla Calculator", file: "support-sla-calculator.html", emoji: "📊" },
+            { name: "Support Templates", file: "support-templates.html", emoji: "🔧" },
+            { name: "Testimonial Request", file: "testimonial-request.html", emoji: "✍️" },
+            { name: "Timezone Planner", file: "timezone-planner.html", emoji: "🔧" },
+            { name: "Tools Hub", file: "tools-hub.html", emoji: "🔧" },
+            { name: "Unit Economics Calculator", file: "unit-economics-calculator.html", emoji: "📊" },
+            { name: "User Persona Generator", file: "user-persona-generator.html", emoji: "🔧" },
+            { name: "Viral Coefficient Calculator", file: "viral-coefficient-calculator.html", emoji: "📊" },
+            { name: "Weekly Planning Template", file: "weekly-planning-template.html", emoji: "✅" },
+            { name: "Wireframe Generator", file: "wireframe-generator.html", emoji: "🎨" }
+        ];
+
+        document.getElementById('stats').textContent = `${tools.length} tools available`;
+
+        const grid = document.getElementById('grid');
+        tools.sort((a, b) => a.name.localeCompare(b.name));
+        tools.forEach(tool => {
+            const card = document.createElement('a');
+            card.className = 'tool-card';
+            card.href = tool.file;
+            card.innerHTML = `
+                <div class="tool-icon">${tool.emoji}</div>
+                <div class="tool-name">${tool.name}</div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

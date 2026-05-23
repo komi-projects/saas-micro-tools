@@ -1,778 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stripe Dunning Email Generator | SimpleRecover</title>
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #e0e7ff;
-      --secondary: #0ea5e9;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --dark: #1e293b;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-300: #cbd5e1;
-      --gray-400: #94a3b8;
-      --gray-500: #64748b;
-      --gray-600: #475569;
-      --gray-700: #334155;
-      --gray-800: #1e293b;
-      --gray-900: #0f172a;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-800);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* Header */
-    header {
-      background: white;
-      border-bottom: 1px solid var(--gray-200);
-      padding: 20px 0;
-    }
-
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--dark);
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 700;
-    }
-
-    .badge {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-      padding: 60px 0 40px;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--gray-900);
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-    }
-
-    .hero p {
-      font-size: 1.125rem;
-      color: var(--gray-500);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Main Layout */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 32px;
-      padding-bottom: 80px;
-    }
-
-    @media (max-width: 900px) {
-      .main-grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 1.75rem; }
-    }
-
-    /* Sidebar */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-    }
-
-    .card-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--gray-700);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 16px;
-    }
-
-    .template-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .template-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      border: 2px solid transparent;
-      background: var(--gray-50);
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: left;
-      width: 100%;
-    }
-
-    .template-btn:hover {
-      background: var(--primary-light);
-      border-color: var(--primary);
-    }
-
-    .template-btn.active {
-      background: var(--primary-light);
-      border-color: var(--primary);
-    }
-
-    .template-btn .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      flex-shrink: 0;
-    }
-
-    .template-btn .info {
-      flex: 1;
-    }
-
-    .template-btn .info .name {
-      font-weight: 600;
-      font-size: 0.9375rem;
-      color: var(--gray-800);
-    }
-
-    .template-btn .info .desc {
-      font-size: 0.8125rem;
-      color: var(--gray-500);
-    }
-
-    /* Form */
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--gray-700);
-      margin-bottom: 6px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-sm);
-      font-size: 0.9375rem;
-      font-family: inherit;
-      transition: border-color 0.2s;
-      background: white;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 500px) {
-      .form-row { grid-template-columns: 1fr; }
-    }
-
-    /* Preview */
-    .preview-card {
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-    }
-
-    .preview-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--gray-200);
-      background: var(--gray-50);
-    }
-
-    .preview-header h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--gray-700);
-    }
-
-    .preview-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid transparent;
-      font-family: inherit;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--gray-700);
-      border-color: var(--gray-300);
-    }
-
-    .btn-secondary:hover {
-      background: var(--gray-50);
-      border-color: var(--gray-400);
-    }
-
-    .btn-success {
-      background: var(--success);
-      color: white;
-      border-color: var(--success);
-    }
-
-    .email-preview {
-      padding: 32px;
-      background: white;
-    }
-
-    .email-meta {
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--gray-200);
-    }
-
-    .email-meta-row {
-      display: flex;
-      margin-bottom: 8px;
-      font-size: 0.9375rem;
-    }
-
-    .email-meta-row .label {
-      width: 80px;
-      color: var(--gray-500);
-      flex-shrink: 0;
-    }
-
-    .email-meta-row .value {
-      color: var(--gray-800);
-      font-weight: 500;
-    }
-
-    .email-body {
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--gray-700);
-      white-space: pre-wrap;
-    }
-
-    .email-signature {
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray-200);
-      font-size: 0.9375rem;
-      color: var(--gray-600);
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--gray-900);
-      color: white;
-      padding: 12px 20px;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      font-weight: 500;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* Footer CTA */
-    .footer-cta {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 48px 0;
-      margin-top: 60px;
-    }
-
-    .footer-cta-content {
-      text-align: center;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .footer-cta h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .footer-cta p {
-      opacity: 0.9;
-      margin-bottom: 24px;
-    }
-
-    .email-capture {
-      display: flex;
-      gap: 8px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    .email-capture input {
-      flex: 1;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-size: 0.9375rem;
-      font-family: inherit;
-    }
-
-    .email-capture input:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
-    }
-
-    .email-capture button {
-      padding: 12px 24px;
-      background: var(--gray-900);
-      color: white;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 0.9375rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    /* SimpleRecover Footer */
-    .sr-footer {
-      background: var(--gray-900);
-      color: var(--gray-400);
-      padding: 24px 0;
-      text-align: center;
-      font-size: 0.875rem;
-    }
-
-    .sr-footer a {
-      color: var(--gray-300);
-      text-decoration: none;
-    }
-
-    .sr-footer a:hover {
-      color: white;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dunning Email Generator — Recover Failed Payments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body{font-family:'Inter',sans-serif;}</style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center text-white mb-10">
+            <h1 class="text-4xl font-bold mb-2">💳 Dunning Email Generator</h1>
+            <p class="opacity-90">Generate recovery emails for failed subscription payments.</p>
+        </div>
 
-<header>
-  <div class="container header-content">
-    <a href="#" class="logo">
-      <div class="logo-icon">S</div>
-      <span>SimpleRecover</span>
-    </a>
-    <span class="badge">Free Tool</span>
-  </div>
-</header>
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <input type="text" id="company" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Acme Inc" value="Acme Inc">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                    <input type="text" id="customer" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="John" value="John">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                    <input type="text" id="product" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Pro Plan" value="Pro Plan">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Amount Due ($)</label>
+                    <input type="number" id="amount" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="29" value="29">
+                </div>
+            </div>
 
-<section class="hero">
-  <div class="container">
-    <h1>Stripe Dunning Email Generator</h1>
-    <p>Generate professional, conversion-optimized dunning emails for failed payment recovery. Copy, customize, send.</p>
-  </div>
-</section>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email Tone</label>
+                <div class="flex gap-3">
+                    <button onclick="setTone('friendly')" id="btn-friendly" class="px-4 py-2 bg-orange-100 text-orange-700 rounded-lg font-medium">Friendly</button>
+                    <button onclick="setTone('urgent')" id="btn-urgent" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium">Urgent</button>
+                    <button onclick="setTone('final')" id="btn-final" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium">Final Notice</button>
+                </div>
+            </div>
 
-<main class="container main-grid">
-  <aside class="sidebar">
-    <div class="card">
-      <div class="card-title">Choose Template</div>
-      <div class="template-list">
-        <button class="template-btn active" data-template="friendly">
-          <div class="icon" style="background: #dbeafe;">🤝</div>
-          <div class="info">
-            <div class="name">Friendly Reminder</div>
-            <div class="desc">Soft nudge, assumes good intent</div>
-          </div>
-        </button>
-        <button class="template-btn" data-template="urgency">
-          <div class="icon" style="background: #fef3c7;">⏰</div>
-          <div class="info">
-            <div class="name">Urgency Notice</div>
-            <div class="desc">Clear deadline, consequence stated</div>
-          </div>
-        </button>
-        <button class="template-btn" data-template="final">
-          <div class="icon" style="background: #fee2e2;">⚠️</div>
-          <div class="info">
-            <div class="name">Final Attempt</div>
-            <div class="desc">Last chance before suspension</div>
-          </div>
-        </button>
-        <button class="template-btn" data-template="offer">
-          <div class="icon" style="background: #d1fae5;">🎁</div>
-          <div class="info">
-            <div class="name">Recovery Offer</div>
-            <div class="desc">Incentive to update payment</div>
-          </div>
-        </button>
-        <button class="template-btn" data-template="winback">
-          <div class="icon" style="background: #e0e7ff;">💜</div>
-          <div class="info">
-            <div class="name">Win-Back</div>
-            <div class="desc">For churned customers</div>
-          </div>
-        </button>
-      </div>
+            <button onclick="generate()" class="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Generate Email →</button>
+
+            <div id="output" class="mt-8 hidden">
+                <h3 class="font-semibold mb-3">Generated Email:</h3>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-4">
+                    <div id="emailPreview" class="prose"></div>
+                </div>
+                <button onclick="copyEmail()" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">Copy Email</button>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-6 text-center">
+            <h2 class="text-xl font-bold mb-2">Tired of writing dunning emails?</h2>
+            <p class="opacity-90 mb-4">SimpleRecover automates failed payment recovery. $19/mo flat.</p>
+            <a href="#" class="inline-block px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-gray-100 transition">Learn More →</a>
+        </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Email Details</div>
-      <div class="form-group">
-        <label>Customer Name</label>
-        <input type="text" id="customerName" placeholder="e.g. Sarah Chen" value="Sarah Chen">
-      </div>
-      <div class="form-group">
-        <label>Company Name</label>
-        <input type="text" id="companyName" placeholder="e.g. Acme Inc" value="Acme Inc">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Plan Name</label>
-          <input type="text" id="planName" placeholder="e.g. Pro" value="Pro Plan">
-        </div>
-        <div class="form-group">
-          <label>Amount</label>
-          <input type="text" id="amount" placeholder="e.g. $49" value="$49.00">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" id="senderName" placeholder="e.g. Alex from SimpleRecover" value="Alex from SimpleRecover">
-      </div>
-      <div class="form-group">
-        <label>Update Payment URL</label>
-        <input type="text" id="paymentUrl" placeholder="https://..." value="https://billing.acme.com/update">
-      </div>
-    </div>
-  </aside>
+    <script>
+        let tone = 'friendly';
 
-  <div class="preview-card">
-    <div class="preview-header">
-      <h2>📧 Preview</h2>
-      <div class="preview-actions">
-        <button class="btn btn-secondary" onclick="copySubject()">Copy Subject</button>
-        <button class="btn btn-primary" onclick="copyEmail()">Copy Email</button>
-      </div>
-    </div>
-    <div class="email-preview">
-      <div class="email-meta">
-        <div class="email-meta-row">
-          <span class="label">From:</span>
-          <span class="value" id="previewFrom">Alex from SimpleRecover &lt;billing@acme.com&gt;</span>
-        </div>
-        <div class="email-meta-row">
-          <span class="label">To:</span>
-          <span class="value" id="previewTo">Sarah Chen &lt;sarah@example.com&gt;</span>
-        </div>
-        <div class="email-meta-row">
-          <span class="label">Subject:</span>
-          <span class="value" id="previewSubject">Quick heads up about your Pro Plan</span>
-        </div>
-      </div>
-      <div class="email-body" id="emailBody">Loading...</div>
-    </div>
-  </div>
-</main>
+        function setTone(t) {
+            tone = t;
+            document.getElementById('btn-friendly').className = t === 'friendly' ? 'px-4 py-2 bg-orange-100 text-orange-700 rounded-lg font-medium' : 'px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium';
+            document.getElementById('btn-urgent').className = t === 'urgent' ? 'px-4 py-2 bg-orange-100 text-orange-700 rounded-lg font-medium' : 'px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium';
+            document.getElementById('btn-final').className = t === 'final' ? 'px-4 py-2 bg-orange-100 text-orange-700 rounded-lg font-medium' : 'px-4 py-2 bg-gray-100 text-gray-600 rounded-lg font-medium';
+        }
 
-<section class="footer-cta">
-  <div class="container">
-    <div class="footer-cta-content">
-      <h2>Stop losing revenue to failed payments</h2>
-      <p>SimpleRecover automatically recovers up to 40% of failed Stripe payments. Join 200+ SaaS teams.</p>
-      <form class="email-capture" onsubmit="event.preventDefault(); captureEmail(this);">
-        <input type="email" placeholder="Enter your email" required>
-        <button type="submit">Get Early Access</button>
-      </form>
-    </div>
-  </div>
-</section>
+        function generate() {
+            const company = document.getElementById('company').value;
+            const customer = document.getElementById('customer').value;
+            const product = document.getElementById('product').value;
+            const amount = document.getElementById('amount').value;
 
-<footer class="sr-footer">
-  <div class="container">
-    <p>Made by <a href="#">SimpleRecover</a> — Automated payment recovery for Stripe</p>
-  </div>
-</footer>
+            let subject, body;
 
-<div class="toast" id="toast">Copied to clipboard!</div>
+            if (tone === 'friendly') {
+                subject = `Oops — your ${product} payment didn't go through`;
+                body = `Hi ${customer},
 
-<script>
-  const templates = {
-    friendly: {
-      subject: (d) => `Quick heads up about your ${d.planName}`,
-      body: (d) => `Hi ${d.customerName},
+We noticed your recent payment for ${product} didn't go through. This usually happens when:
+• A credit card expires
+• A bank issues a new card
+• Billing address changes
 
-Hope you're doing well! I wanted to reach out personally because we noticed your ${d.planName} payment of ${d.amount} didn't go through yesterday.
+Your account is still active, but we wanted to give you a heads up so there's no interruption.
 
-This usually happens when:
-• A credit card expired
-• The bank flagged the transaction
-• There are insufficient funds (temporarily)
+Amount due: $${amount}
+Update payment method: [PAYMENT_LINK]
 
-No worries — it happens. You can update your payment method here and everything will continue seamlessly:
+If you need help, just reply to this email.
 
-${d.paymentUrl}
+Thanks for being a ${company} customer!
 
-Your account is still fully active. If you run into any issues, just reply to this email and I'll sort it out.
+— The ${company} Team`;
+            } else if (tone === 'urgent') {
+                subject = `Action required: Update your payment method`;
+                body = `Hi ${customer},
 
-Thanks for being a customer!
+Your ${product} subscription payment of $${amount} failed. We've tried processing it multiple times.
 
-${d.senderName}`
-    },
-    urgency: {
-      subject: (d) => `Action needed: Update your ${d.planName} payment`,
-      body: (d) => `Hi ${d.customerName},
+To avoid service interruption, please update your payment method within 48 hours:
 
-We tried to process your ${d.planName} payment of ${d.amount} but it was unsuccessful.
+[PAYMENT_LINK]
 
-To avoid any interruption to your ${d.companyName} account, please update your payment method within 48 hours:
+If you've already updated it, you can ignore this email.
 
-${d.paymentUrl}
+Questions? Reply to this email.
 
-If payment isn't updated by then, your account may be temporarily paused and you could lose access to your data and settings.
+— ${company} Billing`;
+            } else {
+                subject = `Final notice: Payment required to keep ${product} active`;
+                body = `Hi ${customer},
 
-Updating takes less than 2 minutes. If your card expired, most banks send a new one automatically — just enter the fresh details.
+This is our final notice regarding your ${product} subscription.
 
-Need help? Reply to this email and I'll assist right away.
+Amount due: $${amount}
+Payment attempts: 3
 
-${d.senderName}`
-    },
-    final: {
-      subject: (d) => `Final notice: ${d.planName} payment failed`,
-      body: (d) => `Hi ${d.customerName},
+Your account will be downgraded in 24 hours if payment is not received.
 
-This is our final notice regarding your ${d.planName} payment of ${d.amount}.
+Update payment now: [PAYMENT_LINK]
 
-We've attempted to charge your payment method multiple times without success. To prevent your ${d.companyName} account from being suspended, please update your billing information within 24 hours:
+We'd hate to see you go. If there's anything we can do to help, let us know.
 
-${d.paymentUrl}
+— ${company} Team`;
+            }
 
-What happens if payment isn't updated?
-• Account access will be paused
-• Scheduled reports and automations will stop
-• Data will be retained for 30 days, then archived
+            document.getElementById('emailPreview').innerHTML = `
+                <div class="mb-2"><strong>Subject:</strong> ${subject}</div>
+                <hr class="my-3">
+                <div class="whitespace-pre-wrap">${body}</div>
+            `;
+            document.getElementById('output').classList.remove('hidden');
+        }
 
-We don't want that to happen. If there's a problem we can help with — billing, a dispute, anything — reply to this email and we'll work it out.
-
-${d.senderName}`
-    },
-    offer: {
-      subject: (d) => `We'd like to offer you a month free`,
-      body: (d) => `Hi ${d.customerName},
-
-We noticed your ${d.planName} payment of ${d.amount} didn't go through, and we really don't want to see ${d.companyName} lose access.
-
-So here's what we'll do: update your payment method within the next 3 days, and we'll credit your account with one free month. No strings attached.
-
-${d.paymentUrl}
-
-That's a ${d.amount} credit as a thank-you for sticking with us.
-
-Why are we doing this? Because failed payments are usually just a card expiring or a temporary bank hiccup. The teams that update quickly tend to stay for years — and we want you in that group.
-
-Click above to update. Takes under a minute.
-
-${d.senderName}
-
-P.S. If you're considering canceling instead, reply and let me know why. We build for teams like yours, and your feedback genuinely shapes what we do next.`
-    },
-    winback: {
-      subject: (d) => `We miss you at ${d.companyName}`,
-      body: (d) => `Hi ${d.customerName},
-
-Your ${d.planName} was paused last week after we couldn't process payment. We know things get busy and cards expire — no blame, no pressure.
-
-We just wanted to say: we'd love to have ${d.companyName} back.
-
-If you reactivate in the next 7 days, we'll preserve all your data, settings, and reports exactly as you left them. Plus, here's a direct link to reactivate without any hassle:
-
-${d.paymentUrl}
-
-If you left because we were missing a feature, hitting a bug, or something else entirely — reply and tell me. I'm the founder, and I read every email.
-
-Either way, thanks for the time you spent with us. It meant a lot.
-
-${d.senderName}`
-    }
-  };
-
-  let currentTemplate = 'friendly';
-
-  function getData() {
-    return {
-      customerName: document.getElementById('customerName').value || 'Customer',
-      companyName: document.getElementById('companyName').value || 'Your Company',
-      planName: document.getElementById('planName').value || 'Plan',
-      amount: document.getElementById('amount').value || '$0.00',
-      senderName: document.getElementById('senderName').value || 'Support Team',
-      paymentUrl: document.getElementById('paymentUrl').value || 'https://example.com/update'
-    };
-  }
-
-  function render() {
-    const d = getData();
-    const t = templates[currentTemplate];
-    document.getElementById('previewSubject').textContent = t.subject(d);
-    document.getElementById('emailBody').textContent = t.body(d);
-    document.getElementById('previewFrom').textContent = `${d.senderName} <billing@${d.companyName.toLowerCase().replace(/\s+/g, '')}.com>`;
-    document.getElementById('previewTo').textContent = `${d.customerName} <customer@example.com>`;
-  }
-
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
-  }
-
-  function copyEmail() {
-    const d = getData();
-    const t = templates[currentTemplate];
-    const full = `Subject: ${t.subject(d)}\n\n${t.body(d)}`;
-    navigator.clipboard.writeText(full).then(() => showToast('Full email copied!'));
-  }
-
-  function copySubject() {
-    const d = getData();
-    const t = templates[currentTemplate];
-    navigator.clipboard.writeText(t.subject(d)).then(() => showToast('Subject copied!'));
-  }
-
-  function captureEmail(form) {
-    const email = form.querySelector('input').value;
-    showToast('Thanks! We\'ll be in touch soon.');
-    form.reset();
-  }
-
-  // Event listeners
-  document.querySelectorAll('.template-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentTemplate = btn.dataset.template;
-      render();
-    });
-  });
-
-  document.querySelectorAll('input, textarea').forEach(input => {
-    input.addEventListener('input', render);
-  });
-
-  // Initial render
-  render();
-</script>
-
+        function copyEmail() {
+            const text = document.getElementById('emailPreview').innerText;
+            navigator.clipboard.writeText(text);
+            alert('Email copied!');
+        }
+    </script>
 </body>
 </html>
