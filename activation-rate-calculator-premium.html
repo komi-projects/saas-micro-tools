@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Activation Rate Calculator — Premium Onboarding Analytics</title>
+    <title>SaaS Activation Rate Calculator — Premium Activation Analytics</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -175,23 +175,23 @@
 <body>
     <div class="container">
         <h1>SaaS Activation Rate Calculator</h1>
-        <p class="subtitle">Premium onboarding and activation analytics</p>
+        <p class="subtitle">Premium activation and onboarding analytics</p>
 
         <div class="input-grid">
             <div class="input-group">
-                <label>Total Signups <span class="tooltip" title="Total users who signed up">?</span></label>
-                <input type="number" id="signups" placeholder="1000" value="1000">
+                <label>Trial Signups <span class="tooltip" title="Total trial signups">?</span></label>
+                <input type="number" id="trials" placeholder="1000" value="1000">
             </div>
             <div class="input-group">
                 <label>Activated Users</label>
                 <input type="number" id="activated" placeholder="300" value="300">
             </div>
             <div class="input-group">
-                <label>Activation Event</label>
-                <input type="text" id="event" placeholder="First project created" value="First project created">
+                <label>Key Action Completed</label>
+                <input type="number" id="keyAction" placeholder="200" value="200">
             </div>
             <div class="input-group">
-                <label>Avg Time to Activation (days)</label>
+                <label>Avg Time to Activate (days)</label>
                 <input type="number" id="timeToActivate" placeholder="3" value="3">
             </div>
         </div>
@@ -202,22 +202,22 @@
             <div class="result-card">
                 <div class="result-header">
                     <div class="result-title">Activation Rate</div>
-                    <div class="result-value" id="activationRate">0%</div>
+                    <div class="result-value" id="activation">0%</div>
                 </div>
-                <div class="result-detail" id="activationDetail">Percentage of signups who reached activation milestone</div>
+                <div class="result-detail" id="activationDetail">Percentage of trial users who activate</div>
                 
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value" id="notActivated">0</div>
-                        <div class="metric-label">Not Activated</div>
+                        <div class="metric-value" id="keyActionRate">0%</div>
+                        <div class="metric-label">Key Action Rate</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="potential">0%</div>
-                        <div class="metric-label">Improvement Potential</div>
+                        <div class="metric-value" id="timeToActivateValue">0d</div>
+                        <div class="metric-label">Avg Time</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="timeStatus">Unknown</div>
-                        <div class="metric-label">Time Status</div>
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
                     </div>
                 </div>
 
@@ -234,15 +234,15 @@
                 <div class="metrics-grid">
                     <div class="metric-box">
                         <div class="metric-value">20%</div>
-                        <div class="metric-label">Basic</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">40%</div>
                         <div class="metric-label">Good</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="yourRank">Unknown</div>
-                        <div class="metric-label">Your Rank</div>
+                        <div class="metric-value">30%</div>
+                        <div class="metric-label">Strong</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">40%+</div>
+                        <div class="metric-label">Excellent</div>
                     </div>
                 </div>
             </div>
@@ -251,37 +251,34 @@
 
     <script>
         function calculate() {
-            const signups = parseFloat(document.getElementById('signups').value) || 1;
+            const trials = parseFloat(document.getElementById('trials').value) || 1;
             const activated = parseFloat(document.getElementById('activated').value) || 0;
+            const keyAction = parseFloat(document.getElementById('keyAction').value) || 0;
             const timeToActivate = parseFloat(document.getElementById('timeToActivate').value) || 0;
 
-            const activationRate = (activated / signups) * 100;
-            const notActivated = signups - activated;
-            const potential = Math.max(0, 40 - activationRate); // Up to 40% is good
+            const activation = (activated / trials) * 100;
+            const keyActionRate = (keyAction / trials) * 100;
 
-            let timeStatus = 'Unknown';
-            if (timeToActivate <= 1) timeStatus = 'Fast';
-            else if (timeToActivate <= 3) timeStatus = 'Average';
-            else timeStatus = 'Slow';
+            let yourStatus = 'Unknown';
+            if (activation >= 40 && timeToActivate <= 2) yourStatus = 'Excellent';
+            else if (activation >= 30 && timeToActivate <= 3) yourStatus = 'Strong';
+            else if (activation >= 20) yourStatus = 'Good';
+            else yourStatus = 'At Risk';
 
-            let yourRank = 'Unknown';
-            if (activationRate >= 40) yourRank = 'Top Tier';
-            else if (activationRate >= 20) yourRank = 'Average';
-            else yourRank = 'Below Avg';
-
-            document.getElementById('activationRate').textContent = activationRate.toFixed(1) + '%';
-            document.getElementById('notActivated').textContent = notActivated.toLocaleString('en-US');
-            document.getElementById('potential').textContent = potential.toFixed(1) + '%';
-            document.getElementById('timeStatus').textContent = timeStatus;
-            document.getElementById('yourRank').textContent = yourRank;
+            document.getElementById('activation').textContent = activation.toFixed(1) + '%';
+            document.getElementById('keyActionRate').textContent = keyActionRate.toFixed(1) + '%';
+            document.getElementById('timeToActivateValue').textContent = timeToActivate.toFixed(0) + 'd';
+            document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (activationRate >= 40) {
-                recommendation = '🎉 Excellent activation rate! You\'re getting users to value quickly. To maintain: 1) A/B test onboarding flows, 2. Add progress bars for setup, 3. Celebrate activation milestones with users.';
-            } else if (activationRate >= 20) {
-                recommendation = '✅ Average activation. To improve: 1) Simplify onboarding — remove friction, 2. Add interactive tutorials, 3. Use email drip campaigns to guide users to activation.';
+            if (activation >= 40 && timeToActivate <= 2) {
+                recommendation = '🏆 Excellent activation! Users activate quickly and in high numbers. To maintain: 1) A/B test onboarding for marginal gains, 2. Add personalization to increase relevance, 3. Use activation data to identify expansion-ready users.';
+            } else if (activation >= 30 && timeToActivate <= 3) {
+                recommendation = '✅ Strong activation. To reach excellent: 1. Reduce time to activate by removing friction, 2. Add progress indicators to motivate completion, 3. Use triggered emails to re-engage non-activators.';
+            } else if (activation >= 20) {
+                recommendation = '✓ Good activation. To improve: 1. Identify where users drop off in onboarding, 2. Simplify signup flow — reduce required fields, 3. Add "quick start" templates, 4. Consider interactive tutorials or walkthroughs.';
             } else {
-                recommendation = '🚨 Poor activation! Most users never reach value. Urgent: 1. Audit signup flow — where do users drop off?, 2. Reduce time to first value, 3. Add in-app guidance for core features, 4. Consider removing required setup steps.';
+                recommendation = '🚨 Low activation — most trial users never activate. Urgent: 1. Map the activation funnel — where is the biggest drop-off?, 2. Reduce required setup steps, 3. Add "instant gratification" features, 4. Survey non-activators — what blocked them?, 5. Consider if your "activation" definition is too strict.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
