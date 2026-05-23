@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Pricing Calculator — Find Your Optimal Price</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #f8fafc;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .result {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 24px;
+            display: none;
+        }
+        .result.active {
+            display: block;
+        }
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .result-detail {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 24px; }
+            .result-value { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Pricing Calculator</h1>
+        <p class="subtitle">Find your optimal price point based on costs and market</p>
+
+        <div class="input-group">
+            <label>Monthly Cost Per Customer ($)</label>
+            <input type="number" id="cost" placeholder="10" value="10">
+        </div>
+
+        <div class="input-group">
+            <label>Target Gross Margin (%)</label>
+            <input type="number" id="margin" placeholder="80" value="80">
+        </div>
+
+        <div class="input-group">
+            <label>Competitor Average Price ($/mo)</label>
+            <input type="number" id="competitor" placeholder="29" value="29">
+        </div>
+
+        <div class="input-group">
+            <label>Expected Customers (month 1)</label>
+            <input type="number" id="customers" placeholder="50" value="50">
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Optimal Price</button>
+
+        <div class="result" id="result">
+            <div class="result-label">Recommended Monthly Price</div>
+            <div class="result-value" id="price">$0</div>
+            <div class="result-detail" id="detail">Gross margin: 0%</div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const margin = parseFloat(document.getElementById('margin').value) || 0;
+            const competitor = parseFloat(document.getElementById('competitor').value) || 0;
+            const customers = parseFloat(document.getElementById('customers').value) || 1;
+
+            const minPrice = cost / (1 - margin / 100);
+            const competitorBased = competitor * 0.9; // slightly undercut
+            const recommended = Math.max(minPrice, competitorBased);
+
+            document.getElementById('price').textContent = '$' + Math.round(recommended);
+            document.getElementById('detail').textContent = 
+                'Gross margin: ' + Math.round(((recommended - cost) / recommended) * 100) + '%' +
+                ' • Monthly revenue: $' + Math.round(recommended * customers);
+            document.getElementById('result').classList.add('active');
+        }
+    </script>
+</body>
+</html>
