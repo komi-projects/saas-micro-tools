@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Feature Adoption Calculator — Premium Product Analytics</title>
+    <title>SaaS Feature Adoption Calculator — Premium Feature Analytics</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -175,7 +175,7 @@
 <body>
     <div class="container">
         <h1>SaaS Feature Adoption Calculator</h1>
-        <p class="subtitle">Premium feature usage and engagement analytics</p>
+        <p class="subtitle">Premium feature usage and adoption analytics</p>
 
         <div class="input-grid">
             <div class="input-group">
@@ -183,37 +183,37 @@
                 <input type="number" id="users" placeholder="1000" value="1000">
             </div>
             <div class="input-group">
-                <label>Feature Users</label>
-                <input type="number" id="featureUsers" placeholder="300" value="300">
+                <label>Feature A Users</label>
+                <input type="number" id="featureA" placeholder="400" value="400">
             </div>
             <div class="input-group">
-                <label>Core Feature Users</label>
-                <input type="number" id="coreUsers" placeholder="200" value="200">
+                <label>Feature B Users</label>
+                <input type="number" id="featureB" placeholder="300" value="300">
             </div>
             <div class="input-group">
                 <label>Power Users (3+ features)</label>
-                <input type="number" id="powerUsers" placeholder="50" value="50">
+                <input type="number" id="power" placeholder="150" value="150">
             </div>
         </div>
 
-        <button class="cta" onclick="calculate()">Calculate Adoption Analytics</button>
+        <button class="cta" onclick="calculate()">Calculate Feature Adoption</button>
 
         <div class="results" id="results">
             <div class="result-card">
                 <div class="result-header">
                     <div class="result-title">Feature Adoption Rate</div>
-                    <div class="result-value" id="adoptionRate">0%</div>
+                    <div class="result-value" id="adoption">0%</div>
                 </div>
-                <div class="result-detail" id="adoptionDetail">Percentage of users who adopted the feature</div>
+                <div class="result-detail" id="adoptionDetail">Percentage of users adopting key features</div>
                 
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value" id="coreAdoption">0%</div>
-                        <div class="metric-label">Core Adoption</div>
+                        <div class="metric-value" id="featureAPct">0%</div>
+                        <div class="metric-label">Feature A</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="powerAdoption">0%</div>
-                        <div class="metric-label">Power Users</div>
+                        <div class="metric-value" id="featureBPct">0%</div>
+                        <div class="metric-label">Feature B</div>
                     </div>
                     <div class="metric-box">
                         <div class="metric-value" id="yourStatus">Unknown</div>
@@ -222,8 +222,8 @@
                 </div>
 
                 <div class="recommendation">
-                    <div class="recommendation-title">💡 Adoption Insights</div>
-                    <div id="recommendationText">Calculate to see personalized adoption recommendations.</div>
+                    <div class="recommendation-title">💡 Feature Adoption Insights</div>
+                    <div id="recommendationText">Calculate to see personalized feature adoption recommendations.</div>
                 </div>
             </div>
 
@@ -234,14 +234,14 @@
                 <div class="metrics-grid">
                     <div class="metric-box">
                         <div class="metric-value">30%</div>
-                        <div class="metric-label">Basic</div>
+                        <div class="metric-label">Good Adoption</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value">60%</div>
-                        <div class="metric-label">Good</div>
+                        <div class="metric-value">50%</div>
+                        <div class="metric-label">Strong Adoption</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value">80%</div>
+                        <div class="metric-value">70%+</div>
                         <div class="metric-label">Excellent</div>
                     </div>
                 </div>
@@ -252,31 +252,35 @@
     <script>
         function calculate() {
             const users = parseFloat(document.getElementById('users').value) || 1;
-            const featureUsers = parseFloat(document.getElementById('featureUsers').value) || 0;
-            const coreUsers = parseFloat(document.getElementById('coreUsers').value) || 0;
-            const powerUsers = parseFloat(document.getElementById('powerUsers').value) || 0;
+            const featureA = parseFloat(document.getElementById('featureA').value) || 0;
+            const featureB = parseFloat(document.getElementById('featureB').value) || 0;
+            const power = parseFloat(document.getElementById('power').value) || 0;
 
-            const adoptionRate = (featureUsers / users) * 100;
-            const coreAdoption = (coreUsers / users) * 100;
-            const powerAdoption = (powerUsers / users) * 100;
+            const adoption = ((featureA + featureB) / (users * 2)) * 100;
+            const featureAPct = (featureA / users) * 100;
+            const featureBPct = (featureB / users) * 100;
+            const powerPct = (power / users) * 100;
 
             let yourStatus = 'Unknown';
-            if (adoptionRate >= 60) yourStatus = 'Strong';
-            else if (adoptionRate >= 30) yourStatus = 'Average';
-            else yourStatus = 'Weak';
+            if (adoption >= 70) yourStatus = 'Excellent';
+            else if (adoption >= 50) yourStatus = 'Strong';
+            else if (adoption >= 30) yourStatus = 'Good';
+            else yourStatus = 'At Risk';
 
-            document.getElementById('adoptionRate').textContent = adoptionRate.toFixed(1) + '%';
-            document.getElementById('coreAdoption').textContent = coreAdoption.toFixed(1) + '%';
-            document.getElementById('powerAdoption').textContent = powerAdoption.toFixed(1) + '%';
+            document.getElementById('adoption').textContent = adoption.toFixed(1) + '%';
+            document.getElementById('featureAPct').textContent = featureAPct.toFixed(1) + '%';
+            document.getElementById('featureBPct').textContent = featureBPct.toFixed(1) + '%';
             document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (adoptionRate >= 60) {
-                recommendation = '🎉 Strong feature adoption! Users are engaging deeply. To maintain: 1) Add advanced features for power users, 2. Create feature-specific tutorials, 3. Use adoption data to inform roadmap.';
-            } else if (adoptionRate >= 30) {
-                recommendation = '✅ Average adoption. To improve: 1. Highlight features in onboarding, 2. Add in-app feature discovery, 3. Use email campaigns to promote underused features.';
+            if (adoption >= 70) {
+                recommendation = '🏆 Excellent feature adoption! Users are deeply engaged with your product. To maintain: 1) Monitor for feature fatigue — are you adding too much?, 2. Use power users as beta testers for new features, 3. Consider premium features for monetization.';
+            } else if (adoption >= 50) {
+                recommendation = '✅ Strong adoption. To reach excellent: 1. Identify why some users don't adopt — is it discoverability?, 2. Add in-app feature announcements, 3. Consider gamification to encourage exploration.';
+            } else if (adoption >= 30) {
+                recommendation = '✓ Good adoption. To improve: 1. Add tooltips and guided tours for underused features, 2. Improve feature discoverability in UI, 3. Use email campaigns to highlight unused features, 4. Consider removing or merging rarely-used features.';
             } else {
-                recommendation = '🚨 Weak adoption! Users aren\'t discovering value. Urgent: 1. Simplify feature access — are features hidden?, 2. Add contextual tooltips, 3. Consider removing unused features, 4. Re-evaluate if feature solves real problem.';
+                recommendation = '🚨 Low adoption — users aren\'t exploring your product. Urgent: 1. Audit feature discoverability — are features buried in menus?, 2. Add "what\'s new" highlights, 3. Simplify UI to surface key features, 4. Consider if features solve real problems — survey users.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
