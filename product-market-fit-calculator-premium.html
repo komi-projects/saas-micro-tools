@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product-Market Fit Calculator — Premium PMF Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Product-Market Fit Calculator</h1>
+        <p class="subtitle">Premium PMF score and growth readiness analytics</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Would Miss If Gone (% yes) <span class="tooltip" title="Sean Ellis test: % who'd be very disappointed">?</span></label>
+                <input type="number" id="missIfGone" placeholder="40" value="40">
+            </div>
+            <div class="input-group">
+                <label>NPS Score</label>
+                <input type="number" id="nps" placeholder="30" value="30">
+            </div>
+            <div class="input-group">
+                <label>30-Day Retention (%)</label>
+                <input type="number" id="retention" placeholder="60" value="60">
+            </div>
+            <div class="input-group">
+                <label>Word of Mouth Referrals (%)</label>
+                <input type="number" id="referrals" placeholder="20" value="20">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate PMF Score</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">PMF Score</div>
+                    <div class="result-value" id="pmfScore">0</div>
+                </div>
+                <div class="result-detail" id="pmfDetail">Composite product-market fit indicator</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="seanEllis">0%</div>
+                        <div class="metric-label">Sean Ellis Test</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="npsStatus">0</div>
+                        <div class="metric-label">NPS Status</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="growthReadiness">Unknown</div>
+                        <div class="metric-label">Growth Ready</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 PMF Insights</div>
+                    <div id="recommendationText">Calculate to see personalized PMF recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Benchmarks</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">40%</div>
+                        <div class="metric-label">PMF Threshold</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">60+</div>
+                        <div class="metric-label">Strong PMF</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Your Status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const missIfGone = parseFloat(document.getElementById('missIfGone').value) || 0;
+            const nps = parseFloat(document.getElementById('nps').value) || 0;
+            const retention = parseFloat(document.getElementById('retention').value) || 0;
+            const referrals = parseFloat(document.getElementById('referrals').value) || 0;
+
+            // PMF score (0-100) based on Sean Ellis test weighted heavily
+            const pmfScore = Math.min(100, (missIfGone * 0.5) + (nps / 2) + (retention * 0.2) + (referrals * 0.3));
+            
+            let npsStatus = 'Neutral';
+            if (nps >= 50) npsStatus = 'Excellent';
+            else if (nps >= 30) npsStatus = 'Good';
+            else if (nps > 0) npsStatus = 'Average';
+            else npsStatus = 'Poor';
+
+            let growthReadiness = 'No';
+            if (pmfScore >= 60) growthReadiness = 'Yes';
+            else if (pmfScore >= 40) growthReadiness = 'Soon';
+
+            let yourStatus = 'Unknown';
+            if (pmfScore >= 60) yourStatus = 'Strong PMF';
+            else if (pmfScore >= 40) yourStatus = 'Approaching PMF';
+            else yourStatus = 'No PMF';
+
+            document.getElementById('pmfScore').textContent = Math.round(pmfScore);
+            document.getElementById('seanEllis').textContent = missIfGone.toFixed(0) + '%';
+            document.getElementById('npsStatus').textContent = npsStatus;
+            document.getElementById('growthReadiness').textContent = growthReadiness;
+            document.getElementById('yourStatus').textContent = yourStatus;
+
+            let recommendation = '';
+            if (pmfScore >= 60) {
+                recommendation = '🎉 Strong product-market fit! You\'re ready to scale. To capitalize: 1) Invest in growth channels, 2. Hire sales/customer success, 3. Consider raising capital to accelerate.';
+            } else if (pmfScore >= 40) {
+                recommendation = '✅ Approaching PMF. You have product-market fit signals. To strengthen: 1. Double down on your best customer segment, 2. Improve retention before scaling, 3. Refine messaging for your ideal customer.';
+            } else {
+                recommendation = '🚨 No product-market fit yet. Don\'t scale — iterate first. Focus on: 1. Talk to 10 customers this week, 2. Identify the "aha moment" and optimize onboarding, 3. Consider pivoting target segment, 4. Improve core value proposition.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
