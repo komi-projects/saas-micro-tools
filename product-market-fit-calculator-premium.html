@@ -179,20 +179,20 @@
 
         <div class="input-grid">
             <div class="input-group">
-                <label>Would Miss If Gone (% yes) <span class="tooltip" title="Sean Ellis test: % who'd be very disappointed">?</span></label>
-                <input type="number" id="missIfGone" placeholder="40" value="40">
+                <label>Survey Responses <span class="tooltip" title="Total PMF survey responses">?</span></label>
+                <input type="number" id="responses" placeholder="100" value="100">
             </div>
             <div class="input-group">
-                <label>NPS Score</label>
-                <input type="number" id="nps" placeholder="30" value="30">
+                <label>"Very disappointed" (%)</label>
+                <input type="number" id="disappointed" placeholder="40" value="40">
             </div>
             <div class="input-group">
-                <label>30-Day Retention (%)</label>
-                <input type="number" id="retention" placeholder="60" value="60">
+                <label>Monthly Growth Rate (%)</label>
+                <input type="number" id="growth" placeholder="15" value="15">
             </div>
             <div class="input-group">
-                <label>Word of Mouth Referrals (%)</label>
-                <input type="number" id="referrals" placeholder="20" value="20">
+                <label>Referral Rate (%)</label>
+                <input type="number" id="referral" placeholder="25" value="25">
             </div>
         </div>
 
@@ -202,22 +202,22 @@
             <div class="result-card">
                 <div class="result-header">
                     <div class="result-title">PMF Score</div>
-                    <div class="result-value" id="pmfScore">0</div>
+                    <div class="result-value" id="pmf">0</div>
                 </div>
-                <div class="result-detail" id="pmfDetail">Composite product-market fit indicator</div>
+                <div class="result-detail" id="pmfDetail">Product-market fit score (0-100)</div>
                 
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value" id="seanEllis">0%</div>
-                        <div class="metric-label">Sean Ellis Test</div>
+                        <div class="metric-value" id="disappointedPct">0%</div>
+                        <div class="metric-label">Disappointed %</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="npsStatus">0</div>
-                        <div class="metric-label">NPS Status</div>
+                        <div class="metric-value" id="referralPct">0%</div>
+                        <div class="metric-label">Referral %</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="growthReadiness">Unknown</div>
-                        <div class="metric-label">Growth Ready</div>
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
                     </div>
                 </div>
 
@@ -233,16 +233,16 @@
                 </div>
                 <div class="metrics-grid">
                     <div class="metric-box">
-                        <div class="metric-value">40%</div>
-                        <div class="metric-label">PMF Threshold</div>
+                        <div class="metric-value">40%+</div>
+                        <div class="metric-label">Sean Ellis Test</div>
                     </div>
                     <div class="metric-box">
                         <div class="metric-value">60+</div>
-                        <div class="metric-label">Strong PMF</div>
+                        <div class="metric-label">Good PMF</div>
                     </div>
                     <div class="metric-box">
-                        <div class="metric-value" id="yourStatus">Unknown</div>
-                        <div class="metric-label">Your Status</div>
+                        <div class="metric-value">80+</div>
+                        <div class="metric-label">Strong PMF</div>
                     </div>
                 </div>
             </div>
@@ -251,42 +251,37 @@
 
     <script>
         function calculate() {
-            const missIfGone = parseFloat(document.getElementById('missIfGone').value) || 0;
-            const nps = parseFloat(document.getElementById('nps').value) || 0;
-            const retention = parseFloat(document.getElementById('retention').value) || 0;
-            const referrals = parseFloat(document.getElementById('referrals').value) || 0;
+            const responses = parseFloat(document.getElementById('responses').value) || 1;
+            const disappointed = parseFloat(document.getElementById('disappointed').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+            const referral = parseFloat(document.getElementById('referral').value) || 0;
 
-            // PMF score (0-100) based on Sean Ellis test weighted heavily
-            const pmfScore = Math.min(100, (missIfGone * 0.5) + (nps / 2) + (retention * 0.2) + (referrals * 0.3));
-            
-            let npsStatus = 'Neutral';
-            if (nps >= 50) npsStatus = 'Excellent';
-            else if (nps >= 30) npsStatus = 'Good';
-            else if (nps > 0) npsStatus = 'Average';
-            else npsStatus = 'Poor';
-
-            let growthReadiness = 'No';
-            if (pmfScore >= 60) growthReadiness = 'Yes';
-            else if (pmfScore >= 40) growthReadiness = 'Soon';
+            // PMF Score based on Sean Ellis test (40% very disappointed = product-market fit)
+            // + growth rate + referral rate
+            const pmf = Math.min(100, disappointed + (growth * 2) + (referral * 0.5));
+            const disappointedPct = disappointed;
+            const referralPct = referral;
 
             let yourStatus = 'Unknown';
-            if (pmfScore >= 60) yourStatus = 'Strong PMF';
-            else if (pmfScore >= 40) yourStatus = 'Approaching PMF';
+            if (pmf >= 80) yourStatus = 'Strong PMF';
+            else if (pmf >= 60) yourStatus = 'Good PMF';
+            else if (pmf >= 40) yourStatus = 'Getting There';
             else yourStatus = 'No PMF';
 
-            document.getElementById('pmfScore').textContent = Math.round(pmfScore);
-            document.getElementById('seanEllis').textContent = missIfGone.toFixed(0) + '%';
-            document.getElementById('npsStatus').textContent = npsStatus;
-            document.getElementById('growthReadiness').textContent = growthReadiness;
+            document.getElementById('pmf').textContent = Math.round(pmf);
+            document.getElementById('disappointedPct').textContent = disappointedPct.toFixed(0) + '%';
+            document.getElementById('referralPct').textContent = referralPct.toFixed(0) + '%';
             document.getElementById('yourStatus').textContent = yourStatus;
 
             let recommendation = '';
-            if (pmfScore >= 60) {
-                recommendation = '🎉 Strong product-market fit! You\'re ready to scale. To capitalize: 1) Invest in growth channels, 2. Hire sales/customer success, 3. Consider raising capital to accelerate.';
-            } else if (pmfScore >= 40) {
-                recommendation = '✅ Approaching PMF. You have product-market fit signals. To strengthen: 1. Double down on your best customer segment, 2. Improve retention before scaling, 3. Refine messaging for your ideal customer.';
+            if (pmf >= 80) {
+                recommendation = '🏆 Strong product-market fit! You have a product people truly need. To scale: 1) Focus on distribution — the product is ready, 2. Invest in growth channels, 3. Consider raising capital to accelerate, 4. Build the team to support growth.';
+            } else if (pmf >= 60) {
+                recommendation = '✅ Good product-market fit. To strengthen: 1. Survey the "somewhat disappointed" users — what would make them "very disappointed"?, 2. Double down on the features that drive loyalty, 3. Improve onboarding to increase activation.';
+            } else if (pmf >= 40) {
+                recommendation = '✓ Getting closer to PMF. To improve: 1. Interview your most engaged users — what do they love?, 2. Consider narrowing your target audience, 3. Improve the core experience before adding features, 4. Focus on retention before growth.';
             } else {
-                recommendation = '🚨 No product-market fit yet. Don\'t scale — iterate first. Focus on: 1. Talk to 10 customers this week, 2. Identify the "aha moment" and optimize onboarding, 3. Consider pivoting target segment, 4. Improve core value proposition.';
+                recommendation = '🚨 No product-market fit yet. Critical: 1. Talk to 10-20 users deeply — understand their real problems, 2. Consider pivoting if feedback is consistently off, 3. Focus on a narrower use case, 4. Improve the "must-have" experience, 5. Don\'t scale marketing until PMF is achieved.';
             }
             document.getElementById('recommendationText').textContent = recommendation;
             document.getElementById('results').classList.add('active');
