@@ -3,67 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAC Calculator — Customer Acquisition Cost</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>body{font-family:'Inter',sans-serif;}</style>
+    <title>Customer Acquisition Cost Calculator — SaaS CAC Tool</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #f8fafc;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .result {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 24px;
+            display: none;
+        }
+        .result.active {
+            display: block;
+        }
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .result-detail {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 24px; }
+            .result-value { font-size: 2rem; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-500 min-h-screen py-10 px-4">
-    <div class="max-w-4xl mx-auto">
-        <div class="text-center text-white mb-10">
-            <h1 class="text-4xl font-bold mb-2">🎯 CAC Calculator</h1>
-            <p class="opacity-90">Calculate your Customer Acquisition Cost and see if it's healthy.</p>
+<body>
+    <div class="container">
+        <h1>Customer Acquisition Cost Calculator</h1>
+        <p class="subtitle">Calculate your CAC and see if it's sustainable</p>
+
+        <div class="input-group">
+            <label>Total Marketing Spend (monthly)</label>
+            <input type="number" id="marketing" placeholder="5000" value="5000">
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Marketing Spend ($)</label>
-                    <input type="number" id="marketing" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="5000" value="5000">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Monthly Sales Spend ($)</label>
-                    <input type="number" id="sales" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="3000" value="3000">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">New Customers This Month</label>
-                    <input type="number" id="customers" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="50" value="50">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">ARPU ($/month)</label>
-                    <input type="number" id="arpu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500" placeholder="50" value="50">
-                </div>
-            </div>
+        <div class="input-group">
+            <label>Total Sales Spend (monthly)</label>
+            <input type="number" id="sales" placeholder="3000" value="3000">
+        </div>
 
-            <button onclick="calculate()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 transition">Calculate CAC →</button>
+        <div class="input-group">
+            <label>New Customers Acquired (monthly)</label>
+            <input type="number" id="customers" placeholder="50" value="50">
+        </div>
 
-            <div id="output" class="mt-8 hidden">
-                <div class="grid md:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-cyan-50 p-4 rounded-xl border-l-4 border-cyan-500">
-                        <div class="text-sm text-gray-600 mb-1">Customer Acquisition Cost</div>
-                        <div class="text-2xl font-bold text-cyan-700" id="cac">$0</div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
-                        <div class="text-sm text-gray-600 mb-1">LTV:CAC Ratio</div>
-                        <div class="text-2xl font-bold text-blue-700" id="ratio">0:1</div>
-                    </div>
-                    <div class="bg-green-50 p-4 rounded-xl border-l-4 border-green-500">
-                        <div class="text-sm text-gray-600 mb-1">Payback Period</div>
-                        <div class="text-2xl font-bold text-green-700" id="payback">0 months</div>
-                    </div>
-                </div>
+        <div class="input-group">
+            <label>Average Customer LTV ($)</label>
+            <input type="number" id="ltv" placeholder="2000" value="2000">
+        </div>
 
-                <div id="assessment" class="p-4 rounded-xl mb-4"></div>
+        <button class="cta" onclick="calculate()">Calculate CAC</button>
 
-                <div class="bg-gray-50 p-4 rounded-xl">
-                    <h3 class="font-semibold mb-3">Benchmarks:</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li>✅ Healthy: LTV:CAC > 3:1, Payback < 12 months</li>
-                        <li>⚠️ Caution: LTV:CAC 1-3:1, Payback 12-18 months</li>
-                        <li>❌ Unhealthy: LTV:CAC < 1:1, Payback > 18 months</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="result" id="result">
+            <div class="result-label">Customer Acquisition Cost</div>
+            <div class="result-value" id="cac">$0</div>
+            <div class="result-detail" id="ratio">LTV:CAC ratio: 0:1</div>
         </div>
     </div>
 
@@ -72,30 +137,15 @@
             const marketing = parseFloat(document.getElementById('marketing').value) || 0;
             const sales = parseFloat(document.getElementById('sales').value) || 0;
             const customers = parseFloat(document.getElementById('customers').value) || 1;
-            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+            const ltv = parseFloat(document.getElementById('ltv').value) || 0;
 
             const cac = (marketing + sales) / customers;
-            const ltv = arpu * 12; // simplified 12-month LTV
             const ratio = ltv / cac;
-            const payback = cac / arpu;
 
-            document.getElementById('cac').textContent = '$' + cac.toFixed(0);
-            document.getElementById('ratio').textContent = ratio.toFixed(1) + ':1';
-            document.getElementById('payback').textContent = payback.toFixed(1) + ' months';
-
-            const assessment = document.getElementById('assessment');
-            if (ratio >= 3 && payback <= 12) {
-                assessment.className = 'bg-green-50 p-4 rounded-xl border-l-4 border-green-500';
-                assessment.innerHTML = '<strong class="text-green-700">✅ Healthy:</strong> Your unit economics are solid. Keep scaling!';
-            } else if (ratio >= 1 && payback <= 18) {
-                assessment.className = 'bg-yellow-50 p-4 rounded-xl border-l-4 border-yellow-500';
-                assessment.innerHTML = '<strong class="text-yellow-700">⚠️ Caution:</strong> You can acquire customers but margins are tight. Focus on reducing CAC or increasing LTV.';
-            } else {
-                assessment.className = 'bg-red-50 p-4 rounded-xl border-l-4 border-red-500';
-                assessment.innerHTML = '<strong class="text-red-700">❌ Unhealthy:</strong> You\'re spending more to acquire customers than they\'re worth. Fix this before scaling.';
-            }
-
-            document.getElementById('output').classList.remove('hidden');
+            document.getElementById('cac').textContent = '$' + Math.round(cac);
+            document.getElementById('ratio').textContent = 'LTV:CAC ratio: ' + ratio.toFixed(1) + ':1' + 
+                (ratio >= 3 ? ' (healthy)' : ratio >= 1 ? ' (acceptable)' : ' (unsustainable)');
+            document.getElementById('result').classList.add('active');
         }
     </script>
 </body>
