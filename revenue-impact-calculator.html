@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Revenue Impact Calculator | SimpleRecover</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #e0e7ff;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 20px 0;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    .badge {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--gray-500);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Main Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 32px;
+      padding-bottom: 60px;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.75rem; }
+    }
+
+    /* Sidebar Inputs */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .input-group label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+
+    .input-group label .value-display {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .input-group input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--gray-200);
+      border-radius: 3px;
+      outline: none;
+      margin-bottom: 8px;
+    }
+
+    .input-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: var(--shadow);
+    }
+
+    .input-group input[type="number"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.9375rem;
+      font-family: inherit;
+    }
+
+    .input-group input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .input-hint {
+      font-size: 0.8125rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    /* Results */
+    .results-area {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.8125rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+
+    .stat-card .stat-change {
+      font-size: 0.875rem;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .stat-card.negative .stat-value { color: var(--danger); }
+    .stat-card.positive .stat-value { color: var(--success); }
+    .stat-card.primary .stat-value { color: var(--primary); }
+
+    /* Chart */
+    .chart-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+    }
+
+    .chart-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 24px;
+    }
+
+    .chart-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--gray-600);
+    }
+
+    .bar-track {
+      height: 32px;
+      background: var(--gray-100);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      color: white;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      min-width: 40px;
+    }
+
+    .bar-fill.danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .bar-fill.warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .bar-fill.success { background: linear-gradient(90deg, #10b981, #34d399); }
+    .bar-fill.primary { background: linear-gradient(90deg, #6366f1, #818cf8); }
+
+    .comparison-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .comparison-grid { grid-template-columns: 1fr; }
+    }
+
+    .comparison-box {
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      border: 2px solid;
+    }
+
+    .comparison-box.without {
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+
+    .comparison-box.with {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+    }
+
+    .comparison-box .box-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .comparison-box.without .box-title { color: #991b1b; }
+    .comparison-box.with .box-title { color: #065f46; }
+
+    .comparison-box .box-amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .comparison-box.without .box-amount { color: #dc2626; }
+    .comparison-box.with .box-amount { color: #059669; }
+
+    .comparison-box .box-detail {
+      font-size: 0.8125rem;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
+
+    /* ROI Badge */
+    .roi-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 16px 24px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .roi-badge .number {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    /* Footer CTA */
+    .footer-cta {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 48px 0;
+      margin-top: 60px;
+    }
+
+    .footer-cta-content {
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .footer-cta h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .footer-cta p {
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+
+    .email-capture {
+      display: flex;
+      gap: 8px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .email-capture input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-size: 0.9375rem;
+      font-family: inherit;
+    }
+
+    .email-capture input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+    }
+
+    .email-capture button {
+      padding: 12px 24px;
+      background: var(--gray-900);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* SimpleRecover Footer */
+    .sr-footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.875rem;
+    }
+
+    .sr-footer a {
+      color: var(--gray-300);
+      text-decoration: none;
+    }
+
+    .sr-footer a:hover {
+      color: white;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gray-900);
+      color: white;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-content">
+    <a href="#" class="logo">
+      <div class="logo-icon">S</div>
+      <span>SimpleRecover</span>
+    </a>
+    <span class="badge">Free Tool</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>SaaS Revenue Impact Calculator</h1>
+    <p>See exactly how much failed payments are costing you — and what recovering them means for your growth.</p>
+  </div>
+</section>
+
+<main class="container main-grid">
+  <aside class="sidebar">
+    <div class="card">
+      <div class="card-title">Your Metrics</div>
+
+      <div class="input-group">
+        <label>
+          Monthly Recurring Revenue
+          <span class="value-display" id="mrrDisplay">$10,000</span>
+        </label>
+        <input type="range" id="mrrSlider" min="1000" max="500000" step="1000" value="10000">
+        <input type="number" id="mrrInput" value="10000" min="0">
+        <div class="input-hint">Total MRR across all paying customers</div>
+      </div>
+
+      <div class="input-group">
+        <label>
+          Payment Failure Rate
+          <span class="value-display" id="failureDisplay">12%</span>
+        </label>
+        <input type="range" id="failureSlider" min="1" max="50" step="0.5" value="12">
+        <input type="number" id="failureInput" value="12" min="0" max="100" step="0.1">
+        <div class="input-hint">% of monthly payments that fail (industry avg: 10-15%)</div>
+      </div>
+
+      <div class="input-group">
+        <label>
+          Recovery Rate
+          <span class="value-display" id="recoveryDisplay">35%</span>
+        </label>
+        <input type="range" id="recoverySlider" min="0" max="100" step="1" value="35">
+        <input type="number" id="recoveryInput" value="35" min="0" max="100" step="1">
+        <div class="input-hint">% of failed payments you recover (avg w/ tool: 35-45%)</div>
+      </div>
+
+      <div class="input-group">
+        <label>
+          Tool Cost / Month
+          <span class="value-display" id="costDisplay">$49</span>
+        </label>
+        <input type="range" id="costSlider" min="0" max="500" step="5" value="49">
+        <input type="number" id="costInput" value="49" min="0">
+        <div class="input-hint">What you pay for a recovery tool (SimpleRecover: $49/mo)</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="results-area">
+    <div class="stats-grid">
+      <div class="stat-card negative">
+        <div class="stat-label">Lost Revenue / Year</div>
+        <div class="stat-value" id="lostRevenue">$14,400</div>
+        <div class="stat-change">Without any recovery</div>
+      </div>
+      <div class="stat-card positive">
+        <div class="stat-label">Recoverable / Year</div>
+        <div class="stat-value" id="recoverable">$5,040</div>
+        <div class="stat-change">What you could save</div>
+      </div>
+      <div class="stat-card primary">
+        <div class="stat-label">Net ROI</div>
+        <div class="stat-value" id="roi">102x</div>
+        <div class="stat-change">Return on tool cost</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">📊 Revenue Breakdown</div>
+      <div class="chart-container">
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Successful Payments</span>
+            <span id="successfulLabel">$8,800/mo</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill success" id="successfulBar" style="width: 88%">88%</div>
+          </div>
+        </div>
+
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Failed Payments (lost)</span>
+            <span id="failedLabel">$1,200/mo</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill danger" id="failedBar" style="width: 12%">12%</div>
+          </div>
+        </div>
+
+        <div class="bar-group">
+          <div class="bar-label">
+            <span>Recovered with Tool</span>
+            <span id="recoveredLabel">$420/mo</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill primary" id="recoveredBar" style="width: 35%">35% of failed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-section">
+        <div class="chart-title">⚖️ With vs Without Recovery Tool</div>
+        <div class="comparison-grid">
+          <div class="comparison-box without">
+            <div class="box-title">Without Recovery Tool</div>
+            <div class="box-amount" id="withoutAmount">$105,600</div>
+            <div class="box-detail">Annual revenue after failed payment leakage</div>
+          </div>
+          <div class="comparison-box with">
+            <div class="box-title">With SimpleRecover</div>
+            <div class="box-amount" id="withAmount">$110,640</div>
+            <div class="box-detail">Annual revenue with automated recovery</div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <div class="roi-badge">
+            <span>ROI:</span>
+            <span class="number" id="roiBadge">102x</span>
+            <span>year 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="footer-cta">
+  <div class="container">
+    <div class="footer-cta-content">
+      <h2>Stop leaving money on the table</h2>
+      <p>SimpleRecover plugs into Stripe and automatically recovers failed payments. Set up in 5 minutes.</p>
+      <form class="email-capture" onsubmit="event.preventDefault(); captureEmail(this);">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Start Recovering</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="sr-footer">
+  <div class="container">
+    <p>Made by <a href="#">SimpleRecover</a> — Automated payment recovery for Stripe</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+  function fmtCurrency(num) {
+    if (num >= 1000000) return '$' + (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return '$' + (num / 1000).toFixed(1) + 'k';
+    return '$' + Math.round(num).toLocaleString();
+  }
+
+  function fmtNumber(num) {
+    return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  }
+
+  const inputs = {
+    mrr: { slider: document.getElementById('mrrSlider'), input: document.getElementById('mrrInput'), display: document.getElementById('mrrDisplay') },
+    failure: { slider: document.getElementById('failureSlider'), input: document.getElementById('failureInput'), display: document.getElementById('failureDisplay') },
+    recovery: { slider: document.getElementById('recoverySlider'), input: document.getElementById('recoveryInput'), display: document.getElementById('recoveryDisplay') },
+    cost: { slider: document.getElementById('costSlider'), input: document.getElementById('costInput'), display: document.getElementById('costDisplay') }
+  };
+
+  function getValues() {
+    return {
+      mrr: parseFloat(inputs.mrr.input.value) || 0,
+      failure: parseFloat(inputs.failure.input.value) || 0,
+      recovery: parseFloat(inputs.recovery.input.value) || 0,
+      cost: parseFloat(inputs.cost.input.value) || 0
+    };
+  }
+
+  function calculate() {
+    const v = getValues();
+    const monthlyLost = v.mrr * (v.failure / 100);
+    const monthlyRecovered = monthlyLost * (v.recovery / 100);
+    const yearlyLost = monthlyLost * 12;
+    const yearlyRecovered = monthlyRecovered * 12;
+    const yearlyCost = v.cost * 12;
+    const netGain = yearlyRecovered - yearlyCost;
+    const roi = yearlyCost > 0 ? (netGain / yearlyCost).toFixed(0) + 'x' : '∞';
+
+    const annualWithout = (v.mrr * 12) - yearlyLost;
+    const annualWith = annualWithout + yearlyRecovered;
+
+    const successfulRate = 100 - v.failure;
+    const successfulMRR = v.mrr * (successfulRate / 100);
+
+    // Update stats
+    document.getElementById('lostRevenue').textContent = fmtCurrency(yearlyLost);
+    document.getElementById('recoverable').textContent = fmtCurrency(yearlyRecovered);
+    document.getElementById('roi').textContent = roi;
+    document.getElementById('withoutAmount').textContent = fmtCurrency(annualWithout);
+    document.getElementById('withAmount').textContent = fmtCurrency(annualWith);
+    document.getElementById('roiBadge').textContent = roi;
+
+    // Update bars
+    const maxBar = Math.max(successfulMRR, monthlyLost, monthlyRecovered) || 1;
+    document.getElementById('successfulBar').style.width = Math.max((successfulMRR / v.mrr) * 100, 5) + '%';
+    document.getElementById('successfulBar').textContent = successfulRate.toFixed(0) + '%';
+    document.getElementById('successfulLabel').textContent = fmtCurrency(successfulMRR) + '/mo';
+
+    document.getElementById('failedBar').style.width = Math.max((monthlyLost / v.mrr) * 100, 5) + '%';
+    document.getElementById('failedBar').textContent = v.failure.toFixed(1) + '%';
+    document.getElementById('failedLabel').textContent = fmtCurrency(monthlyLost) + '/mo';
+
+    const recoveredOfFailed = v.recovery;
+    document.getElementById('recoveredBar').style.width = Math.max((monthlyRecovered / v.mrr) * 100, 5) + '%';
+    document.getElementById('recoveredBar').textContent = recoveredOfFailed.toFixed(0) + '% of failed';
+    document.getElementById('recoveredLabel').textContent = fmtCurrency(monthlyRecovered) + '/mo';
+  }
+
+  function sync(key, fromSlider) {
+    const pair = inputs[key];
+    if (fromSlider) {
+      pair.input.value = pair.slider.value;
+    } else {
+      pair.slider.value = pair.input.value;
+    }
+    pair.display.textContent = key === 'mrr' || key === 'cost'
+      ? '$' + parseFloat(pair.input.value).toLocaleString()
+      : pair.input.value + '%';
+    calculate();
+  }
+
+  Object.keys(inputs).forEach(key => {
+    inputs[key].slider.addEventListener('input', () => sync(key, true));
+    inputs[key].input.addEventListener('input', () => sync(key, false));
+  });
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function captureEmail(form) {
+    showToast('Thanks! We\'ll be in touch soon.');
+    form.reset();
+  }
+
+  // Init
+  calculate();
+</script>
+
+</body>
+</html>
