@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Burn Rate Calculator — Premium Runway Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Burn Rate Calculator</h1>
+        <p class="subtitle">Premium runway and cash flow analytics</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Monthly Revenue ($) <span class="tooltip" title="Current monthly recurring revenue">?</span></label>
+                <input type="number" id="mrr" placeholder="50000" value="50000">
+            </div>
+            <div class="input-group">
+                <label>Monthly Expenses ($)</label>
+                <input type="number" id="expenses" placeholder="80000" value="80000">
+            </div>
+            <div class="input-group">
+                <label>Cash in Bank ($)</label>
+                <input type="number" id="cash" placeholder="500000" value="500000">
+            </div>
+            <div class="input-group">
+                <label>Revenue Growth (%/mo)</label>
+                <input type="number" id="growth" placeholder="10" value="10">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Runway Analytics</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Monthly Burn Rate</div>
+                    <div class="result-value" id="burnRate">$0</div>
+                </div>
+                <div class="result-detail" id="burnDetail">Net cash spent per month</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="runway">0mo</div>
+                        <div class="metric-label">Runway (months)</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="breakEven">0mo</div>
+                        <div class="metric-label">Break-even Point</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="projectedCash">$0</div>
+                        <div class="metric-label">Cash at Break-even</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 Cash Flow Insights</div>
+                    <div id="recommendationText">Calculate to see personalized cash flow recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Runway Benchmarks</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">6mo</div>
+                        <div class="metric-label">Minimum</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">12mo</div>
+                        <div class="metric-label">Healthy</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Your Status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+            const cash = parseFloat(document.getElementById('cash').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+
+            const burnRate = expenses - mrr;
+            const runway = burnRate > 0 ? Math.floor(cash / burnRate) : Infinity;
+            
+            // Calculate break-even with growth
+            let currentMRR = mrr;
+            let months = 0;
+            let projectedCash = cash;
+            while (currentMRR < expenses && months < 60 && projectedCash > 0) {
+                currentMRR = currentMRR * (1 + growth / 100);
+                projectedCash = projectedCash - (expenses - currentMRR);
+                months++;
+            }
+            const breakEven = months;
+
+            let yourStatus = 'Unknown';
+            if (runway >= 12) yourStatus = 'Healthy';
+            else if (runway >= 6) yourStatus = 'Tight';
+            else yourStatus = 'Critical';
+
+            document.getElementById('burnRate').textContent = '$' + burnRate.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('runway').textContent = runway === Infinity ? '∞' : runway + 'mo';
+            document.getElementById('breakEven').textContent = breakEven + 'mo';
+            document.getElementById('projectedCash').textContent = '$' + Math.max(0, projectedCash).toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('yourStatus').textContent = yourStatus;
+
+            let recommendation = '';
+            if (runway >= 12) {
+                recommendation = '🎉 Healthy runway! You have room to invest. Consider: 1) Hiring key roles, 2) Increasing marketing spend, 3. Building new features to accelerate growth.';
+            } else if (runway >= 6) {
+                recommendation = '⚠️ Tight runway. Focus on: 1) Reducing non-essential expenses, 2. Accelerating revenue growth, 3. Consider bridge funding or early customer prepayments.';
+            } else {
+                recommendation = '🚨 Critical runway! Immediate action needed: 1) Cut all non-essential costs, 2. Focus only on revenue-generating activities, 3. Reach out to existing customers for annual prepayments, 4. Consider emergency fundraising.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
