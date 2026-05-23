@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Payment Retry Success Calculator — Premium Retry Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Payment Retry Success Calculator</h1>
+        <p class="subtitle">Premium retry analytics and recovery optimization</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Failed Payments/Month <span class="tooltip" title="Number of failed payments per month">?</span></label>
+                <input type="number" id="failed" placeholder="100" value="100">
+            </div>
+            <div class="input-group">
+                <label>Retry Attempts</label>
+                <input type="number" id="retries" placeholder="3" value="3">
+            </div>
+            <div class="input-group">
+                <label>Avg Payment Value ($)</label>
+                <input type="number" id="avgValue" placeholder="99" value="99">
+            </div>
+            <div class="input-group">
+                <label>Retry Success Rate (%)</label>
+                <input type="number" id="successRate" placeholder="35" value="35">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Retry Analytics</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Retry Recovery Rate</div>
+                    <div class="result-value" id="recoveryRate">0%</div>
+                </div>
+                <div class="result-detail" id="recoveryDetail">Percentage of failed payments recovered through retries</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="revenueRecovered">$0</div>
+                        <div class="metric-label">Revenue Recovered</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="revenueLost">$0</div>
+                        <div class="metric-label">Revenue Lost</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="potential">$0</div>
+                        <div class="metric-label">Extra Potential</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 Retry Insights</div>
+                    <div id="recommendationText">Calculate to see personalized retry recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Retry Benchmarks</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">25%</div>
+                        <div class="metric-label">Basic Retry</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">45%</div>
+                        <div class="metric-label">Smart Retry</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="yourRank">0%</div>
+                        <div class="metric-label">Your Rank</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const failed = parseFloat(document.getElementById('failed').value) || 0;
+            const retries = parseFloat(document.getElementById('retries').value) || 1;
+            const avgValue = parseFloat(document.getElementById('avgValue').value) || 0;
+            const successRate = parseFloat(document.getElementById('successRate').value) || 0;
+
+            const recovered = Math.round(failed * (successRate / 100));
+            const recoveryRate = successRate;
+            const revenueRecovered = recovered * avgValue;
+            const revenueLost = (failed - recovered) * avgValue;
+            const potential = revenueLost * 0.6; // 60% extra potential with optimization
+
+            let yourRank = 'Below Avg';
+            if (successRate >= 45) yourRank = 'Top Tier';
+            else if (successRate >= 25) yourRank = 'Average';
+
+            document.getElementById('recoveryRate').textContent = recoveryRate.toFixed(1) + '%';
+            document.getElementById('revenueRecovered').textContent = '$' + revenueRecovered.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('revenueLost').textContent = '$' + revenueLost.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('potential').textContent = '$' + potential.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('yourRank').textContent = yourRank;
+
+            let recommendation = '';
+            if (successRate >= 45) {
+                recommendation = '🎉 Exceptional retry success! You\'re in the top tier. To optimize further: 1) A/B test retry timing, 2) Add SMS for high-value failures, 3) Implement ML-based retry prediction.';
+            } else if (successRate >= 25) {
+                recommendation = '✅ Good retry rate. To reach top tier: 1) Optimize retry timing (avoid weekends), 2) Use smart retry logic based on failure reason, 3) Add dunning emails alongside retries.';
+            } else {
+                recommendation = '🚨 Poor retry success. You\'re leaving significant revenue. Urgent: 1) Increase retry attempts (up to 5-7), 2) Space retries strategically (day 1, 3, 7, 14), 3) Add payment method update links.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
