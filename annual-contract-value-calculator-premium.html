@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Annual Contract Value Calculator — Premium ACV Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Annual Contract Value Calculator</h1>
+        <p class="subtitle">Premium ACV analytics and contract optimization</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Monthly Plan Price ($) <span class="tooltip" title="Base monthly subscription price">?</span></label>
+                <input type="number" id="monthlyPrice" placeholder="99" value="99">
+            </div>
+            <div class="input-group">
+                <label>Annual Discount (%)</label>
+                <input type="number" id="annualDiscount" placeholder="17" value="17">
+            </div>
+            <div class="input-group">
+                <label>Setup Fee ($)</label>
+                <input type="number" id="setupFee" placeholder="500" value="500">
+            </div>
+            <div class="input-group">
+                <label>Professional Services ($/yr)</label>
+                <input type="number" id="services" placeholder="2000" value="2000">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate ACV Analytics</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Annual Contract Value</div>
+                    <div class="result-value" id="acv">$0</div>
+                </div>
+                <div class="result-detail" id="acvDetail">Total annual value per customer</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="monthlyValue">$0</div>
+                        <div class="metric-label">Monthly Value</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="annualValue">$0</div>
+                        <div class="metric-label">Annual Subscription</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="totalACV">$0</div>
+                        <div class="metric-label">Total ACV</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 ACV Insights</div>
+                    <div id="recommendationText">Calculate to see personalized ACV recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Contract Mix Impact</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="monthlyACV">$0</div>
+                        <div class="metric-label">Monthly-only ACV</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="annualACV">$0</div>
+                        <div class="metric-label">Annual ACV</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="uplift">0%</div>
+                        <div class="metric-label">Annual Uplift</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const monthlyPrice = parseFloat(document.getElementById('monthlyPrice').value) || 0;
+            const annualDiscount = parseFloat(document.getElementById('annualDiscount').value) || 0;
+            const setupFee = parseFloat(document.getElementById('setupFee').value) || 0;
+            const services = parseFloat(document.getElementById('services').value) || 0;
+
+            const monthlyValue = monthlyPrice;
+            const annualSubscription = monthlyPrice * 12 * (1 - annualDiscount / 100);
+            const totalACV = annualSubscription + setupFee + services;
+            
+            const monthlyACV = monthlyPrice * 12;
+            const annualACV = totalACV;
+            const uplift = ((annualACV - monthlyACV) / monthlyACV) * 100;
+
+            document.getElementById('acv').textContent = '$' + totalACV.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('monthlyValue').textContent = '$' + monthlyValue.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('annualValue').textContent = '$' + annualSubscription.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('totalACV').textContent = '$' + totalACV.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('monthlyACV').textContent = '$' + monthlyACV.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('annualACV').textContent = '$' + annualACV.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('uplift').textContent = uplift.toFixed(0) + '%';
+
+            let recommendation = '';
+            if (annualDiscount >= 15) {
+                recommendation = '🎉 Strong annual discount! This creates commitment and upfront cash. To optimize: 1) Offer multi-year contracts for bigger discounts, 2) Add implementation services to ACV, 3) Create tiered annual plans.';
+            } else if (annualDiscount >= 10) {
+                recommendation = '✅ Good annual incentive. To increase ACV further: 1) Add professional services packages, 2) Include setup fees for enterprise, 3) Offer quarterly plans as stepping stone to annual.';
+            } else {
+                recommendation = '⚠️ Low annual discount may not motivate upgrades. Try: 1) Increase to 15-20% (2+ months free), 2) Add exclusive annual-only features, 3) Highlight cash flow benefits in sales pitch.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
