@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Micro Tools — Premium Analytics Suite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            margin-bottom: 40px;
+        }
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .tool-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .tool-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+        .tool-card.premium {
+            border-color: rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+        }
+        .tool-card.premium:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        .tool-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .tool-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .tool-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Micro Tools</h1>
+        <p class="subtitle">Premium analytics suite for SaaS founders</p>
+        <div style="text-align: center;">
+            <span class="badge">171+ tools deployed</span>
+        </div>
+
+        <!-- Premium Tools -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">✨</div>
+                Premium Calculators
+            </div>
+            <div class="tools-grid">
+                <a href="churn-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Churn Calculator</div>
+                    <div class="tool-desc">NRR, gross/net churn, expansion rate, smart recommendations</div>
+                </a>
+                <a href="mrr-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">MRR Calculator</div>
+                    <div class="tool-desc">12-month projections, LTV/CAC, payback period</div>
+                </a>
+                <a href="ltv-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">LTV Calculator</div>
+                    <div class="tool-desc">Net churn, LTV after margin, max sustainable CAC</div>
+                </a>
+                <a href="recovery-rate-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Recovery Rate Calculator</div>
+                    <div class="tool-desc">Annual impact, recoverable revenue, benchmark 60%</div>
+                </a>
+                <a href="cac-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">CAC Calculator</div>
+                    <div class="tool-desc">Channel breakdown (Ad/Sales/Blended), payback period</div>
+                </a>
+                <a href="dunning-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Dunning Calculator</div>
+                    <div class="tool-desc">Email funnel analytics, sequence optimization</div>
+                </a>
+                <a href="stripe-fee-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Stripe Fee Calculator</div>
+                    <div class="tool-desc">Effective rate, annual impact, optimization tips</div>
+                </a>
+                <a href="trial-conversion-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Trial Conversion Calculator</div>
+                    <div class="tool-desc">Funnel benchmarks, revenue per trial, rankings</div>
+                </a>
+                <a href="freemium-conversion-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Freemium Conversion Calculator</div>
+                    <div class="tool-desc">Activation rate, industry benchmarks, recommendations</div>
+                </a>
+                <a href="refund-rate-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Refund Rate Calculator</div>
+                    <div class="tool-desc">Revenue loss, health status, preventable revenue</div>
+                </a>
+                <a href="chargeback-rate-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Chargeback Rate Calculator</div>
+                    <div class="tool-desc">Stripe risk assessment, recoverable revenue, benchmarks</div>
+                </a>
+                <a href="failed-payment-rate-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Failed Payment Rate Calculator</div>
+                    <div class="tool-desc">Recovery potential, health status, benchmarks</div>
+                </a>
+                <a href="payment-retry-success-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Payment Retry Success Calculator</div>
+                    <div class="tool-desc">Retry benchmarks, revenue recovered vs lost</div>
+                </a>
+                <a href="annual-contract-value-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">ACV Calculator</div>
+                    <div class="tool-desc">Contract mix impact, annual uplift, recommendations</div>
+                </a>
+                <a href="expansion-revenue-calculator-premium.html" class="tool-card premium">
+                    <div class="tool-badge">PREMIUM</div>
+                    <div class="tool-name">Expansion Revenue Calculator</div>
+                    <div class="tool-desc">NRR, growth trajectory, per-customer value</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Standard Tools -->
+        <div class="section">
+            <div class="section-title">
+                <div class="icon">🛠</div>
+                Standard Calculators
+            </div>
+            <div class="tools-grid">
+                <a href="logo-churn-calculator.html" class="tool-card">
+                    <div class="tool-name">Logo Churn Calculator</div>
+                    <div class="tool-desc">Customer count-based churn analysis</div>
+                </a>
+                <a href="revenue-churn-calculator.html" class="tool-card">
+                    <div class="tool-name">Revenue Churn Calculator</div>
+                    <div class="tool-desc">MRR-based revenue churn calculation</div>
+                </a>
+                <a href="freemium-conversion-calculator.html" class="tool-card">
+                    <div class="tool-name">Freemium Conversion</div>
+                    <div class="tool-desc">Free-to-paid conversion rate</div>
+                </a>
+                <a href="trial-conversion-calculator.html" class="tool-card">
+                    <div class="tool-name">Trial Conversion</div>
+                    <div class="tool-desc">Trial-to-paid conversion analytics</div>
+                </a>
+                <a href="refund-rate-calculator.html" class="tool-card">
+                    <div class="tool-name">Refund Rate</div>
+                    <div class="tool-desc">Refund percentage and impact</div>
+                </a>
+                <a href="chargeback-rate-calculator.html" class="tool-card">
+                    <div class="tool-name">Chargeback Rate</div>
+                    <div class="tool-desc">Chargeback percentage and risk</div>
+                </a>
+                <a href="failed-payment-rate-calculator.html" class="tool-card">
+                    <div class="tool-name">Failed Payment Rate</div>
+                    <div class="tool-desc">Payment failure analysis</div>
+                </a>
+                <a href="dunning-recovery-rate-calculator.html" class="tool-card">
+                    <div class="tool-name">Dunning Recovery Rate</div>
+                    <div class="tool-desc">Email recovery success metrics</div>
+                </a>
+                <a href="payment-retry-success-calculator.html" class="tool-card">
+                    <div class="tool-name">Payment Retry Success</div>
+                    <div class="tool-desc">Retry success rate calculator</div>
+                </a>
+                <a href="annual-contract-value-calculator.html" class="tool-card">
+                    <div class="tool-name">Annual Contract Value</div>
+                    <div class="tool-desc">ACV calculation and analysis</div>
+                </a>
+                <a href="mrr-from-customers-calculator.html" class="tool-card">
+                    <div class="tool-name">MRR From Customers</div>
+                    <div class="tool-desc">Customer-based MRR calculation</div>
+                </a>
+                <a href="expansion-revenue-calculator.html" class="tool-card">
+                    <div class="tool-name">Expansion Revenue</div>
+                    <div class="tool-desc">Upsell and expansion analytics</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built by <a href="https://github.com/komi-projects">Komi Systems</a> — Part of the SimpleRecover ecosystem</p>
+            <p style="margin-top: 8px;">171+ tools deployed across 13 repos</p>
+        </div>
+    </div>
+</body>
+</html>
