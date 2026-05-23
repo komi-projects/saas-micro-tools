@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS MRR From Customers Calculator — Premium MRR Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS MRR From Customers Calculator</h1>
+        <p class="subtitle">Premium customer-based MRR analytics</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Number of Customers <span class="tooltip" title="Total paying customers">?</span></label>
+                <input type="number" id="customers" placeholder="500" value="500">
+            </div>
+            <div class="input-group">
+                <label>Avg Revenue Per Customer ($/mo)</label>
+                <input type="number" id="arpu" placeholder="99" value="99">
+            </div>
+            <div class="input-group">
+                <label>Plan Tier Breakdown (%)</label>
+                <input type="text" id="tiers" placeholder="Basic:60,Pro:30,Enterprise:10" value="Basic:60,Pro:30,Enterprise:10">
+            </div>
+            <div class="input-group">
+                <label>Annual vs Monthly Split (% annual)</label>
+                <input type="number" id="annualSplit" placeholder="30" value="30">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate MRR Analytics</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Total MRR</div>
+                    <div class="result-value" id="mrr">$0</div>
+                </div>
+                <div class="result-detail" id="mrrDetail">Monthly recurring revenue from all customers</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="arr">$0</div>
+                        <div class="metric-label">ARR</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="annualMRR">$0</div>
+                        <div class="metric-label">Annual MRR</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="monthlyMRR">$0</div>
+                        <div class="metric-label">Monthly MRR</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 MRR Insights</div>
+                    <div id="recommendationText">Calculate to see personalized MRR recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Tier Analysis</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="basicMRR">$0</div>
+                        <div class="metric-label">Basic MRR</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="proMRR">$0</div>
+                        <div class="metric-label">Pro MRR</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="enterpriseMRR">$0</div>
+                        <div class="metric-label">Enterprise MRR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const customers = parseFloat(document.getElementById('customers').value) || 0;
+            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+            const annualSplit = parseFloat(document.getElementById('annualSplit').value) || 0;
+
+            const mrr = customers * arpu;
+            const arr = mrr * 12;
+            const annualMRR = mrr * (annualSplit / 100);
+            const monthlyMRR = mrr * (1 - annualSplit / 100);
+
+            // Parse tier breakdown
+            const tiersStr = document.getElementById('tiers').value;
+            const tiers = {};
+            let totalTierPct = 0;
+            tiersStr.split(',').forEach(tier => {
+                const [name, pct] = tier.split(':');
+                if (name && pct) {
+                    tiers[name.trim()] = parseFloat(pct) || 0;
+                    totalTierPct += parseFloat(pct) || 0;
+                }
+            });
+
+            // Default if no valid tiers
+            if (totalTierPct === 0) {
+                tiers['Basic'] = 60;
+                tiers['Pro'] = 30;
+                tiers['Enterprise'] = 10;
+                totalTierPct = 100;
+            }
+
+            const basicMRR = mrr * (tiers['Basic'] || 0) / 100;
+            const proMRR = mrr * (tiers['Pro'] || 0) / 100;
+            const enterpriseMRR = mrr * (tiers['Enterprise'] || 0) / 100;
+
+            document.getElementById('mrr').textContent = '$' + mrr.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('arr').textContent = '$' + arr.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('annualMRR').textContent = '$' + annualMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('monthlyMRR').textContent = '$' + monthlyMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('basicMRR').textContent = '$' + basicMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('proMRR').textContent = '$' + proMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('enterpriseMRR').textContent = '$' + enterpriseMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
+
+            let recommendation = '';
+            if (annualSplit >= 40) {
+                recommendation = '🎉 Strong annual mix! You have predictable cash flow. To optimize: 1) Push annual with discounts, 2) Add quarterly plans as stepping stone, 3. Offer multi-year contracts for bigger discounts.';
+            } else if (annualSplit >= 20) {
+                recommendation = '✅ Good annual percentage. To increase: 1) Highlight annual savings prominently, 2) Offer exclusive annual features, 3. Create ROI calculator showing annual benefits.';
+            } else {
+                recommendation = '⚠️ Low annual mix means unpredictable revenue. To improve: 1) Default to annual on pricing page, 2) Show monthly as "pay more" option, 3. Offer 2 months free for annual commitment.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
