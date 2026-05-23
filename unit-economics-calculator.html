@@ -3,288 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Unit Economics Calculator — LTV, CAC, Payback</title>
+    <title>Unit Economics Calculator — SaaS Unit Economics Tool</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            min-height: 100vh;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #f8fafc;
             padding: 40px 20px;
-            color: #1f2937;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 40px; color: white; }
-        .header h1 { font-size: 2.5rem; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header p { font-size: 1.1rem; opacity: 0.9; max-width: 500px; margin: 0 auto; }
-        .calculator {
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
             background: white;
-            border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            margin-bottom: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
-        .input-group { margin-bottom: 24px; }
-        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #374151; }
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-        }
-        .input-group input:focus, .input-group select:focus { outline: none; border-color: #11998e; }
-        .input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .calculate-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.3);
-        }
-        .results { display: none; margin-top: 32px; padding-top: 32px; border-top: 2px solid #e5e7eb; }
-        .results.show { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .result-card {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            border-left: 4px solid #11998e;
-        }
-        .result-card.warning { border-left-color: #f59e0b; }
-        .result-card.danger { border-left-color: #ef4444; }
-        .result-card.success { border-left-color: #10b981; }
-        .result-label { font-size: 14px; color: #6b7280; margin-bottom: 4px; }
-        .result-value { font-size: 2rem; font-weight: 700; color: #1f2937; }
-        .health-score {
+        h1 {
             text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            border-radius: 16px;
-            color: white;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
         }
-        .health-score-value { font-size: 4rem; font-weight: 800; }
-        .health-score-label { font-size: 1.2rem; opacity: 0.9; }
-        .cta-section {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .result {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: white;
-            border-radius: 16px;
-            padding: 40px;
+            padding: 32px;
+            border-radius: 12px;
             text-align: center;
             margin-top: 24px;
+            display: none;
         }
-        .cta-section h2 { font-size: 1.5rem; margin-bottom: 16px; }
-        .cta-section p { opacity: 0.9; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .cta-btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background: white;
-            color: #11998e;
+        .result.active {
+            display: block;
+        }
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .result-detail {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 10px;
             font-weight: 600;
-            transition: transform 0.2s;
+            margin-top: 24px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
-        .cta-btn:hover { transform: translateY(-2px); }
-        .disclaimer { text-align: center; margin-top: 24px; color: rgba(255,255,255,0.6); font-size: 13px; }
-        @media (max-width: 768px) {
-            .input-row { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.8rem; }
-            .calculator { padding: 24px; }
+        @media (max-width: 600px) {
+            .container { padding: 24px; }
+            .result-value { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>📊 SaaS Unit Economics Calculator</h1>
-            <p>Calculate LTV, CAC, payback period, and profitability. Know if your SaaS is healthy.</p>
+        <h1>Unit Economics Calculator</h1>
+        <p class="subtitle">Calculate your unit economics and see if your business model works</p>
+
+        <div class="input-group">
+            <label>Monthly Revenue ($)</label>
+            <input type="number" id="revenue" placeholder="10000" value="10000">
         </div>
 
-        <div class="calculator">
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="mrr">Monthly Recurring Revenue ($)</label>
-                    <input type="number" id="mrr" placeholder="10000" value="10000">
-                </div>
-                <div class="input-group">
-                    <label for="customers">Total Paying Customers</label>
-                    <input type="number" id="customers" placeholder="200" value="200">
-                </div>
-                <div class="input-group">
-                    <label for="churnRate">Monthly Churn Rate (%)</label>
-                    <input type="number" id="churnRate" placeholder="5" value="5" step="0.1">
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="arpu">Average Revenue Per User ($)</label>
-                    <input type="number" id="arpu" placeholder="50" value="50">
-                </div>
-                <div class="input-group">
-                    <label for="cac">Customer Acquisition Cost ($)</label>
-                    <input type="number" id="cac" placeholder="100" value="100">
-                </div>
-                <div class="input-group">
-                    <label for="grossMargin">Gross Margin (%)</label>
-                    <input type="number" id="grossMargin" placeholder="80" value="80">
-                </div>
-            </div>
-
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="monthlyCosts">Monthly Operating Costs ($)</label>
-                    <input type="number" id="monthlyCosts" placeholder="3000" value="3000">
-                </div>
-                <div class="input-group">
-                    <label for="growthRate">Monthly Growth Rate (%)</label>
-                    <input type="number" id="growthRate" placeholder="10" value="10">
-                </div>
-                <div class="input-group">
-                    <label for="trialConversion">Trial-to-Paid Conversion (%)</label>
-                    <input type="number" id="trialConversion" placeholder="15" value="15">
-                </div>
-            </div>
-
-            <button class="calculate-btn" onclick="calculate()">Calculate Unit Economics →</button>
-
-            <div class="results" id="results">
-                <div class="health-score" id="healthScore">
-                    <div class="health-score-value" id="scoreValue">0</div>
-                    <div class="health-score-label" id="scoreLabel">SaaS Health Score</div>
-                </div>
-
-                <div class="result-card success">
-                    <div class="result-label">Customer Lifetime Value (LTV)</div>
-                    <div class="result-value" id="ltv">$0</div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-label">LTV:CAC Ratio</div>
-                    <div class="result-value" id="ltvCac">0:1</div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-label">CAC Payback Period</div>
-                    <div class="result-value" id="payback">0 months</div>
-                </div>
-
-                <div class="result-card warning">
-                    <div class="result-label">Monthly Revenue Churned</div>
-                    <div class="result-value" id="monthlyChurn">$0</div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-label">Net Revenue Retention (NRR)</div>
-                    <div class="result-value" id="nrr">0%</div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-label">Runway (at current burn)</div>
-                    <div class="result-value" id="runway">0 months</div>
-                </div>
-
-                <div class="result-card">
-                    <div class="result-label">Time to $10K MRR</div>
-                    <div class="result-value" id="timeTo10k">0 months</div>
-                </div>
-            </div>
+        <div class="input-group">
+            <label>Monthly Costs ($)</label>
+            <input type="number" id="costs" placeholder="5000" value="5000">
         </div>
 
-        <div class="cta-section" id="ctaSection" style="display:none;">
-            <h2>🚀 Reduce Your Churn, Increase Your LTV</h2>
-            <p>SimpleRecover helps SaaS founders reduce involuntary churn by 60-80%. Higher LTV, better unit economics. $19/mo flat.</p>
-            <a href="https://simplerecover.com" class="cta-btn">Improve Your Unit Economics →</a>
+        <div class="input-group">
+            <label>Number of Customers</label>
+            <input type="number" id="customers" placeholder="100" value="100">
         </div>
 
-        <p class="disclaimer">
-            This calculator provides estimates. Actual results vary by market and business model.<br>
-            Built by a bootstrapped founder, for bootstrapped founders.
-        </p>
+        <div class="input-group">
+            <label>Average Revenue Per Customer ($)</label>
+            <input type="number" id="arpu" placeholder="100" value="100">
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Unit Economics</button>
+
+        <div class="result" id="result">
+            <div class="result-label">Profit Per Customer</div>
+            <div class="result-value" id="profit">$0</div>
+            <div class="result-detail" id="detail">Margin: 0%</div>
+        </div>
     </div>
 
     <script>
-        function formatCurrency(num) {
-            return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 0 });
-        }
-
         function calculate() {
-            const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const costs = parseFloat(document.getElementById('costs').value) || 0;
             const customers = parseFloat(document.getElementById('customers').value) || 1;
-            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
             const arpu = parseFloat(document.getElementById('arpu').value) || 0;
-            const cac = parseFloat(document.getElementById('cac').value) || 0;
-            const grossMargin = parseFloat(document.getElementById('grossMargin').value) || 0;
-            const monthlyCosts = parseFloat(document.getElementById('monthlyCosts').value) || 0;
-            const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
 
-            // Calculations
-            const ltv = churnRate > 0 ? (arpu * (grossMargin / 100)) / (churnRate / 100) : 0;
-            const ltvCac = cac > 0 ? (ltv / cac).toFixed(1) : 0;
-            const paybackMonths = (arpu * (grossMargin / 100)) > 0 ? Math.ceil(cac / (arpu * (grossMargin / 100))) : 0;
-            const monthlyChurned = mrr * (churnRate / 100);
-            const nrr = 100 + growthRate - churnRate;
-            const runway = monthlyCosts > 0 ? Math.floor(mrr / monthlyCosts) : 0;
+            const profit = (revenue - costs) / customers;
+            const margin = ((revenue - costs) / revenue) * 100;
 
-            // Time to $10K MRR
-            let timeTo10k = 0;
-            let currentMrr = mrr;
-            while (currentMrr < 10000 && timeTo10k < 120) {
-                currentMrr = currentMrr * (1 + growthRate / 100);
-                timeTo10k++;
-            }
-
-            // Health score (0-100)
-            let score = 0;
-            if (ltvCac >= 3) score += 30;
-            else if (ltvCac >= 1) score += (ltvCac / 3) * 30;
-            if (paybackMonths <= 12) score += 25;
-            else if (paybackMonths <= 24) score += 12;
-            if (nrr >= 100) score += 25;
-            else score += (nrr / 100) * 25;
-            if (runway >= 6) score += 20;
-            else score += (runway / 6) * 20;
-
-            // Display results
-            document.getElementById('ltv').textContent = formatCurrency(ltv);
-            document.getElementById('ltvCac').textContent = ltvCac + ':1';
-            document.getElementById('payback').textContent = paybackMonths + (paybackMonths === 1 ? ' month' : ' months');
-            document.getElementById('monthlyChurn').textContent = formatCurrency(monthlyChurned);
-            document.getElementById('nrr').textContent = nrr.toFixed(1) + '%';
-            document.getElementById('runway').textContent = runway + (runway === 1 ? ' month' : ' months');
-            document.getElementById('timeTo10k').textContent = timeTo10k + (timeTo10k === 1 ? ' month' : ' months');
-            document.getElementById('scoreValue').textContent = Math.round(score);
-
-            // Color code health score
-            const healthScore = document.getElementById('healthScore');
-            if (score >= 80) {
-                healthScore.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
-                document.getElementById('scoreLabel').textContent = 'Healthy SaaS 💚';
-            } else if (score >= 50) {
-                healthScore.style.background = 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)';
-                document.getElementById('scoreLabel').textContent = 'Needs Attention ⚠️';
-            } else {
-                healthScore.style.background = 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)';
-                document.getElementById('scoreLabel').textContent = 'Critical 🚨';
-            }
-
-            // Show results
-            document.getElementById('results').classList.add('show');
-            document.getElementById('ctaSection').style.display = 'block';
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('profit').textContent = '$' + Math.round(profit);
+            document.getElementById('detail').textContent = 'Margin: ' + margin.toFixed(1) + '%' + 
+                (margin > 20 ? ' (healthy)' : margin > 0 ? ' (thin)' : ' (losing money)');
+            document.getElementById('result').classList.add('active');
         }
     </script>
 </body>
