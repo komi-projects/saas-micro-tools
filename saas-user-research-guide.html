@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS User Research Guide — Free Download</title>
+    <meta name="description" content="Free SaaS user research guide. Conduct interviews, usability tests, and surveys to build products people actually want.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .research {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .method-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .method-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .method-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 User Research</h1>
+            <p class="subtitle">Build what people actually want. Not what you think they want.</p>
+        </div>
+        
+        <div class="research">
+            <div class="section">
+                <h2>Research Methods</h2>
+                
+                <div class="method-box">
+                    <div class="method-name">🗣️ User Interviews</div>
+                    <div class="method-detail">1-on-1 conversations with users. 30-45 minutes. Open-ended questions. "Tell me about the last time you..." Best for understanding motivations, pain points, and mental models. Do 5-8 per round.</div>
+                </div>
+                
+                <div class="method-box">
+                    <div class="method-name">🧪 Usability Testing</div>
+                    <div class="method-detail">Watch users complete tasks. "Sign up and create your first project." Record the screen. Note where they hesitate, click wrong, or get frustrated. 5 users reveal 85% of usability issues.</div>
+                </div>
+                
+                <div class="method-box">
+                    <div class="method-name">📊 Surveys</div>
+                    <div class="method-detail">Quantify what you learned qualitatively. "How satisfied are you with [feature]?" (1-10). Use after interviews to validate at scale. Keep under 10 questions. Response rate drops with length.</div>
+                </div>
+                
+                <div class="method-box">
+                    <div class="method-name">📹 Session Replay</div>
+                    <div class="method-detail">Watch real user sessions. Where do they rage click? Where do they pause? Best for finding UX bugs and understanding navigation patterns. Tools: FullStory, LogRocket, Hotjar.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>When to Use Each Method</h2>
+                
+                <p><strong>Discovery (pre-build):</strong> User interviews, ethnographic research, competitor analysis. Understand the problem before building the solution.</p>
+                
+                <p><strong>Validation (during build):</strong> Prototype testing, card sorting, tree testing. Test concepts and information architecture before coding.</p>
+                
+                <p><strong>Optimization (post-launch):</strong> Usability testing, A/B testing, surveys, session replay. Refine what you've built based on real usage.</p>
+                
+                <p><strong>Retention (ongoing):</strong> NPS, CSAT, feature requests, churn interviews. Keep the product aligned with evolving user needs.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Interview Best Practices</h2>
+                
+                <p>❌ <strong>Don't ask leading questions.</strong> "How much do you love this feature?" vs. "How does this feature fit into your workflow?"</p>
+                
+                <p>❌ <strong>Don't ask about future behavior.</strong> "Would you use X if we built it?" People are bad at predicting their behavior. Ask about past behavior instead.</p>
+                
+                <p>✅ <strong>Ask open-ended questions.</strong> "Tell me about..." "Walk me through..." "How do you currently..."</p>
+                
+                <p>✅ <strong>Listen more than you talk.</strong> 80/20 rule. The user should talk 80% of the time.</p>
+                
+                <p>✅ <strong>Ask for stories, not opinions.</strong> "Tell me about the last time you had to [solve problem]" is better than "What do you think about [feature]?"</p>
+            </div>
+            
+            <div class="section">
+                <h2>Research Recruitment</h2>
+                
+                <p><strong>Current users:</strong> In-app recruitment. "Help us improve [Product] — 30-min interview, $50 Amazon gift card." Target power users, new users, and churned users.</p>
+                
+                <p><strong>Prospects:</strong> Use your sales pipeline. "We're building [solution] for [problem]. Can we interview you about your workflow?" No sales pitch, just learning.</p>
+                
+                <p><strong>Incentives:</strong> $50-100 for 30-60 minutes. Gift cards work better than cash (feels like a treat, not taxable income). For enterprise: donate to their charity of choice.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Synthesizing Research</h2>
+                
+                <p><strong>Affinity mapping:</strong> Write insights on sticky notes. Group by theme. "Onboarding confusion," "Integration pain," "Pricing sensitivity." Look for patterns across 5+ users.</p>
+                
+                <p><strong>Jobs-to-be-Done:</strong> "When I [situation], I want to [motivation], so I can [expected outcome]." Frame features around jobs, not personas.</p>
+                
+                <p><strong>Impact/Effort matrix:</strong> Plot insights on a 2x2. High impact + low effort = next sprint. High impact + high effort = roadmap. Share with stakeholders.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full User Research Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with interview scripts, usability test plans, and synthesis templates.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('userResearchEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
