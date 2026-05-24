@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Management Guide — Ship Products Customers Love</title>
+    <meta name="description" content="Free SaaS product management guide. Prioritize features, manage roadmaps, and ship products that drive revenue and retention.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .product {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Product Management</h1>
+            <p class="subtitle">Ship products customers love and pay for.</p>
+        </div>
+        
+        <div class="product">
+            <div class="section">
+                <h2>Why Product Management is the Heart of SaaS</h2>
+                
+                <p>Product management in SaaS is the art of deciding what to build, when to build it, and why it matters. It's the intersection of customer needs, business goals, and technical feasibility. A great PM doesn't just manage a backlog — they create a vision, validate it with data, and ship features that move the metrics that matter.</p>
+                
+                <p>The best SaaS PMs are obsessed with outcomes, not outputs. They don't measure success by features shipped or story points completed — they measure success by activation rates improved, churn reduced, and revenue grown. They know that a feature nobody uses is worse than no feature at all.</p>
+                
+                <p>This guide covers the frameworks, processes, and mindsets that separate great SaaS product management from mediocre project management.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Management Frameworks</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Jobs-to-be-Done (JTBD)</div>
+                    <div class="pillar-detail">
+                        What job is the customer hiring your product to do?
+                        • Frame: "People don't want a quarter-inch drill — they want a quarter-inch hole"
+                        • Application: Understand the progress customers want to make, not the features they ask for
+                        • Interview question: "Tell me about the last time you [did task] — what were you trying to accomplish?"
+                        • Outcome: Design for the job, not the feature request
+                        • Value: Prevents building "faster horses" when customers need cars
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. RICE Prioritization</div>
+                    <div class="pillar-detail">
+                        Score features objectively.
+                        • Reach: How many customers will this affect? (per quarter)
+                        • Impact: How much will this move the metric? (3 = massive, 2 = high, 1 = medium, 0.5 = low)
+                        • Confidence: How sure are you? (100% = high, 80% = medium, 50% = low)
+                        • Effort: Person-months required
+                        • Formula: (Reach × Impact × Confidence) / Effort
+                        • Use: Rank features by score, discuss top 10, cut bottom 50%
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Opportunity Solution Tree</div>
+                    <div class="pillar-detail">
+                        Map opportunities before jumping to solutions.
+                        • Root: Business outcome (e.g., "Increase activation rate from 20% to 40%")
+                        • Branches: Opportunities (problems to solve, jobs to be done)
+                        • Leaves: Solutions (specific features or experiments)
+                        • Process: Start with outcome → discover opportunities → brainstorm solutions → test
+                        • Benefit: Ensures you're solving the right problems, not just building features
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Dual-Track Agile</div>
+                    <div class="pillar-detail">
+                        Discovery and delivery in parallel.
+                        • Discovery track: Research, prototype, validate (product + design)
+                        • Delivery track: Build, test, ship (engineering)
+                        • Overlap: Discovery informs next sprint's delivery
+                        • Goal: Never build something that hasn't been validated
+                        • Cadence: Discovery runs 1-2 sprints ahead of delivery
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Building Your Roadmap</h2>
+                
+                <p><strong>1. Roadmap structure:</strong></p>
+                
+                <p>• Now (current sprint): Committed work, high confidence, detailed specs
+                • Next (1-3 months): Prioritized opportunities, medium confidence, rough scope
+                • Later (3-6+ months): Strategic themes, low confidence, directional only
+                • Format: Themes > Outcomes > Features (not dates > features > deadlines)
+                • Communication: Share "committed" publicly, keep "later" internal</p>
+                
+                <p><strong>2. Roadmap inputs:</strong></p>
+                
+                <p>• Customer feedback: Top requests from support, NPS, interviews
+                • Business goals: What metrics need to move this quarter?
+                • Technical debt: Infrastructure, performance, security improvements
+                • Competitive: What are competitors doing? What gaps do we have?
+                • Vision: Long-term bets that align with company strategy
+                • Team capacity: What can we realistically ship?</p>
+                
+                <p><strong>3. Anti-patterns to avoid:</strong></p>
+                
+                <p>• The feature factory: Shipping features without measuring outcomes
+                • The roadmap as contract: Promising dates you can't keep
+                • The HiPPO roadmap: Highest Paid Person's Opinion overrides data
+                • The kitchen sink: Trying to please everyone, prioritizing nothing
+                • The ivory tower: Building without customer input</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Development Process</h2>
+                
+                <p><strong>1. Discovery phase (2-4 weeks):</strong></p>
+                
+                <p>• Problem validation: Is this worth solving? (interviews, data analysis)
+                • Solution exploration: What are 3-5 possible solutions?
+                • Prototype testing: Figma prototype + usability test (5 users)
+                • Technical feasibility: Can we build this in reasonable time?
+                • Business case: Expected impact, effort, ROI calculation
+                • Go/no-go: Decision to move to delivery or kill the idea</p>
+                
+                <p><strong>2. Delivery phase (sprint-based):</strong></p>
+                
+                <p>• Sprint planning: Team commits to scope for 1-2 weeks
+                • Daily standups: Blockers, progress, coordination (15 min max)
+                • Sprint demo: Show working software to stakeholders
+                • Sprint retrospective: What went well? What to improve?
+                • Release: Deploy to production (CI/CD, feature flags)
+                • Monitor: Watch metrics, errors, support tickets for 24-48 hours</p>
+                
+                <p><strong>3. Post-launch phase (30-90 days):</strong></p>
+                
+                <p>• Adoption tracking: Are users finding and using the feature?
+                • Impact analysis: Did this move the target metric?
+                • Feedback collection: Support tickets, NPS, user interviews
+                • Iteration: Quick fixes and improvements based on real usage
+                • Documentation: Update help center, release notes, marketing materials
+                • Communication: Tell customers about the new feature (email, in-app, social)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Management Tools</h2>
+                
+                <p><strong>1. Roadmap and prioritization:</strong></p>
+                
+                <p>• Productboard: Customer feedback → insights → roadmap → prioritization
+                • Aha!: Enterprise roadmap, strategy, and release planning
+                • Roadmunk: Visual roadmaps, portfolio management
+                • Notion: Flexible, customizable (good for early-stage)
+                • Coda: Docs + spreadsheets + apps in one (good for hybrid teams)</p>
+                
+                <p><strong>2. Project management:</strong></p>
+                
+                <p>• Jira: Standard for engineering teams (complex but powerful)
+                • Linear: Modern, fast, opinionated (preferred by many SaaS startups)
+                • Asana: Cross-functional, good for non-engineering teams
+                • Monday.com: Visual, flexible, good for mixed teams
+                • GitHub Projects: If you're already on GitHub, keep it simple</p>
+                
+                <p><strong>3. Documentation:</strong></p>
+                
+                <p>• Notion: All-in-one docs, wikis, databases
+                • Confluence: Enterprise wiki, integrates with Jira
+                • Google Docs: Simple, collaborative, free
+                • Tettra: Lightweight wiki for small teams
+                • Slab (now part of Slack): Beautiful team documentation</p>
+                
+                <p><strong>4. Prototyping and design:</strong></p>
+                
+                <p>• Figma: Design + prototype + collaborate (industry standard)
+                • Sketch: Mac-only, still popular among designers
+                • Miro: Whiteboarding, journey mapping, workshops
+                • Whimsical: Flowcharts, wireframes, mind maps
+                • Balsamiq: Low-fidelity wireframes, great for early concepts</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Management Checklist</h2>
+                
+                <p>☐ Product vision defined (1-2 sentences, inspiring, specific)
+                ☐ North Star metric identified (the one metric that matters most)
+                ☐ Product strategy documented (how we'll win, differentiation, positioning)
+                ☐ Customer personas defined (based on research, not assumptions)
+                ☐ Jobs-to-be-Done analysis completed (what progress do customers want?)
+                ☐ RICE scoring template created (prioritization framework)
+                ☐ Opportunity Solution Tree built (outcomes → opportunities → solutions)
+                ☐ Dual-track agile process established (discovery + delivery)
+                ☐ Roadmap structure defined (Now/Next/Later, themes not dates)
+                ☐ Roadmap communication plan (what's shared publicly vs. internally)
+                ☐ Sprint cadence set (1-2 week sprints, consistent)
+                ☐ Sprint ceremonies scheduled (planning, standup, demo, retro)
+                ☐ Definition of Done defined (what "complete" means for every feature)
+                ☐ Quality standards established (testing, code review, design review)
+                ☐ Release process documented (deploy, monitor, rollback plan)
+                ☐ Feature flag strategy defined (roll out gradually, kill switch ready)
+                ☐ Post-launch review process (30-60-90 day impact analysis)
+                ☐ Feedback collection process (support tickets, NPS, interviews)
+                ☐ Product analytics configured (adoption, retention, revenue impact)
+                ☐ A/B testing framework ready (validate features before full rollout)
+                ☐ Technical debt tracking (allocate 20% of capacity to infrastructure)
+                ☐ Competitor monitoring (what are they building? what's the gap?)
+                ☐ Market research ongoing (TAM trends, emerging technologies)
+                ☐ Stakeholder communication rhythm (weekly updates, monthly deep-dives)
+                ☐ Engineering partnership strong (PM + tech lead collaboration)
+                ☐ Design partnership strong (PM + designer collaboration)
+                ☐ Sales/CS feedback loop (weekly input from customer-facing teams)
+                ☐ Executive alignment (roadmap reviewed and approved quarterly)
+                ☐ Customer advisory board (if applicable — strategic account input)
+                ☐ Beta tester community (early access for feedback)
+                ☐ Release notes process (communicate value, not just features)
+                ☐ Go-to-market coordination (marketing knows what's shipping when)
+                ☐ Documentation updates (help center, API docs, tutorials)
+                ☐ Training materials (for CS, sales, and customers on new features)
+                ☐ Product ops function defined (analytics, tools, process, enablement)
+                ☐ PM team career ladder (IC track, manager track, growth criteria)
+                ☐ Continuous learning culture (books, podcasts, conferences, peer learning)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Product Management Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with prioritization templates, roadmap frameworks, and sprint planning playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('productManagementEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
