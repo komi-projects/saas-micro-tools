@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Incident Response Plan Template — Free Download</title>
+    <meta name="description" content="Free SaaS incident response plan template. Handle outages, security breaches, and data incidents with a proven 6-step framework.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .incident-plan {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .severity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .sev-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        .sev-high {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        .sev-medium {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+        .sev-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .phase {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+        }
+        .phase-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .phase-content h3 {
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .phase-content p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+        }
+        .timeline-time {
+            color: #6366f1;
+            font-weight: 600;
+            font-size: 0.9rem;
+            width: 80px;
+            flex-shrink: 0;
+        }
+        .timeline-action {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Incident Response Plan</h1>
+            <p class="subtitle">Handle outages, breaches, and data incidents with a proven framework.</p>
+        </div>
+        
+        <div class="incident-plan">
+            <div class="section">
+                <h2>Severity Levels</h2>
+                <span class="severity-badge sev-critical">Critical</span>
+                <span class="severity-badge sev-high">High</span>
+                <span class="severity-badge sev-medium">Medium</span>
+                <span class="severity-badge sev-low">Low</span>
+                <p style="margin-top: 16px;"><strong>Critical:</strong> Service completely down, data breach, security incident<br>
+                <strong>High:</strong> Major feature degraded, significant customer impact<br>
+                <strong>Medium:</strong> Partial degradation, workaround available<br>
+                <strong>Low:</strong> Minor issue, minimal customer impact</p>
+            </div>
+            
+            <div class="section">
+                <h2>Response Phases</h2>
+                
+                <div class="phase">
+                    <div class="phase-number">1</div>
+                    <div class="phase-content">
+                        <h3>Detection & Alerting</h3>
+                        <p>PagerDuty alerts trigger. On-call engineer acknowledges within 5 minutes. Status page updated to "Investigating."</p>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-number">2</div>
+                    <div class="phase-content">
+                        <h3>Assessment & Triage</h3>
+                        <p>Determine severity. Assemble response team. Identify affected customers and systems.</p>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-number">3</div>
+                    <div class="phase-content">
+                        <h3>Containment</h3>
+                        <p>Stop the bleeding. Rollback deploys. Enable failover. Isolate affected systems.</p>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-number">4</div>
+                    <div class="phase-content">
+                        <h3>Resolution</h3>
+                        <p>Fix root cause. Verify fix in staging. Deploy to production. Monitor for 30 minutes.</p>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-number">5</div>
+                    <div class="phase-content">
+                        <h3>Communication</h3>
+                        <p>Update status page. Email affected customers. Post-mortem scheduled within 24 hours.</p>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-number">6</div>
+                    <div class="phase-content">
+                        <h3>Post-Mortem</h3>
+                        <p>What happened? Why? How did we respond? What will we improve? Action items assigned with owners.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Critical Incident Timeline</h2>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+0 min</div>
+                    <div class="timeline-action">Alert triggered, on-call paged</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+5 min</div>
+                    <div class="timeline-action">On-call acknowledges, status page updated</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+15 min</div>
+                    <div class="timeline-action">Root cause identified, team assembled</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+30 min</div>
+                    <div class="timeline-action">Fix deployed, monitoring begins</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+60 min</div>
+                    <div class="timeline-action">All-clear, status page resolved</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">T+24h</div>
+                    <div class="timeline-action">Post-mortem completed, action items assigned</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Incident Response Plan</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete plan with runbooks, contact trees, escalation matrix, and communication templates.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('incidentResponseEmail', email);
+            alert('✅ Plan coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
