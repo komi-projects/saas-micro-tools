@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Lifetime Value (LTV) Guide — Free Download</title>
+    <meta name="description" content="Free SaaS LTV guide. Calculate lifetime value correctly, understand churn impact, and learn strategies to increase LTV for sustainable growth.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .ltv {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 1rem;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metric-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💎 Lifetime Value Guide</h1>
+            <p class="subtitle">Calculate LTV correctly and maximize customer value.</p>
+        </div>
+        
+        <div class="ltv">
+            <div class="section">
+                <h2>What is LTV?</h2>
+                
+                <p>Lifetime Value (LTV or CLV) is the total revenue you expect from a customer over their entire relationship with your company. It answers: <strong>"How much is a customer worth?"</strong></p>
+                
+                <div class="formula-box">
+                    <div class="formula">LTV = ARPU × Gross Margin × Customer Lifetime</div>
+                    <p style="color: #94a3b8; margin-top: 8px;">Or simpler: LTV = ARPU / Churn Rate (when gross margin is factored in separately)</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>The Churn Impact</h2>
+                
+                <p>Churn is the biggest lever on LTV. A small reduction in churn creates massive LTV increases:</p>
+                
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">5%</div>
+                        <div class="metric-label">Monthly Churn → 20mo lifetime</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3%</div>
+                        <div class="metric-label">Monthly Churn → 33mo lifetime</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2%</div>
+                        <div class="metric-label">Monthly Churn → 50mo lifetime</div>
+                    </div>
+                </div>
+                
+                <p><strong>Example:</strong> At $100/mo ARPU and 80% gross margin:</p>
+                <p>• 5% churn: LTV = $100 × 0.8 × 20 = <strong>$1,600</strong><br>
+                • 2% churn: LTV = $100 × 0.8 × 50 = <strong>$4,000</strong><br>
+                <strong>60% lower churn = 2.5x higher LTV</strong></p>
+            </div>
+            
+            <div class="section">
+                <h2>Example Calculation</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">SaaS Startup — Monthly</div>
+                    <div class="example-text">
+                        ARPU (Average Revenue Per User): $150/mo<br>
+                        Gross Margin: 80%<br>
+                        Monthly Churn Rate: 4%<br>
+                        Customer Lifetime: 1 / 0.04 = 25 months<br><br>
+                        
+                        <strong>LTV = $150 × 0.8 × 25 = $3,000</strong><br><br>
+                        
+                        If CAC is $1,000:<br>
+                        LTV:CAC Ratio = $3,000 / $1,000 = <strong>3:1 ✅</strong><br>
+                        Payback Period = $1,000 / ($150 × 0.8) = <strong>8.3 months</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Increasing LTV</h2>
+                
+                <p>1. <strong>Reduce churn.</strong> Better onboarding, customer success, product stickiness. The #1 lever.</p>
+                
+                <p>2. <strong>Increase ARPU.</strong> Raise prices, add upsells, introduce premium tiers. A 20% price increase with 5% churn loss = net positive.</p>
+                
+                <p>3. <strong>Expand revenue.</strong> Usage-based pricing, cross-sells, seat expansions. Make customers grow with you.</p>
+                
+                <p>4. <strong>Improve gross margin.</strong> Reduce hosting costs, automate support, optimize cloud spend.</p>
+                
+                <p>5. <strong>Annual contracts.</strong> Lock in customers for 12 months. Reduces churn risk and improves cash flow.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full LTV Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with LTV calculator, cohort-based LTV models, and expansion revenue strategies.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('ltvGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
