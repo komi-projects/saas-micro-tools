@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Requirements Document Template — Free Download</title>
+    <meta name="description" content="Free SaaS PRD template. Write better product specs with user stories, acceptance criteria, and success metrics.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .prd {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .field {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .field-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .field-value {
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .user-story {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 3px solid #6366f1;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+            color: #c7d2fe;
+        }
+        .acceptance-criteria {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 3px solid #10b981;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+            color: #6ee7b7;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 PRD Template</h1>
+            <p class="subtitle">Write better product specs with user stories and acceptance criteria.</p>
+        </div>
+        
+        <div class="prd">
+            <div class="section">
+                <h2>1. Overview</h2>
+                <div class="field">
+                    <div class="field-label">Feature Name</div>
+                    <div class="field-value">Smart Dunning Dashboard</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Owner</div>
+                    <div class="field-value">Jane Doe, Product Manager</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Status</div>
+                    <div class="field-value">In Review</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>2. Problem Statement</h2>
+                <p>Users currently cannot see which customers are at risk of churning due to failed payments. They have to check Stripe manually or wait for customer complaints.</p>
+            </div>
+            
+            <div class="section">
+                <h2>3. User Stories</h2>
+                <div class="user-story">
+                    <strong>As a</strong> SaaS founder,<br>
+                    <strong>I want to</strong> see a dashboard of all customers with failed payments,<br>
+                    <strong>so that</strong> I can take action before they churn.
+                </div>
+                <div class="user-story">
+                    <strong>As a</strong> revenue manager,<br>
+                    <strong>I want to</strong> filter customers by retry status and amount at risk,<br>
+                    <strong>so that</strong> I can prioritize recovery efforts.
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>4. Acceptance Criteria</h2>
+                <div class="acceptance-criteria">
+                    ✅ Dashboard shows all customers with failed payments in the last 30 days<br>
+                    ✅ Users can filter by: retry status, amount, days since failure<br>
+                    ✅ Clicking a customer shows full payment history<br>
+                    ✅ Export to CSV available<br>
+                    ✅ Updates in real-time via WebSocket
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>5. Success Metrics</h2>
+                <p>• 80% of users check the dashboard weekly<br>
+                • Time to identify at-risk customers: < 30 seconds<br>
+                • Feature NPS: > 40</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full PRD Template</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Editable template with sections, user story format, and metric frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('prdTemplateEmail', email);
+            alert('✅ Template coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
