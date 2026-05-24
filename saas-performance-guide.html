@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Performance Guide — Free Download</title>
+    <meta name="description" content="Free SaaS performance guide. Optimize your web app for speed, reduce latency, and improve user experience with measurable performance wins.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .performance {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .metric-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .metric-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .metric-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Performance</h1>
+            <p class="subtitle">Fast apps win. Slow apps churn.</p>
+        </div>
+        
+        <div class="performance">
+            <div class="section">
+                <h2>Why Performance Matters</h2>
+                
+                <p>Performance is a feature. Amazon found that every 100ms of latency cost 1% in revenue. Google found that 53% of mobile users abandon sites that take > 3 seconds to load. In SaaS, slow dashboards, laggy reports, and unresponsive UIs drive churn.</p>
+                
+                <p>Users don't care about your tech stack. They care about speed. A fast app feels premium. A slow app feels broken.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Core Web Vitals (Google's Performance Standard)</h2>
+                
+                <div class="metric-box">
+                    <div class="metric-name">LCP — Largest Contentful Paint</div>
+                    <div class="metric-detail">How fast the main content loads. Target: < 2.5 seconds. Measure with Chrome DevTools, PageSpeed Insights, or Web Vitals extension. Optimize: compress images, use CDN, lazy load, server-side rendering, eliminate render-blocking resources.</div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">INP — Interaction to Next Paint</div>
+                    <div class="metric-detail">How responsive your app feels to user input. Target: < 200ms. Optimize: break up long JavaScript tasks, use web workers, debounce expensive operations, virtualize long lists, avoid layout thrashing.</div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">CLS — Cumulative Layout Shift</div>
+                    <div class="metric-detail">Visual stability. Do elements jump around as the page loads? Target: < 0.1. Optimize: set explicit dimensions on images/videos, reserve space for dynamic content, avoid inserting content above existing content, use font-display: swap carefully.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Backend Performance</h2>
+                
+                <p><strong>Database:</strong></p>
+                
+                <p>• Query optimization: EXPLAIN ANALYZE slow queries. Add indexes. Avoid SELECT *. Use pagination.<br>
+                • Connection pooling: Don't open a new connection per request. Use PgBouncer or equivalent.<br>
+                • N+1 prevention: Eager load associations. Use DataLoader pattern for GraphQL.<br>
+                • Read replicas: Offload reporting queries to replicas.</p>
+                
+                <p><strong>API:</strong></p>
+                
+                <p>• Response time: P95 < 200ms for simple reads, < 500ms for complex queries.<br>
+                • Payload size: Don't return 10MB JSON. Paginate, filter fields, compress responses (gzip/Brotli).<br>
+                • Caching: Cache GET requests. ETags for conditional requests. CDN for static assets.<br>
+                • Rate limiting: Protect your API from abuse. Return 429 with Retry-After header.</p>
+                
+                <p><strong>Async Work:</strong></p>
+                
+                <p>• Move slow operations to background jobs (email, exports, reports, webhooks).<br>
+                • Return 202 Accepted with a job ID for async endpoints.<br>
+                • Use queues with retry logic and dead letter queues.<br>
+                • Set max job runtime to prevent runaway tasks.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Frontend Performance</h2>
+                
+                <p><strong>Bundle Size:</strong></p>
+                
+                <p>• Code splitting: Load only the JavaScript needed for the current page. React.lazy(), dynamic imports.<br>
+                • Tree shaking: Remove unused code. Use ES modules, avoid importing entire libraries.<br>
+                • Dependency audit: Regularly check bundle size with webpack-bundle-analyzer. A 1MB+ bundle is a problem.</p>
+                
+                <p><strong>Rendering:</strong></p>
+                
+                <p>• Server-side rendering (SSR): Faster initial paint, better SEO. Next.js, Nuxt, SvelteKit.<br>
+                • Static site generation (SSG): Pre-render pages at build time. Instant load for marketing pages, docs.<br>
+                • Virtualization: For lists with 1000+ items, only render visible items. react-window, react-virtualized.</p>
+                
+                <p><strong>Assets:</strong></p>
+                
+                <p>• Images: WebP format, responsive images (srcset), lazy loading, compression. Use a service like Cloudinary or Imgix.<br>
+                • Fonts: Subset fonts to only needed characters. font-display: swap. Preload critical fonts.<br>
+                • CSS: Critical CSS inline for above-the-fold content. Defer non-critical CSS.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Performance Budgets</h2>
+                
+                <p>Set limits and enforce them in CI/CD:</p>
+                
+                <p>• JavaScript: < 200KB gzipped for initial load<br>
+                • Images: < 500KB total for above-the-fold<br>
+                • Fonts: < 100KB total<br>
+                • API response: < 100KB for standard endpoints<br>
+                • Total page weight: < 1MB for landing pages<br>
+                • LCP: < 2.5s<br>
+                • TTFB (Time to First Byte): < 200ms</p>
+                
+                <p>Tools: Lighthouse CI, bundlesize, performance budgets in webpack. Fail the build if budget is exceeded.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Measuring Performance</h2>
+                
+                <p><strong>Lab data (controlled testing):</strong></p>
+                
+                <p>• Lighthouse: Chrome DevTools built-in. Scores 0-100. Good baseline.<br>
+                • WebPageTest: Detailed waterfall, filmstrip, comparison across locations/devices.<br>
+               • k6/Artillery: API performance testing. Load testing at scale.</p>
+                
+                <p><strong>Field data (real users):</strong></p>
+                
+                <p>• Google Analytics 4: Core Web Vitals report.<br>
+                • Sentry Performance: Frontend and backend transaction tracing.<br>
+               • Datadog/Raygun/New Relic: Real user monitoring (RUM), APM.<br>
+                • Web Vitals library: Measure LCP, INP, CLS in production, send to analytics.</p>
+                
+                <p>Measure both. Lab data shows what <em>could</em> happen. Field data shows what <em>does</em> happen.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Quick Wins Checklist</h2>
+                
+                <p>Do these now, see results this week:</p>
+                
+                <p>☐ Compress all images (TinyPNG, Squoosh)<br>
+                ☐ Enable gzip/Brotli compression on server<br>
+                ☐ Add CDN for static assets (Cloudflare, Fastly)<br>
+                ☐ Lazy load images below the fold<br>
+                ☐ Remove unused JavaScript and CSS<br>
+                ☐ Add database indexes on slow queries<br>
+                ☐ Implement API response caching<br>
+                ☐ Defer non-critical JavaScript<br>
+                ☐ Inline critical CSS<br>
+                ☐ Preload key resources (fonts, hero image)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Performance Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with optimization playbooks, performance budgets, and measurement frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('performanceGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
