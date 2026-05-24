@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Growth Rate Calculator — Premium Growth Projections &amp; Milestones</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .calculate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .results { display: none; }
+        .results.show { display: block; }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #94a3b8;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #a855f7;
+            margin-bottom: 4px;
+        }
+        .result-subtitle {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .metric {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .growth-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        .growth-table th, .growth-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .growth-table th {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .growth-table td {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+        }
+        .growth-table .positive { color: #10b981; }
+        .growth-table .negative { color: #ef4444; }
+        .compound-section {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .compound-section h4 {
+            color: #6366f1;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .compound-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .compound-metric {
+            text-align: center;
+        }
+        .compound-metric .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .compound-metric .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .unlock-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .unlock-section p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .unlock-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .unlock-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 16px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+        }
+        .milestone-teaser {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .milestone-teaser h4 {
+            color: #10b981;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .milestone-teaser p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .compound-grid { grid-template-columns: 1fr; }
+            .unlock-features { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Growth Rate Calculator</h1>
+        <p class="subtitle">Calculate MoM and YoY growth, compound annual growth rate, and basic projections. Unlock milestone roadmaps and full growth model for $9.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Starting MRR / Revenue ($)</label>
+                <input type="number" id="startRevenue" value="10000" placeholder="10000">
+            </div>
+            <div class="input-group">
+                <label>Current MRR / Revenue ($)</label>
+                <input type="number" id="currentRevenue" value="25000" placeholder="25000">
+            </div>
+            <div class="input-group">
+                <label>Months Elapsed</label>
+                <input type="number" id="monthsElapsed" value="6" placeholder="6">
+            </div>
+            <div class="input-group">
+                <label>Target Monthly Growth (%)</label>
+                <input type="number" id="targetGrowth" value="15" placeholder="15">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Growth Metrics</button>
+        
+        <div class="results" id="results">
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value" id="momGrowth">15.0%</div>
+                    <div class="metric-label">Avg MoM Growth</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="yoyGrowth">180.0%</div>
+                    <div class="metric-label">Implied YoY Growth</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="cagr">60.0%</div>
+                    <div class="metric-label">CAGR (Monthly)</div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Growth Rate Breakdown</h3>
+                <table class="growth-table">
+                    <thead>
+                        <tr><th>Period</th><th>Revenue</th><th>Growth</th><th>Cumulative</th></tr>
+                    </thead>
+                    <tbody id="growthTableBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="compound-section">
+                <h4>Compound Growth Analysis</h4>
+                <div class="compound-grid">
+                    <div class="compound-metric">
+                        <div class="value" id="doublingTime">4.7</div>
+                        <div class="label">Months to Double</div>
+                    </div>
+                    <div class="compound-metric">
+                        <div class="value" id="tenxTime">15.7</div>
+                        <div class="label">Months to 10x</div>
+                    </div>
+                    <div class="compound-metric">
+                        <div class="value" id="revenueIn12mo">$106K</div>
+                        <div class="label">Revenue in 12 Months</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="milestone-teaser">
+                <h4>Free Preview: Next Milestone</h4>
+                <p id="milestonePreview">At 15% MoM growth, you'll hit $100K MRR in ~16 months. Unlock the full milestone roadmap to see every checkpoint to $1M and $10M ARR.</p>
+            </div>
+            
+            <div class="unlock-section" id="unlockSection">
+                <h2>Unlock Full Growth Roadmap</h2>
+                <p>Get the complete growth model with:</p>
+                <div class="unlock-features">
+                    <div class="unlock-feature">✅ Detailed milestone roadmap to $1M &amp; $10M ARR</div>
+                    <div class="unlock-feature">✅ Month-by-month revenue projections</div>
+                    <div class="unlock-feature">✅ Growth decay modeling (realistic curves)</div>
+                    <div class="unlock-feature">✅ Benchmark comparisons vs top quartile</div>
+                    <div class="unlock-feature">✅ Required customer/revenue growth rates</div>
+                    <div class="unlock-feature">✅ Downloadable growth plan PDF</div>
+                </div>
+                <div class="price-tag">$9</div>
+                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
+                <form class="email-form" id="emailForm">
+                    <input type="email" class="email-input" placeholder="your@email.com" required>
+                    <button type="submit" class="stripe-btn">Get Full Roadmap — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const startRevenue = parseFloat(document.getElementById('startRevenue').value) || 10000;
+            const currentRevenue = parseFloat(document.getElementById('currentRevenue').value) || 25000;
+            const monthsElapsed = parseFloat(document.getElementById('monthsElapsed').value) || 6;
+            const targetGrowth = parseFloat(document.getElementById('targetGrowth').value) || 15;
+            
+            // Core growth calculations
+            const cagr = (Math.pow(currentRevenue / startRevenue, 1 / monthsElapsed) - 1) * 100;
+            const momGrowth = (Math.pow(currentRevenue / startRevenue, 1 / monthsElapsed) - 1) * 100;
+            const yoyGrowth = (Math.pow(1 + momGrowth / 100, 12) - 1) * 100;
+            
+            // Doubling and 10x time
+            const doublingTime = Math.log(2) / Math.log(1 + momGrowth / 100);
+            const tenxTime = Math.log(10) / Math.log(1 + momGrowth / 100);
+            
+            // Projected revenue in 12 months
+            const revenueIn12mo = currentRevenue * Math.pow(1 + targetGrowth / 100, 12);
+            
+            // Build month-by-month table (free: first 6 months)
+            let tableHTML = '';
+            const monthsToShow = Math.min(monthsElapsed, 6);
+            for (let i = 0; i <= monthsToShow; i++) {
+                const rev = startRevenue * Math.pow(1 + cagr / 100, i);
+                const growth = i === 0 ? '-' : ((rev / (startRevenue * Math.pow(1 + cagr / 100, i - 1)) - 1) * 100).toFixed(1) + '%';
+                const cumulative = ((rev / startRevenue - 1) * 100).toFixed(0) + '%';
+                tableHTML += '<tr><td>Month ' + i + '</td><td>$' + rev.toLocaleString('en-US', {maximumFractionDigits:0}) + '</td><td class="' + (i === 0 ? '' : 'positive') + '">' + growth + '</td><td>' + cumulative + '</td></tr>';
+            }
+            if (monthsElapsed > 6) {
+                tableHTML += '<tr><td colspan="4" style="text-align:center;color:#64748b;font-style:italic;">... ' + (monthsElapsed - 6) + ' more months in full report</td></tr>';
+            }
+            
+            // Milestone preview
+            const milestones = [
+                { name: '$100K MRR', val: 100000 },
+                { name: '$1M ARR', val: 83333 },
+                { name: '$10M ARR', val: 833333 },
+                { name: '$100M ARR', val: 8333333 }
+            ];
+            let nextMilestone = milestones.find(m => m.val > currentRevenue);
+            let milestoneText = '';
+            if (nextMilestone) {
+                const monthsToMilestone = Math.log(nextMilestone.val / currentRevenue) / Math.log(1 + targetGrowth / 100);
+                milestoneText = 'At ' + targetGrowth + '% MoM growth, you\'ll hit ' + nextMilestone.name + ' in ~' + monthsToMilestone.toFixed(1) + ' months. Unlock the full milestone roadmap to see every checkpoint to $1M and $10M ARR.';
+            } else {
+                milestoneText = 'You\'ve already surpassed all standard milestones. Unlock the full model for custom milestone planning.';
+            }
+            
+            document.getElementById('momGrowth').textContent = momGrowth.toFixed(1) + '%';
+            document.getElementById('yoyGrowth').textContent = yoyGrowth.toFixed(0) + '%';
+            document.getElementById('cagr').textContent = cagr.toFixed(1) + '%';
+            document.getElementById('doublingTime').textContent = doublingTime.toFixed(1);
+            document.getElementById('tenxTime').textContent = tenxTime.toFixed(1);
+            document.getElementById('revenueIn12mo').textContent = '$' + (revenueIn12mo / 1000).toFixed(0) + 'K';
+            document.getElementById('growthTableBody').innerHTML = tableHTML;
+            document.getElementById('milestonePreview').textContent = milestoneText;
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('growthReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

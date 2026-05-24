@@ -3,233 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micro-SaaS Tools Hub</title>
+    <title>Komi's SaaS Toolkit — 63+ Free Calculators for Founders</title>
+    <meta name="description" content="Free SaaS calculators for founders. Churn, MRR, LTV, CAC, pricing, growth, and more. 63+ tools to help you build a better SaaS.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f0f23;
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
             min-height: 100vh;
             padding: 40px 20px;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .premium-banner {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 32px;
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
             text-align: center;
-            color: white;
+            margin-bottom: 48px;
         }
-        .premium-banner a {
-            color: white;
-            text-decoration: underline;
-            font-weight: 600;
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 16px;
         }
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        header h1 {
+        h1 {
             font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
         }
-        header p {
-            color: #8892b0;
+        .subtitle {
+            color: #94a3b8;
             font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 24px;
         }
         .stats {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #64ffda;
-            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
         }
-        .grid {
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .search {
+            width: 100%;
+            padding: 14px 20px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+        .search::placeholder { color: #475569; }
+        .search:focus { outline: none; border-color: #6366f1; }
+        
+        .category {
+            margin-bottom: 32px;
+        }
+        .category h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
         .tool-card {
             background: #1a1a2e;
-            border: 1px solid #2a2a4a;
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
-            padding: 20px;
-            transition: all 0.2s ease;
+            padding: 16px;
             text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            color: #e2e8f0;
+            transition: all 0.2s;
         }
         .tool-card:hover {
-            border-color: #667eea;
+            border-color: rgba(99, 102, 241, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(102,126,234,0.15);
         }
-        .tool-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .tool-name {
-            font-weight: 500;
+        .tool-card h3 {
             font-size: 0.95rem;
-            color: #ccd6f6;
-            line-height: 1.3;
+            margin-bottom: 4px;
+            color: #6366f1;
         }
+        .tool-card p {
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        .tool-card .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #10b981;
+            margin-top: 8px;
+        }
+        
         footer {
             text-align: center;
-            margin-top: 60px;
-            color: #8892b0;
+            padding: 40px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 48px;
+            color: #64748b;
             font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            .stats { flex-direction: column; gap: 16px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="premium-banner">
-            ✨ <strong>NEW: Premium Analytics Suite</strong> — 15 advanced calculators with smart recommendations, benchmarks, and revenue projections. <a href="index-premium.html">Explore Premium Tools →</a>
+        <div class="header">
+            <div class="logo">🛠️</div>
+            <h1>Komi's SaaS Toolkit</h1>
+            <p class="subtitle">63+ free calculators and tools for SaaS founders. Calculate churn, MRR, LTV, pricing, growth, and more.</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">63+</div>
+                    <div class="stat-label">Tools</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">13</div>
+                    <div class="stat-label">Repos</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">50</div>
+                    <div class="stat-label">Nostr Posts</div>
+                </div>
+            </div>
+            <a href="https://komi-projects.github.io/simple-recover-landing/" class="cta-btn">🚀 Try SimpleRecover — Free</a>
         </div>
-        <header>
-            <h1>Micro-SaaS Tools Hub</h1>
-            <p>A collection of free tools for SaaS founders, makers, and growth teams.</p>
-        </header>
-        <div class="stats" id="stats"></div>
-        <div class="grid" id="grid"></div>
+        
+        <input type="text" class="search" placeholder="Search calculators..." id="search">
+        
+        <div class="category">
+            <h2>💰 Revenue & Financial</h2>
+            <div class="tools-grid">
+                <a href="mrr-calculator-premium.html" class="tool-card">
+                    <h3>MRR Calculator</h3>
+                    <p>Monthly recurring revenue with 12-month projections</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="arr-calculator-premium.html" class="tool-card">
+                    <h3>ARR Calculator</h3>
+                    <p>Annual revenue run rate with growth trajectory</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="ltv-calculator-premium.html" class="tool-card">
+                    <h3>LTV Calculator</h3>
+                    <p>Lifetime value with net churn and margin analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-valuation-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Valuation</h3>
+                    <p>Calculate valuation using industry-standard multiples</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="runway-calculator-premium.html" class="tool-card">
+                    <h3>Runway Calculator</h3>
+                    <p>Burn rate, runway, and break-even analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="stripe-fee-calculator-premium.html" class="tool-card">
+                    <h3>Stripe Fee Calculator</h3>
+                    <p>Effective rate and annual fee impact</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="stripe-fee-optimizer-premium.html" class="tool-card">
+                    <h3>Stripe Fee Optimizer</h3>
+                    <p>Compare plans and optimize for lowest fees</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="acv-calculator-premium.html" class="tool-card">
+                    <h3>ACV Calculator</h3>
+                    <p>Annual contract value with mix impact analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="founder-salary-calculator-premium.html" class="tool-card">
+                    <h3>Founder Salary</h3>
+                    <p>Optimal salary based on stage and revenue</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>📊 Growth & Retention</h2>
+            <div class="tools-grid">
+                <a href="churn-calculator-premium.html" class="tool-card">
+                    <h3>Churn Calculator</h3>
+                    <p>Logo and revenue churn with NRR analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="cohort-retention-calculator-premium.html" class="tool-card">
+                    <h3>Cohort Retention</h3>
+                    <p>Month 3/6/12 retention and churn analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="nrr-calculator-premium.html" class="tool-card">
+                    <h3>NRR Calculator</h3>
+                    <p>Net revenue retention with expansion analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="expansion-revenue-calculator-premium.html" class="tool-card">
+                    <h3>Expansion Revenue</h3>
+                    <p>Upsell impact and growth trajectory</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="activation-rate-calculator-premium.html" class="tool-card">
+                    <h3>Activation Rate</h3>
+                    <p>Onboarding velocity and improvement potential</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="viral-coefficient-calculator-premium.html" class="tool-card">
+                    <h3>Viral Coefficient</h3>
+                    <p>K-factor and viral growth analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="nps-calculator-premium.html" class="tool-card">
+                    <h3>NPS Calculator</h3>
+                    <p>Net Promoter Score with breakdown</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="customer-health-score-calculator-premium.html" class="tool-card">
+                    <h3>Customer Health Score</h3>
+                    <p>Composite scoring and churn prediction</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="product-market-fit-calculator-premium.html" class="tool-card">
+                    <h3>Product-Market Fit</h3>
+                    <p>PMF score and Sean Ellis test</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>🎯 Acquisition & Marketing</h2>
+            <div class="tools-grid">
+                <a href="cac-calculator-premium.html" class="tool-card">
+                    <h3>CAC Calculator</h3>
+                    <p>Customer acquisition cost with channel breakdown</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="payback-period-calculator-premium.html" class="tool-card">
+                    <h3>Payback Period</h3>
+                    <p>CAC payback and unit economics</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="trial-conversion-calculator-premium.html" class="tool-card">
+                    <h3>Trial Conversion</h3>
+                    <p>Funnel benchmarks and revenue per trial</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="freemium-conversion-calculator-premium.html" class="tool-card">
+                    <h3>Freemium Conversion</h3>
+                    <p>Activation rate and industry benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-pricing-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Pricing</h3>
+                    <p>Optimal tiers and willingness-to-pay analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-growth-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Growth</h3>
+                    <p>Growth rate and milestone projections</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>💳 Payments & Recovery</h2>
+            <div class="tools-grid">
+                <a href="recovery-rate-calculator-premium.html" class="tool-card">
+                    <h3>Recovery Rate</h3>
+                    <p>Failed payment recovery with annual impact</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="dunning-calculator-premium.html" class="tool-card">
+                    <h3>Dunning Calculator</h3>
+                    <p>Email funnel analytics and sequence optimization</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="failed-payment-rate-calculator-premium.html" class="tool-card">
+                    <h3>Failed Payment Rate</h3>
+                    <p>Recovery potential and health status</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="payment-retry-success-calculator-premium.html" class="tool-card">
+                    <h3>Payment Retry Success</h3>
+                    <p>Retry benchmarks and revenue analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="chargeback-rate-calculator-premium.html" class="tool-card">
+                    <h3>Chargeback Rate</h3>
+                    <p>Stripe risk assessment and benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="refund-rate-calculator-premium.html" class="tool-card">
+                    <h3>Refund Rate</h3>
+                    <p>Revenue loss and preventable revenue</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="dunning-recovery-rate-calculator-premium.html" class="tool-card">
+                    <h3>Dunning Recovery Rate</h3>
+                    <p>Email recovery and revenue benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>📈 Operations & Metrics</h2>
+            <div class="tools-grid">
+                <a href="burn-rate-calculator-premium.html" class="tool-card">
+                    <h3>Burn Rate</h3>
+                    <p>Runway and cash flow analytics</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="mrr-at-risk-calculator-premium.html" class="tool-card">
+                    <h3>MRR At Risk</h3>
+                    <p>Revenue at risk from churn</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="time-to-value-calculator-premium.html" class="tool-card">
+                    <h3>Time-to-Value</h3>
+                    <p>TTV score and completion rate</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="feature-adoption-calculator-premium.html" class="tool-card">
+                    <h3>Feature Adoption</h3>
+                    <p>Core adoption and power users</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="support-ticket-calculator-premium.html" class="tool-card">
+                    <h3>Support Ticket</h3>
+                    <p>Volume, resolution time, satisfaction</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="customer-satisfaction-calculator-premium.html" class="tool-card">
+                    <h3>Customer Satisfaction</h3>
+                    <p>Satisfaction score and trends</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
         <footer>
-            <p>Built by <a href="https://github.com/komi-projects" style="color:#64ffda; text-decoration:none;">komi-projects</a></p>
+            <p>Built with ❤️‍🔥 by Komi | <a href="https://komi-projects.github.io/simple-recover-landing/" style="color: #6366f1;">SimpleRecover</a> | <a href="mailto:komi54666@gmail.com" style="color: #6366f1;">Hire Me</a></p>
         </footer>
     </div>
+    
     <script>
-        const tools = [
-            { name: "01 Sales Page", file: "01-sales-page.html", emoji: "🎨" },
-            { name: "02 Pricing Page", file: "02-pricing-page.html", emoji: "🎨" },
-            { name: "03 Features Page", file: "03-features-page.html", emoji: "🎨" },
-            { name: "04 Signup Page", file: "04-signup-page.html", emoji: "🎨" },
-            { name: "Ab Test Ideas", file: "ab-test-ideas.html", emoji: "🔧" },
-            { name: "Ab Test Ideas Landing Page", file: "ab-test-ideas-landing-page.html", emoji: "🎨" },
-            { name: "Ab Test Tracker", file: "ab-test-tracker.html", emoji: "🔧" },
-            { name: "Api Docs Template", file: "api-docs-template.html", emoji: "🔧" },
-            { name: "Api Rate Limit Calculator", file: "api-rate-limit-calculator.html", emoji: "📊" },
-            { name: "Break Even Analysis", file: "break-even-analysis.html", emoji: "📊" },
-            { name: "Burn Multiple Calculator", file: "burn-multiple-calculator.html", emoji: "📊" },
-            { name: "Cac Breakdown", file: "cac-breakdown.html", emoji: "📊" },
-            { name: "Cac Calculator", file: "cac-calculator.html", emoji: "📊" },
-            { name: "Cancellation Flow", file: "cancellation-flow.html", emoji: "🔧" },
-            { name: "Churn Calculator", file: "churn-calculator.html", emoji: "📊" },
-            { name: "Cohort Retention Analyzer", file: "cohort-retention-analyzer.html", emoji: "🤝" },
-            { name: "Competitive Matrix", file: "competitive-matrix.html", emoji: "🎯" },
-            { name: "Competitive Pricing", file: "competitive-pricing.html", emoji: "💰" },
-            { name: "Competitor Analysis", file: "competitor-analysis.html", emoji: "🎯" },
-            { name: "Content Calendar Generator", file: "content-calendar-generator.html", emoji: "✍️" },
-            { name: "Content Ideation Generator", file: "content-ideation-generator.html", emoji: "✍️" },
-            { name: "Conversion Checklist", file: "conversion-checklist.html", emoji: "✅" },
-            { name: "Copy Swipe File", file: "copy-swipe-file.html", emoji: "✍️" },
-            { name: "Copywriting Formulas", file: "copywriting-formulas.html", emoji: "✍️" },
-            { name: "Customer Feedback Survey", file: "customer-feedback-survey.html", emoji: "🤝" },
-            { name: "Customer Feedback Survey Template", file: "customer-feedback-survey-template.html", emoji: "🤝" },
-            { name: "Customer Health Score", file: "customer-health-score.html", emoji: "🤝" },
-            { name: "Customer Interview Script", file: "customer-interview-script.html", emoji: "🤝" },
-            { name: "Customer Journey Map", file: "customer-journey-map.html", emoji: "🤝" },
-            { name: "Customer Retention Calculator", file: "customer-retention-calculator.html", emoji: "📊" },
-            { name: "Customer Success Emails", file: "customer-success-emails.html", emoji: "📧" },
-            { name: "Customer Success Playbook", file: "customer-success-playbook.html", emoji: "🤝" },
-            { name: "Dunning Email Generator", file: "dunning-email-generator.html", emoji: "📧" },
-            { name: "Email Deliverability Checker", file: "email-deliverability-checker.html", emoji: "📧" },
-            { name: "Email Signature Generator", file: "email-signature-generator.html", emoji: "📧" },
-            { name: "Faq Generator", file: "faq-generator.html", emoji: "✍️" },
-            { name: "Feature Prioritization", file: "feature-prioritization.html", emoji: "🔧" },
-            { name: "Feature Request Template", file: "feature-request-template.html", emoji: "🔧" },
-            { name: "Feedback Form", file: "feedback-form.html", emoji: "🤝" },
-            { name: "Founder Health Tracker", file: "founder-health-tracker.html", emoji: "🔧" },
-            { name: "Freelance Contract Template", file: "freelance-contract-template.html", emoji: "📄" },
-            { name: "Freelance Invoice Template", file: "freelance-invoice-template.html", emoji: "📄" },
-            { name: "Freelance Negotiation Script", file: "freelance-negotiation-script.html", emoji: "💼" },
-            { name: "Freelance Portfolio Builder", file: "freelance-portfolio-builder.html", emoji: "💼" },
-            { name: "Freelance Proposal Template", file: "freelance-proposal-template.html", emoji: "💼" },
-            { name: "Freelance Rate Calculator", file: "freelance-rate-calculator.html", emoji: "📊" },
-            { name: "Freemium Conversion Calculator", file: "freemium-conversion-calculator.html", emoji: "📊" },
-            { name: "Freemium Funnel", file: "freemium-funnel.html", emoji: "💰" },
-            { name: "Growth Rate Calculator", file: "growth-rate-calculator.html", emoji: "📊" },
-            { name: "Heatmap Analysis", file: "heatmap-analysis.html", emoji: "📈" },
-            { name: "Hero Generator", file: "hero-generator.html", emoji: "🎨" },
-            { name: "Landing Page Copy Formula", file: "landing-page-copy-formula.html", emoji: "🎨" },
-            { name: "Landing Page Roi", file: "landing-page-roi.html", emoji: "📊" },
-            { name: "Launch Checklist", file: "launch-checklist.html", emoji: "🚀" },
-            { name: "Launch Page Wireframe", file: "launch-page-wireframe.html", emoji: "🎨" },
-            { name: "Ltv Calculator", file: "ltv-calculator.html", emoji: "📊" },
-            { name: "Maker Story Guide", file: "maker-story-guide.html", emoji: "🔧" },
-            { name: "Metrics Benchmarks", file: "metrics-benchmarks.html", emoji: "🔧" },
-            { name: "Metrics Benchmarks Table", file: "metrics-benchmarks-table.html", emoji: "🔧" },
-            { name: "Metrics Dashboard Template", file: "metrics-dashboard-template.html", emoji: "🔧" },
-            { name: "Mrr Growth Calculator", file: "mrr-growth-calculator.html", emoji: "📊" },
-            { name: "Newsletter Signup", file: "newsletter-signup.html", emoji: "📧" },
-            { name: "Nrr Calculator", file: "nrr-calculator.html", emoji: "📊" },
-            { name: "Og Meta Generator", file: "og-meta-generator.html", emoji: "🔧" },
-            { name: "Onboarding Checklist", file: "onboarding-checklist.html", emoji: "📧" },
-            { name: "Onboarding Email Sequence", file: "onboarding-email-sequence.html", emoji: "📧" },
-            { name: "Onboarding Emails", file: "onboarding-emails.html", emoji: "📧" },
-            { name: "Onboarding Scorecard", file: "onboarding-scorecard.html", emoji: "📧" },
-            { name: "Performance Analyzer", file: "performance-analyzer.html", emoji: "📈" },
-            { name: "Ph Launch Checklist", file: "ph-launch-checklist.html", emoji: "🚀" },
-            { name: "Pmf Survey", file: "pmf-survey.html", emoji: "🤝" },
-            { name: "Positioning Generator", file: "positioning-generator.html", emoji: "🔧" },
-            { name: "Pricing Calculator", file: "pricing-calculator.html", emoji: "📊" },
-            { name: "Pricing Page Copy", file: "pricing-page-copy.html", emoji: "🎨" },
-            { name: "Pricing Psychology Guide", file: "pricing-psychology-guide.html", emoji: "💰" },
-            { name: "Pricing Strategy Guide", file: "pricing-strategy-guide.html", emoji: "💰" },
-            { name: "Pricing Tier Generator", file: "pricing-tier-generator.html", emoji: "💰" },
-            { name: "Privacy Policy Generator", file: "privacy-policy-generator.html", emoji: "📄" },
-            { name: "Product Hunt Launch", file: "product-hunt-launch.html", emoji: "🚀" },
-            { name: "Product Hunt Strategy", file: "product-hunt-strategy.html", emoji: "🚀" },
-            { name: "Referral Calculator", file: "referral-calculator.html", emoji: "📊" },
-            { name: "Resources", file: "resources.html", emoji: "🔧" },
-            { name: "Retention Playbook", file: "retention-playbook.html", emoji: "🤝" },
-            { name: "Runway Calculator", file: "runway-calculator.html", emoji: "📊" },
-            { name: "Saas Metrics Dashboard", file: "saas-metrics-dashboard.html", emoji: "🔧" },
-            { name: "Saas Roi Calculator", file: "saas-roi-calculator.html", emoji: "📊" },
-            { name: "Seo Checklist", file: "seo-checklist.html", emoji: "📈" },
-            { name: "Seo Checklist Landing Page", file: "seo-checklist-landing-page.html", emoji: "🎨" },
-            { name: "Social Proof Generator", file: "social-proof-generator.html", emoji: "🔧" },
-            { name: "Support Sla Calculator", file: "support-sla-calculator.html", emoji: "📊" },
-            { name: "Support Templates", file: "support-templates.html", emoji: "🔧" },
-            { name: "Testimonial Request", file: "testimonial-request.html", emoji: "✍️" },
-            { name: "Timezone Planner", file: "timezone-planner.html", emoji: "🔧" },
-            { name: "Tools Hub", file: "tools-hub.html", emoji: "🔧" },
-            { name: "Unit Economics Calculator", file: "unit-economics-calculator.html", emoji: "📊" },
-            { name: "User Persona Generator", file: "user-persona-generator.html", emoji: "🔧" },
-            { name: "Viral Coefficient Calculator", file: "viral-coefficient-calculator.html", emoji: "📊" },
-            { name: "Weekly Planning Template", file: "weekly-planning-template.html", emoji: "✅" },
-            { name: "Wireframe Generator", file: "wireframe-generator.html", emoji: "🎨" }
-        ];
-
-        document.getElementById('stats').textContent = `${tools.length} tools available`;
-
-        const grid = document.getElementById('grid');
-        tools.sort((a, b) => a.name.localeCompare(b.name));
-        tools.forEach(tool => {
-            const card = document.createElement('a');
-            card.className = 'tool-card';
-            card.href = tool.file;
-            card.innerHTML = `
-                <div class="tool-icon">${tool.emoji}</div>
-                <div class="tool-name">${tool.name}</div>
-            `;
-            grid.appendChild(card);
+        document.getElementById('search').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
         });
     </script>
 </body>
