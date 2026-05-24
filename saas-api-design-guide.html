@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS API Design Guide — Free Download</title>
+    <meta name="description" content="Free SaaS API design guide. Build RESTful APIs, design webhooks, and create developer-friendly interfaces that drive adoption.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .api {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .principle-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .principle-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .principle-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 API Design</h1>
+            <p class="subtitle">Build APIs developers love. Drive adoption. Enable integrations.</p>
+        </div>
+        
+        <div class="api">
+            <div class="section">
+                <h2>Why API Design Matters</h2>
+                
+                <p>Your API is your product for developers. A well-designed API reduces integration time from weeks to hours. A poorly designed API creates support tickets, frustrated customers, and churn.</p>
+                
+                <p>Great APIs are:</p>
+                
+                <p>• <strong>Predictable:</strong> Consistent patterns developers can learn once and apply everywhere.<br>
+                • <strong>Discoverable:</strong> Self-documenting with clear errors and examples.<br>
+                • <strong>Reliable:</strong> Stable versions, clear deprecation policies, high uptime.<br>
+                • <strong>Fast:</strong> Response times < 200ms. Pagination for large datasets.<br>
+                • <strong>Secure:</strong> OAuth 2.0, rate limiting, scoped permissions.</p>
+            </div>
+            
+            <div class="section">
+                <h2>REST API Best Practices</h2>
+                
+                <div class="principle-box">
+                    <div class="principle-name">📋 Resource-Based URLs</div>
+                    <div class="principle-detail">Use nouns, not verbs. /customers not /getCustomers. /invoices/123 not /getInvoice?id=123. HTTP methods (GET, POST, PUT, DELETE) are the verbs.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🔢 Consistent Naming</div>
+                    <div class="principle-detail">Plural nouns: /customers, /orders, /products. Kebab-case: /billing-addresses. Lowercase always. Consistency matters more than the specific convention.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">📄 JSON Everywhere</div>
+                    <div class="principle-detail">Request bodies, response bodies, error messages — all JSON. snake_case for keys (customer_id) or camelCase (customerId). Pick one, document it, stick to it.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🔢 HTTP Status Codes</div>
+                    <div class="principle-detail">200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests, 500 Internal Server Error. Use the right code. Don't return 200 with an error body.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">📄 Error Format</div>
+                    <div class="principle-detail">Consistent error structure: { "error": { "code": "invalid_email", "message": "Email must be a valid email address", "field": "email", "request_id": "req_abc123" }}. Machine-readable code + human-readable message + debugging info.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">📄 Pagination</div>
+                    <div class="principle-detail">Cursor-based pagination for real-time data. Offset-based for static data. Always include: data array, pagination object (has_more, next_cursor, total_count). Never return unbounded lists.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>API Versioning</h2>
+                
+                <p><strong>URL versioning:</strong> /v1/customers, /v2/customers. Simple, explicit, cache-friendly. Most common approach.</p>
+                
+                <p><strong>Header versioning:</strong> Accept: application/vnd.api+json;version=2. Cleaner URLs, harder to discover. Good for internal APIs.</p>
+                
+                <p><strong>Deprecation policy:</strong> 12-month notice for breaking changes. Sunset headers on deprecated endpoints. Migration guides with before/after examples. Never break existing integrations without warning.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Authentication</h2>
+                
+                <p><strong>API Keys:</strong> Simple, fast, good for server-to-server. Pass in header: X-API-Key: sk_live_abc123. Rotateable, scoped, auditable.</p>
+                
+                <p><strong>OAuth 2.0:</strong> Standard for user-delegated access. Authorization code flow for web apps. PKCE for mobile/SPA. Scopes for permissions (read:customers, write:invoices).</p>
+                
+                <p><strong>JWT:</strong> Stateless auth tokens. Signed, not encrypted (use JWE for sensitive claims). Short expiry (15 min) + refresh tokens. Store claims, not user data.</p>
+                
+                <p><strong>Webhook signatures:</strong> Sign payloads with HMAC-SHA256. Verify signature on receipt. Prevents tampering and replay attacks.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Rate Limiting</h2>
+                
+                <p>Return rate limit headers on every request:</p>
+                
+                <p>X-RateLimit-Limit: 1000<br>
+                X-RateLimit-Remaining: 999<br>
+                X-RateLimit-Reset: 1640995200</p>
+                
+                <p><strong>Tiered limits:</strong> Free: 100/hour, Starter: 1000/hour, Pro: 10000/hour, Enterprise: custom. Align with pricing tiers.</p>
+                
+                <p><strong>429 response:</strong> { "error": { "code": "rate_limit_exceeded", "message": "Rate limit exceeded. Try again in 60 seconds.", "retry_after": 60 } }</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Documentation</h2>
+                
+                <p><strong>OpenAPI (Swagger):</strong> Machine-readable API spec. Generates docs, SDKs, and testing tools. Maintain it. Auto-generate from code if possible.</p>
+                
+                <p><strong>Interactive docs:</strong> Try-it-now features. Pre-filled examples. Copy-paste curl commands. Developers should be able to make their first API call in < 5 minutes.</p>
+                
+                <p><strong>Changelog:</strong> Document every change. Breaking, additive, deprecated. Date-stamped. RSS feed. Developers subscribe and stay informed.</p>
+                
+                <p><strong>SDKs:</strong> Official SDKs for top languages (JavaScript, Python, Ruby, PHP, Go). Community SDKs for the rest. SDKs reduce integration time and support tickets.</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Metrics</h2>
+                
+                <p>• <strong>Request volume:</strong> Calls per day/hour. Growth = adoption.<br>
+                • <strong>Error rate:</strong> % of 4xx/5xx responses. Target: < 1% 5xx, < 5% 4xx.<br>
+                • <strong>Latency (P95/P99):</strong> Response times. P95 < 200ms, P99 < 500ms.<br>
+                • <strong>SDK adoption:</strong> % of API calls via SDK vs. raw HTTP. Higher = better DX.<br>
+                • <strong>Time to first API call:</strong> How fast new developers make a successful call. Target: < 10 minutes.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full API Design Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with design patterns, authentication schemes, and SDK development playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('apiDesignEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
