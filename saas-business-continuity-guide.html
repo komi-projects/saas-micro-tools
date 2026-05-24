@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Business Continuity Guide — Free Download</title>
+    <meta name="description" content="Free SaaS business continuity guide. Keep operations running through disruptions, protect revenue, and maintain customer trust.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .continuity {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .component-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .component-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .component-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Business Continuity</h1>
+            <p class="subtitle">Keep running. No matter what.</p>
+        </div>
+        
+        <div class="continuity">
+            <div class="section">
+                <h2>Business Continuity vs. Disaster Recovery</h2>
+                
+                <p>Disaster recovery is about <em>IT systems</em> — restoring servers, databases, and applications. Business continuity is broader — it's about <em>keeping the business operating</em> during and after a disruption.</p>
+                
+                <p>BC includes: people (who does what, where do they work), processes (how do we serve customers without our usual tools), communication (how do we talk to customers, employees, partners), and facilities (where do we work if the office is unavailable). DR is a subset of BC.</p>
+            </div>
+            
+            <div class="section">
+                <h2>BC Plan Components</h2>
+                
+                <div class="component-box">
+                    <div class="component-name">1. Governance</div>
+                    <div class="component-detail">BC program owner (usually COO or VP Operations). BC committee with reps from engineering, support, sales, finance, HR. Annual review and update cycle. Executive sponsorship is critical — BC without leadership support fails.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">2. Risk Assessment</div>
+                    <div class="component-detail">Identify threats: natural disasters, cyberattacks, pandemics, supply chain failures, key personnel loss. Score by likelihood and impact. Focus planning on high-likelihood, high-impact risks. Update quarterly.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">3. Business Impact Analysis</div>
+                    <div class="component-detail">Identify critical business functions and their dependencies. How long can each function be down before serious damage? What resources does each function need (people, systems, data, vendors)? This drives RTO and RPO targets.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">4. Recovery Strategies</div>
+                    <div class="component-detail">How do you recover each critical function? Alternate work locations, remote work capabilities, alternate suppliers, manual workarounds, cross-training employees. The goal isn't full restoration — it's maintaining minimum viable operations.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">5. Communication Plan</div>
+                    <div class="component-detail">Who communicates what, to whom, when, and how. Customer communication (status page, email, in-app). Internal communication (Slack, phone tree, emergency contact list). Vendor communication. Media/regulator communication if needed.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">6. Testing and Maintenance</div>
+                    <div class="component-detail">Tabletop exercises (quarterly), functional tests (annually), full BC drills (annually). Update plan after each test, after each real incident, and after any major organizational change (new office, new leadership, new critical systems).</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>SaaS-Specific BC Considerations</h2>
+                
+                <p><strong>Remote Work:</strong> Most SaaS companies are already distributed. Ensure all employees can work from home with: laptop, internet, VPN access, collaboration tools (Slack, Zoom, Notion), and access to critical systems. Test this quarterly — don't assume it works.</p>
+                
+                <p><strong>Customer Communication:</strong> During a disruption, customers need to know: what's affected, how long it will last, what they should do, and how to get help. Pre-write templates for common scenarios (outage, data breach, service degradation, planned maintenance).</p>
+                
+                <p><strong>Revenue Protection:</strong> If your payment processor goes down, can you still bill customers? If your sales CRM is offline, can reps still close deals? Identify revenue-critical processes and ensure they have manual fallbacks.</p>
+                
+                <p><strong>Vendor Dependencies:</strong> List all critical vendors (cloud provider, payment processor, email service, CDN). What's your plan if each fails? Do you have alternate vendors? Can you operate without them for 24-48 hours?</p>
+                
+                <p><strong>Key Personnel:</strong> What if the founder/CEO is unavailable? The CTO? The head of support? Document decision-making authority, critical passwords (in a secure vault), and key contacts. Cross-train so no single person is a bottleneck.</p>
+            </div>
+            
+            <div class="section">
+                <h2>BC During a Pandemic/Lockdown</h2>
+                
+                <p>COVID-19 taught SaaS companies valuable lessons:</p>
+                
+                <p>• <strong>Remote-first wins:</strong> Companies already set up for remote work transitioned smoothly. Office-centric companies struggled for months.
+                • <strong>Communication overload:</strong> Daily all-hands, constant Slack updates. Have a communication cadence planned. Too much = noise. Too little = anxiety.
+                • <strong>Mental health:</strong> Disruptions are stressful. Build employee support into BC — mental health resources, flexible hours, clear expectations.
+                • <strong>Customer empathy:</strong> Your customers are disrupted too. Flexible payment terms, extended trials, and proactive support build loyalty during crises.
+                • <strong>Opportunity:</strong> Disruptions create demand shifts. Zoom grew 30x during COVID. Be ready to pivot marketing and product to meet new needs.</p>
+            </div>
+            
+            <div class="section">
+                <h2>BC Metrics</h2>
+                
+                <p>• <strong>Plan completion:</strong> % of required BC documentation complete. Target: 100%.
+                • <strong>Test frequency:>/strong> Tabletop exercises per quarter, full drills per year. Target: 4 tabletops, 1 full drill.
+                • <strong>Test findings:</strong> Number of gaps identified per test. Trending down = improving.
+                • <strong>RTO achievement:</strong> % of tests where recovery met RTO target. Target: 100%.
+                • <strong>Employee awareness:</strong> % of employees who know the BC plan and their role. Target: 100% of critical function owners.
+                • <strong>Revenue during disruption:</strong> Compare revenue during test/disruption to normal. Target: > 80% for minor disruptions, > 50% for major.</p>
+            </div>
+            
+            <div class="section">
+                <h2>BC for Different Company Sizes</h2>
+                
+                <p><strong>Startup (1-20 employees):</strong></p>
+                
+                <p>• Keep it simple. One-page plan with key contacts, critical systems, and basic recovery steps.
+                • Everyone works remote. No office dependency.
+                • Founder has access to everything (use a password manager like 1Password or Bitwarden with emergency access).
+                • Backup critical data to cloud (Google Drive, Dropbox) in addition to production backups.
+                • Test: Walk through the plan as a team. 30 minutes. Quarterly.</p>
+                
+                <p><strong>Growth (20-100 employees):</strong></p>
+                
+                <p>• Formal BC plan with sections for each department.
+                • BC coordinator (part-time role, often ops or IT).
+                • Department-specific recovery procedures.
+                • Communication tree with alternates.
+                • Vendor risk assessment.
+                • Test: Tabletop exercises quarterly, functional tests annually.</p>
+                
+                <p><strong>Scale (100+ employees):</strong></p>
+                
+                <p>• Full BC program with dedicated BC manager.
+                • BC committee with monthly meetings.
+                • Comprehensive risk register.
+                • Automated DR with regular failover tests.
+                • Employee BC training as part of onboarding.
+                • Annual third-party BC/DR audit.
+                • Insurance review (business interruption, cyber liability).</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Business Continuity Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with BC templates, communication playbooks, and testing frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('businessContinuityEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
