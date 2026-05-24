@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dunning Email Templates for SaaS — Free Download</title>
+    <meta name="description" content="Free dunning email templates for SaaS. 5 proven emails to recover failed payments and reduce churn.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .email-preview {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .email-subject {
+            color: #6366f1;
+            font-weight: 600;
+        }
+        .email-timing {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        .email-body {
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .email-body p {
+            margin-bottom: 12px;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Dunning Email Templates</h1>
+            <p class="subtitle">5 proven emails to recover failed payments and reduce involuntary churn.</p>
+        </div>
+        
+        <div class="email-preview">
+            <div class="email-header">
+                <div class="email-subject">Your payment failed — let's fix it</div>
+                <div class="email-timing">Day 1</div>
+            </div>
+            <div class="email-body">
+                <p>Hi {{name}},</p>
+                <p>We noticed your recent payment for {{product}} didn't go through. This usually happens when:</p>
+                <p>• Your card expired<br>• Your bank declined the charge<br>• You got a new card</p>
+                <p><strong>Update your payment method in 2 clicks:</strong><br>{{update_link}}</p>
+                <p>Your service will continue uninterrupted once updated.</p>
+                <p>Thanks,<br>The {{company}} Team</p>
+            </div>
+        </div>
+        
+        <div class="email-preview">
+            <div class="email-header">
+                <div class="email-subject">⚠️ Account suspension in 3 days</div>
+                <div class="email-timing">Day 7</div>
+            </div>
+            <div class="email-body">
+                <p>Hi {{name}},</p>
+                <p>We still haven't received your payment. Your account will be suspended in 3 days.</p>
+                <p><strong>Don't lose your data:</strong><br>{{update_link}}</p>
+                <p>Questions? Reply to this email.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get All 5 Templates</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete sequence with copy-paste HTML and plain text versions.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('dunningTemplatesEmail', email);
+            alert('✅ Templates coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
