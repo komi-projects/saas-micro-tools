@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Security Guide — Free Download</title>
-    <meta name="description" content="Free SaaS security guide. Implement security best practices, pass SOC 2 audits, and protect customer data from day one.">
+    <title>SaaS Security Guide — Protect Your Product and Customers</title>
+    <meta name="description" content="Free SaaS security guide. Implement security from day one with authentication, authorization, data protection, and vulnerability management.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -44,19 +44,19 @@
             line-height: 1.6;
             margin-bottom: 12px;
         }
-        .tactic-box {
+        .pillar-box {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
         }
-        .tactic-name {
+        .pillar-name {
             color: #e2e8f0;
             font-weight: 600;
             margin-bottom: 4px;
         }
-        .tactic-detail {
+        .pillar-detail {
             color: #94a3b8;
             font-size: 0.95rem;
         }
@@ -108,104 +108,215 @@
         
         <div class="security">
             <div class="section">
-                <h2>Security-First Mindset</h2>
+                <h2>Security is Not a Feature — It's the Foundation</h2>
                 
-                <p>Security isn't a feature you add later. It's a foundation you build from day one. In SaaS, a single breach can destroy trust, trigger legal liability, and end your business. Security is not "IT's problem" — it's everyone's responsibility.</p>
+                <p>In SaaS, security breaches don't just cost money — they destroy trust. One leaked customer database, one unauthorized access, one ransomware attack, and your reputation is damaged for years. Security isn't something you bolt on later; it's something you build in from day one, layer by layer, until it becomes part of your culture.</p>
                 
-                <p><strong>The security triad:</strong> Confidentiality (keep data private), Integrity (data is accurate and tamper-proof), Availability (systems are up when needed). Balance all three — over-indexing on one weakens the others.</p>
+                <p>The best SaaS companies treat security as a competitive advantage. They publish security whitepapers, share penetration test results, maintain bug bounty programs, and build trust through transparency. Their customers sleep better knowing their data is protected by people who take it seriously.</p>
+                
+                <p>This guide covers the essential security practices every SaaS company needs — from authentication to encryption to incident response. Not everything applies on day one, but knowing the full picture helps you build incrementally toward a secure product.</p>
             </div>
             
             <div class="section">
-                <h2>Core Security Practices</h2>
+                <h2>Authentication & Authorization</h2>
                 
-                <div class="tactic-box">
-                    <div class="tactic-name">🔐 Authentication & Authorization</div>
-                    <div class="tactic-detail">Use SSO (OAuth 2.0, SAML) for enterprise. Implement MFA for all admin accounts. Role-based access control (RBAC) — users see only what they need. Never store plaintext passwords (bcrypt/Argon2 only).</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Password Security</div>
+                    <div class="pillar-detail">
+                        Don't roll your own — use proven methods.
+                        • Hashing: bcrypt, scrypt, or Argon2 (never MD5, SHA1, or plain text)
+                        • Salting: Unique salt per password, stored with the hash
+                        • Complexity: Minimum 8 characters, but length > complexity (passphrases > passwords)
+                        • Breach detection: Check passwords against Have I Been Pwned database on signup
+                        • MFA: Enforce for admins, offer for all users (TOTP, WebAuthn, SMS fallback)
+                        • Password resets: Secure tokens (random, time-limited, single-use), sent via email
+                    </div>
                 </div>
                 
-                <div class="tactic-box">
-                    <div class="tactic-name">🛡️ Input Validation</div>
-                    <div class="tactic-detail">Sanitize all user input. SQL injection, XSS, and CSRF are still the top attack vectors. Use parameterized queries, escape output, validate on server-side. Never trust client-side validation alone.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Session Management</div>
+                    <div class="pillar-detail">
+                        Secure tokens, short lifetimes, proper revocation.
+                        • JWT: Signed (not encrypted), short expiry (15-60 min), refresh tokens for long sessions
+                        • Cookies: HttpOnly, Secure, SameSite=Strict, path=/
+                        • Session storage: Redis for server-side sessions, signed cookies for stateless
+                        • Revocation: Instant logout everywhere, session invalidation on password change
+                        • Idle timeout: 30 minutes of inactivity → re-authentication
+                        • Concurrent sessions: Limit or allow, but show active sessions to user
+                    </div>
                 </div>
                 
-                <div class="tactic-box">
-                    <div class="tactic-name">🔑 Encryption</div>
-                    <div class="tactic-detail">TLS 1.3 for data in transit. AES-256 for data at rest. Encrypt backups, logs, and anything that touches PII. Use managed key services (AWS KMS, Google Cloud KMS) for key rotation.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Role-Based Access Control (RBAC)</div>
+                    <div class="pillar-detail">
+                        Define who can do what.
+                        • Roles: Owner, Admin, Member, Viewer (customize for your product)
+                        • Permissions: Granular (create, read, update, delete, export, invite)
+                        • Resources: What objects can they access? (own data, team data, org data)
+                        • Enforcement: Check permissions at API gateway AND service layer (defense in depth)
+                        • Default deny: If permission isn't explicitly granted, it's denied
+                        • Audit: Log every permission check failure (potential attack indicator)
+                    </div>
                 </div>
                 
-                <div class="tactic-box">
-                    <div class="tactic-name">📋 Audit Logging</div>
-                    <div class="tactic-detail">Log every security-relevant event: logins, permission changes, data exports, failed access attempts. Immutable logs (append-only, signed). Retain for 1+ year. Essential for incident response and compliance.</div>
-                </div>
-                
-                <div class="tactic-box">
-                    <div class="tactic-name">🧪 Security Testing</div>
-                    <div class="tactic-detail">Automated vulnerability scanning (Snyk, Dependabot). Penetration testing annually (or after major changes). Bug bounty program for continuous external testing. Static analysis in CI/CD pipeline.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">4. OAuth & SSO</div>
+                    <div class="pillar-detail">
+                        Let customers use their identity provider.
+                        • OAuth 2.0: Standard for delegated authorization (Google, GitHub, Microsoft login)
+                        • SAML 2.0: Enterprise SSO (Okta, Azure AD, OneLogin)
+                        • OIDC: Modern standard built on OAuth 2.0, preferred for new implementations
+                        • SCIM: Automatic user provisioning/deprovisioning from identity provider
+                        • Security: Validate tokens properly, use PKCE for SPA/mobile, verify state parameter
+                        • UX: "Sign in with Google" reduces friction, SSO reduces IT friction
+                    </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>Compliance Frameworks</h2>
+                <h2>Data Protection</h2>
                 
-                <p><strong>SOC 2 Type II:</strong> Security, availability, confidentiality. The enterprise SaaS standard. Requires policies, procedures, evidence, and an auditor. Takes 6-12 months to achieve. Use Vanta or Drata to automate evidence collection.</p>
+                <p><strong>1. Encryption at rest:</strong></p>
                 
-                <p><strong>ISO 27001:</strong> International security standard. More comprehensive than SOC 2 but less US-market-specific. Good for global SaaS companies.</p>
+                <p>• Database: Enable TDE (Transparent Data Encryption) or disk-level encryption
+                • Files: Encrypt uploads before storing (AES-256)
+                • Backups: Encrypt all backups, test restore procedures regularly
+                • Keys: Use KMS (AWS KMS, Google Cloud KMS, Azure Key Vault) — don't hardcode keys
+                • Key rotation: Automatic rotation every 90 days for managed keys</p>
                 
-                <p><strong>GDPR (EU):</strong> Data protection regulation. Right to access, delete, and port data. Consent for tracking. Data Processing Agreements (DPAs) with subprocessors. Fines up to 4% of global revenue.</p>
+                <p><strong>2. Encryption in transit:</strong></p>
                 
-                <p><strong>CCPA/CPRA (California):</strong> US state-level privacy law. Similar to GDPR but narrower. "Do Not Sell My Info" links. Disclosure of data collection. Opt-out for data sales.</p>
+                <p>• TLS 1.2+ everywhere: No HTTP, ever. HSTS headers with long max-age.
+                • Certificate management: Automated with Let's Encrypt or managed certs
+                • API security: mTLS for service-to-service communication in microservices
+                • Internal traffic: Encrypt even internal service communication (zero trust)
+                • Downgrade prevention: TLS 1.3 where possible, disable weak cipher suites</p>
                 
-                <p><strong>HIPAA (Healthcare):</strong> If you touch health data, you need Business Associate Agreements, encrypted everything, access controls, and audit trails. Non-negotiable.</p>
+                <p><strong>3. Data classification:</strong></p>
+                
+                <p>• Public: Marketing content, pricing, documentation
+                • Internal: System configs, non-sensitive logs
+                • Confidential: Customer data, business metrics, API keys
+                • Restricted: PII, payment data, health records (PCI, HIPAA)
+                • Labeling: Tag data by classification, apply controls accordingly</p>
+                
+                <p><strong>4. Data retention & deletion:</strong></p>
+                
+                <p>• Retention policy: Define how long you keep each data type
+                • Automated deletion: Cron jobs or lifecycle policies for old data
+                • Right to deletion: GDPR Article 17 — delete user data on request within 30 days
+                • Backup cleanup: Ensure deleted data doesn't persist in backups forever
+                • Audit: Log all deletions for compliance</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vulnerability Management</h2>
+                
+                <p><strong>1. Dependency scanning:</strong></p>
+                
+                <p>• Automated: Snyk, Dependabot, GitHub Advanced Security
+                • CI/CD integration: Block builds with critical/high vulnerabilities
+                • Update cadence: Weekly review of new vulnerabilities, monthly updates
+                • Pin versions: Lock files (package-lock.json, yarn.lock, poetry.lock) for reproducibility</p>
+                
+                <p><strong>2. Static analysis:</strong></p>
+                
+                <p>• SAST tools: SonarQube, CodeQL, Semgrep
+                • Rules: SQL injection, XSS, insecure deserialization, hardcoded secrets
+                • Integration: Pre-commit hooks and CI checks
+                • False positives: Tune rules to reduce noise, but don't disable security rules</p>
+                
+                <p><strong>3. Penetration testing:</strong></p>
+                
+                <p>• Annual: Hire external security firm for full penetration test
+                • Quarterly: Internal security review of new features
+                • Bug bounty: HackerOne, Bugcrowd, or self-managed program
+                • Scope: Define what's in scope (web app, API, mobile) and out of scope
+                • Remediation: 30-day SLA for critical, 90-day for high findings</p>
+                
+                <p><strong>4. Infrastructure security:</strong></p>
+                
+                <p>• Network: VPC, security groups, no public databases
+                • Containers: Non-root users, minimal base images, vulnerability scanning
+                • Secrets: Vault, AWS Secrets Manager, or 1Password — never in code or env vars in repos
+                • IAM: Least privilege, no shared credentials, MFA for all admin access
+                • Patching: Automated OS patching, container image updates monthly</p>
             </div>
             
             <div class="section">
                 <h2>Incident Response</h2>
                 
-                <p><strong>1. Detect:</strong> Monitoring and alerting. Anomaly detection on login patterns, data access, and API usage. 24/7 alerting for critical systems.</p>
+                <p><strong>1. Preparation:</strong></p>
                 
-                <p><strong>2. Contain:</strong> Isolate affected systems. Rotate compromised credentials. Block malicious IPs. Preserve evidence (logs, snapshots).</p>
+                <p>• Incident response plan: Documented, tested, reviewed quarterly
+                • Response team: Primary, secondary, and executive contacts
+                • Communication templates: Customer notification, status page update, regulatory notice
+                • Forensics: Logging configured for investigation (audit logs, access logs, change logs)
+                • Insurance: Cyber liability insurance with appropriate coverage limits</p>
                 
-                <p><strong>3. Eradicate:</strong> Remove the root cause. Patch vulnerabilities. Fix misconfigurations. Update dependencies.</p>
+                <p><strong>2. Detection:</strong></p>
                 
-                <p><strong>4. Recover:</strong> Restore from clean backups. Verify system integrity. Monitor for re-infection.</p>
+                <p>• Automated: SIEM rules, anomaly detection, threshold alerts
+                • Manual: Customer reports, employee reports, security researcher reports
+                • Triage: Classify severity (P0 data breach, P1 unauthorized access, P2 suspicious activity)
+                • Escalation: Who to wake up, when, and how</p>
                 
-                <p><strong>5. Learn:</strong> Post-mortem. What happened? How did we detect it? How do we prevent it? Document and share. No blame, just learning.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Security Metrics</h2>
+                <p><strong>3. Response:</strong></p>
                 
-                <p>• <strong>Mean Time to Detection (MTTD):</strong> How fast you detect incidents. Target: < 1 hour.<br>
-                • <strong>Mean Time to Response (MTTR):</strong> How fast you respond. Target: < 4 hours.<br>
-                • <strong>Vulnerability patch time:</strong> Days from CVE disclosure to patch. Target: < 7 days for critical.<br>
-                • <strong>Phish test pass rate:</strong> % of employees who report phishing emails. Target: > 80%.<br>
-                • <strong>Security audit findings:</strong> Count of critical/high/medium findings. Trending down = improving.</p>
+                <p>• Contain: Isolate affected systems, revoke compromised credentials, block malicious IPs
+                • Eradicate: Remove attacker access, patch vulnerabilities, rotate keys
+                • Recover: Restore from clean backups, verify system integrity, resume operations
+                • Communicate: Notify customers within 72 hours (GDPR), publish incident report</p>
+                
+                <p><strong>4. Post-incident:</strong></p>
+                
+                <p>• Postmortem: Timeline, root cause, impact assessment, lessons learned
+                • Action items: Specific, assigned, with deadlines
+                • Share: Publish redacted postmortem publicly (builds trust)
+                • Update: Revise incident response plan based on learnings</p>
             </div>
             
             <div class="section">
                 <h2>Security Checklist</h2>
                 
-                <div class="example-box">
-                    <div class="example-title">Launch Day Security</div>
-                    <div class="example-text">
-                        ✅ HTTPS everywhere (TLS 1.3)<br>
-                        ✅ Strong password policy + MFA<br>
-                        ✅ Input validation on all endpoints<br>
-                        ✅ Encrypted database (at rest)<br>
-                        ✅ Audit logging enabled<br>
-                        ✅ Dependency vulnerability scan<br>
-                        ✅ Backup and recovery tested<br>
-                        ✅ Incident response runbook<br>
-                        ✅ Security headers (CSP, HSTS, X-Frame-Options)<br>
-                        ✅ Rate limiting on API and login endpoints
-                    </div>
-                </div>
+                <p>☐ Password hashing: bcrypt/scrypt/Argon2 with unique salts
+                ☐ MFA enforced for admins, offered for all users
+                ☐ Session management: secure, HttpOnly, SameSite cookies
+                ☐ JWT: short expiry, proper signing, refresh token rotation
+                ☐ RBAC implemented with default deny
+                ☐ OAuth/SSO supported (Google, Microsoft, SAML)
+                ☐ Password breach detection on signup
+                ☐ Account lockout after failed attempts (prevent brute force)
+                ☐ Encryption at rest: database, files, backups
+                ☐ Encryption in transit: TLS 1.2+, HSTS, secure cipher suites
+                ☐ Key management: KMS, automatic rotation
+                ☐ Data classification: public, internal, confidential, restricted
+                ☐ Data retention policy defined and automated
+                ☐ Right to deletion implemented (GDPR Article 17)
+                ☐ Dependency scanning automated (Snyk, Dependabot)
+                ☐ Static analysis in CI/CD (SonarQube, CodeQL)
+                ☐ Secrets detection in repos (GitHub Advanced Security, TruffleHog)
+                ☐ Penetration testing: annual external, quarterly internal
+                ☐ Bug bounty program established
+                ☐ Infrastructure: VPC, security groups, no public databases
+                ☐ Container security: non-root, minimal images, scanning
+                ☐ Secrets management: Vault/Secrets Manager, never in code
+                ☐ IAM: least privilege, MFA, no shared credentials
+                ☐ Automated patching: OS, containers, dependencies
+                ☐ Incident response plan documented and tested
+                ☐ Incident response team contacts current
+                ☐ Customer communication templates ready
+                ☐ Cyber liability insurance purchased
+                ☐ Security training for all employees (phishing, password hygiene)
+                ☐ Security whitepaper published (builds customer trust)
+                ☐ SOC 2 Type II audit scheduled (if selling to enterprises)
+                ☐ GDPR/CCPA compliance assessed and documented</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Security Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with compliance roadmaps, incident response playbooks, and security audit checklists.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation templates, security architecture diagrams, and compliance checklists.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
