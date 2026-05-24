@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Incident Management Guide — Free Download</title>
+    <meta name="description" content="Free SaaS incident management guide. Respond to outages, communicate with customers, and learn from failures with structured incident response.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .incident {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .phase-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .phase-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .phase-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Incident Management</h1>
+            <p class="subtitle">Respond fast. Communicate clearly. Learn always.</p>
+        </div>
+        
+        <div class="incident">
+            <div class="section">
+                <h2>What is Incident Management?</h2>
+                
+                <p>Incident management is the process of responding to and resolving unplanned disruptions to your service. In SaaS, incidents are inevitable — databases fail, deploys break, third-party APIs go down. What separates good teams from great ones is how they respond.</p>
+                
+                <p>The goal isn't zero incidents (impossible). The goal is: detect fast, respond effectively, communicate transparently, and prevent recurrence. Every incident is a learning opportunity.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Lifecycle</h2>
+                
+                <div class="phase-box">
+                    <div class="phase-name">1. Detection</div>
+                    <div class="phase-detail">Automated alerts (monitoring), customer reports (support tickets), or manual checks. The faster you detect, the less impact. Target: detect via monitoring before customers notice. This requires comprehensive alerting on business metrics, not just infrastructure.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">2. Triage</div>
+                    <div class="phase-detail">Determine severity and impact. How many users affected? Which features broken? Revenue impact? Assign severity: SEV1 (all users, complete outage), SEV2 (significant subset, major feature broken), SEV3 (minor impact, workaround available), SEV4 (no customer impact, internal issue).</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">3. Response</div>
+                    <div class="phase-detail">Assemble response team (incident commander, technical lead, communications lead). Execute runbook. Communicate status every 15-30 minutes. Don't fix in silence — keep stakeholders updated even if you don't have a solution yet.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">4. Resolution</div>
+                    <div class="phase-detail">Restore service, not necessarily fix root cause. If a bad deploy caused the issue, roll back first. Fix the bug later. "Service restored" and "incident closed" are different milestones. Verify fix: test in production, monitor for 1 hour before declaring all-clear.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">5. Post-Mortem</div>
+                    <div class="phase-detail">Within 48 hours of incident close. What happened? Timeline of events. Root cause analysis (5 Whys). Impact assessment. Action items with owners and deadlines. Share internally (all-hands or Slack). Consider publishing externally for SEV1 incidents (builds trust).</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Communication</h2>
+                
+                <p><strong>Internal:</strong> Dedicated incident Slack/Teams channel. War room (video call) for SEV1/SEV2. Clear roles: Incident Commander (coordinates), Scribe (takes notes), Technical Lead (fixes), Communications Lead (external updates).</p>
+                
+                <p><strong>External (customers):</strong> Status page update within 5 minutes of SEV1 declaration. Update every 15-30 minutes until resolved. Be specific but not overly technical. "Payment processing is experiencing delays" not "Database connection pool exhausted." Apologize, explain, commit to improvement.</p>
+                
+                <p><strong>Post-resolution:</strong> Final update on status page. Follow-up email to affected customers. Post-mortem published (internally or externally). Action items tracked to completion.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Metrics</h2>
+                
+                <p>• <strong>MTTD (Mean Time to Detection):</strong> How fast you find out. Target: < 5 minutes via automated alerts.</p>
+                <p>• <strong>MTTR (Mean Time to Response):</strong> How fast someone starts working on it. Target: < 15 minutes for SEV1, < 1 hour for SEV2.</p>
+                <p>• <strong>MTTF (Mean Time to Fix/Recovery):</strong> How fast service is restored. Target varies by severity.</p>
+                <p>• <strong>Incident frequency:</strong> Incidents per month. Trending down = improving reliability.</p>
+                <p>• <strong>Post-mortem completion rate:</strong> % of incidents with published post-mortem within 48 hours. Target: 100%.</p>
+                <p>• <strong>Action item completion:</strong> % of post-mortem action items completed on time. Target: > 80%.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Tools</h2>
+                
+                <p><strong>Paging:</strong> PagerDuty, Opsgenie, VictorOps — on-call scheduling, escalation policies, alert routing.</p>
+                <p><strong>Status Page:</strong> Statuspage.io, Instatus, Cachet — public communication during incidents.</p>
+                <p><strong>War Room:</strong> Slack huddles, Zoom, Google Meet — synchronous collaboration during incidents.</p>
+                <p><strong>Runbooks:</strong> Notion, Confluence, GitHub Wiki — step-by-step incident response procedures.</p>
+                <p><strong>Post-mortems:</strong> Blameless post-mortem templates, incident tracking (Jira, Linear).</p>
+            </div>
+            
+            <div class="section">
+                <h2>Building a Blameless Culture</h2>
+                
+                <p>Blameless post-mortems are essential. The goal is to understand <em>what</em> happened and <em>how to prevent it</em>, not to find <em>who</em> to blame. People make mistakes. Systems should prevent those mistakes from causing incidents.</p>
+                
+                <p><strong>Blameless language:</strong> "The deploy script didn't verify the database migration" not "John didn't check the migration." "The alerting threshold was too high" not "The on-call engineer missed the alert."</p>
+                
+                <p><strong>Psychological safety:</strong> Engineers must feel safe to report incidents, admit mistakes, and suggest improvements. If people fear punishment, they'll hide problems until they become disasters.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Incident Management Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with runbook templates, severity definitions, and post-mortem frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('incidentManagementEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
