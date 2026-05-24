@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS A/B Testing Guide — Free Download</title>
+    <meta name="description" content="Free SaaS A/B testing guide. Run experiments that actually move the needle. Statistical rigor without the PhD.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .ab {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .phase-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .phase-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .phase-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 A/B Testing</h1>
+            <p class="subtitle">Run experiments that actually move the needle.</p>
+        </div>
+        
+        <div class="ab">
+            <div class="section">
+                <h2>What is A/B Testing?</h2>
+                
+                <p>A/B testing (or split testing) is comparing two versions of something to see which performs better. You show version A to 50% of users and version B to the other 50%, then measure which group had better outcomes — more signups, higher conversion, longer retention, etc.</p>
+                
+                <p>A/B testing removes opinion from product decisions. "I think the blue button will convert better" becomes "The blue button converted 12% better with 95% confidence." Data beats debate.</p>
+                
+                <p>But A/B testing is easy to do wrong. Running an experiment without enough traffic gives you false positives. Testing too many variables at once makes it impossible to know what changed. Stopping early because "it looks good" invalidates your results. This guide covers how to do it right.</p>
+            </div>
+            
+            <div class="section">
+                <h2>What to A/B Test in SaaS</h2>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🎯 Conversion Optimization</div>
+                    <div class="phase-detail">
+                        • Landing page headlines and CTAs
+                        • Pricing page layout and plan names
+                        • Signup flow steps and fields
+                        • Free trial length (7 vs 14 vs 30 days)
+                        • Demo request forms vs. self-serve signup
+                        • Social proof placement and type
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">📈 Activation & Onboarding</div>
+                    <div class="phase-detail">
+                        • Onboarding sequence order
+                        • Empty state designs and copy
+                        • Tutorial tooltips vs. video walkthroughs
+                        • Progress indicators during setup
+                        • Default templates vs. blank slate
+                        • Email vs. in-app guidance
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">💰 Monetization</div>
+                    <div class="phase-detail">
+                        • Plan pricing ($29 vs $39 vs $49)
+                        • Annual discount percentage (15% vs 20% vs 25%)
+                        • Paywall timing (day 7 vs day 14)
+                        • Upgrade prompts and placement
+                        • Feature bundling across plans
+                        • Add-on pricing and presentation
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🔒 Retention</div>
+                    <div class="phase-detail">
+                        • Email cadence (daily vs. weekly digests)
+                        • In-app notification frequency
+                        • Re-engagement campaigns
+                        • Feature discovery prompts
+                        • Dashboard default views
+                        • Mobile app vs. email reminders
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">📧 Messaging</div>
+                    <div class="phase-detail">
+                        • Email subject lines
+                        • Push notification copy
+                        • In-app banner messaging
+                        • Error message tone (technical vs. friendly)
+                        • Empty state copy and CTAs
+                        • Upgrade messaging and urgency
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>The A/B Testing Process</h2>
+                
+                <div class="phase-box">
+                    <div class="phase-name">1. Hypothesis</div>
+                    <div class="phase-detail">
+                        Start with a belief you can test. Format: "If we [change], then [metric] will [increase/decrease] because [reason]."
+                        
+                        Bad: "Let's test a new landing page"
+                        Good: "If we move social proof above the fold, then signup rate will increase 10% because prospects need trust before giving their email"
+                        
+                        One hypothesis per test. Testing multiple changes at once = multivariate testing (needs way more traffic).
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">2. Design the Experiment</div>
+                    <div class="phase-detail">
+                        • Define the primary metric (the one that decides winner)
+                        • Define guardrail metrics (things that shouldn't get worse)
+                        • Calculate sample size (see below)
+                        • Determine runtime (at least 1 full business cycle, ideally 2)
+                        • Define traffic split (usually 50/50)
+                        • Document what success looks like
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">3. Build and QA</div>
+                    <div class="phase-detail">
+                        • Implement both variants
+                        • Ensure random assignment (same user always sees same variant)
+                        • Test tracking fires correctly for both
+                        • Verify no flicker or layout shift
+                        • Check mobile and desktop
+                        • Run A/A test first (both variants are the same) to verify your tooling
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">4. Run the Test</div>
+                    <div class="phase-detail">
+                        • Don't peek at results daily (statistical peeking inflates false positives)
+                        • Run for the planned duration even if early results look good
+                        • Monitor guardrail metrics
+                        • If something breaks (e.g., variant crashes), stop immediately
+                        • Document any external events that could affect results (holidays, launches, outages)
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">5. Analyze Results</div>
+                    <div class="phase-detail">
+                        • Check statistical significance (p < 0.05 minimum, p < 0.01 better)
+                        • Check statistical power (should be > 80%)
+                        • Segment results (did mobile users respond differently?)
+                        • Look at guardrail metrics (did we hurt activation while improving conversion?)
+                        • Calculate confidence intervals (not just point estimates)
+                        • Document learnings regardless of outcome
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">6. Implement Winner</div>
+                    <div class="phase-detail">
+                        • Ship the winning variant to 100%
+                        • Monitor for 1-2 weeks post-shipping
+                        • Document the learnings in your experiment log
+                        • Share results with the team (even failed tests teach something)
+                        • Plan follow-up tests (winning variant can often be improved further)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Sample Size Calculator</h2>
+                
+                <p>You need enough users in each variant to detect a meaningful difference. Too few = false negatives (missed wins). Too many = wasted time.</p>
+                
+                <p><strong>Minimum detectable effect (MDE):</strong> The smallest improvement you care about. If your baseline conversion is 5%, an MDE of 20% means you want to detect changes of ±1 percentage point (5% → 6% or 5% → 4%).</p>
+                
+                <p><strong>Formula (simplified):</strong></p>
+                
+                <p>n = 16 × σ² / δ²</p>
+                
+                <p>Where:<br>
+                • n = sample size per variant<br>
+                • σ = standard deviation of metric (for conversion, σ = √(p×(1-p)) where p is baseline rate)<br>
+                • δ = minimum detectable effect</p>
+                
+                <div class="example-box">
+                    <div class="example-title">Example: Landing Page CTA</div>
+                    <div class="example-text">
+                        Baseline conversion: 5%<br>
+                        MDE: 20% relative (5% → 6%)<br>
+                        σ = √(0.05 × 0.95) = 0.218<br>
+                        δ = 0.01 (1 percentage point)<br>
+                        n = 16 × (0.218)² / (0.01)² = 16 × 0.0475 / 0.0001 = 7,600 per variant<br><br>
+                        
+                        Total: ~15,200 visitors for a 50/50 split.<br>
+                        At 1,000 visitors/day: ~15 days.<br>
+                        At 10,000 visitors/day: ~2 days.
+                    </div>
+                </div>
+                
+                <p><strong>Shortcuts:</strong></p>
+                
+                <p>• Use an online calculator (Optimizely, VWO, or Evan Miller's)<br>
+                • For conversion rates: rule of thumb is 100 conversions per variant minimum<br>
+                • For revenue: you need way more (higher variance)<br>
+                • Smaller MDE = larger sample needed. Be realistic about what you can detect.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Statistical Significance</h2>
+                
+                <p>Statistical significance tells you if the observed difference is real or just random noise. p-value < 0.05 means there's less than a 5% chance the difference is due to luck.</p>
+                
+                <p><strong>Common mistakes:</strong></p>
+                
+                <p>❌ <strong>Peeking:</strong> Checking results daily and stopping when it "looks significant." This massively inflates false positives. Decide your runtime upfront and stick to it.<br>
+                ❌ <strong>Multiple comparisons:</strong> Testing 20 metrics and reporting the 1 that "worked." With 20 metrics, you'd expect 1 false positive by chance. Pick 1 primary metric before running the test.<br>
+                ❌ <strong>Low power:</strong> Stopping because "there's no difference" when you never had enough traffic to detect one. Always calculate required sample size beforehand.<br>
+                ❌ <strong>Segment hunting:</strong> "It didn't work overall, but for users in California on Tuesdays it was +50%!" This is cherry-picking. If you didn't pre-define the segment, the result is likely noise.</p>
+                
+                <p><strong>Best practices:</strong></p>
+                
+                <p>✅ Set sample size and runtime before starting<br>
+                ✅ Define 1 primary metric and 2-3 guardrails<br>
+                ✅ Run for at least 1 full business cycle (7 days minimum)<br>
+                ✅ Use Bayesian methods if you want probability of winner (not just p-values)<br>
+                ✅ Always report confidence intervals, not just "it won by 15%"</p>
+            </div>
+            
+            <div class="section">
+                <h2>A/B Testing Tools</h2>
+                
+                <p><strong>Full-stack experimentation:</strong></p>
+                
+                <p>• <strong>Optimizely:</strong> Enterprise-grade. Web, mobile, server-side. Expensive but comprehensive.<br>
+                • <strong>VWO (Visual Website Optimizer):</strong> Good for marketers. Visual editor, heatmaps, surveys. Mid-market pricing.<br>
+                • <strong>Google Optimize (discontinued 2023):</strong> Was free. Many teams moved to VWO or Optimizely.<br>
+                • <strong>LaunchDarkly:</strong> Feature flags + experimentation. Developer-friendly.<br>
+                • <strong>Split:</strong> Feature flags with built-in A/B testing and analytics.<br>
+                • <strong>PostHog:</strong> Open-source product analytics + feature flags + A/B testing. Great for startups.</p>
+                
+                <p><strong>Build your own:</strong></p>
+                
+                <p>• Random assignment via feature flag system
+                • Event tracking in your analytics (Segment, Mixpanel, Amplitude)
+                • Analysis in SQL or Python (scipy.stats.chi2_contingency for conversion, t-test for continuous metrics)
+                • Good for: teams with strong data engineering, limited budgets, or complex custom needs</p>
+            </div>
+            
+            <div class="section">
+                <h2>A/B Testing Checklist</h2>
+                
+                <p>☐ Hypothesis written in "If X then Y because Z" format<br>
+                ☐ Primary metric defined<br>
+                ☐ Guardrail metrics defined<br>
+                ☐ Sample size calculated<br>
+                ☐ Runtime set (minimum 1 business cycle)<br>
+                ☐ Random assignment verified<br>
+                ☐ Tracking tested for both variants<br>
+                ☐ No peeking at results before runtime ends<br>
+                ☐ Statistical significance checked (p < 0.05)<br>
+                ☐ Confidence intervals calculated<br>
+                ☐ Segments analyzed (pre-defined only)<br>
+                ☐ Winner implemented with monitoring<br>
+                ☐ Results documented and shared<br>
+                ☐ Follow-up test planned</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full A/B Testing Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with sample size calculators, significance tables, and experiment templates.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('abTestingEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
