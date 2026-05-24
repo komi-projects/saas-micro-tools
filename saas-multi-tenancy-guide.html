@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Multi-Tenancy Guide — Free Download</title>
-    <meta name="description" content="Free SaaS multi-tenancy guide. Architect your product for scale, reduce costs, and serve thousands of customers from a single deployment.">
+    <title>SaaS Multi-Tenancy Guide — Architecture Patterns</title>
+    <meta name="description" content="Free SaaS multi-tenancy guide. Choose the right architecture for your product and scale confidently from first customer to enterprise.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,7 +25,7 @@
             margin-bottom: 16px;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .tenancy {
+        .multitenancy {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -44,19 +44,19 @@
             line-height: 1.6;
             margin-bottom: 12px;
         }
-        .model-box {
+        .pillar-box {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
         }
-        .model-name {
+        .pillar-name {
             color: #e2e8f0;
             font-weight: 600;
             margin-bottom: 4px;
         }
-        .model-detail {
+        .pillar-detail {
             color: #94a3b8;
             font-size: 0.95rem;
         }
@@ -103,118 +103,171 @@
     <div class="container">
         <div class="header">
             <h1>🏢 Multi-Tenancy</h1>
-            <p class="subtitle">One codebase. Thousands of customers. Maximum efficiency.</p>
+            <p class="subtitle">Architecture patterns for scalable SaaS.</p>
         </div>
         
-        <div class="tenancy">
+        <div class="multitenancy">
             <div class="section">
                 <h2>What is Multi-Tenancy?</h2>
                 
-                <p>Multi-tenancy is an architecture where a single instance of your software serves multiple customers (tenants). Each tenant's data is isolated, but they share the same infrastructure, codebase, and database.</p>
+                <p>Multi-tenancy is the architecture pattern where a single software instance serves multiple customers (tenants) while keeping their data and configuration isolated. It's the defining characteristic of SaaS — instead of installing software on each customer's servers, you run one application that hundreds or thousands of customers share.</p>
                 
-                <p><strong>Single-tenant:</strong> One deployment per customer. Dedicated servers, dedicated database. Simple, secure, expensive. Good for enterprise with strict compliance.</p>
+                <p>Done right, multi-tenancy dramatically reduces costs, simplifies updates, and enables economies of scale. Done wrong, it creates security vulnerabilities, performance problems, and data leakage that can destroy your business.</p>
                 
-                <p><strong>Multi-tenant:</strong> One deployment for all customers. Shared everything. Complex, cost-efficient, scalable. Good for SMB/mid-market SaaS.</p>
-                
-                <p>Most successful SaaS companies are multi-tenant. AWS, Salesforce, Slack, Stripe — all multi-tenant. The cost savings (5-10x lower infrastructure per customer) and operational simplicity (one deploy affects everyone) are massive.</p>
+                <p>This guide covers the three main multi-tenant architectures, when to use each, and how to implement tenant isolation, performance guarantees, and data security.</p>
             </div>
             
             <div class="section">
-                <h2>Multi-Tenancy Models</h2>
+                <h2>Multi-Tenant Architecture Patterns</h2>
                 
-                <div class="model-box">
-                    <div class="model-name">🔵 Shared Database, Shared Schema</div>
-                    <div class="model-detail">One database, one set of tables. Every table has a tenant_id column. Queries always filter by tenant_id. Simplest model, highest resource efficiency. Risk: one tenant's heavy query can affect others. Mitigation: query limits, resource quotas, read replicas.</div>
-                </div>
-                
-                <div class="model-box">
-                    <div class="model-name">🟢 Shared Database, Separate Schema</div>
-                    <div class="model-detail">One database, separate schema per tenant (e.g., tenant_123.users). Better isolation than shared schema. Easy to export one tenant's data. Slightly more complex migrations (apply to all schemas). Good for mid-market with data isolation requirements.</div>
-                </div>
-                
-                <div class="model-box">
-                    <div class="model-name">🟡 Separate Database per Tenant</div>
-                    <div class="model-detail">Completely isolated databases. Maximum data isolation. Easier compliance (each tenant's data is physically separate). Higher operational overhead (more connections, more backups, harder migrations). Good for enterprise or regulated industries.</div>
-                </div>
-                
-                <div class="model-box">
-                    <div class="model-name">🔴 Hybrid (Tenant-Aware)</div>
-                    <div class="model-detail">Most tenants on shared schema. Large/enterprise tenants on separate databases or schemas. Best of both worlds. Complexity: application must route queries to the right database based on tenant tier. This is what Salesforce and Stripe do.</div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>Data Isolation</h2>
-                
-                <p><strong>The #1 risk of multi-tenancy:</strong> Tenant A sees Tenant B's data. This is a catastrophic failure. Prevent it at every layer:</p>
-                
-                <p><strong>Application layer:</strong> Every query must include tenant_id. Use an ORM middleware that automatically injects tenant_id into all queries. Never allow raw SQL without tenant filtering.</p>
-                
-                <p><strong>API layer:</strong> Authenticate and extract tenant from JWT/token. Reject requests that don't include a valid tenant context.</p>
-                
-                <p><strong>Database layer:</strong> Row-level security (RLS) policies in PostgreSQL. Even if application forgets tenant_id, database enforces it.</p>
-                
-                <p><strong>Testing:</strong> Automated tests that verify cross-tenant access is blocked. "As Tenant A, try to access Tenant B's resource" → should return 403.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Tenant Identification</h2>
-                
-                <p>How do you know which tenant a request belongs to?</p>
-                
-                <p><strong>Subdomain:</strong> tenant.yourapp.com. Clean, scalable, requires wildcard SSL. Extract tenant from Host header.</p>
-                
-                <p><strong>Path:</strong> yourapp.com/tenant-slug/page. Simple, works everywhere, less elegant. tenant slug in URL path.</p>
-                
-                <p><strong>Header/Token:</strong> X-Tenant-ID header or JWT claim. Best for APIs. Frontend must include it on every request.</p>
-                
-                <p><strong>User context:</strong> User belongs to tenant. Look up tenant from user ID. Simplest but requires user to be logged in. Doesn't work for public pages.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Resource Management</h2>
-                
-                <p>In shared environments, one tenant can consume disproportionate resources. Implement limits:</p>
-                
-                <p><strong>Rate limiting:</strong> Per-tenant API rate limits. Free: 100/hour, Pro: 10,000/hour, Enterprise: custom. Prevents one tenant from overwhelming the system.</p>
-                
-                <p><strong>Storage quotas:</strong> Max file storage per tenant. Max records per table. Alerts at 80%, hard limit at 100%.</p>
-                
-                <p><strong>Compute quotas:</strong> Max concurrent jobs, max report generation time, max export rows. Kill long-running queries that exceed tenant limits.</p>
-                
-                <p><strong>Connection pooling:</strong> Per-tenant connection limits. Prevents one tenant from exhausting the database connection pool.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Operational Considerations</h2>
-                
-                <p><strong>Migrations:</strong> Apply to all tenants simultaneously (shared schema) or sequentially (separate schemas/databases). For large numbers of tenants, use a job queue to apply migrations. Test on a staging tenant first.</p>
-                
-                <p><strong>Backups:</strong> Shared schema: backup whole database. Separate schemas/databases: backup per tenant for compliance, whole database for disaster recovery.</p>
-                
-                <p><strong>Monitoring:</strong> Tag all metrics by tenant_id. Identify noisy tenants. Alert if one tenant generates 50% of errors. Capacity planning per tenant tier.</p>
-                
-                <p><strong>Data export/deletion:</strong> GDPR right to portability and deletion. For shared schema: export tenant's rows, delete tenant's rows. For separate databases: export database, drop database. Automate this — manual exports are error-prone.</p>
-            </div>
-            
-            <div class="section">
-                <h2>When to Choose Each Model</h2>
-                
-                <div class="example-box">
-                    <div class="example-title">Decision Framework</div>
-                    <div class="example-text">
-                        <strong>Shared Schema</strong> → Startup, SMB focus, cost-sensitive, no strict data isolation requirements<br><br>
-                        <strong>Separate Schema</strong> → Mid-market, some compliance needs, moderate scale (100-10K tenants)<br><br>
-                        <strong>Separate Database</strong> → Enterprise, regulated industries (healthcare, finance), strict compliance<br><br>
-                        <strong>Hybrid</strong> → Scale from SMB to enterprise. Start shared, migrate large tenants to dedicated resources.
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Shared Database, Shared Schema</div>
+                    <div class="pillar-detail">
+                        All tenants share one database and one set of tables.
+                        • Tenant isolation: Every table has a tenant_id column; every query filters by tenant_id
+                        • Pros: Simplest to implement, easiest cross-tenant analytics, lowest infrastructure cost
+                        • Cons: Risk of data leakage if queries forget WHERE tenant_id, harder to scale, noisy neighbor problems
+                        • Best for: Startups, small tenants, rapid prototyping, products where tenants don't need isolation guarantees
+                        • Example: Most early-stage SaaS products
                     </div>
                 </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Shared Database, Separate Schema</div>
+                    <div class="pillar-detail">
+                        One database server, but each tenant gets their own schema (namespace).
+                        • Tenant isolation: Physical separation at schema level; tenant_123.users vs tenant_456.users
+                        • Pros: Better isolation than shared schema, easier compliance, can optimize per tenant
+                        • Cons: Complex migrations (run on N schemas), harder cross-tenant queries, schema proliferation
+                        • Best for: Mid-market SaaS, compliance requirements, tenants with different needs
+                        • Example: Heroku Postgres, some Salesforce implementations
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Separate Database per Tenant</div>
+                    <div class="pillar-detail">
+                        Each tenant gets their own database instance.
+                        • Tenant isolation: Complete physical and logical separation
+                        • Pros: Maximum security, no noisy neighbors, tenant-specific optimization, easiest compliance
+                        • Cons: Highest cost, complex migrations, hardest cross-tenant analytics, operational overhead
+                        • Best for: Enterprise SaaS, regulated industries, customers who demand dedicated infrastructure
+                        • Example: Salesforce orgs, some AWS-hosted enterprise products
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Hybrid (Tier-Based)</div>
+                    <div class="pillar-detail">
+                        Different architectures for different customer tiers.
+                        • Free/SMB: Shared schema (cost-efficient, good enough isolation)
+                        • Pro/Mid-market: Separate schema (better isolation, compliance)
+                        • Enterprise: Separate database (maximum isolation, custom SLAs)
+                        • Migration path: Tenants can move up as they grow
+                        • Pros: Optimized cost/performance for each segment
+                        • Cons: Most complex to implement and maintain
+                        • Best for: SaaS with clear free/pro/enterprise tiers
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Implementation Considerations</h2>
+                
+                <p><strong>1. Tenant identification:</strong></p>
+                
+                <p>• Subdomain: tenant.yourapp.com (clean, but requires DNS setup)
+                • Path: yourapp.com/tenant (simpler, but less professional)
+                • Header: X-Tenant-ID in API requests (for API-first products)
+                • JWT claim: Include tenant_id in auth token (cleanest for APIs)
+                • Resolution: Middleware that identifies tenant from request and sets context</p>
+                
+                <p><strong>2. Data isolation:</strong></p>
+                
+                <p>• Row-level security: PostgreSQL RLS policies enforce tenant isolation at database level
+                • Query enforcement: Middleware that adds tenant_id to every query
+                • Testing: Automated tests that verify tenant A cannot see tenant B's data
+                • Audit: Log all cross-tenant access attempts (potential security issues)</p>
+                
+                <p><strong>3. Tenant onboarding:</strong></p>
+                
+                <p>• Schema provisioning: Automated creation of tenant schemas/databases
+                • Seed data: Default configuration, sample data, templates
+                • Admin setup: First user creation, initial permissions
+                • Customization: Tenant-specific settings, branding, features</p>
+                
+                <p><strong>4. Performance isolation:</strong></p>
+                
+                <p>• Resource limits: Per-tenant query limits, rate limits, storage quotas
+                • Query timeouts: Kill queries running too long (prevent one tenant from hogging resources)
+                • Connection pooling: Separate pools per tenant or prioritize by plan tier
+                • Caching: Tenant-scoped cache keys (never share cache between tenants)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Multi-Tenancy Examples</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Slack: Workspace Isolation</div>
+                    <div class="example-text">
+                        • Shared infrastructure with workspace-level isolation
+                        • Each workspace is a tenant with its own users, channels, and data
+                        • Enterprise Grid: Special architecture for large orgs with multiple workspaces
+                        • Result: Scales from 2-person startups to 500K-person enterprises
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Salesforce: Org-Based Multi-Tenancy</div>
+                    <div class="example-text">
+                        • Each customer gets a "org" — logically separate but on shared infrastructure
+                        • Metadata-driven architecture: Custom fields, objects, workflows per org
+                        • Trust: Real-time performance and security stats for every org
+                        • Result: The gold standard for enterprise SaaS multi-tenancy
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Notion: Lightweight Tenancy</div>
+                    <div class="example-text">
+                        • Shared schema with workspace-level data isolation
+                        • Users can belong to multiple workspaces (cross-tenant users)
+                        • Permission model: Page-level, not just workspace-level
+                        • Result: Simple architecture that scales to millions of users
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Multi-Tenancy Checklist</h2>
+                
+                <p>☐ Architecture chosen (shared schema, separate schema, separate DB, or hybrid)
+                ☐ Tenant identification method implemented (subdomain, path, header, JWT)
+                ☐ Tenant context middleware implemented (sets tenant for request lifecycle)
+                ☐ Data isolation enforced (RLS or query middleware)
+                ☐ Cross-tenant access tests written (automated security verification)
+                ☐ Tenant onboarding flow automated (schema provisioning, seed data, admin setup)
+                ☐ Tenant offboarding process defined (data export, deletion, account closure)
+                ☐ Resource limits configured (queries, storage, rate limits per tenant)
+                ☐ Query timeouts set (prevent resource hogging)
+                ☐ Tenant-scoped caching implemented (no shared cache keys)
+                ☐ Connection pooling strategy defined
+                ☐ Tenant-specific configuration supported (settings, features, branding)
+                ☐ Cross-tenant analytics pipeline (if needed for product insights)
+                ☐ Tenant migration path defined (shared → separate schema → separate DB)
+                ☐ Backup and recovery per tenant tested
+                ☐ Performance monitoring per tenant (identify noisy neighbors)
+                ☐ Compliance isolation verified (GDPR right to deletion works per tenant)
+                ☐ Custom domain support (enterprise tenants want theirdomain.com)
+                ☐ Tenant-level SSO/OAuth configuration
+                ☐ Billing integration per tenant (metered usage, plan limits)
+                ☐ Documentation: architecture decision record, runbooks, troubleshooting</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Multi-Tenancy Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with architecture patterns, migration strategies, and operational playbooks.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with architecture diagrams, code examples, and migration playbooks.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
