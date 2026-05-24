@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Vendor Management Guide — Free Download</title>
+    <meta name="description" content="Free SaaS vendor management guide. Evaluate suppliers, negotiate contracts, and mitigate third-party risks that could impact your service.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .vendor {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .vendor-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .vendor-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .vendor-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤝 Vendor Management</h1>
+            <p class="subtitle">Trust but verify. Diversify. Negotiate.</p>
+        </div>
+        
+        <div class="vendor">
+            <div class="section">
+                <h2>Why Vendor Management Matters</h2>
+                
+                <p>Modern SaaS companies depend on dozens of vendors: cloud providers, payment processors, email services, analytics tools, CRMs, support platforms, and more. When a critical vendor fails, your service fails too.</p>
+                
+                <p>Vendor management isn't procurement bureaucracy. It's operational resilience. The 2021 Log4j vulnerability affected thousands of vendors simultaneously. Companies with vendor risk management programs responded faster. Those without scrambled for days.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vendor Categories</h2>
+                
+                <div class="vendor-box">
+                    <div class="vendor-name">🔴 Critical (Service-Impacting)</div>
+                    <div class="vendor-detail">Vendors whose failure directly impacts your service. Cloud provider, database, payment processor, primary CDN. If they're down, you're down. Require: SLA with financial penalties, DR plan review, security audit, alternate vendor identified.</div>
+                </div>
+                
+                <div class="vendor-box">
+                    <div class="vendor-name">🟡 Important (Business-Impacting)</div>
+                    <div class="vendor-detail">Vendors whose failure impacts operations but not core service. Email service, CRM, analytics, support platform. If they're down, your team can't work efficiently. Require: SLA, regular performance review, exit plan.</div>
+                </div>
+                
+                <div class="vendor-box">
+                    <div class="vendor-name">🟢 Standard (Convenience)</div>
+                    <div class="vendor-detail">Vendors that improve efficiency but aren't essential. Design tools, project management, internal chat. If they're down, workarounds exist. Require: Basic terms review, annual cost evaluation.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Vendor Evaluation Checklist</h2>
+                
+                <p>Before signing with any critical vendor:</p>
+                
+                <p><strong>Technical:</strong></p>
+                
+                <p>• Uptime SLA: 99.9% minimum for critical, 99.99% preferred. What are the penalties?
+                • Security: SOC 2 Type II? ISO 27001? Penetration testing results?
+                • Compliance: Do they meet your regulatory requirements (GDPR, HIPAA)?
+                • Performance: Latency, throughput, capacity limits. Load test if possible.
+                • Integration: API quality, documentation, SDKs, webhook reliability.
+                • Data portability: Can you export your data? In what format? Is there a cost?</p>
+                
+                <p><strong>Business:</strong></p>
+                
+                <p>• Financial health: Is the vendor profitable? Recent funding? Stability?
+                • Customer concentration: Do they depend on one or two big customers? Risk if those leave.
+                • Roadmap alignment: Does their product direction match your needs?
+                • Support quality: Response time SLA? Dedicated account manager? 24/7 support?
+                • Pricing: Transparent? Predictable? Lock-in risks (price increases, forced upgrades)?</p>
+                
+                <p><strong>Risk:</strong></p>
+                
+                <p>• Single point of failure: Are they the only vendor in this category?
+                • Geographic concentration: Are their data centers all in one region?
+                • Dependency chain: Who do they depend on? (Your vendor's vendor is your vendor)
+                • Exit barriers: How hard is it to switch? Data lock-in? Custom integration costs?
+                • Insurance: Do they carry cyber liability? What's their liability cap?</p>
+            </div>
+            
+            <div class="section">
+                <h2>Contract Negotiation</h2>
+                
+                <p>Don't just sign the standard terms. Negotiate:</p>
+                
+                <p>• <strong>SLA with teeth:</strong> Monthly uptime target, measurement methodology, credit calculation, and escalation path. 99.9% = 43 minutes downtime/month. Penalties should be meaningful (not just 10% credit).
+                • <strong>Liability cap:</strong> Standard is 12 months of fees. For critical vendors, negotiate higher or uncapped for gross negligence.
+                • <strong>Data ownership:</strong> You own your data, always. They can't use it for AI training, analytics, or marketing without explicit consent.
+                • <strong>Termination:</strong> 30-90 day termination for convenience. Data export assistance. No penalty for leaving.
+                • <strong>Price protection:</strong> Lock pricing for 1-2 years. Cap annual increases at 5-10%.
+                • <strong>Auto-renewal:</strong> Opt-in, not opt-out. 60-day notice before renewal.
+                • <strong>Security requirements:</strong> MFA for their admin access to your account. Annual security questionnaires. Breach notification within 24 hours.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vendor Diversification</h2>
+                
+                <p>Don't put all eggs in one basket:</p>
+                
+                <p>• <strong>Payment processors:</strong> Primary (Stripe), backup (PayPal, Adyen). If one goes down, route to another.
+                • <strong>Cloud regions:</strong> Deploy across multiple regions. Use DNS failover or load balancer health checks.
+                • <strong>Email providers:</strong> Primary (SendGrid), backup (AWS SES). Switch via configuration, not code changes.
+                • <strong>CDNs:</strong> Multi-CDN (Cloudflare + Fastly). Some use DNS-based failover, others use client-side switching.
+                • <strong>Databases:</strong> Read replicas across providers for DR. Don't make your primary DB the only copy.</p>
+                
+                <p><strong>When NOT to diversify:</strong> Small scale (< $1M ARR) — operational complexity outweighs benefits. Stick with best-in-class single vendors and focus on product-market fit.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vendor Performance Monitoring</h2>
+                
+                <p>Track vendor performance like you track your own:</p>
+                
+                <p>• <strong>Uptime tracking:</strong> Monitor their status page. Log incidents. Compare actual uptime to SLA.
+                • <strong>Latency monitoring:</strong> Track API response times. Alert if P95 exceeds threshold.
+                • <strong>Error rate:</strong> Log vendor errors (5xx, timeouts, rate limits). Alert if error rate > 1%.
+                • <strong>Quarterly business reviews (QBR):</strong> For critical vendors. Review performance, roadmap, issues, and contract terms.
+                • <strong>Annual evaluation:</strong> Scorecard: performance, support, roadmap, price, relationship. Decide: renew, renegotiate, or replace.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vendor Exit Strategy</h2>
+                
+                <p>Every vendor relationship should have a planned ending:</p>
+                
+                <p>• <strong>Data export:</strong> Regular automated exports of critical data. Don't wait until you're leaving to figure out data extraction.
+                • <strong>Alternative vendor:</strong> Identified, evaluated, and ready to activate. Know pricing, integration effort, and migration timeline.
+                • <strong>Integration abstraction:</strong> Wrap vendor APIs in your own interfaces. Switching vendors shouldn't require rewriting your entire application.
+                • <strong>Contract terms:</strong> Ensure you can leave without penalties. Month-to-month preferred for non-critical vendors.
+                • <strong>Transition timeline:</strong> Plan for 1-3 months to migrate critical vendors. Parallel run during transition (both old and new active).</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Vendor Management Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with evaluation scorecards, contract negotiation playbooks, and vendor monitoring frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('vendorManagementEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
