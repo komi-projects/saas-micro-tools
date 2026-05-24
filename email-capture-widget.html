@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Capture Widget — SimpleRecover</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+        
+        .widget-preview {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .widget-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .email-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 16px;
+            background: #1a1a2e;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .email-input::placeholder {
+            color: #475569;
+        }
+        .email-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .submit-btn {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .success-msg {
+            display: none;
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: #10b981;
+            margin-top: 16px;
+        }
+        .success-msg.show {
+            display: block;
+        }
+        
+        .code-block {
+            background: #0d0d0d;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .code-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .email-form { flex-direction: column; }
+            .email-input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Capture Widget</h1>
+        <p class="subtitle">Drop this into any calculator to collect emails from interested users</p>
+        
+        <div class="widget-preview">
+            <div class="widget-title">🔒 Want the full analysis?</div>
+            <div class="widget-desc">Get a detailed PDF report with personalized recommendations sent to your inbox.</div>
+            <form class="email-form" id="captureForm">
+                <input type="email" class="email-input" placeholder="your@email.com" required>
+                <button type="submit" class="submit-btn">Get My Report</button>
+            </form>
+            <div class="success-msg" id="successMsg">
+                ✅ Check your inbox! Your personalized report is on its way.
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <div class="code-label">Copy & Paste This Code</div>
+            <pre>&lt;!-- Email Capture Widget --&gt;
+&lt;div style="background:#111;border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:24px;margin-top:32px;"&gt;
+  &lt;div style="font-weight:600;margin-bottom:8px;"&gt;🔒 Want the full analysis?&lt;/div&gt;
+  &lt;div style="color:#64748b;font-size:0.9rem;margin-bottom:16px;"&gt;
+    Get a detailed PDF report with personalized recommendations.
+  &lt;/div&gt;
+  &lt;form id="emailCapture" style="display:flex;gap:12px;flex-wrap:wrap;"&gt;
+    &lt;input type="email" placeholder="your@email.com" required 
+           style="flex:1;min-width:200px;padding:12px;background:#1a1a2e;
+                  border:1px solid rgba(99,102,241,0.3);border-radius:8px;
+                  color:#e2e8f0;"&gt;
+    &lt;button type="submit" 
+            style="padding:12px 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);
+                   color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;"&gt;
+      Get My Report
+    &lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+document.getElementById('emailCapture').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = this.querySelector('input[type="email"]').value;
+  // Store email (replace with your backend endpoint)
+  localStorage.setItem('capturedEmail', email);
+  alert('✅ Report will be sent to: ' + email);
+});
+&lt;/script&gt;</pre>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('captureForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('capturedEmail', email);
+            document.getElementById('successMsg').classList.add('show');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
