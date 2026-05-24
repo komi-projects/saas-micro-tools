@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Onboarding Funnel Calculator — Premium</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .results { display: none; }
+        .results.show { display: block; }
+        .result-card {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 { font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+        .result-value { font-size: 2rem; font-weight: 700; color: #6366f1; }
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Onboarding Funnel Calculator</h1>
+        <p class="subtitle">Calculate conversion rates at each onboarding stage and identify drop-off points.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Signups</label>
+                <input type="number" id="signups" value="1000" placeholder="1000">
+            </div>
+            <div class="input-group">
+                <label>Email Verified (%)</label>
+                <input type="number" id="verified" value="70" placeholder="70">
+            </div>
+            <div class="input-group">
+                <label>Profile Complete (%)</label>
+                <input type="number" id="profile" value="50" placeholder="50">
+            </div>
+            <div class="input-group">
+                <label>First Action (%)</label>
+                <input type="number" id="firstAction" value="30" placeholder="30">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Funnel</button>
+        
+        <div class="results" id="results">
+            <div class="result-card">
+                <h3>Overall Activation Rate</h3>
+                <div class="result-value" id="activation">21%</div>
+            </div>
+            <div class="result-card">
+                <h3>Biggest Drop-off Stage</h3>
+                <div class="result-value" id="dropoff">Profile Complete</div>
+            </div>
+            <div class="result-card">
+                <h3>Users Lost</h3>
+                <div class="result-value" id="lost">790</div>
+            </div>
+            
+            <div class="unlock-section">
+                <h2>🔓 Unlock Onboarding Optimization Guide</h2>
+                <p>Get 15 tactics to fix onboarding drop-offs and boost activation.</p>
+                <div style="font-size: 2.5rem; font-weight: 700; color: #6366f1; margin-bottom: 16px;">$9</div>
+                <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto 16px;">
+                    <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const signups = parseFloat(document.getElementById('signups').value) || 0;
+            const verified = parseFloat(document.getElementById('verified').value) || 0;
+            const profile = parseFloat(document.getElementById('profile').value) || 0;
+            const firstAction = parseFloat(document.getElementById('firstAction').value) || 0;
+            
+            const activation = (verified / 100) * (profile / 100) * (firstAction / 100) * 100;
+            
+            const stages = [
+                { name: 'Email Verified', rate: verified },
+                { name: 'Profile Complete', rate: profile },
+                { name: 'First Action', rate: firstAction }
+            ];
+            
+            let maxDropoff = 0;
+            let dropoffStage = '';
+            
+            for (const stage of stages) {
+                const dropoff = 100 - stage.rate;
+                if (dropoff > maxDropoff) {
+                    maxDropoff = dropoff;
+                    dropoffStage = stage.name;
+                }
+            }
+            
+            const lost = signups - (signups * (activation / 100));
+            
+            document.getElementById('activation').textContent = activation.toFixed(1) + '%';
+            document.getElementById('dropoff').textContent = dropoffStage;
+            document.getElementById('lost').textContent = lost.toFixed(0);
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('onboardingReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
