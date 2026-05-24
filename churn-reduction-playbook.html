@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Churn Reduction Playbook — 20 Tactics to Keep Customers</title>
-    <meta name="description" content="Interactive churn reduction playbook. Score your current efforts and discover 20 proven tactics to reduce SaaS churn. Unlock full playbook for $9.">
+    <meta name="description" content="Interactive churn reduction playbook with 20 proven tactics. Score your current efforts and unlock the full playbook for $9.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,103 +25,69 @@
             margin-bottom: 16px;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .score-section {
+        .card {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 32px;
-            text-align: center;
         }
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(#6366f1 var(--score), rgba(255,255,255,0.05) 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            position: relative;
-        }
-        .score-circle::before {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: #1a1a2e;
-            border-radius: 50%;
-        }
-        .score-value {
-            position: relative;
-            z-index: 1;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e2e8f0;
-        }
-        .tactics-grid {
+        .tactic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
             margin-bottom: 32px;
         }
         .tactic-card {
-            background: #1a1a2e;
+            background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
             padding: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
         }
-        .tactic-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-        }
-        .tactic-card.active {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
-        }
-        .tactic-number {
-            color: #6366f1;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .tactic-title {
+        .tactic-name {
             color: #e2e8f0;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .tactic-desc {
             color: #94a3b8;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
         }
-        .locked-section {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .locked-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 15, 26, 0.95);
+        .tactic-check {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            gap: 16px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
-        .locked-text { color: #94a3b8; font-size: 1rem; }
-        .unlock-btn {
-            padding: 14px 32px;
+        .tactic-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .tactic-check label {
+            color: #94a3b8;
+            cursor: pointer;
+        }
+        .score-display {
+            text-align: center;
+            margin: 32px 0;
+        }
+        .score-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #6366f1;
+        }
+        .score-label {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        button {
+            padding: 12px 24px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             font-size: 1rem;
@@ -132,24 +98,10 @@
             border-radius: 16px;
             padding: 32px;
             text-align: center;
-            display: none;
-        }
-        .cta-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 16px;
-            border: none;
-            cursor: pointer;
         }
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
-            .tactics-grid { grid-template-columns: 1fr; }
+            .tactic-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -157,160 +109,144 @@
     <div class="container">
         <div class="header">
             <h1>🛡️ Churn Reduction Playbook</h1>
-            <p class="subtitle">Score your efforts and discover 20 proven tactics</p>
+            <p class="subtitle">20 proven tactics to keep customers longer.</p>
         </div>
-
-        <div class="score-section">
-            <h2 style="color: #6366f1; margin-bottom: 8px;">Your Churn Prevention Score</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Click the tactics you've implemented</p>
-            <div class="score-circle" id="scoreCircle" style="--score: 0%;">
-                <span class="score-value" id="scoreValue">0/20</span>
-            </div>
-            <p style="color: #94a3b8; font-size: 0.9rem;" id="scoreMessage">Start clicking tactics to see your score</p>
-        </div>
-
-        <h2 style="color: #6366f1; margin-bottom: 16px; text-align: center;">20 Churn Reduction Tactics</h2>
         
-        <div class="tactics-grid" id="tacticsGrid">
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 01</div>
-                <div class="tactic-title">Onboarding Sequence</div>
-                <div class="tactic-desc">Guided setup with milestone-based emails to activate new users within 7 days</div>
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Score Your Current Efforts (Free)</h2>
+            <div class="tactic-grid" id="tacticsGrid">
+                <div class="tactic-card">
+                    <div class="tactic-name">1. Onboarding Optimization</div>
+                    <div class="tactic-desc">Guide users to first value within 5 minutes.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic1" onchange="calculateScore()">
+                        <label for="tactic1">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">2. In-App Guidance</div>
+                    <div class="tactic-desc">Tooltips, walkthroughs, and contextual help.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic2" onchange="calculateScore()">
+                        <label for="tactic2">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">3. Customer Health Scoring</div>
+                    <div class="tactic-desc">Identify at-risk accounts before they churn.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic3" onchange="calculateScore()">
+                        <label for="tactic3">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">4. Proactive Outreach</div>
+                    <div class="tactic-desc">Contact struggling users before they leave.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic4" onchange="calculateScore()">
+                        <label for="tactic4">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">5. Exit Surveys</div>
+                    <div class="tactic-desc">Learn why customers cancel and try to save them.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic5" onchange="calculateScore()">
+                        <label for="tactic5">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">6. Win-Back Campaigns</div>
+                    <div class="tactic-desc">Re-engage churned customers with targeted offers.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic6" onchange="calculateScore()">
+                        <label for="tactic6">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">7. Feature Adoption Nudges</div>
+                    <div class="tactic-desc">Drive usage of sticky features that increase retention.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic7" onchange="calculateScore()">
+                        <label for="tactic7">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">8. Usage Reports</div>
+                    <div class="tactic-desc">Show customers the value they're getting.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic8" onchange="calculateScore()">
+                        <label for="tactic8">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">9. Renewal Reminders</div>
+                    <div class="tactic-desc">Notify customers before renewal to prevent accidental churn.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic9" onchange="calculateScore()">
+                        <label for="tactic9">Implemented</label>
+                    </div>
+                </div>
+                
+                <div class="tactic-card">
+                    <div class="tactic-name">10. Customer Success Team</div>
+                    <div class="tactic-desc">Dedicated team for onboarding and account management.</div>
+                    <div class="tactic-check">
+                        <input type="checkbox" id="tactic10" onchange="calculateScore()">
+                        <label for="tactic10">Implemented</label>
+                    </div>
+                </div>
             </div>
             
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 02</div>
-                <div class="tactic-title">Activation Metrics</div>
-                <div class="tactic-desc">Track and optimize the "aha moment" — the action that correlates with retention</div>
+            <div class="score-display">
+                <div class="score-value" id="score">0/10</div>
+                <div class="score-label">Churn Reduction Score</div>
             </div>
             
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 03</div>
-                <div class="tactic-title">Health Scoring</div>
-                <div class="tactic-desc">Monitor product usage, login frequency, and feature adoption to predict churn risk</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 04</div>
-                <div class="tactic-title">Proactive Outreach</div>
-                <div class="tactic-desc">Contact at-risk customers before they churn with personalized help and resources</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 05</div>
-                <div class="tactic-title">Exit Surveys</div>
-                <div class="tactic-desc">Ask churning customers why they're leaving to identify patterns and fix root causes</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 06</div>
-                <div class="tactic-title">Win-Back Campaigns</div>
-                <div class="tactic-desc">Email sequences for churned customers with special offers, product updates, or case studies</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 07</div>
-                <div class="tactic-title">Annual Prepay</div>
-                <div class="tactic-desc">Offer 15-20% discounts for annual contracts to lock in commitment and reduce churn</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 08</div>
-                <div class="tactic-title">Customer Success Team</div>
-                <div class="tactic-desc">Dedicated team for onboarding, check-ins, and proactive support for high-value accounts</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 09</div>
-                <div class="tactic-title">NPS Tracking</div>
-                <div class="tactic-desc">Quarterly Net Promoter Score surveys with follow-up for detractors and passives</div>
-            </div>
-            
-            <div class="tactic-card" onclick="toggleTactic(this)">
-                <div class="tactic-number">TACTIC 10</div>
-                <div class="tactic-title">Feature Adoption</div>
-                <div class="tactic-desc">Drive usage of sticky features that increase switching costs and embed your product</div>
-            </div>
+            <div id="scoreFeedback" style="text-align: center; color: #94a3b8; margin-top: 16px;"></div>
         </div>
-
-        <div class="locked-section" id="lockedSection">
-            <h2 style="color: #6366f1; margin-bottom: 16px;">Tactics 11-20 + Implementation Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Advanced tactics with step-by-step implementation templates</p>
-            <div class="tactics-grid" style="opacity: 0.3;">
-                <div class="tactic-card">
-                    <div class="tactic-number">TACTIC 11</div>
-                    <div class="tactic-title">Expansion Revenue</div>
-                    <div class="tactic-desc">Upgrade paths, usage-based pricing, and add-ons to grow existing accounts</div>
-                </div>
-                <div class="tactic-card">
-                    <div class="tactic-number">TACTIC 12</div>
-                    <div class="tactic-title">Churn Prediction ML</div>
-                    <div class="tactic-desc">Machine learning model to predict churn 30 days before it happens</div>
-                </div>
-                <div class="tactic-card">
-                    <div class="tactic-number">TACTIC 13</div>
-                    <div class="tactic-title">Customer Communities</div>
-                    <div class="tactic-desc">Build user forums, Slack groups, or advisory boards to increase engagement</div>
-                </div>
-                <div class="tactic-card">
-                    <div class="tactic-number">TACTIC 14</div>
-                    <div class="tactic-title">Usage-Based Pricing</div>
-                    <div class="tactic-desc">Align pricing with value to reduce sticker shock and increase stickiness</div>
-                </div>
-            </div>
-            <div class="locked-overlay" id="lockedOverlay">
-                <span class="locked-text">🔒 Tactics 11-20 + Implementation Templates Locked</span>
-                <span class="locked-text">Includes: detailed implementation guides, email templates, automation workflows, and tracking spreadsheets</span>
-                <button class="unlock-btn" onclick="showUnlock()">Unlock for $9 →</button>
-            </div>
-        </div>
-
-        <div class="cta-section" id="unlockSection">
-            <h2>Unlock Full Churn Reduction Playbook</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Get all 20 tactics with implementation templates, email sequences, and tracking tools. One-time $9 unlock.</p>
-            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto; justify-content: center;">
-                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
-                <button type="submit" class="cta-btn">Unlock $9 →</button>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Full Playbook (20 Tactics) 🔒</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Unlock all 20 tactics with detailed implementation guides, templates, and ROI calculators.</p>
+            <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                <button type="submit">Unlock — $9</button>
             </form>
         </div>
     </div>
-
+    
     <script>
-        let activeCount = 0;
-        const totalTactics = 20;
-
-        function toggleTactic(card) {
-            card.classList.toggle('active');
-            activeCount = document.querySelectorAll('.tactic-card.active').length;
-            updateScore();
-        }
-
-        function updateScore() {
-            const percentage = (activeCount / totalTactics) * 100;
-            document.getElementById('scoreCircle').style.setProperty('--score', percentage + '%');
-            document.getElementById('scoreValue').textContent = activeCount + '/' + totalTactics;
+        function calculateScore() {
+            let score = 0;
+            for (let i = 1; i <= 10; i++) {
+                if (document.getElementById('tactic' + i).checked) score++;
+            }
             
-            let message = '';
-            if (activeCount === 0) message = 'Start clicking tactics to see your score';
-            else if (activeCount <= 5) message = 'Early stage — focus on onboarding and activation first';
-            else if (activeCount <= 10) message = 'Good foundation — add proactive outreach and health scoring';
-            else if (activeCount <= 15) message = 'Strong program — consider ML prediction and community';
-            else message = 'World-class churn prevention — you\'re in the top 1%';
+            document.getElementById('score').textContent = score + '/10';
             
-            document.getElementById('scoreMessage').textContent = message;
+            let feedback = '';
+            if (score <= 3) feedback = 'Critical gap. Start with onboarding and health scoring.';
+            else if (score <= 6) feedback = 'Good foundation. Add proactive outreach and win-back campaigns.';
+            else if (score <= 8) feedback = 'Strong retention. Focus on expansion and advocacy.';
+            else feedback = 'World-class retention. Document and scale your playbook.';
+            
+            document.getElementById('scoreFeedback').textContent = feedback;
         }
-
-        function showUnlock() {
-            document.getElementById('unlockSection').style.display = 'block';
-            document.getElementById('unlockSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
+            const email = document.getElementById('unlockEmail').value;
             localStorage.setItem('churnPlaybookEmail', email);
-            alert('✅ Thank you! Full playbook unlocked. We\'ll email you the download link.');
-            document.getElementById('lockedOverlay').style.display = 'none';
+            alert('✅ Thank you! Full playbook will be emailed to you shortly.');
             this.reset();
         });
     </script>

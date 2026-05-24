@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing Optimization Calculator — Maximize SaaS Revenue</title>
-    <meta name="description" content="Price optimization calculator with elasticity modeling and A/B test planning. Find your optimal price point. Unlock full model for $9.">
+    <title>Pricing Optimization Calculator — Find Your Price Sweet Spot</title>
+    <meta name="description" content="Price optimization calculator with elasticity modeling and willingness-to-pay analysis. Unlock full optimization model for $9.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,17 +25,27 @@
             margin-bottom: 16px;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .inputs-section {
+        .card {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 32px;
         }
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
-        .input-group label { color: #94a3b8; font-size: 0.85rem; }
-        .input-group input {
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .input-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
             padding: 12px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -43,85 +53,53 @@
             color: #e2e8f0;
             font-size: 1rem;
         }
-        .calculate-btn {
-            margin-top: 20px;
-            padding: 14px 32px;
+        button {
+            padding: 12px 24px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
+            font-size: 1rem;
         }
-        .results {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            display: none;
-        }
-        .optimal-price {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #10b981, #6366f1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-        .price-table th {
-            text-align: left;
-            padding: 12px;
-            color: #6366f1;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .price-table td {
-            padding: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #94a3b8;
-        }
-        .price-table tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-        .highlight { color: #10b981; font-weight: 600; }
-        .locked-section {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .locked-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 15, 26, 0.95);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
+            margin-top: 20px;
         }
-        .locked-text { color: #94a3b8; font-size: 1rem; }
-        .unlock-btn {
-            padding: 14px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            border: none;
+        .result-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
+            padding: 20px;
+        }
+        .result-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .recommendation {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .recommendation-title {
+            color: #10b981;
             font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .recommendation-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
         }
         .cta-section {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
@@ -129,183 +107,124 @@
             border-radius: 16px;
             padding: 32px;
             text-align: center;
-            display: none;
-        }
-        .cta-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 16px;
-            border: none;
-            cursor: pointer;
         }
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
             .input-grid { grid-template-columns: 1fr; }
-            .optimal-price { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 Pricing Optimization</h1>
-            <p class="subtitle">Find your optimal price point with elasticity modeling</p>
+            <h1>💰 Price Optimizer</h1>
+            <p class="subtitle">Find the price that maximizes revenue.</p>
         </div>
-
-        <div class="inputs-section">
-            <h2 style="color: #6366f1; margin-bottom: 8px;">Your Current Pricing</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Enter your numbers to model price elasticity and find optimal pricing</p>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Input Your Data</h2>
             <div class="input-grid">
                 <div class="input-group">
-                    <label>Current Price ($/month)</label>
-                    <input type="number" id="currentPrice" placeholder="49" value="49">
+                    <label>Current Price ($)</label>
+                    <input type="number" id="currentPrice" placeholder="29" onchange="calculate()">
                 </div>
                 <div class="input-group">
                     <label>Monthly Customers</label>
-                    <input type="number" id="customers" placeholder="200" value="200">
+                    <input type="number" id="customers" placeholder="100" onchange="calculate()">
                 </div>
                 <div class="input-group">
-                    <label>Variable Cost ($/customer)</label>
-                    <input type="number" id="variableCost" placeholder="5" value="5">
+                    <label>Price Elasticity (Estimated)</label>
+                    <input type="number" id="elasticity" placeholder="-1.5" step="0.1" onchange="calculate()">
                 </div>
                 <div class="input-group">
-                    <label>Price Elasticity</label>
-                    <input type="number" id="elasticity" placeholder="-1.5" value="-1.5" step="0.1">
+                    <label>Variable Cost per Customer ($)</label>
+                    <input type="number" id="variableCost" placeholder="5" onchange="calculate()">
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculate()">Calculate Optimal Price →</button>
+            <button onclick="calculate()">Calculate Optimal Price</button>
         </div>
-
-        <div class="results" id="results">
-            <h2 style="color: #6366f1; margin-bottom: 16px; text-align: center;">Optimal Price</h2>
-            <div class="optimal-price" id="optimalPrice">$0</div>
-            <p style="text-align: center; color: #94a3b8; margin-bottom: 24px;">Based on elasticity of <span id="elasticityDisplay">-1.5</span></p>
-            
-            <h3 style="color: #6366f1; margin-bottom: 12px;">Price Scenario Analysis</h3>
-            <table class="price-table">
-                <thead>
-                    <tr>
-                        <th>Price</th>
-                        <th>Demand Change</th>
-                        <th>New Customers</th>
-                        <th>Monthly Revenue</th>
-                        <th>Profit</th>
-                    </tr>
-                </thead>
-                <tbody id="priceTable"></tbody>
-            </table>
-        </div>
-
-        <div class="locked-section" id="lockedSection">
-            <h2 style="color: #6366f1; margin-bottom: 16px;">A/B Test Planning + Willingness-to-Pay</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Statistical test design and Van Westendorp analysis</p>
-            
-            <div style="opacity: 0.3;">
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label>Test Price A ($)</label>
-                        <input type="number" placeholder="39" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Test Price B ($)</label>
-                        <input type="number" placeholder="59" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Minimum Detectable Effect (%)</label>
-                        <input type="number" placeholder="15" disabled>
-                    </div>
-                    <div class="input-group">
-                        <label>Statistical Power (%)</label>
-                        <input type="number" placeholder="80" disabled>
-                    </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Basic Results (Free)</h2>
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-label">Optimal Price</div>
+                    <div class="result-value" id="optimalPrice">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Expected Customers</div>
+                    <div class="result-value" id="expectedCustomers">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Monthly Revenue</div>
+                    <div class="result-value" id="monthlyRevenue">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Monthly Profit</div>
+                    <div class="result-value" id="monthlyProfit">$0</div>
                 </div>
             </div>
-            <div class="locked-overlay" id="lockedOverlay">
-                <span class="locked-text">🔒 A/B Test Planning + WTP Analysis Locked</span>
-                <span class="locked-text">Includes: sample size calculator, test duration estimator, statistical significance tracker, and Van Westendorp price sensitivity meter</span>
-                <button class="unlock-btn" onclick="showUnlock()">Unlock for $9 →</button>
+            
+            <div class="recommendation">
+                <div class="recommendation-title">Recommendation</div>
+                <div class="recommendation-text" id="recommendation">
+                    Enter your data to get a pricing recommendation.
+                </div>
             </div>
         </div>
-
-        <div class="cta-section" id="unlockSection">
-            <h2>Unlock Full Pricing Optimization Model</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Get A/B test planning, willingness-to-pay analysis, and statistical tools. One-time $9 unlock.</p>
-            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto; justify-content: center;">
-                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
-                <button type="submit" class="cta-btn">Unlock $9 →</button>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Full Optimization Model 🔒</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Unlock willingness-to-pay analysis, A/B test planning, and price sensitivity curves.</p>
+            <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                <button type="submit">Unlock — $9</button>
             </form>
         </div>
     </div>
-
+    
     <script>
-        function formatCurrency(value) {
-            if (value >= 1000000) return '$' + (value / 1000000).toFixed(1) + 'M';
-            if (value >= 1000) return '$' + (value / 1000).toFixed(1) + 'K';
-            return '$' + value.toFixed(0);
-        }
-
         function calculate() {
             const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0;
             const customers = parseFloat(document.getElementById('customers').value) || 0;
-            const variableCost = parseFloat(document.getElementById('variableCost').value) || 0;
             const elasticity = parseFloat(document.getElementById('elasticity').value) || -1;
-
-            // Optimal price formula: P = MC / (1 + 1/|elasticity|)
-            const optimalPrice = variableCost / (1 + (1 / Math.abs(elasticity)));
-            const displayPrice = Math.max(optimalPrice, currentPrice * 0.5);
-
-            document.getElementById('optimalPrice').textContent = '$' + displayPrice.toFixed(0);
-            document.getElementById('elasticityDisplay').textContent = elasticity.toFixed(1);
-
-            // Generate price scenarios
-            const prices = [
-                currentPrice * 0.5,
-                currentPrice * 0.75,
-                currentPrice,
-                currentPrice * 1.25,
-                currentPrice * 1.5,
-                currentPrice * 2
-            ];
-
-            let html = '';
-            prices.forEach(price => {
-                const priceChange = (price - currentPrice) / currentPrice;
-                const demandChange = priceChange * elasticity;
-                const newCustomers = Math.round(customers * (1 + demandChange));
-                const revenue = price * newCustomers;
-                const profit = (price - variableCost) * newCustomers;
-                const isOptimal = Math.abs(price - displayPrice) < (currentPrice * 0.1);
-
-                html += `<tr>
-                    <td class="${isOptimal ? 'highlight' : ''}">$${price.toFixed(0)}${isOptimal ? ' ★' : ''}</td>
-                    <td>${(demandChange * 100).toFixed(1)}%</td>
-                    <td>${newCustomers}</td>
-                    <td>${formatCurrency(revenue)}</td>
-                    <td>${formatCurrency(profit)}</td>
-                </tr>`;
-            });
-
-            document.getElementById('priceTable').innerHTML = html;
-            document.getElementById('results').style.display = 'block';
+            const variableCost = parseFloat(document.getElementById('variableCost').value) || 0;
+            
+            if (!currentPrice || !customers) return;
+            
+            // Optimal price formula: P = MC * (elasticity / (1 + elasticity))
+            // For linear demand: P = (a + b*MC) / (2b) where elasticity = -b*P/Q
+            const optimalPrice = variableCost * (elasticity / (1 + elasticity));
+            
+            // Calculate expected demand at optimal price
+            const priceChange = (optimalPrice - currentPrice) / currentPrice;
+            const demandChange = elasticity * priceChange;
+            const expectedCustomers = Math.round(customers * (1 + demandChange));
+            
+            const monthlyRevenue = optimalPrice * expectedCustomers;
+            const monthlyProfit = (optimalPrice - variableCost) * expectedCustomers;
+            
+            document.getElementById('optimalPrice').textContent = '$' + optimalPrice.toFixed(2);
+            document.getElementById('expectedCustomers').textContent = expectedCustomers.toLocaleString();
+            document.getElementById('monthlyRevenue').textContent = '$' + monthlyRevenue.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('monthlyProfit').textContent = '$' + monthlyProfit.toLocaleString(undefined, {maximumFractionDigits: 0});
+            
+            let rec = '';
+            if (optimalPrice > currentPrice * 1.2) {
+                rec = 'Significant upside potential. Consider a gradual price increase with grandfathering for existing customers.';
+            } else if (optimalPrice < currentPrice * 0.8) {
+                rec = 'Your price may be too high. Consider testing a lower price point to increase volume.';
+            } else {
+                rec = 'Your pricing is near optimal. Focus on value communication and packaging improvements.';
+            }
+            document.getElementById('recommendation').textContent = rec;
         }
-
-        function showUnlock() {
-            document.getElementById('unlockSection').style.display = 'block';
-            document.getElementById('unlockSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            localStorage.setItem('pricingOptimizationEmail', email);
-            alert('✅ Thank you! Pricing optimization model unlocked. We\'ll email you the download link.');
-            document.getElementById('lockedOverlay').style.display = 'none';
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('pricingEmail', email);
+            alert('✅ Thank you! Full optimization model will be emailed to you shortly.');
             this.reset();
         });
     </script>

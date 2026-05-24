@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MRR Growth Modeling — Scenario Planning for SaaS</title>
-    <meta name="description" content="MRR growth modeling with best/base/worst case scenarios. Plan your SaaS revenue trajectory. Unlock full 3-scenario model for $9.">
+    <title>MRR Growth Modeling — Scenario Planning</title>
+    <meta name="description" content="MRR growth modeling with scenario planning. Calculate best/base/worst case projections. Unlock 3-scenario model for $9.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,96 +25,74 @@
             margin-bottom: 16px;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .inputs-section {
+        .card {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 32px;
         }
-        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
-        .input-group label { color: #94a3b8; font-size: 0.85rem; }
-        .input-group input {
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .scenario-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .scenario-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .scenario-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .best-case { border-color: rgba(16, 185, 129, 0.3); }
+        .base-case { border-color: rgba(99, 102, 241, 0.3); }
+        .worst-case { border-color: rgba(239, 68, 68, 0.3); }
+        input, select {
+            width: 100%;
             padding: 12px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             color: #e2e8f0;
+            margin-bottom: 12px;
             font-size: 1rem;
         }
-        .calculate-btn {
-            margin-top: 20px;
-            padding: 14px 32px;
+        button {
+            padding: 12px 24px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
+            font-size: 1rem;
         }
-        .results {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            display: none;
-        }
-        .scenario-table {
+        .projection-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 16px;
+            margin-top: 20px;
         }
-        .scenario-table th {
+        .projection-table th, .projection-table td {
+            padding: 12px;
             text-align: left;
-            padding: 12px;
-            color: #6366f1;
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .scenario-table td {
-            padding: 12px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .projection-table th {
             color: #94a3b8;
+            font-weight: 500;
         }
-        .scenario-table tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-        .best { color: #10b981; }
-        .base { color: #6366f1; }
-        .worst { color: #ef4444; }
-        .locked-section {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .locked-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 15, 26, 0.95);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            gap: 16px;
-        }
-        .locked-text { color: #94a3b8; font-size: 1rem; }
-        .unlock-btn {
-            padding: 14px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
+        .projection-table td {
+            color: #e2e8f0;
         }
         .cta-section {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
@@ -122,169 +100,115 @@
             border-radius: 16px;
             padding: 32px;
             text-align: center;
-            display: none;
-        }
-        .cta-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: 16px;
-            border: none;
-            cursor: pointer;
         }
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
-            .input-grid { grid-template-columns: 1fr; }
+            .scenario-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📈 MRR Growth Modeling</h1>
-            <p class="subtitle">Plan your revenue trajectory with scenario analysis</p>
+            <h1>📈 MRR Growth Model</h1>
+            <p class="subtitle">Scenario planning for SaaS revenue growth.</p>
         </div>
-
-        <div class="inputs-section">
-            <h2 style="color: #6366f1; margin-bottom: 8px;">Your Current Metrics</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Enter your numbers to model growth scenarios</p>
-            <div class="input-grid">
-                <div class="input-group">
-                    <label>Current MRR ($)</label>
-                    <input type="number" id="currentMrr" placeholder="50000" value="50000">
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Input Your Metrics</h2>
+            <div class="scenario-grid">
+                <div>
+                    <label class="scenario-label">Current MRR ($)</label>
+                    <input type="number" id="currentMrr" placeholder="10000" onchange="calculate()">
                 </div>
-                <div class="input-group">
-                    <label>New Customers/Month</label>
-                    <input type="number" id="newCustomers" placeholder="50" value="50">
+                <div>
+                    <label class="scenario-label">Monthly Growth Rate (%)</label>
+                    <input type="number" id="growthRate" placeholder="10" step="0.1" onchange="calculate()">
                 </div>
-                <div class="input-group">
-                    <label>ARPU ($)</label>
-                    <input type="number" id="arpu" placeholder="100" value="100">
+                <div>
+                    <label class="scenario-label">Monthly Churn Rate (%)</label>
+                    <input type="number" id="churnRate" placeholder="5" step="0.1" onchange="calculate()">
                 </div>
-                <div class="input-group">
-                    <label>Monthly Churn (%)</label>
-                    <input type="number" id="churn" placeholder="5" value="5" step="0.1">
-                </div>
-                <div class="input-group">
-                    <label>Growth MoM (%)</label>
-                    <input type="number" id="growthRate" placeholder="10" value="10" step="0.1">
-                </div>
-                <div class="input-group">
-                    <label>Months to Model</label>
-                    <input type="number" id="months" placeholder="12" value="12">
+                <div>
+                    <label class="scenario-label">Projection Months</label>
+                    <input type="number" id="months" placeholder="12" onchange="calculate()">
                 </div>
             </div>
-            <button class="calculate-btn" onclick="calculate()">Calculate Scenarios →</button>
+            <button onclick="calculate()">Calculate Projection</button>
         </div>
-
-        <div class="results" id="results">
-            <h2 style="color: #6366f1; margin-bottom: 16px;">Base Case Projection</h2>
-            <table class="scenario-table">
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Base Case Projection (Free)</h2>
+            <div class="scenario-grid">
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Projected MRR</div>
+                    <div class="scenario-value" id="baseMrr">$0</div>
+                </div>
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Total Growth</div>
+                    <div class="scenario-value" id="baseGrowth">0%</div>
+                </div>
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Annual Run Rate</div>
+                    <div class="scenario-value" id="baseArr">$0</div>
+                </div>
+            </div>
+            <table class="projection-table">
                 <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>MRR</th>
-                        <th>Customers</th>
-                        <th>New Revenue</th>
-                        <th>Churned Revenue</th>
-                    </tr>
+                    <tr><th>Month</th><th>MRR</th><th>New Revenue</th><th>Churned</th><th>Net Growth</th></tr>
                 </thead>
                 <tbody id="baseTable"></tbody>
             </table>
         </div>
-
-        <div class="locked-section" id="lockedSection">
-            <h2 style="color: #6366f1; margin-bottom: 16px;">3-Scenario Analysis</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Best, base, and worst case with probability weighting</p>
-            <table class="scenario-table">
-                <thead>
-                    <tr>
-                        <th>Scenario</th>
-                        <th>12-Month MRR</th>
-                        <th>Growth Rate</th>
-                        <th>Probability</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td class="best">Best Case</td><td class="best">$143K</td><td class="best">+186%</td><td class="best">25%</td></tr>
-                    <tr><td class="base">Base Case</td><td class="base">$96K</td><td class="base">+92%</td><td class="base">50%</td></tr>
-                    <tr><td class="worst">Worst Case</td><td class="worst">$58K</td><td class="worst">+16%</td><td class="worst">25%</td></tr>
-                </tbody>
-            </table>
-            <div class="locked-overlay" id="lockedOverlay">
-                <span class="locked-text">🔒 Full 3-scenario model locked</span>
-                <span class="locked-text">Includes sensitivity analysis, probability-weighted projections, and Monte Carlo simulation</span>
-                <button class="unlock-btn" onclick="showUnlock()">Unlock for $9 →</button>
-            </div>
-        </div>
-
-        <div class="cta-section" id="unlockSection">
-            <h2>Unlock Full 3-Scenario Model</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Get best/base/worst case analysis with probability weighting and export. One-time $9 unlock.</p>
-            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto; justify-content: center;">
-                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
-                <button type="submit" class="cta-btn">Unlock $9 →</button>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">3-Scenario Model 🔒</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Unlock best case, worst case, and sensitivity analysis with CSV export.</p>
+            <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                <button type="submit">Unlock — $9</button>
             </form>
         </div>
     </div>
-
+    
     <script>
-        function formatCurrency(value) {
-            if (value >= 1000000) return '$' + (value / 1000000).toFixed(1) + 'M';
-            if (value >= 1000) return '$' + (value / 1000).toFixed(1) + 'K';
-            return '$' + value.toFixed(0);
-        }
-
         function calculate() {
             const currentMrr = parseFloat(document.getElementById('currentMrr').value) || 0;
-            const newCustomers = parseFloat(document.getElementById('newCustomers').value) || 0;
-            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
-            const churnRate = parseFloat(document.getElementById('churn').value) || 0;
             const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
             const months = parseInt(document.getElementById('months').value) || 12;
-
+            
             let mrr = currentMrr;
-            let customers = Math.round(currentMrr / arpu);
-            let html = '';
-
+            let tableHtml = '';
+            
             for (let i = 1; i <= months; i++) {
-                const newRev = newCustomers * arpu;
-                const churnedRev = mrr * (churnRate / 100);
-                mrr = mrr + newRev - churnedRev;
-                customers = Math.round(mrr / arpu);
+                const newRevenue = mrr * (growthRate / 100);
+                const churned = mrr * (churnRate / 100);
+                const netGrowth = newRevenue - churned;
+                mrr += netGrowth;
                 
-                // Apply growth rate to new customers
-                newCustomers = Math.round(newCustomers * (1 + growthRate / 100));
-
-                html += `<tr>
-                    <td>Month ${i}</td>
-                    <td>${formatCurrency(mrr)}</td>
-                    <td>${customers}</td>
-                    <td>+${formatCurrency(newRev)}</td>
-                    <td>-${formatCurrency(churnedRev)}</td>
+                tableHtml += `<tr>
+                    <td>${i}</td>
+                    <td>$${mrr.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>+$${newRevenue.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>-$${churned.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>$${netGrowth.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
                 </tr>`;
             }
-
-            document.getElementById('baseTable').innerHTML = html;
-            document.getElementById('results').style.display = 'block';
+            
+            const totalGrowth = currentMrr ? ((mrr - currentMrr) / currentMrr * 100).toFixed(1) : 0;
+            
+            document.getElementById('baseMrr').textContent = '$' + mrr.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('baseGrowth').textContent = totalGrowth + '%';
+            document.getElementById('baseArr').textContent = '$' + (mrr * 12).toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('baseTable').innerHTML = tableHtml;
         }
-
-        function showUnlock() {
-            document.getElementById('unlockSection').style.display = 'block';
-            document.getElementById('unlockSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            localStorage.setItem('mrrGrowthEmail', email);
-            alert('✅ Thank you! 3-scenario model unlocked. We\'ll email you the download link.');
-            document.getElementById('lockedOverlay').style.display = 'none';
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('mrrModelEmail', email);
+            alert('✅ Thank you! Full scenario model will be emailed to you shortly.');
             this.reset();
         });
     </script>
