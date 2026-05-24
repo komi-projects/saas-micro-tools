@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Feature Flags Guide — Free Download</title>
-    <meta name="description" content="Free SaaS feature flags guide. Deploy safely, test in production, and roll out features gradually without risk.">
+    <title>SaaS Feature Flags Guide — Ship Safely, Test in Production</title>
+    <meta name="description" content="Free SaaS feature flags guide. Deploy safely, test in production, and control feature rollouts with confidence.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -102,224 +102,204 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏳️ Feature Flags</h1>
-            <p class="subtitle">Deploy safely and roll out gradually without risk.</p>
+            <h1>🏁 Feature Flags</h1>
+            <p class="subtitle">Ship safely, test in production, control rollouts.</p>
         </div>
         
         <div class="flags">
             <div class="section">
-                <h2>Why Feature Flags Are Essential</h2>
+                <h2>What Are Feature Flags?</h2>
                 
-                <p>Feature flags (also called feature toggles) are the most important technique for modern SaaS deployment. They decouple deployment from release, allowing you to ship code to production without exposing it to users. This means safer deployments, faster iteration, and the ability to test in production with real users.</p>
+                <p>Feature flags (also called feature toggles) are a software development technique that lets you turn features on or off without deploying new code. They decouple deployment from release — you can deploy code to production but hide it from users until you're ready.</p>
                 
-                <p>Without feature flags, every deployment is a high-stakes event. With feature flags, you can deploy 50 times a day, enable features for 1% of users, watch metrics, and gradually roll out — or instantly disable if something breaks. It's the difference between "pray and deploy" and "deploy with confidence."</p>
+                <p>Think of them as remote controls for your product. Instead of shipping a feature and hoping it works, you ship the code, test it with a small group, measure the impact, and gradually roll it out. If something goes wrong, you turn it off instantly — no rollback, no hotfix, no downtime.</p>
                 
-                <p>This guide covers how to implement, manage, and optimize feature flags in your SaaS product.</p>
+                <p>The best SaaS companies use feature flags for everything: gradual rollouts, A/B testing, kill switches, beta programs, and entitlements. This guide covers how to implement feature flags, when to use them, and best practices for managing them at scale.</p>
             </div>
             
             <div class="section">
-                <h2>Feature Flag Types</h2>
+                <h2>Types of Feature Flags</h2>
                 
                 <div class="pillar-box">
                     <div class="pillar-name">1. Release Toggles</div>
                     <div class="pillar-detail">
-                        Hide incomplete features from users.
-                        • Long-lived flags for features in development
-                        • Code ships to production but stays hidden
-                        • Team can test internally without affecting users
-                        • Removed once feature is complete and stable
-                        • Example: "New dashboard" flag — dev team sees it, users don't
+                        Hide incomplete features from production.
+                        • Use case: Deploy code for a feature still in development
+                        • Lifecycle: Short-term, removed after feature launches
+                        • Example: New dashboard layout — code deployed, flag off until design is finalized
+                        • Rule of thumb: If it's not ready for customers, hide it behind a flag
                     </div>
                 </div>
                 
                 <div class="pillar-box">
                     <div class="pillar-name">2. Experiment Toggles</div>
                     <div class="pillar-detail">
-                        A/B test features with user segments.
-                        • Random or targeted user assignment
-                        • Measure impact on key metrics
-                        • Statistical significance before declaring winner
-                        • Automatically roll out winner, disable loser
-                        • Example: "New checkout flow" — 50% see old, 50% see new
+                        Run A/B tests and measure impact.
+                        • Use case: Test two versions of a feature with real users
+                        • Lifecycle: Short-term, removed after experiment concludes
+                        • Example: Test new checkout flow — 50% see version A, 50% see version B
+                        • Measure: Conversion, engagement, revenue, support tickets
                     </div>
                 </div>
                 
                 <div class="pillar-box">
-                    <div class="pillar-name">3. Ops Toggles</div>
+                    <div class="pillar-name">3. Kill Switches</div>
                     <div class="pillar-detail">
-                        Operational controls for system health.
-                        • Circuit breakers: Disable failing features automatically
-                        • Rate limiting: Throttle features during high load
-                        • Maintenance mode: Show "under maintenance" instead of errors
-                        • Kill switches: Instantly disable problematic features
-                        • Example: "Third-party API integration" — disable if API is down
+                        Instantly disable problematic features.
+                        • Use case: Turn off a feature causing errors or performance issues
+                        • Lifecycle: Long-term, permanent safety mechanism
+                        • Example: Disable a new integration if its API goes down
+                        • Key: Must work instantly, no code deploy required
                     </div>
                 </div>
                 
                 <div class="pillar-box">
-                    <div class="pillar-name">4. Permission Toggles</div>
+                    <div class="pillar-name">4. Canary Toggles</div>
                     <div class="pillar-detail">
-                        Feature access based on user attributes.
-                        • Plan-based: "Pro feature" only for Pro users
-                        • Role-based: Admin features only for admins
-                        • Beta access: New features for power users first
-                        • Geography: Features available only in certain regions
-                        • Example: "Advanced reporting" — only available on Business plan
+                        Gradually roll out to a percentage of users.
+                        • Use case: Reduce risk by exposing features to small groups first
+                        • Lifecycle: Short-term, ramped to 100% or rolled back
+                        • Example: Start at 1%, then 5%, 10%, 50%, 100% if metrics look good
+                        • Automatic: Set error rate thresholds for auto-rollback
                     </div>
                 </div>
                 
                 <div class="pillar-box">
-                    <div class="pillar-name">5. Canary Toggles</div>
+                    <div class="pillar-name">5. Entitlement Toggles</div>
                     <div class="pillar-detail">
-                        Gradual rollout with real-time monitoring.
-                        • 1% of traffic → 5% → 25% → 100%
-                        • Automatic rollback if error rate spikes
-                        • Target by user segment, geography, or random
-                        • Monitor business metrics, not just technical ones
-                        • Example: "New search algorithm" — roll out gradually, watch conversion
+                        Control access based on plan or user type.
+                        • Use case: Premium features available only to paying customers
+                        • Lifecycle: Long-term, permanent part of product packaging
+                        • Example: "Advanced reporting" flag — on for Pro/Enterprise, off for Basic
+                        • Benefit: No code changes needed to adjust plan features
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">6. Ops Toggles</div>
+                    <div class="pillar-detail">
+                        Operational controls for system behavior.
+                        • Use case: Adjust system behavior without code changes
+                        • Lifecycle: Long-term, infrastructure management
+                        • Example: Circuit breaker for external API calls, rate limiting thresholds
+                        • Use sparingly: These are for ops, not product features
                     </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>Feature Flag Implementation</h2>
+                <h2>Feature Flag Architecture</h2>
                 
-                <p><strong>1. Code integration:</strong></p>
+                <p><strong>1. Simple approach (start here):</strong></p>
                 
-                <p>• SDK: Import the feature flag SDK into your application
-                • Evaluation: Check flag state before executing feature code
-                • Default behavior: If flag service is down, default to "off" (safe)
-                • Performance: Evaluate flags locally (cached) to avoid latency
-                • Context: Pass user attributes, device, location for targeting</p>
+                <p>• Config file: Store flags in a JSON config file
+                • Environment variables: One flag per env var
+                • Database: Simple table with flag name, status, and targeting rules
+                • Pros: Fast to implement, no external dependencies
+                • Cons: Requires redeploy to change, no targeting, hard to manage at scale</p>
                 
-                <p><strong>2. Flag management:</strong></p>
+                <p><strong>2. Managed service (scale here):</strong></p>
                 
-                <p>• Dashboard: Web UI for creating, editing, and monitoring flags
-                • Rules engine: IF user.plan == "pro" AND user.country == "US" THEN enable
-                • Targeting: User IDs, segments, percentages, custom attributes
-                • Scheduling: Enable flags at specific dates/times
-                • Variations: Multiple variants for A/B testing (not just on/off)
-                • Dependencies: Flag B only enabled if Flag A is on</p>
+                <p>• LaunchDarkly: Market leader, full feature set, $8.33/seat/month
+                • Split: Strong experimentation, analytics, $33/seat/month
+                • Flagsmith: Open-source, self-hosted option, free tier
+                • Unleash: Open-source, popular in enterprise, free tier
+                • GrowthBook: Open-source, strong experimentation focus, free tier
+                • PostHog: Product analytics + feature flags, generous free tier</p>
                 
-                <p><strong>3. Monitoring:</strong></p>
+                <p><strong>3. Build vs. buy:</strong></p>
                 
-                <p>• Flag usage: How often is each flag evaluated?
-                • Performance impact: Does the flag check add latency?
-                • Error rates: Are flagged features causing more errors?
-                • Business metrics: Impact on conversion, retention, revenue
-                • Flag health: Stale flags, unused flags, conflicting flags
-                • Audit log: Who changed what flag and when?</p>
+                <p>• Build: If you need simple on/off flags and have 1-2 teams
+                • Buy: If you need targeting, experiments, analytics, or have 3+ teams
+                • Hybrid: Build simple toggles, buy for experiments and canary releases
+                • Cost of building: 2-4 weeks engineering, ongoing maintenance
+                • Cost of buying: $50-500/month depending on seats and features</p>
             </div>
             
             <div class="section">
                 <h2>Feature Flag Best Practices</h2>
                 
-                <p><strong>1. Naming conventions:</strong></p>
+                <p><strong>1. Naming:</strong> Use descriptive names with namespaces. "new-checkout-flow" not "flag_7". Include team prefix: "billing-new-checkout-flow".</p>
                 
-                <p>• Descriptive: "new-checkout-flow" not "flag-47"
-                • Scoped: "payment.new-checkout-flow" for organization
-                • Temporary vs. permanent: Prefix temporary flags ("temp-" or "exp-")
-                • Owner: Include team or feature name
-                • Date: Add creation date for stale flag detection
-                • Example: "exp-2024-03-payment-new-checkout"</p>
+                <p><strong>2. Cleanup:</strong> Remove flags after they're no longer needed. "Permanent" flags should be rare. Schedule quarterly flag audits.</p>
                 
-                <p><strong>2. Lifecycle management:</strong></p>
+                <p><strong>3. Testing:</strong> Test both flag on and flag off paths. A feature behind a flag that breaks when off is a hidden bug.</p>
                 
-                <p>• Create: Flag created when feature development starts
-                • Develop: Team uses flag for internal testing
-                • Test: Enable for beta users, monitor metrics
-                • Rollout: Gradually increase percentage
-                • General availability: 100% of users, feature is default
-                • Deprecate: Remove flag, make feature permanent
-                • Archive: Remove flag code, clean up references
-                • Maximum flag age: 30 days for experiment flags, 90 days for release flags</p>
+                <p><strong>4. Documentation:</strong> Document what each flag does, who owns it, and when it should be removed. "Flag registry" in your wiki.</p>
                 
-                <p><strong>3. Safety:</strong></p>
+                <p><strong>5. Access control:</strong> Not everyone should toggle production flags. Restrict to on-call engineers and product managers.</p>
                 
-                <p>• Default off: New flags default to disabled (fail-safe)
-                • Local evaluation: Cache flag state, don't call service on every request
-                • Fallback: If flag service is unavailable, default to known-good state
-                • Circuit breaker: If flag evaluation fails repeatedly, disable feature
-                • Testing: Unit tests with flags on and off
-                • Documentation: Every flag must have an owner, description, and removal date</p>
+                <p><strong>6. Monitoring:</strong> Track flag changes in your alerting system. "Flag X was turned off at 2:15 PM" should be visible.</p>
+                
+                <p><strong>7. Fallbacks:</strong> If flag service is down, default to safe behavior. Usually "off" is safer than "on" for new features.</p>
+                
+                <p><strong>8. Avoid flag explosion:</strong> Don't create flags for everything. Use for: risky changes, experiments, entitlements, kill switches. Don't use for: trivial UI changes, bug fixes, config values.</p>
             </div>
             
             <div class="section">
-                <h2>Feature Flag Tools</h2>
+                <h2>Feature Flag Examples</h2>
                 
-                <p><strong>Commercial:</strong></p>
+                <div class="example-box">
+                    <div class="example-title">Netflix: Gradual Codec Rollout</div>
+                    <div class="example-text">
+                        Netflix uses feature flags to roll out new video codecs gradually.
+                        • Start: 1% of devices, measure buffer health and error rates
+                        • Expand: 5%, 10%, 25%, 50%, 100% if metrics stable
+                        • Kill switch: If error rate > 0.1%, instant rollback to 0%
+                        • Result: Billions of streaming hours with minimal disruption
+                    </div>
+                </div>
                 
-                <p>• <strong>LaunchDarkly:</strong> Enterprise feature management, targeting, experimentation
-                • <strong>Split:</strong> Feature flags + A/B testing, data-driven decisions
-                • <strong>Optimizely:</strong> Full-stack experimentation platform
-                • <strong>Flagsmith:</strong> Open-source core, commercial hosting
-                • <strong>Harness:</strong> Feature flags + continuous delivery</p>
+                <div class="example-box">
+                    <div class="example-title">Etsy: Continuous Deployment</div>
+                    <div class="example-text">
+                        Etsy deploys 50+ times per day using feature flags.
+                        • All changes behind flags by default
+                        • Engineers toggle on for themselves first
+                        • Then team, then 1% of users, then full rollout
+                        • Result: Fast iteration with production safety
+                    </div>
+                </div>
                 
-                <p><strong>Open-source:</strong></p>
-                
-                <p>• <strong>Unleash:</strong> Open-source feature flagging, self-hosted
-                • <strong>GrowthBook:</strong> Open-source A/B testing + feature flags
-                • <strong>Flipper:</strong> Ruby feature flags (used by GitHub)
-                • <strong>Flipt:</strong> Self-hosted feature flag solution
-                • <strong>PostHog:</strong> Open-source product analytics with feature flags</p>
-                
-                <p><strong>Build your own:</strong></p>
-                
-                <p>• Simple: Database table with flag names and boolean values
-                • Advanced: Redis-backed with caching, targeting rules, and analytics
-                • DIY trade-offs: Free, but requires maintenance, monitoring, and security</p>
-            </div>
-            
-            <div class="section">
-                <h2>Feature Flag Mistakes</h2>
-                
-                <p><strong>1. Flag sprawl:</strong> Hundreds of flags, nobody knows what they do. Implement flag lifecycle management and regular cleanup.</p>
-                
-                <p><strong>2. No removal process:</strong> Flags stay in code forever, creating technical debt. Every flag needs an expiration date and removal ticket.</p>
-                
-                <p><strong>3. Inconsistent evaluation:</strong> Frontend says flag is on, backend says off. Use consistent evaluation logic and shared context.</p>
-                
-                <p><strong>4. Performance impact:</strong> Calling flag service on every request adds latency. Cache flag state locally and evaluate asynchronously.</p>
-                
-                <p><strong>5. Security exposure:</strong> Flags control access to sensitive features. Ensure flag evaluation can't be bypassed by users.</p>
-                
-                <p><strong>6. No monitoring:</strong> You have 50 flags but no idea which are active, which are stale, or which are causing issues. Track flag usage and health.</p>
-                
-                <p><strong>7. Testing gaps:</strong> Testing only with flags on (or only off). Test both states, and test flag transitions (on → off → on).</p>
+                <div class="example-box">
+                    <div class="example-title">Stripe: Kill Switches</div>
+                    <div class="example-text">
+                        Stripe maintains kill switches for all third-party integrations.
+                        • External API down? Toggle off instantly.
+                        • Payment processor issue? Route traffic to backup.
+                        • New fraud rule causing false positives? Disable immediately.
+                        • Result: 99.999% uptime despite dependency failures
+                    </div>
+                </div>
             </div>
             
             <div class="section">
                 <h2>Feature Flag Checklist</h2>
                 
-                <p>☐ Feature flag service selected (commercial or open-source)
-                ☐ SDK integrated into application
-                ☐ Default-off policy established
-                ☐ Local caching configured for performance
-                ☐ Fallback behavior documented (service down = safe state)
-                ☐ Naming convention defined and enforced
-                ☐ Flag dashboard accessible to product and engineering
-                ☐ Targeting rules configured (user attributes, segments)
-                ☐ Gradual rollout process defined (1% → 5% → 25% → 100%)
-                ☐ Automatic rollback criteria set (error rate, latency thresholds)
-                ☐ A/B testing framework configured (variations, metrics, significance)
-                ☐ Monitoring dashboards for flag health
-                ☐ Audit log for flag changes
-                ☐ Flag lifecycle process documented (create → test → rollout → deprecate → remove)
-                ☐ Maximum flag age policy (30 days for experiments, 90 days for releases)
-                ☐ Regular flag cleanup scheduled (monthly)
-                ☐ Flag ownership assigned (every flag has an owner)
-                ☐ Stale flag detection automated
-                ☐ Flag impact on performance measured
-                ☐ Flag security reviewed (can't be bypassed by users)
-                ☐ Testing covers flags on, off, and transitions
-                ☐ Documentation includes flag purpose, owner, and removal date
-                ☐ Team trained on flag best practices</p>
+                <p>☐ Feature flag system chosen (build, open-source, or managed)
+                ☐ SDK integrated into your application
+                ☐ Flag naming convention established (team-feature-name)
+                ☐ Flag registry created (documentation of all flags)
+                ☐ Cleanup process defined (quarterly audits, removal deadlines)
+                ☐ Access control configured (who can toggle what)
+                ☐ Monitoring set up (flag change alerts)
+                ☐ Fallback behavior defined (default to safe state)
+                ☐ Testing strategy for both flag states (on and off)
+                ☐ Kill switches implemented for critical features
+                ☐ Canary rollout process defined (1% → 5% → 10% → 50% → 100%)
+                ☐ A/B test framework configured (experiment toggles)
+                ☐ Entitlement toggles set up for plan-based features
+                ☐ Flag change audit log enabled (who changed what, when)
+                ☐ Performance impact measured (flag evaluation latency)
+                ☐ Runbook created for flag-related incidents
+                ☐ Team trained on flag usage and best practices
+                ☐ Flag expiration dates set (auto-remind after 30 days)</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Feature Flags Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation patterns, tools comparison, and rollout strategies.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation templates, architecture diagrams, and vendor comparison.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
