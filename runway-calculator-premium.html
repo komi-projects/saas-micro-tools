@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Runway Calculator — Premium Burn Rate &amp; Financial Projections</title>
+    <title>Runway Calculator — Cash Flow & Break-Even Analysis</title>
+    <meta name="description" content="Calculate burn rate, runway, break-even, and cash flow projections. Unlock detailed scenario modeling for $9.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,48 +14,38 @@
             min-height: 100vh;
             padding: 40px 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 700px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
         h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 2.2rem;
+            font-weight: 800;
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
         }
-        .subtitle { color: #64748b; margin-bottom: 32px; }
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .input-group {
+        .subtitle { color: #94a3b8; font-size: 1rem; }
+        .card {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .input-group input {
+        .input-group { margin-bottom: 20px; }
+        label { display: block; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 8px; font-weight: 500; }
+        input {
             width: 100%;
-            padding: 10px;
-            background: #0f0f1a;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             color: #e2e8f0;
             font-size: 1rem;
         }
-        .input-group input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .calculate-btn {
+        input:focus { outline: none; border-color: #6366f1; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -62,397 +53,186 @@
             border: none;
             border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            margin-bottom: 32px;
+            margin-top: 8px;
         }
-        .calculate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        
+        .btn:hover { opacity: 0.9; }
         .results { display: none; }
-        .results.show { display: block; }
-        
+        .results.active { display: block; }
         .result-card {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
-        }
-        .result-card h3 {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .result-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-        .result-subtitle {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin-top: 4px;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .metric {
-            background: #1a1a2e;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-        }
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #a855f7;
-        }
-        .metric-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        
-        .cash-flow-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-        .cash-flow-table th, .cash-flow-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .cash-flow-table th {
-            color: #94a3b8;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .cash-flow-table td {
-            color: #e2e8f0;
-            font-size: 0.9rem;
-        }
-        .cash-flow-table .positive { color: #10b981; }
-        .cash-flow-table .negative { color: #ef4444; }
-        
-        .recommendation {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
-        .recommendation h3 {
-            color: #10b981;
-            font-size: 1rem;
-            margin-bottom: 8px;
+        .result-title { color: #6366f1; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .result-value { color: #e2e8f0; font-size: 1.8rem; font-weight: 700; }
+        .result-desc { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+        .warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
         }
-        .recommendation p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .unlock-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+        .warning-title { color: #ef4444; font-weight: 700; margin-bottom: 4px; }
+        .warning-text { color: #fca5a5; font-size: 0.9rem; }
+        .locked {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%);
+            border: 1px solid rgba(99,102,241,0.3);
             border-radius: 16px;
             padding: 32px;
             text-align: center;
-            margin-top: 32px;
+            margin-top: 24px;
         }
-        .unlock-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-        .unlock-section p {
-            color: #94a3b8;
-            margin-bottom: 24px;
-        }
-        .unlock-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-        .unlock-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
+        .locked h2 { color: #e2e8f0; margin-bottom: 12px; }
+        .locked p { color: #94a3b8; margin-bottom: 20px; }
         .price-tag {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             color: #6366f1;
-            margin-bottom: 8px;
-        }
-        .stripe-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
+            margin-bottom: 16px;
         }
         .email-form {
             display: flex;
             gap: 12px;
             max-width: 400px;
-            margin: 0 auto 16px;
+            margin: 0 auto;
         }
-        .email-input {
-            flex: 1;
-            padding: 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: #e2e8f0;
-        }
-        .progress-bar {
-            height: 8px;
-            background: #0f0f1a;
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-        }
+        .email-form input { flex: 1; }
         @media (max-width: 768px) {
-            .input-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            .unlock-features { grid-template-columns: 1fr; }
+            h1 { font-size: 1.6rem; }
+            .row { grid-template-columns: 1fr; }
             .email-form { flex-direction: column; }
-            h1 { font-size: 1.5rem; }
-            .cash-flow-table th, .cash-flow-table td { padding: 8px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Runway Calculator</h1>
-        <p class="subtitle">Calculate burn rate, runway, break-even, and cash flow. Unlock detailed financial projections and scenario modeling for $9.</p>
-        
-        <div class="input-grid">
-            <div class="input-group">
-                <label>Cash in Bank ($)</label>
-                <input type="number" id="cash" value="500000" placeholder="500000">
-            </div>
-            <div class="input-group">
-                <label>Monthly Revenue ($)</label>
-                <input type="number" id="revenue" value="25000" placeholder="25000">
-            </div>
-            <div class="input-group">
-                <label>Monthly Expenses ($)</label>
-                <input type="number" id="expenses" value="75000" placeholder="75000">
-            </div>
-            <div class="input-group">
-                <label>Monthly Growth Rate (%)</label>
-                <input type="number" id="growthRate" value="10" placeholder="10">
-            </div>
-            <div class="input-group">
-                <label>Expected Fundraise ($)</label>
-                <input type="number" id="fundraise" value="0" placeholder="0">
-            </div>
-            <div class="input-group">
-                <label>Fundraise Month</label>
-                <input type="number" id="fundraiseMonth" value="6" placeholder="6">
-            </div>
+        <div class="header">
+            <h1>📉 Runway Calculator</h1>
+            <p class="subtitle">Calculate burn rate, runway, and break-even point</p>
         </div>
-        
-        <button class="calculate-btn" onclick="calculate()">Calculate Runway</button>
-        
+
+        <div class="card">
+            <div class="row">
+                <div class="input-group">
+                    <label>Current Cash ($)</label>
+                    <input type="number" id="cash" placeholder="50000" value="50000">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Burn Rate ($)</label>
+                    <input type="number" id="burn" placeholder="10000" value="10000">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <label>Monthly Revenue ($)</label>
+                    <input type="number" id="revenue" placeholder="3000" value="3000">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Revenue Growth (%)</label>
+                    <input type="number" id="growth" placeholder="15" value="15">
+                </div>
+            </div>
+            <button class="btn" onclick="calculate()">Calculate Runway →</button>
+        </div>
+
         <div class="results" id="results">
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-value" id="burnRate">$50K</div>
-                    <div class="metric-label">Monthly Burn</div>
+            <div class="card">
+                <div class="row">
+                    <div class="result-card">
+                        <div class="result-title">Net Burn</div>
+                        <div class="result-value" id="netBurn">$7,000/mo</div>
+                        <div class="result-desc">Revenue offsetting costs</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-title">Runway</div>
+                        <div class="result-value" id="runway">7.1 months</div>
+                        <div class="result-desc">Until cash runs out</div>
+                    </div>
                 </div>
-                <div class="metric">
-                    <div class="metric-value" id="runwayMonths">10</div>
-                    <div class="metric-label">Runway (months)</div>
+                <div class="row" style="margin-top:16px;">
+                    <div class="result-card">
+                        <div class="result-title">Break-Even</div>
+                        <div class="result-value" id="breakeven">14 months</div>
+                        <div class="result-desc">At current growth rate</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-title">Cash Zero Date</div>
+                        <div class="result-value" id="zeroDate">Dec 2026</div>
+                        <div class="result-desc">Unless you raise or cut burn</div>
+                    </div>
                 </div>
-                <div class="metric">
-                    <div class="metric-value" id="breakEven">Never</div>
-                    <div class="metric-label">Break-even</div>
+                <div class="warning" id="warning" style="display:none;">
+                    <div class="warning-title">⚠️ Critical Alert</div>
+                    <div class="warning-text" id="warningText">Runway below 6 months. Consider reducing burn or raising revenue.</div>
                 </div>
             </div>
-            
-            <div class="result-card">
-                <h3>Burn Rate Analysis</h3>
-                <div class="result-value" id="netBurn">$50,000</div>
-                <div class="result-subtitle" id="burnDetail">Net monthly burn after revenue</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="burnProgress" style="width: 50%"></div>
-                </div>
-            </div>
-            
-            <div class="result-card">
-                <h3>6-Month Cash Flow (Free Preview)</h3>
-                <table class="cash-flow-table">
-                    <thead>
-                        <tr>
-                            <th>Month</th>
-                            <th>Revenue</th>
-                            <th>Expenses</th>
-                            <th>Net Burn</th>
-                            <th>Cash Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cashFlowBody">
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="result-card">
-                <h3>Break-even Analysis</h3>
-                <div class="result-value" id="breakevenMonths">—</div>
-                <div class="result-subtitle" id="breakevenDetail">At current growth rate of 10%/month</div>
-            </div>
-            
-            <div class="recommendation" id="recommendation">
-                <h3>Runway Recommendation</h3>
-                <p id="recText">You have 10 months of runway. Start fundraising 3-4 months before cash runs out. Target break-even or a seed round by month 7.</p>
-            </div>
-            
-            <div class="unlock-section" id="unlockSection">
-                <h2>Unlock Detailed Financial Projections</h2>
-                <p>Get the complete runway analysis with:</p>
-                <div class="unlock-features">
-                    <div class="unlock-feature">✅ 24-month cash flow projections</div>
-                    <div class="unlock-feature">✅ Scenario modeling (best/base/worst)</div>
-                    <div class="unlock-feature">✅ Hire-vs-wait cost analysis</div>
-                    <div class="unlock-feature">✅ Fundraising timing optimizer</div>
-                    <div class="unlock-feature">✅ Burn sensitivity analysis</div>
-                    <div class="unlock-feature">✅ PDF report download</div>
-                </div>
+
+            <div class="locked">
+                <h2>🔒 Premium Financial Projections</h2>
+                <p>Unlock 12-month cash flow scenarios, sensitivity analysis, and investor-ready projections.</p>
                 <div class="price-tag">$9</div>
-                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
-                <form class="email-form" id="emailForm">
-                    <input type="email" class="email-input" placeholder="your@email.com" required>
-                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                <form class="email-form" onsubmit="unlock(event)">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn">Unlock Now →</button>
                 </form>
             </div>
         </div>
     </div>
-    
+
     <script>
         function calculate() {
-            const cash = parseFloat(document.getElementById('cash').value) || 500000;
-            const revenue = parseFloat(document.getElementById('revenue').value) || 25000;
-            const expenses = parseFloat(document.getElementById('expenses').value) || 75000;
-            const growthRate = parseFloat(document.getElementById('growthRate').value) || 10;
-            const fundraise = parseFloat(document.getElementById('fundraise').value) || 0;
-            const fundraiseMonth = parseInt(document.getElementById('fundraiseMonth').value) || 6;
-            
-            const netBurn = expenses - revenue;
-            const runway = netBurn > 0 ? Math.floor(cash / netBurn) : '∞';
-            
-            // Build 6-month cash flow
-            let tbody = '';
-            let currentCash = cash;
-            let currentRevenue = revenue;
-            let breakEvenMonth = null;
-            
-            for (let m = 1; m <= 6; m++) {
-                currentRevenue = currentRevenue * (1 + growthRate / 100);
-                let monthBurn = expenses - currentRevenue;
-                if (monthBurn < 0) monthBurn = 0;
-                
-                if (m === fundraiseMonth && fundraise > 0) {
-                    currentCash += fundraise;
-                }
-                
-                currentCash -= monthBurn;
-                if (currentCash < 0) currentCash = 0;
-                
-                const revClass = currentRevenue >= expenses ? 'positive' : '';
-                const burnClass = monthBurn > 0 ? 'negative' : 'positive';
-                const cashClass = currentCash < cash * 0.25 ? 'negative' : '';
-                
-                if (!breakEvenMonth && currentRevenue >= expenses) {
-                    breakEvenMonth = m;
-                }
-                
-                tbody += `<tr>
-                    <td>Month ${m}</td>
-                    <td class="${revClass}">$${Math.round(currentRevenue).toLocaleString()}</td>
-                    <td>$${expenses.toLocaleString()}</td>
-                    <td class="${burnClass}">-$${Math.round(monthBurn).toLocaleString()}</td>
-                    <td class="${cashClass}">$${Math.round(currentCash).toLocaleString()}</td>
-                </tr>`;
+            const cash = parseFloat(document.getElementById('cash').value) || 50000;
+            const burn = parseFloat(document.getElementById('burn').value) || 10000;
+            const revenue = parseFloat(document.getElementById('revenue').value) || 3000;
+            const growth = parseFloat(document.getElementById('growth').value) || 15;
+
+            const netBurn = burn - revenue;
+            const runwayMonths = cash / netBurn;
+
+            // Break-even: when revenue covers burn with growth
+            let monthsToBreakeven = 0;
+            let projRevenue = revenue;
+            let projCash = cash;
+            while (projRevenue < burn && projCash > 0 && monthsToBreakeven < 60) {
+                projRevenue *= (1 + growth / 100);
+                projCash -= (burn - projRevenue);
+                monthsToBreakeven++;
             }
-            document.getElementById('cashFlowBody').innerHTML = tbody;
-            
-            // Break-even
-            let breakevenText = '';
-            let breakevenDetail = '';
-            if (breakEvenMonth) {
-                breakevenText = 'Month ' + breakEvenMonth;
-                breakevenDetail = 'Revenue exceeds expenses at ' + growthRate + '% monthly growth';
+            if (monthsToBreakeven >= 60) monthsToBreakeven = '>60';
+
+            const zeroDate = new Date();
+            zeroDate.setMonth(zeroDate.getMonth() + Math.floor(runwayMonths));
+
+            document.getElementById('netBurn').textContent = '$' + netBurn.toLocaleString() + '/mo';
+            document.getElementById('runway').textContent = runwayMonths.toFixed(1) + ' months';
+            document.getElementById('breakeven').textContent = monthsToBreakeven + ' months';
+            document.getElementById('zeroDate').textContent = zeroDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+            const warning = document.getElementById('warning');
+            if (runwayMonths < 6) {
+                warning.style.display = 'block';
+                document.getElementById('warningText').textContent = 
+                    'Runway below 6 months (' + runwayMonths.toFixed(1) + '). Consider reducing burn or raising revenue immediately.';
             } else {
-                // Project further
-                let projRevenue = revenue;
-                let projMonth = 6;
-                while (projRevenue < expenses && projMonth < 60) {
-                    projRevenue *= (1 + growthRate / 100);
-                    projMonth++;
-                }
-                if (projRevenue >= expenses) {
-                    breakevenText = 'Month ' + projMonth;
-                    breakevenDetail = 'Projected break-even at ' + growthRate + '% monthly growth';
-                } else {
-                    breakevenText = 'Never';
-                    breakevenDetail = 'Growth rate too low to reach break-even';
-                }
+                warning.style.display = 'none';
             }
-            
-            // Recommendation
-            let recText = '';
-            if (typeof runway === 'number') {
-                if (runway <= 6) {
-                    recText = 'Critical: ' + runway + ' months runway. Reduce burn by 20% immediately and start fundraising today. Target a bridge round within 30 days.';
-                } else if (runway <= 12) {
-                    recText = 'Caution: ' + runway + ' months runway. Begin fundraising now — aim to close 3-4 months before cash runs out. Consider reducing non-essential spend.';
-                } else {
-                    recText = 'Healthy: ' + runway + ' months runway. Focus on growth. Start fundraising conversations 4-5 months before you need capital.';
-                }
-            } else {
-                recText = 'You are cash-flow positive! No burn. Focus on accelerating growth and building reserves.';
-            }
-            
-            document.getElementById('burnRate').textContent = '$' + (netBurn / 1000).toFixed(1) + 'K';
-            document.getElementById('runwayMonths').textContent = runway;
-            document.getElementById('breakEven').textContent = breakevenText;
-            document.getElementById('netBurn').textContent = '$' + netBurn.toLocaleString();
-            document.getElementById('burnDetail').textContent = 'Revenue $' + revenue.toLocaleString() + ' - Expenses $' + expenses.toLocaleString();
-            document.getElementById('burnProgress').style.width = Math.min(100, Math.max(5, (netBurn / cash) * 500)) + '%';
-            document.getElementById('breakevenMonths').textContent = breakevenText;
-            document.getElementById('breakevenDetail').textContent = breakevenDetail;
-            document.getElementById('recText').textContent = recText;
-            
-            document.getElementById('results').classList.add('show');
+
+            document.getElementById('results').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
-        
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+
+        function unlock(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
+            const email = e.target.querySelector('input[type="email"]').value;
             localStorage.setItem('runwayReportEmail', email);
-            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
-            this.reset();
-        });
+            alert('✅ Payment link coming soon! We\'ll email you when the premium report is ready.');
+            e.target.reset();
+        }
     </script>
 </body>
 </html>

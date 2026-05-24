@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stripe Fee Optimizer — Premium Fee Analysis &amp; Savings Strategy</title>
+    <title>Stripe Fee Optimizer — Minimize Payment Processing Costs</title>
+    <meta name="description" content="Calculate Stripe fees, compare pricing plans, and optimize for lowest processing costs. Premium optimization strategy unlocks for $9.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,451 +14,221 @@
             min-height: 100vh;
             padding: 40px 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 700px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
         h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #635bff 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
         }
-        .subtitle { color: #64748b; margin-bottom: 32px; }
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .input-group {
+        .subtitle { color: #94a3b8; font-size: 1rem; }
+        .card {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .input-group input, .input-group select {
+        .input-group { margin-bottom: 20px; }
+        label { display: block; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 8px; font-weight: 500; }
+        input, select {
             width: 100%;
-            padding: 10px;
-            background: #0f0f1a;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             color: #e2e8f0;
             font-size: 1rem;
         }
-        .input-group input:focus, .input-group select:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .calculate-btn {
+        input:focus, select:focus { outline: none; border-color: #635bff; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #635bff 0%, #8b5cf6 100%);
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            margin-bottom: 32px;
+            margin-top: 8px;
         }
-        .calculate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        
+        .btn:hover { opacity: 0.9; }
         .results { display: none; }
-        .results.show { display: block; }
-        
+        .results.active { display: block; }
         .result-card {
-            background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 24px;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 16px;
         }
-        .result-card h3 {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
+        .result-title { color: #635bff; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .result-value { color: #e2e8f0; font-size: 1.5rem; font-weight: 700; }
+        .result-desc { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
         }
-        .result-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #6366f1;
+        .compare-table th, .compare-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .result-subtitle {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin-top: 4px;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .metric {
-            background: #1a1a2e;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-        }
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #a855f7;
-        }
-        .metric-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        
-        .plan-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .plan-card {
-            background: #1a1a2e;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .plan-name {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 8px;
-        }
-        .plan-fee {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-        .plan-detail {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        .plan-best {
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            background: rgba(16, 185, 129, 0.05);
-        }
-        .plan-best .plan-name { color: #10b981; }
-        
-        .recommendation {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-        .recommendation h3 {
-            color: #10b981;
-            font-size: 1rem;
-            margin-bottom: 8px;
-        }
-        .recommendation p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .unlock-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+        .compare-table th { color: #635bff; font-size: 0.85rem; text-transform: uppercase; }
+        .compare-table td { color: #cbd5e1; }
+        .best { color: #10b981; font-weight: 700; }
+        .locked {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%);
+            border: 1px solid rgba(99,102,241,0.3);
             border-radius: 16px;
             padding: 32px;
             text-align: center;
-            margin-top: 32px;
+            margin-top: 24px;
         }
-        .unlock-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-        .unlock-section p {
-            color: #94a3b8;
-            margin-bottom: 24px;
-        }
-        .unlock-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-        .unlock-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
+        .locked h2 { color: #e2e8f0; margin-bottom: 12px; }
+        .locked p { color: #94a3b8; margin-bottom: 20px; }
         .price-tag {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #6366f1;
-            margin-bottom: 8px;
-        }
-        .stripe-btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #635bff;
+            margin-bottom: 16px;
         }
         .email-form {
             display: flex;
             gap: 12px;
             max-width: 400px;
-            margin: 0 auto 16px;
+            margin: 0 auto;
         }
-        .email-input {
-            flex: 1;
-            padding: 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: #e2e8f0;
-        }
-        .savings-bar {
-            height: 8px;
-            background: #0f0f1a;
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        .savings-fill {
-            height: 100%;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-        }
+        .email-form input { flex: 1; }
         @media (max-width: 768px) {
-            .input-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            .plan-grid { grid-template-columns: 1fr; }
-            .unlock-features { grid-template-columns: 1fr; }
+            h1 { font-size: 1.6rem; }
+            .row { grid-template-columns: 1fr; }
             .email-form { flex-direction: column; }
-            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Stripe Fee Optimizer</h1>
-        <p class="subtitle">Calculate Stripe fees, compare pricing plans, and optimize for lowest fees. Unlock the fee optimization strategy for $9.</p>
-        
-        <div class="input-grid">
-            <div class="input-group">
-                <label>Monthly Volume ($)</label>
-                <input type="number" id="volume" value="100000" placeholder="100000">
-            </div>
-            <div class="input-group">
-                <label>Avg Transaction Size ($)</label>
-                <input type="number" id="avgTransaction" value="75" placeholder="75">
-            </div>
-            <div class="input-group">
-                <label>Current Plan</label>
-                <select id="currentPlan">
-                    <option value="standard">Standard (2.9% + $0.30)</option>
-                    <option value="custom">Custom Volume Pricing</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Custom Rate (%)</label>
-                <input type="number" id="customRate" value="2.5" placeholder="2.5" step="0.01">
-            </div>
-            <div class="input-group">
-                <label>International %</label>
-                <input type="number" id="intlPct" value="20" placeholder="20">
-            </div>
-            <div class="input-group">
-                <label>Cards on File %</label>
-                <input type="number" id="cardsOnFile" value="40" placeholder="40">
-            </div>
+        <div class="header">
+            <h1>💳 Stripe Fee Optimizer</h1>
+            <p class="subtitle">Calculate fees, compare plans, and minimize processing costs</p>
         </div>
-        
-        <button class="calculate-btn" onclick="calculate()">Optimize Stripe Fees</button>
-        
+
+        <div class="card">
+            <div class="row">
+                <div class="input-group">
+                    <label>Monthly Volume ($)</label>
+                    <input type="number" id="volume" placeholder="50000" value="50000">
+                </div>
+                <div class="input-group">
+                    <label>Average Transaction ($)</label>
+                    <input type="number" id="avgTxn" placeholder="49" value="49">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <label>Business Location</label>
+                    <select id="location">
+                        <option value="us" selected>United States</option>
+                        <option value="eu">Europe</option>
+                        <option value="uk">United Kingdom</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Card Type Mix (% Intl)</label>
+                    <input type="number" id="intlPct" placeholder="20" value="20">
+                </div>
+            </div>
+            <button class="btn" onclick="calculate()">Calculate Fees →</button>
+        </div>
+
         <div class="results" id="results">
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-value" id="currentFees">$3,190</div>
-                    <div class="metric-label">Current Monthly Fees</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value" id="optimalFees">$2,850</div>
-                    <div class="metric-label">Optimized Fees</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value" id="annualSavings">$4,080</div>
-                    <div class="metric-label">Annual Savings</div>
-                </div>
-            </div>
-            
-            <div class="result-card">
-                <h3>Plan Comparison</h3>
-                <div class="plan-grid">
-                    <div class="plan-card" id="standardCard">
-                        <div class="plan-name">Standard</div>
-                        <div class="plan-fee" id="standardFee">$3,190</div>
-                        <div class="plan-detail">2.9% + $0.30/transaction</div>
+            <div class="card">
+                <div class="row">
+                    <div class="result-card">
+                        <div class="result-title">Monthly Stripe Fees</div>
+                        <div class="result-value" id="monthlyFees">$1,685</div>
+                        <div class="result-desc">Based on standard pricing</div>
                     </div>
-                    <div class="plan-card plan-best" id="optimizedCard">
-                        <div class="plan-name">Optimized ⭐</div>
-                        <div class="plan-fee" id="optimizedFee">$2,850</div>
-                        <div class="plan-detail">Volume + strategy mix</div>
-                    </div>
-                    <div class="plan-card" id="customCard">
-                        <div class="plan-name">Your Custom</div>
-                        <div class="plan-fee" id="customFee">$2,750</div>
-                        <div class="plan-detail" id="customDetail">Volume rate + fixed</div>
+                    <div class="result-card">
+                        <div class="result-title">Effective Rate</div>
+                        <div class="result-value" id="effectiveRate">3.37%</div>
+                        <div class="result-desc">Of total volume</div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="result-card">
-                <h3>Effective Rate Analysis</h3>
-                <div class="result-value" id="effectiveRate">3.19%</div>
-                <div class="result-subtitle" id="effectiveDetail">Your current blended effective rate</div>
-                <div class="savings-bar">
-                    <div class="savings-fill" id="rateFill" style="width: 64%"></div>
+                <div class="result-card" style="margin-top:16px;">
+                    <div class="result-title">Plan Comparison</div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr><th>Plan</th><th>Rate</th><th>Monthly Fee</th><th>Total Cost</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Standard</td><td>2.9% + 30¢</td><td>$0</td><td id="stdCost">$1,685</td></tr>
+                            <tr><td>Volume (>$1M)</td><td>Custom</td><td>Contact</td><td class="best">~$1,350</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="result-card">
+                    <div class="result-title">Optimization Tips</div>
+                    <p style="color:#cbd5e1; font-size:0.9rem; line-height:1.5;">
+                        • Enable Link/Apple Pay to reduce fees<br>
+                        • Route EU cards through local acquirers<br>
+                        • Negotiate volume pricing at $100K+/mo<br>
+                        • Use ACH for large B2B transactions
+                    </p>
                 </div>
             </div>
-            
-            <div class="result-card">
-                <h3>Fee Breakdown</h3>
-                <div class="result-subtitle" id="breakdownDetail">Percentage fees vs fixed fees vs international</div>
-                <div class="savings-bar" style="margin-top: 12px;">
-                    <div class="savings-fill" id="pctFill" style="width: 75%; background: linear-gradient(90deg, #6366f1, #8b5cf6);"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; color: #64748b;">
-                    <span id="pctLabel">% Fees: 75%</span>
-                    <span id="fixedLabel">Fixed: 15%</span>
-                    <span id="intlLabel">Intl: 10%</span>
-                </div>
-            </div>
-            
-            <div class="recommendation" id="recommendation">
-                <h3>Fee Optimization Recommendation</h3>
-                <p id="recText">Your effective rate of 3.19% is above optimal. Negotiate volume pricing at $100K+/month or shift 20% of transactions to ACH to save ~$4K/year.</p>
-            </div>
-            
-            <div class="unlock-section" id="unlockSection">
-                <h2>Unlock Fee Optimization Strategy</h2>
-                <p>Get the complete fee analysis with:</p>
-                <div class="unlock-features">
-                    <div class="unlock-feature">✅ Detailed plan comparison matrix</div>
-                    <div class="unlock-feature">✅ Savings projection by strategy</div>
-                    <div class="unlock-feature">✅ Volume pricing negotiation guide</div>
-                    <div class="unlock-feature">✅ Payment method mix optimizer</div>
-                    <div class="unlock-feature">✅ International fee reduction tips</div>
-                    <div class="unlock-feature">✅ PDF report download</div>
-                </div>
+
+            <div class="locked">
+                <h2>🔒 Premium Fee Optimization Report</h2>
+                <p>Unlock detailed routing strategies, interchange optimization, and a custom savings plan for your volume.</p>
                 <div class="price-tag">$9</div>
-                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
-                <form class="email-form" id="emailForm">
-                    <input type="email" class="email-input" placeholder="your@email.com" required>
-                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                <form class="email-form" onsubmit="unlock(event)">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn">Unlock Now →</button>
                 </form>
             </div>
         </div>
     </div>
-    
+
     <script>
         function calculate() {
-            const volume = parseFloat(document.getElementById('volume').value) || 100000;
-            const avgTransaction = parseFloat(document.getElementById('avgTransaction').value) || 75;
-            const currentPlan = document.getElementById('currentPlan').value;
-            const customRate = parseFloat(document.getElementById('customRate').value) || 2.5;
+            const volume = parseFloat(document.getElementById('volume').value) || 50000;
+            const avgTxn = parseFloat(document.getElementById('avgTxn').value) || 49;
             const intlPct = parseFloat(document.getElementById('intlPct').value) || 20;
-            const cardsOnFile = parseFloat(document.getElementById('cardsOnFile').value) || 40;
-            
-            const transactionCount = Math.round(volume / avgTransaction);
-            
-            // Standard plan
-            const standardPct = volume * 0.029;
-            const standardFixed = transactionCount * 0.30;
-            const standardIntl = volume * (intlPct / 100) * 0.015; // 1.5% intl premium
-            const standardTotal = standardPct + standardFixed + standardIntl;
-            
-            // Custom plan
-            const customPct = volume * (customRate / 100);
-            const customFixed = transactionCount * 0.25; // slightly lower fixed on custom
-            const customIntl = volume * (intlPct / 100) * 0.01;
-            const customTotal = customPct + customFixed + customIntl;
-            
-            // Optimized: mix strategies
-            // - 40% cards on file (slightly lower rate)
-            // - 20% ACH where possible
-            // - volume pricing at 2.5%
-            const optimizedRate = Math.max(2.0, customRate - 0.3);
-            const achPct = Math.min(20, 100 - intlPct - cardsOnFile);
-            const achFees = volume * (achPct / 100) * 0.008; // ACH ~0.8%
-            const cardVolume = volume * (1 - achPct / 100);
-            const optimizedPct = cardVolume * (optimizedRate / 100);
-            const optimizedFixed = transactionCount * 0.25 * (1 - achPct / 100);
-            const optimizedIntl = cardVolume * (intlPct / 100) * 0.008;
-            const optimizedTotal = optimizedPct + optimizedFixed + optimizedIntl + achFees;
-            
-            const currentTotal = currentPlan === 'custom' ? customTotal : standardTotal;
-            const annualSavings = (currentTotal - optimizedTotal) * 12;
-            const effectiveRate = (currentTotal / volume) * 100;
-            const optimalRate = (optimizedTotal / volume) * 100;
-            
-            // Breakdown percentages
-            const totalFees = standardPct + standardFixed + standardIntl;
-            const pctShare = (standardPct / totalFees * 100).toFixed(0);
-            const fixedShare = (standardFixed / totalFees * 100).toFixed(0);
-            const intlShare = (standardIntl / totalFees * 100).toFixed(0);
-            
-            // Recommendation
-            let recText = '';
-            if (effectiveRate > 3.5) {
-                recText = 'Your effective rate of ' + effectiveRate.toFixed(2) + '% is high. Priority actions: 1) Negotiate volume pricing (target ' + optimizedRate.toFixed(1) + '%), 2) Shift ' + achPct + '% to ACH, 3) Push annual billing to reduce transaction count. Potential savings: $' + Math.round(annualSavings).toLocaleString() + '/year.';
-            } else if (effectiveRate > 2.8) {
-                recText = 'Your rate of ' + effectiveRate.toFixed(2) + '% is reasonable but has room. Consider: 1) Cards on file discount (' + cardsOnFile + '% eligible), 2) ACH for large invoices, 3) Annual plans to cut transaction count. Savings potential: $' + Math.round(annualSavings).toLocaleString() + '/year.';
-            } else {
-                recText = 'Excellent effective rate at ' + effectiveRate.toFixed(2) + '%! You are near optimal. Maintain current pricing and monitor as volume grows past $1M/month for further negotiations.';
-            }
-            
-            document.getElementById('currentFees').textContent = '$' + Math.round(currentTotal).toLocaleString();
-            document.getElementById('optimalFees').textContent = '$' + Math.round(optimizedTotal).toLocaleString();
-            document.getElementById('annualSavings').textContent = '$' + Math.round(Math.max(0, annualSavings)).toLocaleString();
-            document.getElementById('standardFee').textContent = '$' + Math.round(standardTotal).toLocaleString();
-            document.getElementById('optimizedFee').textContent = '$' + Math.round(optimizedTotal).toLocaleString();
-            document.getElementById('customFee').textContent = '$' + Math.round(customTotal).toLocaleString();
-            document.getElementById('customDetail').textContent = customRate + '% + $0.25/txn';
-            document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(2) + '%';
-            document.getElementById('effectiveDetail').textContent = 'Optimal target: ' + optimalRate.toFixed(2) + '% (' + (effectiveRate - optimalRate).toFixed(2) + '% gap)';
-            document.getElementById('rateFill').style.width = Math.min(100, Math.max(10, effectiveRate * 20)) + '%';
-            document.getElementById('breakdownDetail').textContent = transactionCount.toLocaleString() + ' transactions/month at $' + avgTransaction + ' average';
-            document.getElementById('pctFill').style.width = pctShare + '%';
-            document.getElementById('pctLabel').textContent = '% Fees: ' + pctShare + '%';
-            document.getElementById('fixedLabel').textContent = 'Fixed: ' + fixedShare + '%';
-            document.getElementById('intlLabel').textContent = 'Intl: ' + intlShare + '%';
-            document.getElementById('recText').textContent = recText;
-            
-            document.getElementById('results').classList.add('show');
+
+            const txnCount = volume / avgTxn;
+            const baseRate = 0.029;
+            const fixedFee = 0.30;
+            const intlFee = 0.015; // 1.5% international
+
+            const baseFees = volume * baseRate;
+            const fixedFees = txnCount * fixedFee;
+            const intlFees = volume * (intlPct / 100) * intlFee;
+            const totalFees = baseFees + fixedFees + intlFees;
+            const effectiveRate = (totalFees / volume * 100).toFixed(2);
+
+            document.getElementById('monthlyFees').textContent = '$' + Math.round(totalFees).toLocaleString();
+            document.getElementById('effectiveRate').textContent = effectiveRate + '%';
+            document.getElementById('stdCost').textContent = '$' + Math.round(totalFees).toLocaleString();
+
+            document.getElementById('results').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
-        
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
+
+        function unlock(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            localStorage.setItem('stripeOptimizerEmail', email);
-            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
-            this.reset();
-        });
+            const email = e.target.querySelector('input[type="email"]').value;
+            localStorage.setItem('stripeFeeReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when the premium report is ready.');
+            e.target.reset();
+        }
     </script>
 </body>
 </html>
