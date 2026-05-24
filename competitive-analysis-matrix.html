@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Competitive Analysis Matrix — Free Tool</title>
+    <meta name="description" content="Free SaaS competitive analysis matrix. Compare your product against competitors across key dimensions.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .matrix {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        th {
+            color: #6366f1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        td { color: #cbd5e1; }
+        .dimension { font-weight: 600; color: #e2e8f0; }
+        .score {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .score-high { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .score-medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .score-low { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Competitive Analysis Matrix</h1>
+            <p class="subtitle">Compare your SaaS against competitors across key dimensions.</p>
+        </div>
+        
+        <div class="matrix">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Your Product</th>
+                        <th>Competitor A</th>
+                        <th>Competitor B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="dimension">Pricing</td>
+                        <td><span class="score score-high">$49/mo</span></td>
+                        <td><span class="score score-medium">$99/mo</span></td>
+                        <td><span class="score score-low">$199/mo</span></td>
+                    </tr>
+                    <tr>
+                        <td class="dimension">Features</td>
+                        <td><span class="score score-medium">Core + 3</span></td>
+                        <td><span class="score score-high">Core + 8</span></td>
+                        <td><span class="score score-high">Core + 10</span></td>
+                    </tr>
+                    <tr>
+                        <td class="dimension">Ease of Use</td>
+                        <td><span class="score score-high">⭐⭐⭐⭐⭐</span></td>
+                        <td><span class="score score-medium">⭐⭐⭐⭐</span></td>
+                        <td><span class="score score-low">⭐⭐⭐</span></td>
+                    </tr>
+                    <tr>
+                        <td class="dimension">Support</td>
+                        <td><span class="score score-high">24/7 Chat</span></td>
+                        <td><span class="score score-medium">Email Only</span></td>
+                        <td><span class="score score-medium">Business Hours</span></td>
+                    </tr>
+                    <tr>
+                        <td class="dimension">Integrations</td>
+                        <td><span class="score score-medium">10+</span></td>
+                        <td><span class="score score-high">50+</span></td>
+                        <td><span class="score score-high">100+</span></td>
+                    </tr>
+                    <tr>
+                        <td class="dimension">API Quality</td>
+                        <td><span class="score score-high">REST + Webhooks</span></td>
+                        <td><span class="score score-medium">REST Only</span></td>
+                        <td><span class="score score-low">Limited</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Download the Full Template</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Editable spreadsheet with 20 dimensions and scoring rubric.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('competitiveAnalysisEmail', email);
+            alert('✅ Template coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
