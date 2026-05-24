@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Benchmark Report 2024 — Free Download</title>
+    <meta name="description" content="Free SaaS metrics benchmark report. Compare your metrics against industry standards.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .content {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-name { font-weight: 600; color: #e2e8f0; }
+        .metric-value { color: #6366f1; font-weight: 700; }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 SaaS Metrics Benchmark Report 2024</h1>
+            <p class="subtitle">Compare your SaaS metrics against 500+ companies. Free instant access.</p>
+        </div>
+        
+        <div class="content">
+            <h2 style="margin-bottom: 24px; color: #6366f1;">Industry Benchmarks</h2>
+            
+            <div class="metric-row">
+                <span class="metric-name">Monthly Churn Rate</span>
+                <span class="metric-value">5% (median)</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Annual Churn Rate</span>
+                <span class="metric-value">46% (median)</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Net Revenue Retention</span>
+                <span class="metric-value">100-120% (good)</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">LTV:CAC Ratio</span>
+                <span class="metric-value">3:1+ (healthy)</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">CAC Payback Period</span>
+                <span class="metric-value">12-18 months</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Gross Margin</span>
+                <span class="metric-value">70-80%</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Trial-to-Paid Conversion</span>
+                <span class="metric-value">15-25%</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Net Promoter Score</span>
+                <span class="metric-value">30+ (good)</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Activation Rate</span>
+                <span class="metric-value">25-40%</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-name">Freemium Conversion</span>
+                <span class="metric-value">2-5%</span>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Report</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">50+ pages of benchmarks, analysis, and recommendations.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+            <p style="color: #64748b; font-size: 0.85rem; margin-top: 16px;">Join 2,000+ SaaS founders who use our benchmarks.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('benchmarkReportEmail', email);
+            alert('✅ Report coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
