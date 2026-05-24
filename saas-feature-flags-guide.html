@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Feature Flags Guide — Free Download</title>
+    <meta name="description" content="Free SaaS feature flags guide. Ship safely, test in production, and control rollout with precision.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .flags {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .flag-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .flag-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .flag-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏁 Feature Flags</h1>
+            <p class="subtitle">Ship safely. Test in production. Control everything.</p>
+        </div>
+        
+        <div class="flags">
+            <div class="section">
+                <h2>What Are Feature Flags?</h2>
+                
+                <p>A feature flag (or feature toggle) is a software development practice that allows you to enable or disable features without deploying new code. It's an if-statement in your code controlled by a configuration system: if flag is ON, show the new feature; if OFF, show the old behavior.</p>
+                
+                <p>Feature flags decouple deployment from release. You can deploy code to production and keep it hidden. Then, when you're ready, flip the flag to enable it for everyone — or for a subset of users. If something goes wrong, flip it back. No deploy, no rollback, no downtime.</p>
+                
+                <p>Without feature flags: You merge code, deploy it, and hope it works. If it doesn't, you roll back the entire deploy, reverting potentially dozens of unrelated changes.</p>
+                
+                <p>With feature flags: You merge code, deploy it dark, test it on 1% of users, gradually increase to 100%, and if anything breaks, disable just that feature in seconds.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Types of Feature Flags</h2>
+                
+                <div class="flag-box">
+                    <div class="flag-name">1. Release Flags (Short-lived)</div>
+                    <div class="flag-detail">
+                        Hide incomplete features until they're ready. Used during development, removed after launch.
+                        • "New dashboard" — team works on it for 3 weeks, flag keeps it hidden
+                        • "API v2" — code is deployed but not routed to until tested
+                        • Remove after feature is stable (debt management)
+                    </div>
+                </div>
+                
+                <div class="flag-box">
+                    <div class="flag-name">2. Experiment Flags (A/B Testing)</div>
+                    <div class="flag-detail">
+                        Route users to different experiences and measure outcomes.
+                        • "Pricing page v2" — 50% see new design, measure conversion
+                        • "Onboarding flow B" — test against flow A
+                        • "ML model v2" — 10% get new model, measure accuracy
+                        • Run for days/weeks, then pick winner and clean up
+                    </div>
+                </div>
+                
+                <div class="flag-box">
+                    <div class="flag-name">3. Operational Flags (Kill Switches)</div>
+                    <div class="flag-detail">
+                        Disable features during incidents without deploying.
+                        • "Third-party API integration" — if API goes down, disable the feature
+                        • "New search algorithm" — if performance degrades, switch back to old
+                        • "Email sending" — if queue backs up, pause non-critical emails
+                        • Long-lived. Never remove. These are safety valves.
+                    </div>
+                </div>
+                
+                <div class="flag-box">
+                    <div class="flag-name">4. Permission Flags (Entitlement)</div>
+                    <div class="flag-detail">
+                        Control feature access by user, plan, or tenant.
+                        • "Advanced analytics" — only Pro plan users see it
+                        • "Beta features" — only users who opted in
+                        • "Enterprise SSO" — only enterprise tenants
+                        • Long-lived. Part of your product packaging.
+                    </div>
+                </div>
+                
+                <div class="flag-box">
+                    <div class="flag-name">5. Progressive Delivery</div>
+                    <div class="flag-detail">
+                        Gradually roll out to manage risk.
+                        • "1% → 5% → 25% → 50% → 100%" over a week
+                        • Geographic rollout: US first, then EU, then APAC
+                        • Time-based: enable during business hours, disable overnight initially
+                        • Automated: if error rate spikes, auto-rollback to 0%
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Architecture</h2>
+                
+                <p><strong>Simple (config file):</strong></p>
+                
+                <p>• JSON/YAML config file deployed with the app
+                • Requires deploy to change flags
+                • Fine for 2-3 flags in small teams
+                • Doesn't support user targeting or percentages
+                • Risk: changing a config file is almost as slow as changing code</p>
+                
+                <p><strong>Database-driven:</strong></p>
+                
+                <p>• Flags stored in database, read at runtime
+                • No deploy needed to flip flags
+                • Supports targeting (user ID, plan, region)
+                • Add caching (Redis) to avoid DB hits on every request
+                • Good for 10-50 flags</p>
+                
+                <p><strong>Feature flag service (LaunchDarkly, Split, Flagsmith):</strong></p>
+                
+                <p>• Managed service with SDKs for every language
+                • Real-time updates (WebSocket/SSE)
+                • Advanced targeting, A/B testing, analytics
+                • Audit logs, approval workflows
+                • Good for 50+ flags or teams that need advanced capabilities
+                • Cost: $50-500/month depending on MAUs</p>
+                
+                <p><strong>Self-hosted (Unleash, Flipt, GrowthBook):</strong></p>
+                
+                <p>• Open-source, run on your infrastructure
+                • Full control, no vendor lock-in
+                • Requires setup and maintenance
+                • Good for privacy-sensitive or cost-conscious teams</p>
+            </div>
+            
+            <div class="section">
+                <h2>Implementing Feature Flags</h2>
+                
+                <p><strong>Code example (pseudocode):</strong></p>
+                
+                <p>// Without feature flag<br>
+                function getDashboard(user) {<br>
+                &nbsp;&nbsp;return oldDashboard(user);<br>
+                }</p>
+                
+                <p>// With feature flag<br>
+                function getDashboard(user) {<br>
+                &nbsp;&nbsp;if (featureFlags.isEnabled('new-dashboard', user)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return newDashboard(user);<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;return oldDashboard(user);<br>
+                }</p>
+                
+                <p><strong>Best practices:</strong></p>
+                
+                <p>• <strong>Default to off:</strong> New flags should default to false. Explicit enable only.
+                • <strong>Remove old code:</strong> After a flag has been 100% on for 2+ weeks, remove the old code path and the flag. Flag debt accumulates.
+                • <strong>Test both paths:</strong> Unit tests should cover flag ON and flag OFF states.
+                • <strong>Evaluate once per request:</strong> Don't check the flag service on every function call. Evaluate at request start and pass the result.
+                • <strong>Don't nest flags:</strong> Flag A inside flag B inside flag C creates exponential complexity. Max 2 levels deep.
+                • <strong>Document flags:</strong> Every flag needs an owner, a description, and a removal date. Use a flag registry.
+                • <strong>Audit changes:</strong> Who changed what flag, when, and why. Critical for incident investigation.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Lifecycle</h2>
+                
+                <p><strong>1. Creation:</strong> Developer adds flag during feature development. Default: OFF for everyone. Flag has owner, description, and target removal date (2-4 weeks post-launch).</p>
+                
+                <p><strong>2. Testing:</strong> Enable for internal team and beta users. Monitor error rates, performance, and user feedback. Fix issues without affecting all users.</p>
+                
+                <p><strong>3. Gradual rollout:</strong> Enable for 1% of users → 5% → 25% → 50% → 100%. Monitor metrics at each stage. Automated rollback if error rate or latency degrades.</p>
+                
+                <p><strong>4. Full rollout:</strong> 100% of users have the feature. Monitor for 1-2 weeks to ensure stability.</p>
+                
+                <p><strong>5. Cleanup:</strong> Remove the flag and the old code path. Flag registry updated. Code is now permanently on. This is the step most teams skip — and it creates technical debt.</p>
+                
+                <p><strong>6. Archive:</strong> Flag metadata kept for audit purposes but removed from active system.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Anti-Patterns</h2>
+                
+                <p>❌ <strong>Flag debt:</strong> Hundreds of flags that are always ON but never cleaned up. Each flag adds complexity, testing burden, and risk. Set a "flag retirement" sprint every quarter.</p>
+                
+                <p>❌ <strong>Flags as configuration:</strong> Using flags for things that should be settings (timezone, currency, branding). Flags are for code paths, not data. Blurring the line creates confusion.</p>
+                
+                <p>❌ <strong>Too many flags:</strong> A feature split into 20 micro-flags. "Show button A" + "Show button B" + "Enable animation" + "Change color"... Combine related changes into one flag.</p>
+                
+                <p>❌ <strong>Flags without monitoring:</strong> Rolling out a feature without tracking error rates, performance, or business metrics. You're flying blind.</p>
+                
+                <p>❌ <strong>No rollback plan:</strong> Enabling a flag with no way to quickly disable it. The whole point of flags is fast rollback. If disabling takes > 1 minute, fix your tooling.</p>
+                
+                <p>❌ <strong>Flags in database migrations:</strong> Never use feature flags for schema changes. Migrations must be deterministic. Flags can be used for application logic only.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Tools</h2>
+                
+                <p><strong>Managed services:</strong></p>
+                
+                <p>• <strong>LaunchDarkly:</strong> The market leader. Comprehensive, expensive, reliable. Best for enterprise.
+                • <strong>Split:</strong> Strong analytics, data-driven decisions. Good for experimentation.
+                • <strong>Optimizely:</strong> Full experimentation platform. Flags + A/B testing + personalization.
+                • <strong>Flagsmith:</strong> Open-source core, managed option. Good middle ground.
+                • <strong>ConfigCat:</strong> Simple, affordable, good for smaller teams.
+                • <strong>PostHog:</strong> Open-source product analytics with feature flags. Great for startups.</p>
+                
+                <p><strong>Open source / Self-hosted:</strong></p>
+                
+                <p>• <strong>Unleash:</strong> Mature open-source feature toggle system. Enterprise support available.
+                • <strong>Flipt:</strong> Modern, fast, gRPC-native. Good for high-throughput systems.
+                • <strong>GrowthBook:</strong> Open-source A/B testing + feature flags. Great for experimentation.
+                • <strong>Flagger (GitOps):</strong> Kubernetes-native progressive delivery. Automated canary analysis.</p>
+                
+                <p><strong>Build your own:</strong></p>
+                
+                <p>• For 5-10 flags, a database table + Redis cache is sufficient.
+                • For more, consider open-source solutions before building custom.
+                • Custom solutions tend to lack the UI, analytics, and safety features of mature products.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Checklist</h2>
+                
+                <p>☐ Every flag has an owner and removal date<br>
+                ☐ Flags are created in OFF state by default<br>
+                ☐ Both flag paths (ON/OFF) are tested in CI<br>
+                ☐ Rollout is gradual (1% → 100%) with monitoring<br>
+                ☐ Flags are removed 2-4 weeks after full rollout<br>
+                ☐ Flag changes are audited (who, when, why)<br>
+                ☐ On-call can disable any flag in < 1 minute<br>
+                ☐ Flags are not used for database schema changes<br>
+                ☐ No more than 50 active flags at any time<br>
+                ☐ Quarterly flag cleanup sprint scheduled<br>
+                ☐ Flag service has 99.9% uptime SLA<br>
+                ☐ Fallback behavior works if flag service is unavailable</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Feature Flags Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation patterns, rollout strategies, and tool comparisons.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('featureFlagsEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
