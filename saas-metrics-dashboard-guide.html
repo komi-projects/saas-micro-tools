@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Dashboard Guide — Free Download</title>
+    <meta name="description" content="Free SaaS metrics dashboard guide. Build real-time dashboards that track the KPIs that actually matter for growth, retention, and profitability.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .dashboard {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .category-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .category-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .category-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Metrics Dashboard</h1>
+            <p class="subtitle">Build dashboards that track what actually matters.</p>
+        </div>
+        
+        <div class="dashboard">
+            <div class="section">
+                <h2>Why Dashboards Matter</h2>
+                
+                <p>You can't improve what you don't measure. And you can't measure what you can't see. A metrics dashboard transforms scattered data into a single source of truth that aligns your team, focuses attention on what matters, and surfaces problems before they become crises.</p>
+                
+                <p>In SaaS, where metrics are complex and interconnected, dashboards are essential. MRR, churn, CAC, LTV, NRR — these metrics don't exist in isolation. A dashboard shows how they relate, how they trend, and where the levers for improvement are.</p>
+                
+                <p>This guide covers how to design, build, and maintain SaaS metrics dashboards that drive action.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Dashboard Categories</h2>
+                
+                <div class="category-box">
+                    <div class="category-name">1. Executive Dashboard</div>
+                    <div class="category-detail">
+                        High-level health of the business.
+                        • ARR/MRR: Total recurring revenue
+                        • Net Revenue Retention (NRR): Growth from existing customers
+                        • Gross Margin: Profitability after direct costs
+                        • Burn Rate and Runway: Cash consumption and months remaining
+                        • LTV:CAC Ratio: Unit economics health
+                        • Rule of 40: Growth rate + profit margin
+                        • Headcount and Revenue per Employee
+                        • Update frequency: Weekly (summary), monthly (deep dive)
+                        • Audience: CEO, board, investors
+                    </div>
+                </div>
+                
+                <div class="category-box">
+                    <div class="category-name">2. Growth Dashboard</div>
+                    <div class="category-detail">
+                        Acquisition and top-line growth.
+                        • New MRR: Revenue from new customers
+                        • Expansion MRR: Revenue from upgrades and add-ons
+                        • Churned MRR: Revenue lost to cancellations
+                        • Net MRR Growth: New + Expansion - Churn
+                        • Customer Acquisition: New customers, trials, demos
+                        • CAC and Payback Period: Acquisition efficiency
+                        • Pipeline: Qualified opportunities, stage distribution
+                        • Funnel Conversion: Lead → Trial → Paid by channel
+                        • Update frequency: Daily (for ops), weekly (for leadership)
+                        • Audience: CEO, CRO, VP Sales, VP Marketing
+                    </div>
+                </div>
+                
+                <div class="category-box">
+                    <div class="category-name">3. Product Dashboard</div>
+                    <div class="category-detail">
+                        Product usage and engagement.
+                        • Daily/Weekly/Monthly Active Users (DAU/WAU/MAU)
+                        • Activation Rate: % reaching first value moment
+                        • Feature Adoption: % using key features
+                        • Session Frequency: How often users return
+                        • Time-to-Value: Minutes to first success
+                        • Retention Curves: Cohort-based retention over time
+                        • NPS/CSAT: Customer satisfaction scores
+                        • Support Tickets: Volume, resolution time, satisfaction
+                        • Update frequency: Daily
+                        • Audience: CPO, VP Product, product managers
+                    </div>
+                </div>
+                
+                <div class="category-box">
+                    <div class="category-name">4. Customer Success Dashboard</div>
+                    <div class="category-detail">
+                        Retention and account health.
+                        • Gross Retention Rate (GRR): % revenue retained
+                        • Logo Churn: % customers lost
+                        • Health Score Distribution: Green/Yellow/Red accounts
+                        • At-Risk Accounts: Accounts showing churn signals
+                        • Expansion Revenue: Upsells and cross-sells
+                        • QBR Completion: % of accounts with recent business reviews
+                        • Support Health: Ticket volume, escalation rate, CSAT
+                        • NPS Trend: Satisfaction over time
+                        • Update frequency: Daily (health), weekly (trends)
+                        • Audience: VP Customer Success, CSMs, Chief Customer Officer
+                    </div>
+                </div>
+                
+                <div class="category-box">
+                    <div class="category-name">5. Financial Dashboard</div>
+                    <div class="category-detail">
+                        Cash, revenue, and financial health.
+                        • MRR/ARR: Recurring revenue trends
+                        • Revenue by Plan: Distribution across tiers
+                        • Annual Contract Value (ACV): Average deal size
+                        • Cash Balance: Bank account status
+                        • Burn Rate: Monthly net cash consumption
+                        • Runway: Months of cash remaining
+                        • Accounts Receivable: Outstanding invoices
+                        • Revenue Recognition: GAAP-compliant revenue tracking
+                        • Update frequency: Weekly (cash), monthly (full financials)
+                        • Audience: CFO, CEO, board
+                    </div>
+                </div>
+                
+                <div class="category-box">
+                    <div class="category-name">6. Sales Dashboard</div>
+                    <div class="category-detail">
+                        Pipeline and sales performance.
+                        • Pipeline Value: Total qualified opportunities
+                        • Pipeline Coverage: Pipeline / quota (benchmark: 3-4x)
+                        • Win Rate: % of opportunities that close
+                        • Average Deal Size: Revenue per closed deal
+                        • Sales Cycle Length: Days from first touch to close
+                        • Quota Attainment: % of reps hitting target
+                        • Deal Velocity: Speed through pipeline stages
+                        • Activity Metrics: Calls, emails, demos per rep
+                        • Update frequency: Daily (for reps), weekly (for managers)
+                        • Audience: CRO, VP Sales, sales managers, reps
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Dashboard Design Principles</h2>
+                
+                <p><strong>1. Start with goals, not metrics:</strong></p>
+                
+                <p>• What decisions does this dashboard support?
+                • What questions should it answer at a glance?
+                • Who uses it and what do they need to know?
+                • Actionable: Every metric should lead to a decision or action
+                • Avoid vanity metrics: "Total signups" without conversion rate is meaningless</p>
+                
+                <p><strong>2. Less is more:</strong></p>
+                
+                <p>• 5-7 metrics per dashboard maximum. More = cognitive overload.
+                • Hierarchy: Most important metrics are largest and at the top
+                • Context: Show trends (line charts), comparisons (bar charts), and targets (gauges)
+                • Color coding: Green (on track), Yellow (watch), Red (problem)
+                • Mobile-friendly: Executives check dashboards on phones. Design for it.</p>
+                
+                <p><strong>3. Real-time vs. scheduled:</strong></p>
+                
+                <p>• Real-time: Product usage, support tickets, sales activity (ops teams need this)
+                • Daily: MRR, signups, churn (daily standups and daily executive summaries)
+                • Weekly: Pipeline, cohort analysis, CAC trends (weekly leadership reviews)
+                • Monthly: Financial statements, board metrics, strategic KPIs (monthly board meetings)
+                • Quarterly: OKR progress, strategy review, long-term trends (quarterly planning)</p>
+                
+                <p><strong>4. Data quality:</strong></p>
+                
+                <p>• Single source of truth: One database, one definition for each metric
+                • Data governance: Who owns each metric? Who validates it?
+                • Consistency: MRR should mean the same thing on every dashboard
+                • Freshness: Stale data is worse than no data. Automate ingestion.
+                • Accuracy: Garbage in, garbage out. Invest in data pipeline quality.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Dashboard Tools</h2>
+                
+                <p><strong>All-in-one:</strong></p>
+                
+                <p>• <strong>Geckoboard:</strong> Simple TV dashboards for teams. Easy setup.
+                • <strong>Databox:</strong> Pre-built templates, mobile app, goal tracking.
+                • <strong>Klipfolio:</strong> Powerful connectors, custom visualizations.
+                • <strong>Grafana:</strong> Open-source, developer-friendly, great for technical metrics.
+                • <strong>Metabase:</strong> Open-source, SQL-based, self-hosted option.
+                • <strong>Tableau:</strong> Enterprise-grade, expensive, very powerful.
+                • <strong>Looker:</strong> Data modeling + visualization, Google Cloud.
+                • <strong>Power BI:</strong> Microsoft ecosystem, affordable, robust.
+                • <strong>Google Data Studio (Looker Studio):</strong> Free, Google-native, good for marketing.
+                • <strong>Notion / Airtable:</strong> Simple, manual, good for early-stage before dedicated tools.</p>
+                
+                <p><strong>Embedded analytics:</strong></p>
+                
+                <p>• <strong>ChartMogul:</strong> Built for SaaS metrics. MRR, churn, LTV out of the box.
+                • <strong>Baremetrics:</strong> SaaS analytics with forecasting and benchmarks.
+                • <strong>ProfitWell (Paddle):</strong> Free subscription analytics. Retention, pricing, cohorts.
+                • <strong>SaaSOptics:</strong> Financial metrics and revenue recognition for SaaS.
+                • <strong>Maxio (formerly SaaSOptics + Chargify):</strong> Subscription billing + analytics.</p>
+                
+                <p><strong>Product analytics:</strong></p>
+                
+                <p>• <strong>Amplitude:</strong> Product analytics, cohort analysis, funnel tracking.
+                • <strong>Mixpanel:</strong> Event-based analytics, retention, A/B testing.
+                • <strong>Heap:</strong> Auto-capture all user events, retroactive analysis.
+                • <strong>Pendo:</strong> Product analytics + in-app guidance.
+                • <strong>FullStory:</strong> Session replay + analytics.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Dashboard Mistakes</h2>
+                
+                <p><strong>1. Too many metrics:</strong> A dashboard with 30 metrics is a report, not a dashboard. Nobody can process 30 data points at a glance. Focus on the vital few.</p>
+                
+                <p><strong>2. No context:</strong> Showing "MRR: $100K" without trend, target, or comparison. Is that good? Is it growing? Context turns numbers into insights.</p>
+                
+                <p><strong>3. Wrong audience:</strong> A board-level dashboard showing daily signups. A sales rep dashboard showing gross margin. Match the metrics to the decision-maker.</p>
+                
+                <p><strong>4. Static dashboards:</strong> Dashboards updated manually once a week. By the time they're ready, the data is stale. Automate data pipelines.</p>
+                
+                <p><strong>5. No action:</strong> Dashboards that inform but don't drive action. "Churn is 8%" — so what? Add: "Goal: 5%. Action: Review at-risk accounts."</p>
+                
+                <p><strong>6. Multiple versions of truth:</strong> Marketing's MRR is different from Finance's MRR. Define metrics centrally and enforce consistency.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Metrics Dashboard Checklist</h2>
+                
+                <p>☐ Dashboard goals defined (what decisions, who uses it)
+                ☐ Metrics selected (5-7 per dashboard max)
+                ☐ Metric definitions documented and centralized
+                ☐ Data sources identified and connected
+                ☐ Data pipeline automated (no manual updates)
+                ☐ Visual hierarchy designed (most important = largest)
+                ☐ Color coding system (green/yellow/red)
+                ☐ Targets and benchmarks added for context
+                ☐ Trend lines and comparisons included
+                ☐ Mobile responsiveness tested
+                ☐ Update frequency set by dashboard type
+                ☐ Alerts configured for critical thresholds
+                ☐ Data quality checks implemented
+                ☐ Dashboard owner assigned
+                ☐ User training completed
+                ☐ Feedback loop established (users suggest improvements)
+                ☐ Quarterly dashboard review scheduled
+                ☐ Executive summary dashboard created</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Metrics Dashboard Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with dashboard templates, metric definitions, and tool recommendations.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('metricsDashboardEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
