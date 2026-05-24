@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Quick Ratio Calculator — Free Download</title>
+    <meta name="description" content="Free SaaS Quick Ratio calculator. Measure growth efficiency by comparing new + resurrected revenue to churned + contracted revenue.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .quick-ratio {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 1rem;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .metric-good { color: #10b981; }
+        .metric-warning { color: #f59e0b; }
+        .metric-bad { color: #ef4444; }
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metric-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Quick Ratio Calculator</h1>
+            <p class="subtitle">Measure growth efficiency in one number.</p>
+        </div>
+        
+        <div class="quick-ratio">
+            <div class="section">
+                <h2>What is Quick Ratio?</h2>
+                
+                <p>SaaS Quick Ratio (pioneered by Social Capital) measures growth efficiency by comparing revenue gains to revenue losses. It's a single number that tells you if your SaaS is healthy, stalling, or dying.</p>
+                
+                <div class="formula-box">
+                    <div class="formula">Quick Ratio = (New MRR + Expansion MRR + Resurrected MRR) / (Churned MRR + Contraction MRR)</div>
+                </div>
+                
+                <p>• <strong>Numerator (Growth):</strong> All new revenue — new customers, upgrades, reactivations<br>
+                • <strong>Denominator (Loss):</strong> All lost revenue — churned customers, downgrades</p>
+            </div>
+            
+            <div class="section">
+                <h2>How to Interpret</h2>
+                
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-value metric-bad">< 1.0</div>
+                        <div class="metric-label">Dying — Revenue shrinking</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-warning">1.0 - 2.0</div>
+                        <div class="metric-label">Stalling — Growing but fragile</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-good">2.0 - 4.0</div>
+                        <div class="metric-label">Healthy — Sustainable growth</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-good">> 4.0</div>
+                        <div class="metric-label">Excellent — Hypergrowth</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Example Calculation</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Monthly MRR Movements</div>
+                    <div class="example-text">
+                        📈 <strong>Gains:</strong><br>
+                        New customers: +$15,000<br>
+                        Expansion (upgrades): +$5,000<br>
+                        Resurrected (reactivations): +$2,000<br>
+                        <strong>Total Gains: $22,000</strong><br><br>
+                        
+                        📉 <strong>Losses:</strong><br>
+                        Churned customers: -$8,000<br>
+                        Contraction (downgrades): -$3,000<br>
+                        <strong>Total Losses: $11,000</strong><br><br>
+                        
+                        ⚡ <strong>Quick Ratio = $22K / $11K = 2.0</strong><br>
+                        ✅ Healthy, but not hypergrowth
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Quick Ratio by Stage</h2>
+                
+                <p>• <strong>Pre-PMF:</strong> Don't focus on Quick Ratio yet. Fix retention first.<br>
+                • <strong>Early Growth ($1M-$5M ARR):</strong> Target > 2.0. Below 1.5 means churn is killing you.<br>
+                • <strong>Scale ($5M-$20M ARR):</strong> Target > 3.0. Should have product-market fit + efficient acquisition.<br>
+                • <strong>Hypergrowth ($20M+ ARR):</strong> Target > 4.0. Expansion revenue should exceed churn.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Improving Your Quick Ratio</h2>
+                
+                <p><strong>Increase numerator:</strong></p>
+                <p>• Better lead generation (higher new MRR)<br>
+                • Usage-based pricing (expansion MRR)<br>
+                • Win-back campaigns (resurrected MRR)</p>
+                
+                <p><strong>Decrease denominator:</strong></p>
+                <p>• Reduce churn (better onboarding, customer success)<br>
+                • Prevent downgrades (usage alerts, plan optimization)<br>
+                • Annual contracts (reduce monthly churn)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Quick Ratio Calculator</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Interactive calculator with MRR movement tracking, trend analysis, and benchmarking.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('quickRatioEmail', email);
+            alert('✅ Calculator coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
