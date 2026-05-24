@@ -1,288 +1,177 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Activation Rate Calculator — Premium Activation Analytics</title>
+    <title>SaaS Activation Rate Calculator — Premium</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f0f1a;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
             color: #e2e8f0;
+            min-height: 100vh;
             padding: 40px 20px;
-            line-height: 1.6;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 700px; margin: 0 auto; }
         h1 {
-            text-align: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
         .input-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
         .input-group {
             background: #1a1a2e;
-            padding: 20px;
-            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
         }
-        label {
+        .input-group label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
             color: #94a3b8;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
-        input {
+        .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #0f0f1a;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             color: #e2e8f0;
             font-size: 1rem;
         }
-        input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .cta {
-            display: block;
+        .calculate-btn {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 32px;
             border: none;
-            cursor: pointer;
+            border-radius: 12px;
             font-size: 1.1rem;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
         }
-        .cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-        }
-        .results {
-            display: none;
-        }
-        .results.active {
-            display: block;
-        }
+        .results { display: none; }
+        .results.show { display: block; }
         .result-card {
             background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 { font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+        .result-value { font-size: 2rem; font-weight: 700; color: #6366f1; }
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
             border-radius: 16px;
             padding: 32px;
-            margin-bottom: 24px;
-        }
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .result-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        .result-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .result-detail {
-            color: #64748b;
-            font-size: 0.95rem;
-            margin-top: 8px;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .metric-box {
-            background: #0f0f1a;
-            padding: 20px;
-            border-radius: 8px;
             text-align: center;
+            margin-top: 32px;
         }
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-        .metric-label {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        .recommendation {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 24px;
-        }
-        .recommendation-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #818cf8;
-        }
-        .tooltip {
+        .stripe-btn {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 16px;
-            font-size: 0.7rem;
-            cursor: help;
-            margin-left: 4px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
         @media (max-width: 768px) {
             .input-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8rem; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>SaaS Activation Rate Calculator</h1>
-        <p class="subtitle">Premium activation and onboarding analytics</p>
-
+        <h1>🚀 Activation Rate Calculator</h1>
+        <p class="subtitle">Calculate user activation rates and identify onboarding bottlenecks.</p>
+        
         <div class="input-grid">
             <div class="input-group">
-                <label>Trial Signups <span class="tooltip" title="Total trial signups">?</span></label>
-                <input type="number" id="trials" placeholder="1000" value="1000">
+                <label>New Signups (30 days)</label>
+                <input type="number" id="signups" value="1000" placeholder="1000">
             </div>
             <div class="input-group">
-                <label>Activated Users</label>
-                <input type="number" id="activated" placeholder="300" value="300">
+                <label>Activated Users (key action)</label>
+                <input type="number" id="activated" value="300" placeholder="300">
             </div>
             <div class="input-group">
-                <label>Key Action Completed</label>
-                <input type="number" id="keyAction" placeholder="200" value="200">
+                <label>Activation Definition</label>
+                <input type="text" id="activationDef" value="Created first project" placeholder="Created first project">
             </div>
             <div class="input-group">
-                <label>Avg Time to Activate (days)</label>
-                <input type="number" id="timeToActivate" placeholder="3" value="3">
+                <label>Target Activation Rate (%)</label>
+                <input type="number" id="target" value="40" placeholder="40">
             </div>
         </div>
-
-        <button class="cta" onclick="calculate()">Calculate Activation Analytics</button>
-
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Activation Rate</button>
+        
         <div class="results" id="results">
             <div class="result-card">
-                <div class="result-header">
-                    <div class="result-title">Activation Rate</div>
-                    <div class="result-value" id="activation">0%</div>
-                </div>
-                <div class="result-detail" id="activationDetail">Percentage of trial users who activate</div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-value" id="keyActionRate">0%</div>
-                        <div class="metric-label">Key Action Rate</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="timeToActivateValue">0d</div>
-                        <div class="metric-label">Avg Time</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="yourStatus">Unknown</div>
-                        <div class="metric-label">Status</div>
-                    </div>
-                </div>
-
-                <div class="recommendation">
-                    <div class="recommendation-title">💡 Activation Insights</div>
-                    <div id="recommendationText">Calculate to see personalized activation recommendations.</div>
-                </div>
+                <h3>Activation Rate</h3>
+                <div class="result-value" id="rate">30%</div>
             </div>
-
             <div class="result-card">
-                <div class="result-header">
-                    <div class="result-title">Benchmarks</div>
-                </div>
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-value">20%</div>
-                        <div class="metric-label">Good</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">30%</div>
-                        <div class="metric-label">Strong</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value">40%+</div>
-                        <div class="metric-label">Excellent</div>
-                    </div>
-                </div>
+                <h3>Gap to Target</h3>
+                <div class="result-value" id="gap">-10%</div>
+            </div>
+            <div class="result-card">
+                <h3>Additional Users Needed</h3>
+                <div class="result-value" id="needed">100</div>
+            </div>
+            
+            <div class="unlock-section">
+                <h2>🔓 Unlock Activation Optimization Guide</h2>
+                <p>Get 15 onboarding tactics to boost activation rates.</p>
+                <div style="font-size: 2.5rem; font-weight: 700; color: #6366f1; margin-bottom: 16px;">$9</div>
+                <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto 16px;">
+                    <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
             </div>
         </div>
     </div>
-
+    
     <script>
         function calculate() {
-            const trials = parseFloat(document.getElementById('trials').value) || 1;
+            const signups = parseFloat(document.getElementById('signups').value) || 0;
             const activated = parseFloat(document.getElementById('activated').value) || 0;
-            const keyAction = parseFloat(document.getElementById('keyAction').value) || 0;
-            const timeToActivate = parseFloat(document.getElementById('timeToActivate').value) || 0;
-
-            const activation = (activated / trials) * 100;
-            const keyActionRate = (keyAction / trials) * 100;
-
-            let yourStatus = 'Unknown';
-            if (activation >= 40 && timeToActivate <= 2) yourStatus = 'Excellent';
-            else if (activation >= 30 && timeToActivate <= 3) yourStatus = 'Strong';
-            else if (activation >= 20) yourStatus = 'Good';
-            else yourStatus = 'At Risk';
-
-            document.getElementById('activation').textContent = activation.toFixed(1) + '%';
-            document.getElementById('keyActionRate').textContent = keyActionRate.toFixed(1) + '%';
-            document.getElementById('timeToActivateValue').textContent = timeToActivate.toFixed(0) + 'd';
-            document.getElementById('yourStatus').textContent = yourStatus;
-
-            let recommendation = '';
-            if (activation >= 40 && timeToActivate <= 2) {
-                recommendation = '🏆 Excellent activation! Users activate quickly and in high numbers. To maintain: 1) A/B test onboarding for marginal gains, 2. Add personalization to increase relevance, 3. Use activation data to identify expansion-ready users.';
-            } else if (activation >= 30 && timeToActivate <= 3) {
-                recommendation = '✅ Strong activation. To reach excellent: 1. Reduce time to activate by removing friction, 2. Add progress indicators to motivate completion, 3. Use triggered emails to re-engage non-activators.';
-            } else if (activation >= 20) {
-                recommendation = '✓ Good activation. To improve: 1. Identify where users drop off in onboarding, 2. Simplify signup flow — reduce required fields, 3. Add "quick start" templates, 4. Consider interactive tutorials or walkthroughs.';
-            } else {
-                recommendation = '🚨 Low activation — most trial users never activate. Urgent: 1. Map the activation funnel — where is the biggest drop-off?, 2. Reduce required setup steps, 3. Add "instant gratification" features, 4. Survey non-activators — what blocked them?, 5. Consider if your "activation" definition is too strict.';
-            }
-            document.getElementById('recommendationText').textContent = recommendation;
-            document.getElementById('results').classList.add('active');
+            const target = parseFloat(document.getElementById('target').value) || 0;
+            
+            const rate = signups > 0 ? ((activated / signups) * 100).toFixed(1) + '%' : 'N/A';
+            const gap = (target - (signups > 0 ? (activated / signups) * 100 : 0)).toFixed(1);
+            const needed = Math.ceil((signups * (target / 100)) - activated);
+            
+            document.getElementById('rate').textContent = rate;
+            document.getElementById('gap').textContent = (gap >= 0 ? '+' : '') + gap + '%';
+            document.getElementById('needed').textContent = needed > 0 ? needed.toLocaleString() : '0';
+            
+            document.getElementById('results').classList.add('show');
         }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('activationReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
     </script>
 </body>
 </html>
