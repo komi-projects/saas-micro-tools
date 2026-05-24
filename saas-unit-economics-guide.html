@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Unit Economics Guide — Free Download</title>
-    <meta name="description" content="Free SaaS unit economics guide. Master LTV, CAC, payback period, and the metrics that determine whether your SaaS business is sustainable.">
+    <meta name="description" content="Free SaaS unit economics guide. Understand LTV, CAC, payback period, and the metrics that determine SaaS profitability.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -25,7 +25,7 @@
             margin-bottom: 16px;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
-        .economics {
+        .unit {
             background: #1a1a2e;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -44,35 +44,21 @@
             line-height: 1.6;
             margin-bottom: 12px;
         }
-        .metric-box {
+        .pillar-box {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
         }
-        .metric-name {
+        .pillar-name {
             color: #e2e8f0;
             font-weight: 600;
             margin-bottom: 4px;
         }
-        .metric-detail {
+        .pillar-detail {
             color: #94a3b8;
             font-size: 0.95rem;
-        }
-        .formula-box {
-            background: rgba(99, 102, 241, 0.05);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 8px;
-            padding: 16px;
-            margin: 12px 0;
-            font-family: monospace;
-        }
-        .formula-title {
-            color: #6366f1;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         .example-box {
             background: rgba(16, 185, 129, 0.05);
@@ -116,207 +102,159 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📈 Unit Economics</h1>
-            <p class="subtitle">Master the metrics that determine sustainability.</p>
+            <h1>💰 Unit Economics</h1>
+            <p class="subtitle">Understand the metrics that determine SaaS profitability.</p>
         </div>
         
-        <div class="economics">
+        <div class="unit">
             <div class="section">
                 <h2>Why Unit Economics Matter</h2>
                 
-                <p>Unit economics answer the most important question in SaaS: does the business model work? If you spend $1,000 to acquire a customer who generates $500 in lifetime value, you have a fundamentally broken business. No amount of growth will fix it. You'll go bankrupt faster as you scale.</p>
+                <p>Unit economics answer the most important question in SaaS: Does each customer generate more revenue than it costs to acquire and serve? If yes, you can scale. If no, growth just burns cash faster.</p>
                 
-                <p>Conversely, if you spend $1,000 to acquire a customer who generates $5,000 in lifetime value, you have a money-printing machine. The only question is how fast you can pour money into customer acquisition.</p>
+                <p>A company with great unit economics can raise capital, scale marketing, and invest in product. A company with poor unit economics is a ticking time bomb — every new customer accelerates the burn. Understanding unit economics isn't just finance — it's survival.</p>
                 
-                <p>Investors, board members, and smart founders obsess over unit economics. They're the foundation of every financial model, fundraising pitch, and strategic decision. This guide covers the essential metrics and how to calculate, benchmark, and improve them.</p>
+                <p>This guide covers the essential unit economics metrics, how to calculate them, and what "good" looks like at different stages.</p>
             </div>
             
             <div class="section">
                 <h2>Core Unit Economics Metrics</h2>
                 
-                <div class="metric-box">
-                    <div class="metric-name">1. Customer Acquisition Cost (CAC)</div>
-                    <div class="metric-detail">
-                        The total cost to acquire one new customer.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            CAC = (Sales Spend + Marketing Spend) / New Customers Acquired
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                Monthly sales spend: $30K (salaries + commissions)<br>
-                                Monthly marketing spend: $20K (ads + content + events)<br>
-                                New customers acquired: 50<br>
-                                CAC = ($30K + $20K) / 50 = $1,000 per customer
-                            </div>
-                        </div>
-                        • Include all costs: salaries, commissions, ads, tools, events, content production
-                        • Exclude: Customer success, support, and account management (those are retention costs)
-                        • Time period: Use the same period for spend and customers (usually monthly or quarterly)
-                        • Blended vs. paid: Blended CAC includes organic; paid CAC is only paid channels
-                        • Benchmark: Varies by market. SMB: $200-1,000. Mid-market: $1,000-10,000. Enterprise: $10,000-100,000+
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Customer Acquisition Cost (CAC)</div>
+                    <div class="pillar-detail">
+                        Total cost to acquire one customer.
+                        • Formula: (Sales + Marketing spend) / New customers acquired
+                        • Include: Salaries, tools, ad spend, content, events, commissions
+                        • Time period: Use the same period for spend and customers (usually a month or quarter)
+                        • Blended vs. paid: Blended includes organic; paid is just paid channels
+                        • CAC by channel: Know which channels are efficient vs. expensive
+                        • Early-stage CAC is high and lumpy — trend over 6-12 months
                     </div>
                 </div>
                 
-                <div class="metric-box">
-                    <div class="metric-name">2. Lifetime Value (LTV)</div>
-                    <div class="metric-detail">
-                        The total revenue a customer generates before churning.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            LTV = ARPU × Gross Margin × Average Customer Lifetime<br>
-                            or<br>
-                            LTV = ARPU × Gross Margin / Monthly Churn Rate
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                ARPU (Average Revenue Per User): $100/month<br>
-                                Gross Margin: 80%<br>
-                                Monthly Churn Rate: 5%<br>
-                                LTV = $100 × 0.80 / 0.05 = $1,600
-                            </div>
-                        </div>
-                        • ARPU: Total MRR / total paying customers
-                        • Gross margin: (Revenue - COGS) / Revenue. SaaS benchmark: 75-85%
-                        • Customer lifetime: Average months a customer stays. 1 / monthly churn rate
-                        • Expansion: Include expansion revenue if significant. LTV with expansion = (ARPU + Expansion) × Margin / Churn
-                        • Cohort-based: Calculate LTV for each signup cohort for accuracy
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Lifetime Value (LTV)</div>
+                    <div class="pillar-detail">
+                        Predicted revenue from a customer over their lifetime.
+                        • Formula: ARPU × Gross Margin × Customer Lifetime
+                        • Customer Lifetime = 1 / Monthly Churn Rate
+                        • Simplified: LTV = ARPU × Gross Margin / Monthly Churn
+                        • Gross margin matters: High-margin products have higher LTV
+                        • Expansion revenue: Include expected upgrades and cross-sells
+                        • Segment LTV: Enterprise LTV is often 10x self-serve LTV
                     </div>
                 </div>
                 
-                <div class="metric-box">
-                    <div class="metric-name">3. LTV:CAC Ratio</div>
-                    <div class="metric-detail">
-                        The ultimate sustainability metric.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            LTV:CAC = LTV / CAC
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                LTV: $1,600<br>
-                                CAC: $1,000<br>
-                                LTV:CAC = $1,600 / $1,000 = 1.6:1
-                            </div>
-                        </div>
-                        • Below 1:1: Losing money on every customer. Fix immediately.
-                        • 1:1 to 2:1: Surviving but not thriving. Improve unit economics before scaling.
-                        • 3:1: Healthy and sustainable. The SaaS standard.
-                        • 5:1+: Excellent. Could invest more in acquisition.
-                        • Danger zone: Some investors worry if LTV:CAC > 5:1 — you might be under-investing in growth
+                <div class="pillar-box">
+                    <div class="pillar-name">3. LTV/CAC Ratio</div>
+                    <div class="pillar-detail">
+                        The ultimate unit economics health check.
+                        • Formula: LTV / CAC
+                        • < 1: You're losing money on every customer (unsustainable)
+                        • 1-3: Marginal — might work with great retention and low churn
+                        • 3-5: Healthy — room to invest in growth
+                        • 5+: Excellent — you can aggressively scale acquisition
+                        • Target: 3+ for sustainable SaaS growth
+                        • Higher is not always better: LTV/CAC of 10 might mean you're underinvesting in growth
                     </div>
                 </div>
                 
-                <div class="metric-box">
-                    <div class="metric-name">4. CAC Payback Period</div>
-                    <div class="metric-detail">
-                        How many months to recover acquisition cost.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            Payback = CAC / (ARPU × Gross Margin)
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                CAC: $1,000<br>
-                                ARPU: $100/month<br>
-                                Gross Margin: 80%<br>
-                                Payback = $1,000 / ($100 × 0.80) = 12.5 months
-                            </div>
-                        </div>
-                        • Under 6 months: Excellent. Very capital efficient.
-                        • 6-12 months: Good. Standard for healthy SaaS.
-                        • 12-18 months: Acceptable for enterprise SaaS with high LTV.
-                        • Over 18 months: Concerning. Requires significant capital to fund growth.
-                        • Cash impact: Long payback = need more capital to scale. Short payback = self-funding growth.
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Payback Period</div>
+                    <div class="pillar-detail">
+                        Months to recover CAC from customer revenue.
+                        • Formula: CAC / (ARPU × Gross Margin)
+                        • < 6 months: Excellent — fast cash recovery
+                        • 6-12 months: Good — standard for SaaS
+                        • 12-18 months: Marginal — requires capital to fund growth
+                        • 18+ months: Risky — high chance of churn before payback
+                        • Target: 12 months or less
+                        • Cash flow impact: Longer payback = more capital required
                     </div>
                 </div>
                 
-                <div class="metric-box">
-                    <div class="metric-name">5. Magic Number</div>
-                    <div class="metric-detail">
-                        How efficiently revenue is generated from sales and marketing spend.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            Magic Number = Net New ARR (quarter) / Prior Quarter S&M Spend
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                Q2 Net New ARR: $200K<br>
-                                Q1 S&M Spend: $300K<br>
-                                Magic Number = $200K / $300K = 0.67
-                            </div>
-                        </div>
-                        • Below 0.5: Inefficient growth. Fix unit economics before spending more.
-                        • 0.5-0.75: Moderate efficiency. Proceed with caution.
-                        • 0.75-1.0: Good efficiency. Invest more in growth.
-                        • Above 1.0: Excellent. Pour fuel on the fire.
-                        • Context: Higher CAC, longer sales cycle products will naturally have lower magic numbers
-                    </div>
-                </div>
-                
-                <div class="metric-box">
-                    <div class="metric-name">6. Gross Margin</div>
-                    <div class="metric-detail">
-                        Profitability after direct costs.
-                        <div class="formula-box">
-                            <div class="formula-title">Formula:</div>
-                            Gross Margin = (Revenue - COGS) / Revenue
-                        </div>
-                        <div class="example-box">
-                            <div class="example-title">Example:</div>
-                            <div class="example-text">
-                                Revenue: $100K<br>
-                                COGS: $15K<br>
-                                Gross Margin = ($100K - $15K) / $100K = 85%
-                            </div>
-                        </div>
-                        • COGS for SaaS: Hosting, infrastructure, payment processing, customer support, third-party APIs
-                        • Excludes: R&D, sales, marketing, G&A (those are operating expenses)
-                        • Benchmark: 75-85% for SaaS. Below 70% is concerning.
-                        • Impact on LTV: Gross margin directly affects LTV calculation. Higher margin = higher LTV.
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Gross Margin</div>
+                    <div class="pillar-detail">
+                        Revenue minus direct costs to serve customers.
+                        • Formula: (Revenue - COGS) / Revenue
+                        • COGS includes: Hosting, CDN, payment processing, support, infrastructure
+                        • Does not include: R&D, sales, marketing, G&A
+                        • SaaS target: 70-90% gross margin
+                        • Low margin: < 50% (harder to achieve profitability)
+                        • High margin: 85%+ (more cash for growth)
                     </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>Advanced Metrics</h2>
+                <h2>Additional Economics Metrics</h2>
                 
                 <p><strong>1. Net Revenue Retention (NRR):</strong></p>
                 
-                <p>• NRR = (Starting MRR + Expansion - Contraction - Churn) / Starting MRR<br>
-                • Above 100%: Revenue from existing customers is growing<br>
-                • 110-130%: Excellent (Snowflake, Datadog, Slack territory)<br>
-                • Below 100%: Losing more revenue than gaining — unsustainable<br>
-                • Gross vs. Net: Gross only counts churn. Net includes expansion and contraction.</p>
+                <p>• Formula: Starting MRR + Expansion - Contraction - Churn
+                • > 100%: Revenue grows from existing customers without new sales
+                • 100-110%: Healthy expansion
+                • 110-130%: Strong (top quartile)
+                • 130%+: Exceptional (Snowflake, Datadog)
+                • Expansion is the best growth — it's high margin and predictable</p>
                 
-                <p><strong>2. Cohort Analysis:</strong></p>
+                <p><strong>2. Magic Number:</strong></p>
                 
-                <p>• Track each signup cohort separately<br>
-                • Cohort 0: Signup month<br>
-                • Cohort 1: Retention after 1 month, 3 months, 6 months, 12 months<br>
-                • Compare cohorts: Are newer customers retaining better or worse?<br>
-                • Identify patterns: Which acquisition channels produce the best cohorts?<br>
-                • Predict LTV: Use cohort curves to estimate full lifetime value</p>
+                <p>• Formula: Net New ARR / Prior Quarter S&M Spend
+                • > 1.5: Excellent — efficient growth
+                • 0.75-1.5: Good — invest more in sales and marketing
+                • 0.5-0.75: Marginal — improve before scaling
+                • < 0.5: Unhealthy — fix unit economics first
+                • Used by VCs to evaluate SaaS efficiency</p>
                 
-                <p><strong>3. Revenue Churn vs. Logo Churn:</strong></p>
+                <p><strong>3. Rule of 40:</strong></p>
                 
-                <p>• Logo churn: % of customers who cancel (easy to understand)<br>
-                • Revenue churn: % of revenue lost to cancellations (what matters financially)<br>
-                • Can have high logo churn but low revenue churn if losing small customers<br>
-                • Or low logo churn but high revenue churn if losing big customers<br>
-                • Track both. Revenue churn is the board-level metric.</p>
+                <p>• Formula: Growth Rate + Profit Margin ≥ 40%
+                • Example: 30% growth + 15% margin = 45% (pass)
+                • Example: 50% growth + (-20%) margin = 30% (fail)
+                • Balances growth and profitability
+                • Used by investors to value SaaS companies
+                • Early-stage: Focus on growth; late-stage: Focus on profitability</p>
                 
-                <p><strong>4. Expansion Revenue:</strong></p>
+                <p><strong>4. Burn Multiple:</strong></p>
                 
-                <p>• % of new revenue from existing customers vs. new customers<br>
-                • Expansion rate: % of customers who upgrade annually<br>
-                • Net dollar retention: The gold standard metric (includes expansion + churn)<br>
-                • The best SaaS businesses generate 50%+ of new revenue from expansion</p>
+                <p>• Formula: Net Burn / Net New ARR
+                • < 1: Efficient — less than $1 burned for each $1 ARR added
+                • 1-1.5: Good — reasonable burn for growth
+                • 1.5-2: Marginal — expensive growth
+                • > 2: Inefficient — too much burn for too little growth
+                • Trend: Track monthly to see if efficiency is improving</p>
+            </div>
+            
+            <div class="section">
+                <h2>Unit Economics by Stage</h2>
+                
+                <p><strong>Seed ($0-1M ARR):</strong></p>
+                
+                <p>• Focus: Product-market fit, not unit economics
+                • CAC: Often undefined (founder-led sales)
+                • LTV: Hard to predict with limited data
+                • Churn: Likely high as you iterate on ICP
+                • Goal: Find 10 customers who love you, then measure</p>
+                
+                <p><strong>Series A ($1-10M ARR):</strong></p>
+                
+                <p>• Focus: Prove repeatable acquisition and positive unit economics
+                • LTV/CAC: Target 3+ with 12-month payback
+                • Churn: Reduce to < 5% monthly for SMB, < 2% for enterprise
+                • NRR: Target 100%+ (expansion offsetting churn)
+                • Goal: Show that $1 of S&M spend returns $3+ in LTV</p>
+                
+                <p><strong>Series B+ ($10M+ ARR):</strong></p>
+                
+                <p>• Focus: Scale efficiently, improve margins, prove profitability path
+                • LTV/CAC: 5+ with clear expansion mechanics
+                • Payback: 6-12 months
+                • NRR: 110%+ (net negative churn)
+                • Rule of 40: Target 40%+
+                • Goal: Capital-efficient growth with clear path to profitability</p>
             </div>
             
             <div class="section">
@@ -324,70 +262,76 @@
                 
                 <p><strong>1. Reduce CAC:</strong></p>
                 
-                <p>• Focus on organic channels: SEO, content, referrals, product-led growth<br>
-                • Improve conversion rates: Better landing pages, onboarding, trial experience<br>
-                • Increase sales efficiency: Shorter sales cycles, higher win rates<br>
-                • Retargeting: Convert website visitors who didn't sign up<br>
-                • Partner channels: Resellers, integrations, co-marketing (lower CAC than direct)<br>
-                • Product-led growth: Let the product sell itself (lowest CAC of all)</p>
+                <p>• Organic channels: SEO, content, referrals, viral loops
+                • Conversion optimization: Better landing pages, onboarding, trials
+                • Sales efficiency: Reduce sales cycle, increase win rate
+                • Channel mix: Shift spend to lower-CAC channels
+                • Product-led growth: Let product sell itself, reduce sales touch</p>
                 
                 <p><strong>2. Increase LTV:</strong></p>
                 
-                <p>• Reduce churn: Better onboarding, proactive success, retention playbooks<br>
-                • Drive expansion: Upsells, cross-sells, seat increases, usage growth<br>
-                • Increase prices: Value-based pricing that captures more of the value you create<br>
-                • Annual contracts: Longer commitments = longer lifetime + better cash flow<br>
-                • Improve gross margin: Reduce hosting costs, automate support, optimize COGS</p>
+                <p>• Reduce churn: Better onboarding, proactive support, product stickiness
+                • Increase pricing: Value-based pricing, annual contracts, price increases
+                • Expand revenue: Upsells, cross-sells, usage-based pricing
+                • Extend lifetime: Annual contracts, multi-year deals, auto-renewal
+                • Improve margin: Optimize infrastructure, reduce COGS</p>
                 
-                <p><strong>3. Accelerate payback:</strong></p>
+                <p><strong>3. Shorten payback:</strong></p>
                 
-                <p>• Annual prepay: Collect 12 months upfront instead of monthly<br>
-                • Higher ACV: Sell to larger customers with bigger contracts<br>
-                • Faster activation: Get customers to value faster so they stay longer<br>
-                • Expansion at 90 days: Don't wait for annual renewal — expand early</p>
+                <p>• Annual prepay: Offer 15-20% discount for annual payment
+                • Trial optimization: Increase trial-to-paid conversion
+                • Faster time-to-value: Reduce onboarding friction
+                • Self-serve: Reduce sales touch for smaller deals
+                • Usage-based: Revenue starts immediately, not after sales cycle</p>
             </div>
             
             <div class="section">
                 <h2>Unit Economics Mistakes</h2>
                 
-                <p><strong>1. Ignoring gross margin:</strong> Calculating LTV using revenue instead of gross profit. If you have 60% gross margin, your real LTV is 40% lower than revenue-based LTV.</p>
+                <p><strong>1. Ignoring gross margin:</strong> LTV calculations that don't include COGS. A $100/month product with 50% margin is very different from one with 85% margin.</p>
                 
-                <p><strong>2. Underestimating churn:</strong> Using the most recent month's churn rate instead of a 6-12 month average. Churn fluctuates. Use stable averages.</p>
+                <p><strong>2. Using revenue instead of margin:</strong> LTV should use contribution margin, not top-line revenue. What matters is profit, not revenue.</p>
                 
-                <p><strong>3. Blended CAC confusion:</strong> Reporting blended CAC (including organic) as if it's your paid CAC. Organic customers cost less, making blended look better than reality.</p>
+                <p><strong>3. Overestimating lifetime:</strong> Assuming 5-year customer lifetimes when data shows 18 months. Use actual cohort data, not aspirations.</p>
                 
-                <p><strong>4. Static metrics:</strong> Calculating unit economics once and never updating. They change with every pricing change, product improvement, and market shift. Track monthly.</p>
+                <p><strong>4. No cohort analysis:</strong> Averaging all customers together. Enterprise and SMB have wildly different unit economics. Segment and analyze separately.</p>
                 
-                <p><strong>5. Vanity metrics:</strong> Focusing on LTV:CAC of 5:1 while ignoring that payback is 24 months. Both matter. A great ratio with slow payback is still cash-constrained.</p>
+                <p><strong>5. Static analysis:</strong> Calculating unit economics once and never updating. These metrics change monthly as you scale, iterate, and compete.</p>
                 
-                <p><strong>6. No cohort tracking:</strong> Using averages instead of cohorts. Your earliest customers might have 90% retention while recent ones have 60%. Averages hide the trend.</p>
+                <p><strong>6. Ignoring payback period:</strong> Focusing only on LTV/CAC without considering cash flow. A 3-year payback with high churn means you never recover CAC.</p>
+                
+                <p><strong>7. No expansion in LTV:</strong> Calculating LTV based on current ARR without expected upgrades. NRR > 100% dramatically changes the math.</p>
             </div>
             
             <div class="section">
                 <h2>Unit Economics Checklist</h2>
                 
-                <p>☐ CAC calculated monthly by channel (blended and paid)<br>
-                ☐ LTV calculated with gross margin (not just revenue)<br>
-                ☐ LTV:CAC ratio tracked monthly<br>
-                ☐ CAC payback period calculated and monitored<br>
-                ☐ Magic number calculated quarterly<br>
-                ☐ Gross margin tracked monthly<br>
-                ☐ Cohort analysis performed monthly<br>
-                ☐ Net Revenue Retention (NRR) calculated monthly<br>
-                ☐ Revenue churn and logo churn tracked separately<br>
-                ☐ Expansion revenue tracked as % of total new revenue<br>
-                ☐ Unit economics dashboard live and shared with leadership<br>
-                ☐ LTV improvement plan documented<br>
-                ☐ CAC reduction experiments planned<br>
-                ☐ Payback acceleration tactics implemented<br>
-                ☐ Monthly unit economics review meeting scheduled<br>
-                ☐ Investor-ready unit economics summary prepared</p>
+                <p>☐ CAC calculated by channel and segment
+                ☐ LTV calculated with gross margin and actual churn data
+                ☐ LTV/CAC ratio > 3
+                ☐ Payback period < 12 months
+                ☐ Gross margin > 70%
+                ☐ Net Revenue Retention > 100%
+                ☐ Cohort retention curves analyzed
+                ☐ Churn rate by segment tracked
+                ☐ Expansion revenue as % of total tracked
+                ☐ Magic Number calculated monthly
+                ☐ Rule of 40 tracked quarterly
+                ☐ Burn Multiple tracked monthly
+                ☐ Unit economics dashboard live
+                ☐ Monthly unit economics review scheduled
+                ☐ CAC reduction experiments planned
+                ☐ LTV improvement experiments planned
+                ☐ Payback period optimization active
+                ☐ Annual prepay discount offered
+                ☐ Cohort-based LTV analysis completed
+                ☐ Competitive unit economics benchmarked</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Unit Economics Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with calculation templates, benchmarking data, and improvement playbooks.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with calculation templates, benchmarks by stage, and optimization playbooks.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
