@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Analytics Guide — Free Download</title>
+    <meta name="description" content="Free SaaS analytics guide. Set up product analytics that drive growth, not just reports nobody reads.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .analytics {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .metric-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .metric-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .metric-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Product Analytics</h1>
+            <p class="subtitle">Build analytics that drive growth, not just reports.</p>
+        </div>
+        
+        <div class="analytics">
+            <div class="section">
+                <h2>Analytics Maturity Model</h2>
+                
+                <p><strong>Level 0 — No Analytics:</strong> Flying blind. No event tracking. Decisions based on gut feeling and anecdote. Common in pre-launch and very early startups. Risky but sometimes necessary when speed matters more than precision.</p>
+                
+                <p><strong>Level 1 — Vanity Metrics:</strong> Tracking page views, signups, downloads. Dashboards look impressive but don't drive action. "We had 10,000 visitors this month!" So what? Did they convert? Retain? Pay? Most startups plateau here because it feels like progress.</p>
+                
+                <p><strong>Level 2 — Funnel Tracking:</strong> Measuring conversion through key steps. Signup → Activation → Paid → Retained. Can identify where users drop off. "40% of signups never connect their first integration." Now you have a target for improvement.</p>
+                
+                <p><strong>Level 3 — Cohort Analysis:</strong> Tracking groups of users over time. January signups vs. February signups. Did onboarding improvements in February improve March retention? This is where you start understanding causality, not just correlation.</p>
+                
+                <p><strong>Level 4 — Segmentation:</strong> Breaking users into meaningful groups and comparing behavior. Enterprise vs. SMB. Mobile vs. desktop. Organic vs. paid. Different segments have different needs, behaviors, and value. One-size-fits-all metrics hide crucial differences.</p>
+                
+                <p><strong>Level 5 — Predictive:</strong> Using data to predict future outcomes. Churn prediction, LTV forecasting, expansion likelihood. Requires significant data volume and data science resources. Most SaaS companies never reach this level, and that's okay — Levels 3-4 drive most of the value.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Core SaaS Metrics to Track</h2>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Acquisition</div>
+                    <div class="metric-detail">
+                        How users find you
+                        • Website visitors by channel (organic, paid, referral, direct)
+                        • Signup rate (visitors → signups)
+                        • Cost per acquisition (CPA) by channel
+                        • Signup source attribution (which campaign, which ad, which landing page)
+                        Track daily and weekly. Channel mix changes over time.
+                    </div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Activation</div>
+                    <div class="metric-detail">
+                        Users experiencing core value
+                        • Activation rate (signups → first key action)
+                        • Time to first value (how long from signup to activation)
+                        • Setup completion rate (e.g., connected integration, invited team, created first project)
+                        • Feature adoption (which features do activated users use first)
+                        This is the most important funnel stage. Low activation = everything downstream suffers.
+                    </div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Revenue</div>
+                    <div class="metric-detail">
+                        Money metrics
+                        • MRR (Monthly Recurring Revenue) — the north star
+                        • ARR (Annual Recurring Revenue) — MRR × 12
+                        • ARPU (Average Revenue Per User) — MRR / paying customers
+                        • Expansion MRR — revenue from existing customers upgrading
+                        • Contraction MRR — revenue lost from downgrades
+                        • Net Revenue Retention (NRR) — (starting + expansion - contraction - churn) / starting
+                        Track MRR daily. Everything else weekly or monthly.
+                    </div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Retention</div>
+                    <div class="metric-detail">
+                        Users coming back
+                        • D1, D7, D30 retention (what % of day-0 users are active on day 1, 7, 30)
+                        • Cohort retention curves (track each signup cohort over time)
+                        • Feature retention (users who use feature X retain Y% better)
+                        • Subscription retention (what % renew at period end)
+                        Retention is the true product-market fit indicator. If users don't retain, nothing else matters.
+                    </div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Engagement</div>
+                    <div class="metric-detail">
+                        How users interact with the product
+                        • DAU/MAU ratio (daily active / monthly active — proxy for stickiness)
+                        • Session frequency (how often users return)
+                        • Session duration (time spent per session)
+                        • Core action frequency (how often users do the main thing your product does)
+                        • Feature usage heatmap (which features are used, which are ignored)
+                        Engagement predicts retention. Retention predicts revenue.
+                    </div>
+                </div>
+                
+                <div class="metric-box">
+                    <div class="metric-name">Churn & Health</div>
+                    <div class="metric-detail">
+                        Warning signs and losses
+                        • Logo churn rate (% of customers who cancel)
+                        • Revenue churn rate (% of MRR lost to cancellations)
+                        • Net churn (revenue churn minus expansion)
+                        • Customer health score (composite of usage, engagement, support tickets, payment history)
+                        • Time-to-churn prediction (which users are likely to cancel soon)
+                        Track monthly. React immediately to spikes.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Tools for SaaS</h2>
+                
+                <p><strong>Product Analytics (Event Tracking):</strong></p>
+                
+                <p>• <strong>Amplitude:</strong> The gold standard for product analytics. Cohort analysis, funnel analysis, user paths. Free tier generous. Best for: teams that take analytics seriously.
+                • <strong>Mixpanel:</strong> Strong competitor to Amplitude. Slightly better UI, slightly fewer advanced features. Great for marketing + product combined.
+                • <strong>Heap:</strong> Auto-captures all events retroactively. No need to define events upfront. Great for teams that don't know what to track yet. Downsides: data volume costs, noise from auto-capture.
+                • <strong>PostHog:</strong> Open-source product analytics. Self-host or cloud. Feature flags, session replay, experiments. Great for privacy-conscious and cost-conscious teams.
+                • <strong>June:</strong> Product analytics for B2B SaaS. Built on top of Segment. Focused on SaaS-specific metrics out of the box.
+                • <strong>Google Analytics 4:</strong> Free but not designed for SaaS. Good for web traffic, poor for product events and retention. Use alongside product analytics, not instead of.</p>
+                
+                <p><strong>Data Warehouse / BI:</strong></p>
+                
+                <p>• <strong>Snowflake / BigQuery / Redshift:</strong> Central data warehouse. All data sources feed in. SQL-based analysis. Power for data teams.
+                • <strong>Metabase:</strong> Open-source BI. Non-technical users can build dashboards. Great for democratizing data access.
+                • <strong>Looker:</strong> Enterprise BI. Powerful but expensive and requires dedicated admin.
+                • <strong>Mode:</strong> Analytics for analysts. SQL + Python/R notebooks. Great for deep analysis.</p>
+                
+                <p><strong>Session Replay:</strong></p>
+                
+                <p>• <strong>FullStory:</strong> See exactly how users interact with your product. Frustration signals, rage clicks, dead clicks. Pricey but invaluable for UX research.
+                • <strong>LogRocket:</strong> Session replay + performance monitoring + error tracking. Good for engineering teams.
+                • <strong>Hotjar:</strong> Heatmaps, session recordings, surveys. Cheaper but less sophisticated than FullStory. Great for landing pages and marketing sites.
+                • <strong>PostHog:</strong> Includes session replay. Open source and free tier available.</p>
+                
+                <p><strong>Reverse ETL (Data Activation):</strong></p>
+                
+                <p>• <strong>Hightouch / Census:</strong> Sync warehouse data back to tools. E.g., sync "high churn risk" scores from warehouse to Intercom for automated outreach. Closing the loop between analytics and action.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Event Tracking Strategy</h2>
+                
+                <p>Events are the atomic unit of product analytics. Every user action is an event with properties. Good event taxonomy is the foundation of useful analytics.</p>
+                
+                <p><strong>Naming conventions:</strong></p>
+                
+                <p>• Object + Action: "Project Created", "User Invited", "Report Exported"
+                • Past tense verbs: "Signed Up" not "Sign Up"
+                • Consistent casing: Pick snake_case or camelCase and stick to it
+                • No property in the event name: "Purchase Completed" with property { amount: 99 } not "Purchase 99 Completed"</p>
+                
+                <p><strong>Core events every SaaS should track:</strong></p>
+                
+                <p>1. <strong>Signed Up</strong> — Account creation (channel, plan, referral source)
+                2. <strong>Onboarding Started</strong> — First login or tutorial begin
+                3. <strong>Core Action Done</strong> — The "aha moment" (first integration connected, first project created, first email sent — whatever your product's core value is)
+                4. <strong>Upgraded</strong> — Free → Paid conversion (plan, amount, payment method)
+                5. <strong>Feature Used</strong> — Key feature engagement (feature name, frequency)
+                6. <strong>Invited Team Member</strong> — Viral loop activation (role, team size after invite)
+                7. <strong>Renewed</strong> — Subscription continuation (plan, amount, period)
+                8. <strong>Churned</strong> — Cancellation (reason, plan at cancellation, tenure)</p>
+                
+                <p><strong>Event properties to include:</strong></p>
+                
+                <p>• User properties: plan, company size, signup date, acquisition channel
+                • Session properties: device, browser, OS, screen size
+                • Action properties: the specific thing acted upon (project ID, feature name, amount)
+                • Context properties: A/B test variant, feature flag status, page URL</p>
+                
+                <p><strong>Super properties (track on every event):</strong></p>
+                
+                <p>• User ID
+                • Account/Company ID (for B2B)
+                • Current plan
+                • Signup date
+                • Acquisition channel
+                • A/B test assignments
+                These let you segment any analysis by these dimensions without joining tables.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Team Structure</h2>
+                
+                <p><strong>Early stage (1-10 people):</strong></p>
+                
+                <p>• No dedicated analytics person. Product manager or founder owns metrics.
+                • Use simple tools (PostHog, Amplitude free tier, Metabase)
+                • Focus on 3-5 core metrics. Don't overcomplicate.
+                • Weekly metrics review in team meeting.</p>
+                
+                <p><strong>Growth stage (10-50 people):</strong></p>
+                
+                <p>• Hire first data analyst or data engineer.
+                • Implement proper event taxonomy and tracking plan.
+                • Build dashboards for each team (product, marketing, success).
+                • Start cohort analysis and funnel optimization.
+                • Run first A/B tests with statistical rigor.</p>
+                
+                <p><strong>Scale stage (50+ people):</strong></p>
+                
+                <p>• Data team: data engineers, analysts, scientists.
+                • Data warehouse as single source of truth.
+                • Self-serve analytics (any team member can answer their own questions).
+                • Predictive models (churn prediction, LTV scoring, expansion likelihood).
+                • Data governance and privacy compliance.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Mistakes to Avoid</h2>
+                
+                <p>❌ <strong>Tracking everything:</strong> More data ≠ better decisions. Track events that answer specific questions. "We might need this someday" is not a reason to track an event.
+                
+                ❌ <strong>Never looking at the data:</strong> Beautiful dashboards nobody checks are waste. Set up alerts for metric changes. Review weekly. Act on insights.
+                
+                ❌ <strong>Vanity metrics as KPIs:</strong> Page views, downloads, registered users. These go up when you buy ads. Track downstream metrics (activation, retention, revenue) that reflect real value.
+                
+                ❌ <strong>Siloed analytics:</strong> Marketing tracks leads in HubSpot. Product tracks events in Amplitude. Finance tracks revenue in Stripe. Nobody can answer "Which acquisition channel drives the most valuable customers?" Centralize in a warehouse.
+                
+                ❌ <strong>Not tracking from day 1:</strong> Retroactive tracking is impossible. Instrument signup, activation, and revenue events before you need them. You will need them.
+                
+                ❌ <strong>Changing event names:</strong> "User Created" → "Account Created" → "Signup Completed" breaks historical analysis. Pick names and stick to them. Version events if you must change them.
+                
+                ❌ <strong>Mixing environments:</strong> Development and test data polluting production analytics. Use separate projects or strict environment filtering.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Checklist</h2>
+                
+                <p>☐ Event taxonomy documented and shared
+                ☐ Core funnel events tracked (signup → activation → paid → retained)
+                ☐ User properties included (plan, channel, company size)
+                ☐ Super properties on every event
+                ☐ Dashboard for each team (product, marketing, success, exec)
+                ☐ Weekly metrics review scheduled
+                ☐ Alerts set for metric anomalies
+                ☐ Cohort analysis configured
+                ␗ A/B test results tracked and documented
+                ☐ Session replay for critical flows
+                ☐ Data warehouse as single source of truth (at scale)
+                ☐ Privacy compliance (GDPR, CCPA) for tracking
+                ☐ Regular data quality audits</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Analytics Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with event taxonomy templates, dashboard designs, and tool comparisons.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('analyticsGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
