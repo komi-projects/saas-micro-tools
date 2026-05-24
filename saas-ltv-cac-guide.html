@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS LTV:CAC Ratio Guide — Free Download</title>
+    <meta name="description" content="Free SaaS LTV:CAC ratio guide. Understand this critical metric, calculate it correctly, and learn what ratio investors look for at each stage.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .ratio {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 1.2rem;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .metric-bad { color: #ef4444; }
+        .metric-warning { color: #f59e0b; }
+        .metric-good { color: #10b981; }
+        .metric-excellent { color: #6366f1; }
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metric-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚖️ LTV:CAC Ratio</h1>
+            <p class="subtitle">The golden ratio investors care about.</p>
+        </div>
+        
+        <div class="ratio">
+            <div class="section">
+                <h2>What is LTV:CAC?</h2>
+                
+                <p>LTV:CAC compares the lifetime value of a customer to the cost of acquiring them. It tells you if your business model is sustainable: are you making more from customers than you spend to get them?</p>
+                
+                <div class="formula-box">
+                    <div class="formula">LTV:CAC = Customer Lifetime Value / Customer Acquisition Cost</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Benchmarks</h2>
+                
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-value metric-bad">&lt; 1:1</div>
+                        <div class="metric-label">Unsustainable — Losing money on every customer</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-warning">1:1 - 2:1</div>
+                        <div class="metric-label">Marginal — Barely breaking even</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-good">3:1 - 5:1</div>
+                        <div class="metric-label">Healthy — Sustainable growth</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value metric-excellent">&gt; 5:1</div>
+                        <div class="metric-label">Excellent — Strong unit economics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Example Calculation</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">SaaS Company</div>
+                    <div class="example-text">
+                        ARPU: $200/mo<br>
+                        Gross Margin: 80%<br>
+                        Monthly Churn: 3%<br>
+                        Customer Lifetime: 33 months<br><br>
+                        
+                        <strong>LTV = $200 × 0.8 × 33 = $5,280</strong><br><br>
+                        
+                        CAC: $1,500<br><br>
+                        
+                        <strong>LTV:CAC = $5,280 / $1,500 = 3.5:1 ✅</strong><br><br>
+                        
+                        This is healthy. For every $1 spent on acquisition, the company generates $3.50 in lifetime value.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>LTV:CAC by Stage</h2>
+                
+                <p>• <strong>Seed:</strong> Don't worry about it. Focus on product-market fit.<br>
+                • <strong>Series A:</strong> Target > 2:1. Prove the model works.<br>
+                • <strong>Series B-C:</strong> Target > 3:1. Time to scale efficiently.<br>
+                • <strong>Growth/Pre-IPO:</strong> Target > 5:1. Best-in-class economics.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Improving LTV:CAC</h2>
+                
+                <p><strong>Increase LTV:</strong></p>
+                <p>• Reduce churn (better onboarding, customer success)<br>
+                • Increase prices (test willingness to pay)<br>
+                • Drive expansion revenue (upsells, usage growth)<br>
+                • Improve gross margin (reduce COGS)</p>
+                
+                <p><strong>Decrease CAC:</strong></p>
+                <p>• Shift to organic channels (SEO, content, referrals)<br>
+                • Improve conversion rates (landing pages, trials)<br>
+                • Product-led growth (self-serve, viral loops)<br>
+                • Better targeting (narrow ICP, higher quality leads)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full LTV:CAC Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with calculation templates, investor benchmarks, and optimization strategies.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('ltvCacEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
