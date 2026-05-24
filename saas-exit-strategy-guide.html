@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Exit Strategy Guide — Free Download</title>
+    <meta name="description" content="Free SaaS exit strategy guide. Learn how to prepare your SaaS for acquisition, valuation multiples, and deal structure.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .content {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .multiple-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .multiple-table th, .multiple-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .multiple-table th {
+            color: #6366f1;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .multiple-table td {
+            color: #cbd5e1;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚪 SaaS Exit Strategy Guide</h1>
+            <p class="subtitle">Prepare your SaaS for acquisition, understand valuation multiples, and structure the deal.</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>1. Valuation Multiples</h2>
+                <table class="multiple-table">
+                    <thead>
+                        <tr><th>ARR Range</th><th>Multiple</th><th>Key Driver</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>$0-1M</td><td>1-3x</td><td>Growth rate</td></tr>
+                        <tr><td>$1-5M</td><td>3-7x</td><td>NRR + growth</td></tr>
+                        <tr><td>$5-20M</td><td>5-10x</td><td>Unit economics</td></tr>
+                        <tr><td>$20M+</td><td>8-15x</td><td>Market position</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <h2>2. Preparation Checklist</h2>
+                <p>• Clean financials (3 years of books)</p>
+                <p>• Document all IP and contracts</p>
+                <p>• Reduce founder dependency</p>
+                <p>• Build a strong management team</p>
+                <p>• Diversify customer base (no single customer >20%)</p>
+            </div>
+            
+            <div class="section">
+                <h2>3. Deal Structure</h2>
+                <p>• Cash at close: 60-80% of total</p>
+                <p>• Earnout: 20-40% based on performance</p>
+                <p>• Transition period: 6-12 months typical</p>
+                <p>• Non-compete: 2-3 years standard</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Exit Strategy Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">30+ pages with valuation frameworks, buyer types, and negotiation tactics.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('exitStrategyEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the PDF when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
