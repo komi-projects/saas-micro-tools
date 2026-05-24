@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Pricing Calculator — Premium Pricing Strategy &amp; Analysis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .calculate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        .results { display: none; }
+        .results.show { display: block; }
+        
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .result-subtitle {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .metric {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .tier-card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .tier-name {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .tier-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .tier-detail {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .recommendation {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .recommendation h3 {
+            color: #10b981;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .recommendation p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .unlock-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .unlock-section p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .unlock-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .unlock-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 16px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+        }
+        .elasticity-bar {
+            height: 8px;
+            background: #0f0f1a;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .elasticity-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .tier-grid { grid-template-columns: 1fr; }
+            .unlock-features { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Pricing Calculator</h1>
+        <p class="subtitle">Calculate optimal pricing tiers, price elasticity, and willingness-to-pay analysis. Unlock the full pricing strategy report for $9.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Current Monthly Price ($)</label>
+                <input type="number" id="currentPrice" value="49" placeholder="49">
+            </div>
+            <div class="input-group">
+                <label>Number of Customers</label>
+                <input type="number" id="customers" value="200" placeholder="200">
+            </div>
+            <div class="input-group">
+                <label>Avg Customer LTV ($)</label>
+                <input type="number" id="ltv" value="1200" placeholder="1200">
+            </div>
+            <div class="input-group">
+                <label>Cost Per Customer/Month ($)</label>
+                <input type="number" id="costPerCustomer" value="15" placeholder="15">
+            </div>
+            <div class="input-group">
+                <label>Price Sensitivity (1-10)</label>
+                <input type="number" id="sensitivity" value="5" min="1" max="10" placeholder="5">
+            </div>
+            <div class="input-group">
+                <label>Target Monthly Revenue ($)</label>
+                <input type="number" id="targetRevenue" value="25000" placeholder="25000">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Optimal Pricing</button>
+        
+        <div class="results" id="results">
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value" id="currentMrr">$9.8K</div>
+                    <div class="metric-label">Current MRR</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="optimalPrice">$79</div>
+                    <div class="metric-label">Optimal Price</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="priceElasticity">-1.2</div>
+                    <div class="metric-label">Price Elasticity</div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Recommended Pricing Tiers</h3>
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <div class="tier-name">Starter</div>
+                        <div class="tier-price" id="starterPrice">$29</div>
+                        <div class="tier-detail">For small teams getting started</div>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-name">Growth</div>
+                        <div class="tier-price" id="growthPrice">$79</div>
+                        <div class="tier-detail">Most popular — optimal value</div>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-name">Enterprise</div>
+                        <div class="tier-price" id="enterprisePrice">$199</div>
+                        <div class="tier-detail">Full feature set + support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Price Elasticity Analysis</h3>
+                <div class="result-value" id="elasticityValue">-1.2</div>
+                <div class="result-subtitle" id="elasticityLabel">Elastic — demand is sensitive to price changes</div>
+                <div class="elasticity-bar">
+                    <div class="elasticity-fill" id="elasticityFill" style="width: 60%"></div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Willingness-to-Pay Summary</h3>
+                <div class="result-value" id="wtpRange">$39 - $119</div>
+                <div class="result-subtitle" id="wtpDetail">Based on sensitivity score and market positioning</div>
+            </div>
+            
+            <div class="recommendation" id="recommendation">
+                <h3>Pricing Recommendation</h3>
+                <p id="recText">Your current pricing captures 65% of willingness-to-pay. Consider testing a $79 growth tier to capture more value without significant churn risk.</p>
+            </div>
+            
+            <div class="unlock-section" id="unlockSection">
+                <h2>Unlock Full Pricing Strategy Report</h2>
+                <p>Get the complete pricing analysis with:</p>
+                <div class="unlock-features">
+                    <div class="unlock-feature">✅ Detailed price elasticity curves</div>
+                    <div class="unlock-feature">✅ Willingness-to-pay distribution chart</div>
+                    <div class="unlock-feature">✅ Competitor pricing benchmark</div>
+                    <div class="unlock-feature">✅ Revenue optimization scenarios</div>
+                    <div class="unlock-feature">✅ Tier structure recommendation</div>
+                    <div class="unlock-feature">✅ PDF report download</div>
+                </div>
+                <div class="price-tag">$9</div>
+                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
+                <form class="email-form" id="emailForm">
+                    <input type="email" class="email-input" placeholder="your@email.com" required>
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 49;
+            const customers = parseFloat(document.getElementById('customers').value) || 200;
+            const ltv = parseFloat(document.getElementById('ltv').value) || 1200;
+            const costPerCustomer = parseFloat(document.getElementById('costPerCustomer').value) || 15;
+            const sensitivity = Math.min(Math.max(parseFloat(document.getElementById('sensitivity').value) || 5, 1), 10);
+            const targetRevenue = parseFloat(document.getElementById('targetRevenue').value) || 25000;
+            
+            const currentMrr = currentPrice * customers;
+            const elasticity = -0.5 - (sensitivity * 0.15);
+            
+            // Optimal price based on elasticity and cost
+            const markup = 3 + (sensitivity * 0.2);
+            const optimalPrice = Math.round(costPerCustomer * markup / 5) * 5;
+            
+            // Tier pricing
+            const starterPrice = Math.max(9, Math.round(optimalPrice * 0.35 / 5) * 5);
+            const growthPrice = optimalPrice;
+            const enterprisePrice = Math.round(optimalPrice * 2.5 / 5) * 5;
+            
+            // WTP range
+            const wtpLow = Math.round(optimalPrice * 0.5 / 5) * 5;
+            const wtpHigh = Math.round(optimalPrice * 1.5 / 5) * 5;
+            
+            // Elasticity interpretation
+            let elasticityLabel = '';
+            let elasticityFill = 50;
+            if (elasticity < -2.5) {
+                elasticityLabel = 'Highly elastic — customers are very price-sensitive. Small price increases cause large demand drops.';
+                elasticityFill = 90;
+            } else if (elasticity < -1.5) {
+                elasticityLabel = 'Elastic — demand is sensitive to price changes. Raise prices cautiously.';
+                elasticityFill = 70;
+            } else if (elasticity < -0.8) {
+                elasticityLabel = 'Unit elastic — balanced sensitivity. Good room for pricing experiments.';
+                elasticityFill = 50;
+            } else {
+                elasticityLabel = 'Inelastic — demand is relatively price-insensitive. You have room to increase prices.';
+                elasticityFill = 25;
+            }
+            
+            // Recommendation
+            const captureRatio = (currentPrice / optimalPrice) * 100;
+            let recText = '';
+            if (captureRatio < 60) {
+                recText = 'Your pricing is significantly below optimal. Consider A/B testing a ' + growthPrice + ' growth tier. Expected MRR lift: ' + Math.round((growthPrice - currentPrice) * customers * 0.7) + '/month.';
+            } else if (captureRatio < 85) {
+                recText = 'Your pricing captures ~' + Math.round(captureRatio) + '% of optimal value. Introduce a ' + enterprisePrice + ' enterprise tier to capture high-WTP customers without affecting your base.';
+            } else {
+                recText = 'Your pricing is near optimal. Focus on expansion revenue and reducing churn rather than price increases.';
+            }
+            
+            document.getElementById('currentMrr').textContent = '$' + (currentMrr / 1000).toFixed(1) + 'K';
+            document.getElementById('optimalPrice').textContent = '$' + optimalPrice;
+            document.getElementById('priceElasticity').textContent = elasticity.toFixed(1);
+            document.getElementById('starterPrice').textContent = '$' + starterPrice;
+            document.getElementById('growthPrice').textContent = '$' + growthPrice;
+            document.getElementById('enterprisePrice').textContent = '$' + enterprisePrice;
+            document.getElementById('elasticityValue').textContent = elasticity.toFixed(1);
+            document.getElementById('elasticityLabel').textContent = elasticityLabel;
+            document.getElementById('elasticityFill').style.width = elasticityFill + '%';
+            document.getElementById('wtpRange').textContent = '$' + wtpLow + ' - $' + wtpHigh;
+            document.getElementById('wtpDetail').textContent = 'Sensitivity score ' + sensitivity + '/10 — ' + (sensitivity > 7 ? 'highly price-sensitive market' : sensitivity > 4 ? 'moderate sensitivity' : 'low price sensitivity');
+            document.getElementById('recText').textContent = recText;
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('pricingReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

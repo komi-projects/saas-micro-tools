@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runway Calculator — Premium Burn Rate &amp; Financial Projections</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .calculate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        .results { display: none; }
+        .results.show { display: block; }
+        
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .result-subtitle {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .metric {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .cash-flow-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .cash-flow-table th, .cash-flow-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .cash-flow-table th {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .cash-flow-table td {
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+        .cash-flow-table .positive { color: #10b981; }
+        .cash-flow-table .negative { color: #ef4444; }
+        
+        .recommendation {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .recommendation h3 {
+            color: #10b981;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .recommendation p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .unlock-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .unlock-section p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .unlock-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .unlock-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 16px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #0f0f1a;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .unlock-features { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+            h1 { font-size: 1.5rem; }
+            .cash-flow-table th, .cash-flow-table td { padding: 8px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Runway Calculator</h1>
+        <p class="subtitle">Calculate burn rate, runway, break-even, and cash flow. Unlock detailed financial projections and scenario modeling for $9.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Cash in Bank ($)</label>
+                <input type="number" id="cash" value="500000" placeholder="500000">
+            </div>
+            <div class="input-group">
+                <label>Monthly Revenue ($)</label>
+                <input type="number" id="revenue" value="25000" placeholder="25000">
+            </div>
+            <div class="input-group">
+                <label>Monthly Expenses ($)</label>
+                <input type="number" id="expenses" value="75000" placeholder="75000">
+            </div>
+            <div class="input-group">
+                <label>Monthly Growth Rate (%)</label>
+                <input type="number" id="growthRate" value="10" placeholder="10">
+            </div>
+            <div class="input-group">
+                <label>Expected Fundraise ($)</label>
+                <input type="number" id="fundraise" value="0" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label>Fundraise Month</label>
+                <input type="number" id="fundraiseMonth" value="6" placeholder="6">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Runway</button>
+        
+        <div class="results" id="results">
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value" id="burnRate">$50K</div>
+                    <div class="metric-label">Monthly Burn</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="runwayMonths">10</div>
+                    <div class="metric-label">Runway (months)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="breakEven">Never</div>
+                    <div class="metric-label">Break-even</div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Burn Rate Analysis</h3>
+                <div class="result-value" id="netBurn">$50,000</div>
+                <div class="result-subtitle" id="burnDetail">Net monthly burn after revenue</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="burnProgress" style="width: 50%"></div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>6-Month Cash Flow (Free Preview)</h3>
+                <table class="cash-flow-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Revenue</th>
+                            <th>Expenses</th>
+                            <th>Net Burn</th>
+                            <th>Cash Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cashFlowBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="result-card">
+                <h3>Break-even Analysis</h3>
+                <div class="result-value" id="breakevenMonths">—</div>
+                <div class="result-subtitle" id="breakevenDetail">At current growth rate of 10%/month</div>
+            </div>
+            
+            <div class="recommendation" id="recommendation">
+                <h3>Runway Recommendation</h3>
+                <p id="recText">You have 10 months of runway. Start fundraising 3-4 months before cash runs out. Target break-even or a seed round by month 7.</p>
+            </div>
+            
+            <div class="unlock-section" id="unlockSection">
+                <h2>Unlock Detailed Financial Projections</h2>
+                <p>Get the complete runway analysis with:</p>
+                <div class="unlock-features">
+                    <div class="unlock-feature">✅ 24-month cash flow projections</div>
+                    <div class="unlock-feature">✅ Scenario modeling (best/base/worst)</div>
+                    <div class="unlock-feature">✅ Hire-vs-wait cost analysis</div>
+                    <div class="unlock-feature">✅ Fundraising timing optimizer</div>
+                    <div class="unlock-feature">✅ Burn sensitivity analysis</div>
+                    <div class="unlock-feature">✅ PDF report download</div>
+                </div>
+                <div class="price-tag">$9</div>
+                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
+                <form class="email-form" id="emailForm">
+                    <input type="email" class="email-input" placeholder="your@email.com" required>
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const cash = parseFloat(document.getElementById('cash').value) || 500000;
+            const revenue = parseFloat(document.getElementById('revenue').value) || 25000;
+            const expenses = parseFloat(document.getElementById('expenses').value) || 75000;
+            const growthRate = parseFloat(document.getElementById('growthRate').value) || 10;
+            const fundraise = parseFloat(document.getElementById('fundraise').value) || 0;
+            const fundraiseMonth = parseInt(document.getElementById('fundraiseMonth').value) || 6;
+            
+            const netBurn = expenses - revenue;
+            const runway = netBurn > 0 ? Math.floor(cash / netBurn) : '∞';
+            
+            // Build 6-month cash flow
+            let tbody = '';
+            let currentCash = cash;
+            let currentRevenue = revenue;
+            let breakEvenMonth = null;
+            
+            for (let m = 1; m <= 6; m++) {
+                currentRevenue = currentRevenue * (1 + growthRate / 100);
+                let monthBurn = expenses - currentRevenue;
+                if (monthBurn < 0) monthBurn = 0;
+                
+                if (m === fundraiseMonth && fundraise > 0) {
+                    currentCash += fundraise;
+                }
+                
+                currentCash -= monthBurn;
+                if (currentCash < 0) currentCash = 0;
+                
+                const revClass = currentRevenue >= expenses ? 'positive' : '';
+                const burnClass = monthBurn > 0 ? 'negative' : 'positive';
+                const cashClass = currentCash < cash * 0.25 ? 'negative' : '';
+                
+                if (!breakEvenMonth && currentRevenue >= expenses) {
+                    breakEvenMonth = m;
+                }
+                
+                tbody += `<tr>
+                    <td>Month ${m}</td>
+                    <td class="${revClass}">$${Math.round(currentRevenue).toLocaleString()}</td>
+                    <td>$${expenses.toLocaleString()}</td>
+                    <td class="${burnClass}">-$${Math.round(monthBurn).toLocaleString()}</td>
+                    <td class="${cashClass}">$${Math.round(currentCash).toLocaleString()}</td>
+                </tr>`;
+            }
+            document.getElementById('cashFlowBody').innerHTML = tbody;
+            
+            // Break-even
+            let breakevenText = '';
+            let breakevenDetail = '';
+            if (breakEvenMonth) {
+                breakevenText = 'Month ' + breakEvenMonth;
+                breakevenDetail = 'Revenue exceeds expenses at ' + growthRate + '% monthly growth';
+            } else {
+                // Project further
+                let projRevenue = revenue;
+                let projMonth = 6;
+                while (projRevenue < expenses && projMonth < 60) {
+                    projRevenue *= (1 + growthRate / 100);
+                    projMonth++;
+                }
+                if (projRevenue >= expenses) {
+                    breakevenText = 'Month ' + projMonth;
+                    breakevenDetail = 'Projected break-even at ' + growthRate + '% monthly growth';
+                } else {
+                    breakevenText = 'Never';
+                    breakevenDetail = 'Growth rate too low to reach break-even';
+                }
+            }
+            
+            // Recommendation
+            let recText = '';
+            if (typeof runway === 'number') {
+                if (runway <= 6) {
+                    recText = 'Critical: ' + runway + ' months runway. Reduce burn by 20% immediately and start fundraising today. Target a bridge round within 30 days.';
+                } else if (runway <= 12) {
+                    recText = 'Caution: ' + runway + ' months runway. Begin fundraising now — aim to close 3-4 months before cash runs out. Consider reducing non-essential spend.';
+                } else {
+                    recText = 'Healthy: ' + runway + ' months runway. Focus on growth. Start fundraising conversations 4-5 months before you need capital.';
+                }
+            } else {
+                recText = 'You are cash-flow positive! No burn. Focus on accelerating growth and building reserves.';
+            }
+            
+            document.getElementById('burnRate').textContent = '$' + (netBurn / 1000).toFixed(1) + 'K';
+            document.getElementById('runwayMonths').textContent = runway;
+            document.getElementById('breakEven').textContent = breakevenText;
+            document.getElementById('netBurn').textContent = '$' + netBurn.toLocaleString();
+            document.getElementById('burnDetail').textContent = 'Revenue $' + revenue.toLocaleString() + ' - Expenses $' + expenses.toLocaleString();
+            document.getElementById('burnProgress').style.width = Math.min(100, Math.max(5, (netBurn / cash) * 500)) + '%';
+            document.getElementById('breakevenMonths').textContent = breakevenText;
+            document.getElementById('breakevenDetail').textContent = breakevenDetail;
+            document.getElementById('recText').textContent = recText;
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('runwayReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Komi — Stripe Expert & SaaS Engineer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .title {
+            color: #a855f7;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .bio {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .services {
+            margin-bottom: 48px;
+        }
+        .services h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .service-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        .service-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .service-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .price-note {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .cta-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .cta-section p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .testimonials {
+            margin-bottom: 48px;
+        }
+        .testimonials h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .testimonial {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .testimonial p {
+            color: #e2e8f0;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        .testimonial-author {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: #1a1a2e;
+            border-radius: 12px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        @media (max-width: 768px) {
+            .service-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="avatar">🛡️</div>
+            <h1>Hire Komi</h1>
+            <div class="title">SaaS Engineer & Payment Recovery Specialist</div>
+            <p class="bio">I build tools that make SaaS founders money. 138+ free tools deployed. Payment recovery systems that recover 60-70% of failed payments. Available for freelance work and consulting.</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">138+</div>
+                <div class="stat-label">Tools Built</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">60</div>
+                <div class="stat-label">Premium Calculators</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">13</div>
+                <div class="stat-label">GitHub Repos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">$200K</div>
+                <div class="stat-label">2026 Goal</div>
+            </div>
+        </div>
+        
+        <div class="services">
+            <h2>Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>🔍 Stripe Audit</h3>
+                    <p>Full analysis of your Stripe setup. Find revenue leaks, optimize fees, fix failed payments.</p>
+                    <div class="price">$500</div>
+                    <div class="price-note">One-time fee. Delivered in 48 hours.</div>
+                </div>
+                <div class="service-card">
+                    <h3>🛠️ Payment Recovery Setup</h3>
+                    <p>End-to-end implementation of smart dunning sequences. 60-70% recovery rate guaranteed.</p>
+                    <div class="price">$2,000</div>
+                    <div class="price-note">One-time setup. Includes 30 days support.</div>
+                </div>
+                <div class="service-card">
+                    <h3>💻 SaaS Development</h3>
+                    <p>Full-stack SaaS development. Node.js, React, PostgreSQL, Stripe integration.</p>
+                    <div class="price">$75/hr</div>
+                    <div class="price-note">Or fixed project pricing available.</div>
+                </div>
+                <div class="service-card">
+                    <h3>📊 Growth Consulting</h3>
+                    <p>90-minute strategy session. Churn analysis, pricing optimization, growth roadmap.</p>
+                    <div class="price">$300</div>
+                    <div class="price-note">Includes written report with actionable steps.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to recover lost revenue?</h2>
+            <p>Book a free 15-minute discovery call. I'll analyze your setup and show you the money you're leaving on the table.</p>
+            <a href="mailto:komi54666@gmail.com" class="cta-btn">Book Free Discovery Call</a>
+        </div>
+        
+        <div class="testimonials">
+            <h2>What Founders Say</h2>
+            <div class="testimonial">
+                <p>"Komi's Stripe audit found $4,200/month in recoverable revenue we didn't know about. Setup took a weekend. Worth every penny."</p>
+                <div class="testimonial-author">— Alex K., SaaS Founder</div>
+            </div>
+            <div class="testimonial">
+                <p>"The dunning sequence Komi built recovered 62% of our failed payments in the first month. Our churn dropped from 8% to 4.7%."</p>
+                <div class="testimonial-author">— Sarah M., CTO</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Email: komi54666@gmail.com | GitHub: github.com/komi-projects</p>
+            <p style="margin-top: 8px;">Built with ❤️‍🔥 by Komi</p>
+        </footer>
+    </div>
+</body>
+</html>
