@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Compliance Guide — Free Download</title>
-    <meta name="description" content="Free SaaS compliance guide. Navigate SOC 2, GDPR, HIPAA, and ISO 27001. Build trust with enterprise customers and avoid costly penalties.">
+    <title>SaaS Compliance Guide — SOC 2, GDPR, HIPAA, PCI-DSS</title>
+    <meta name="description" content="Free SaaS compliance guide. Navigate SOC 2, GDPR, HIPAA, and PCI-DSS with confidence. Build trust and close enterprise deals.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -44,19 +44,19 @@
             line-height: 1.6;
             margin-bottom: 12px;
         }
-        .framework-box {
+        .pillar-box {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
         }
-        .framework-name {
+        .pillar-name {
             color: #e2e8f0;
             font-weight: 600;
             margin-bottom: 4px;
         }
-        .framework-detail {
+        .pillar-detail {
             color: #94a3b8;
             font-size: 0.95rem;
         }
@@ -103,129 +103,212 @@
     <div class="container">
         <div class="header">
             <h1>📋 Compliance</h1>
-            <p class="subtitle">Build trust. Pass audits. Sell to enterprise.</p>
+            <p class="subtitle">Navigate SOC 2, GDPR, HIPAA, and PCI-DSS with confidence.</p>
         </div>
         
         <div class="compliance">
             <div class="section">
-                <h2>Why Compliance Matters</h2>
+                <h2>Why Compliance Matters for SaaS</h2>
                 
-                <p>Compliance isn't a checkbox — it's a competitive advantage. Enterprise customers require SOC 2, ISO 27001, or GDPR compliance before they'll sign. Without it, you're stuck in the SMB market.</p>
+                <p>Compliance isn't just paperwork — it's the difference between closing enterprise deals and losing them. When a Fortune 500 company evaluates SaaS vendors, they don't just look at features and pricing. They look at security certifications, data handling practices, and regulatory compliance. "Are you SOC 2 Type II certified?" is often the first question after "What does your product do?"</p>
                 
-                <p>But compliance is also risk management. The frameworks exist because companies lost data, violated privacy, or failed to protect customers. Implementing them early prevents costly incidents later.</p>
+                <p>Compliance is also about risk management. GDPR fines can reach 4% of global revenue. PCI-DSS violations can mean losing the ability to process credit cards. HIPAA breaches can result in criminal charges. Investing in compliance early protects you from existential threats later.</p>
+                
+                <p>The good news: most compliance frameworks overlap significantly. If you build strong security and privacy practices, achieving SOC 2, GDPR, and other certifications becomes much easier. This guide covers the major compliance frameworks SaaS companies need and how to approach them efficiently.</p>
             </div>
             
             <div class="section">
-                <h2>Compliance Frameworks</h2>
+                <h2>SOC 2 (Trust Services Criteria)</h2>
                 
-                <div class="framework-box">
-                    <div class="framework-name">🔒 SOC 2 Type II</div>
-                    <div class="framework-detail">The US enterprise standard. Audited by third parties. Covers security, availability, confidentiality, processing integrity, and privacy. Takes 6-12 months to achieve. Requires policies, evidence, and an auditor. Use Vanta or Drata to automate evidence collection.</div>
+                <p><strong>What it is:</strong> Audit report on your security controls, issued by a CPA firm. The gold standard for B2B SaaS.</p>
+                
+                <p><strong>Two types:</strong></p>
+                <p>• Type I: Point-in-time assessment. Faster, cheaper, less valuable. Good for startups needing quick credibility.
+                • Type II: Controls tested over 3-12 months. More expensive, more valuable. Required by most enterprises.</p>
+                
+                <p><strong>Five Trust Services Criteria:</strong></p>
+                <p>• Security (required): Protection against unauthorized access
+                • Availability: System uptime and reliability
+                • Processing integrity: Data processing is complete, valid, accurate, timely
+                • Confidentiality: Data is protected as committed
+                • Privacy: Personal information is collected, used, retained, disclosed, and disposed of properly</p>
+                
+                <p><strong>How to get it:</strong></p>
+                <p>• Gap assessment: Identify what's missing vs. SOC 2 requirements
+                • Remediation: Fix gaps (access controls, logging, backup testing, etc.)
+                • Audit: CPA firm reviews evidence over observation period (Type II)
+                • Report: Receive SOC 2 report to share with customers
+                • Timeline: 3-6 months for Type I, 6-12 months for Type II
+                • Cost: $10K-50K for audit, plus internal effort</p>
+                
+                <p><strong>Tools to help:</strong> Vanta, Drata, Secureframe, Sprinto (automate evidence collection)</p>
+            </div>
+            
+            <div class="section">
+                <h2>GDPR (General Data Protection Regulation)</h2>
+                
+                <p><strong>What it is:</strong> EU regulation on data protection and privacy. Applies if you process EU residents' data, regardless of your location.</p>
+                
+                <p><strong>Key requirements:</strong></p>
+                <p>• Lawful basis: You need a legal reason to process data (consent, contract, legal obligation, vital interests, public task, legitimate interests)
+                • Consent: Freely given, specific, informed, unambiguous, easily withdrawn
+                • Data minimization: Collect only what's necessary
+                • Purpose limitation: Use data only for stated purposes
+                • Storage limitation: Delete when no longer needed
+                • Accuracy: Keep data up to date, correct errors
+                • Integrity and confidentiality: Secure processing
+                • Accountability: Document compliance, appoint DPO if required
+                • Rights: Users can access, rectify, erase, restrict processing, object, port data
+                • Breach notification: Notify supervisory authority within 72 hours
+                • Cross-border transfers: Safeguards for data leaving EU (SCCs, adequacy decisions)</p>
+                
+                <p><strong>Implementation:</strong></p>
+                <p>• Privacy policy: Clear, comprehensive, accessible
+                • Cookie consent: Banner with opt-in for non-essential cookies
+                • Data processing agreements (DPA): With all subprocessors
+                • Record of processing activities: Document what you process and why
+                • Data protection impact assessment (DPIA): For high-risk processing
+                • Data subject rights workflow: How to handle access/deletion requests
+                • Breach response plan: 72-hour notification process</p>
+            </div>
+            
+            <div class="section">
+                <h2>HIPAA (Health Insurance Portability and Accountability Act)</h2>
+                
+                <p><strong>What it is:</strong> US regulation protecting health information. Applies if you process PHI (Protected Health Information).</p>
+                
+                <p><strong>Key requirements:</strong></p>
+                <p>• Business Associate Agreement (BAA): Required with all healthcare customers
+                • Administrative safeguards: Risk analysis, workforce training, access management
+                • Physical safeguards: Facility access controls, workstation security
+                • Technical safeguards: Access controls, audit controls, integrity controls, transmission security
+                • Breach notification: Notify affected individuals, HHS, and media (if >500 people)</p>
+                
+                <p><strong>Implementation:</strong></p>
+                <p>• BAA template: Standard agreement for healthcare customers
+                • Encryption: At rest and in transit for all PHI
+                • Access controls: Role-based, minimum necessary principle
+                • Audit logging: All PHI access logged and reviewed
+                • Data backup and recovery: Tested regularly
+                • Workforce training: Annual HIPAA training for all employees</p>
+            </div>
+            
+            <div class="section">
+                <h2>PCI-DSS (Payment Card Industry Data Security Standard)</h2>
+                
+                <p><strong>What it is:</strong> Security standard for handling credit card data. Required if you store, process, or transmit cardholder data.</p>
+                
+                <p><strong>Key requirements (12 requirements):</strong></p>
+                <p>1. Firewall configuration: Protect cardholder data environment
+                2. No default passwords: Change all system defaults
+                3. Stored data protection: Encrypt stored cardholder data
+                4. Encrypted transmission: Encrypt across open/public networks
+                5. Anti-virus: Maintain and update regularly
+                6. Secure systems: Patch management, secure development
+                7. Need-to-know access: Restrict by business need
+                8. Unique IDs: Assign unique IDs to each person with computer access
+                9. Physical access: Restrict to cardholder data environment
+                10. Access logging: Log and monitor all access to network resources and cardholder data
+                11. Security testing: Regular vulnerability scans and penetration tests
+                12. Information security policy: Maintain a policy that addresses information security</p>
+                
+                <p><strong>Best practice:</strong> Don't store cardholder data. Use tokenization (Stripe, Braintree) so you never touch raw card numbers.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Other Important Frameworks</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">CCPA/CPRA (California)</div>
+                    <div class="pillar-detail">
+                        California Consumer Privacy Act. Similar to GDPR but focused on sale of data.
+                        • Disclose data collection and sale
+                        • Allow opt-out of data sale
+                        • Delete data on request
+                        • Non-discrimination for privacy choices
+                    </div>
                 </div>
                 
-                <div class="framework-box">
-                    <div class="framework-name">🌍 ISO 27001</div>
-                    <div class="framework-detail">International information security standard. More comprehensive than SOC 2 but less US-specific. Required by European and global enterprises. Requires risk assessment, security controls, and regular audits. Certification valid for 3 years.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">ISO 27001</div>
+                    <div class="pillar-detail">
+                        International standard for information security management.
+                        • More comprehensive than SOC 2
+                        • Required by some international enterprises
+                        • 3-year certification cycle with annual surveillance audits
+                    </div>
                 </div>
                 
-                <div class="framework-box">
-                    <div class="framework-name">🇪🇺 GDPR (EU)</div>
-                    <div class="framework-detail">EU data protection regulation. Applies if you have ANY EU users. Right to access, delete, and port data. Consent for tracking. Data Processing Agreements (DPAs) with subprocessors. Fines up to 4% of global revenue. Not optional.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">FedRAMP (US Federal)</div>
+                    <div class="pillar-detail">
+                        Required for SaaS selling to US federal agencies.
+                        • Three levels: Low, Moderate, High (based on data sensitivity)
+                        • Extensive documentation and continuous monitoring
+                        • Typically 12-18 months, $250K+ cost
+                    </div>
                 </div>
                 
-                <div class="framework-box">
-                    <div class="framework-name">🇺🇸 CCPA/CPRA (California)</div>
-                    <div class="framework-detail">California privacy law. Similar to GDPR but narrower. "Do Not Sell My Info" links. Disclosure of data collection. Opt-out for data sales. Applies if you have California users and meet revenue/data thresholds.</div>
-                </div>
-                
-                <div class="framework-box">
-                    <div class="framework-name">🏥 HIPAA (Healthcare)</div>
-                    <div class="framework-detail">Required if you touch Protected Health Information (PHI). Business Associate Agreements (BAAs), encryption everywhere, access controls, audit trails. Non-negotiable for healthcare SaaS. Penalties: $100-$50,000 per violation, up to $1.5M per year.</div>
-                </div>
-                
-                <div class="framework-box">
-                    <div class="framework-name">💳 PCI DSS (Payments)</div>
-                    <div class="framework-detail">Required if you store, process, or transmit cardholder data. Most SaaS companies avoid this by using Stripe/PayPal (they handle PCI). If you touch raw card numbers, you need PCI compliance. Complex, expensive, avoid if possible.</div>
+                <div class="pillar-box">
+                    <div class="pillar-name">COPPA (Children's Privacy)</div>
+                    <div class="pillar-detail">
+                        If your product is for children under 13 or you know you collect their data.
+                        • Verifiable parental consent required
+                        • Specific data minimization rules
+                        • Parental rights to review and delete data
+                    </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>Compliance Roadmap</h2>
+                <h2>Compliance Strategy</h2>
                 
-                <p><strong>Stage 1: Foundation (Month 1-2)</strong></p>
+                <p><strong>1. Start with SOC 2 Type I:</strong> Fastest path to enterprise credibility. Builds foundation for everything else.</p>
                 
-                <p>• Appoint a compliance lead (can be CTO/founder initially)<br>
-                • Document current security practices<br>
-                • Identify gaps against target framework<br>
-                • Implement basic controls: MFA, encryption, access control, audit logging<br>
-                • Create policy documents (acceptable use, data handling, incident response)</p>
+                <p><strong>2. Layer GDPR on top:</strong> Most overlap with SOC 2 (security, access controls, logging). Add privacy-specific controls (consent, data subject rights, cross-border transfers).</p>
                 
-                <p><strong>Stage 2: Implementation (Month 3-6)</strong></p>
+                <p><strong>3. Add industry-specific as needed:</strong> HIPAA for healthcare, PCI-DSS if you store cards, FedRAMP for federal.</p>
                 
-                <p>• Deploy security tools (SIEM, vulnerability scanning, DLP)<br>
-                • Implement formal access review process<br>
-                • Train employees on security policies<br>
-                • Establish vendor risk management<br>
-                • Complete penetration testing<br>
-                • Implement backup and disaster recovery</p>
+                <p><strong>4. Automate evidence collection:</strong> Use compliance platforms (Vanta, Drata) to continuously collect evidence. Manual evidence gathering is a full-time job.</p>
                 
-                <p><strong>Stage 3: Evidence Collection (Month 7-9)</strong></p>
+                <p><strong>5. Build compliance into engineering:</strong> Infrastructure as code, automated testing, security scanning, audit logging — make compliance a byproduct of good engineering.</p>
                 
-                <p>• Collect evidence for 3-6 months (SOC 2 requires historical evidence)<br>
-                • Use compliance automation tools (Vanta, Drata, Secureframe)<br>
-                • Conduct internal audits<br>
-                • Fix any remaining gaps<br>
-                • Prepare for external audit</p>
-                
-                <p><strong>Stage 4: Audit (Month 10-12)</strong></p>
-                
-                <p>• Engage third-party auditor<br>
-                • Provide evidence repository<br>
-                • Address auditor findings<br>
-                • Receive report/certification<br>
-                • Market compliance to customers</p>
+                <p><strong>6. Customer trust center:</strong> Publish security whitepaper, SOC 2 report access, penetration test summaries, and compliance certifications in one place.</p>
             </div>
             
             <div class="section">
-                <h2>Compliance Automation</h2>
+                <h2>Compliance Checklist</h2>
                 
-                <p>Manual compliance is painful. Automation tools collect evidence, monitor controls, and prepare audit packages:</p>
-                
-                <p><strong>Vanta:</strong> Automated evidence collection, policy templates, auditor network. $15K-$50K/year depending on company size. Most popular for SOC 2.</p>
-                
-                <p><strong>Drata:</strong> Similar to Vanta. Strong integration ecosystem. Real-time control monitoring. Good for continuous compliance.</p>
-                
-                <p><strong>Secureframe:</strong> Policy templates, automated evidence, auditor marketplace. Competitive pricing.</p>
-                
-                <p><strong>Scalable (open source):</strong> If budget is tight, you can manually collect evidence, write policies from templates, and hire an auditor directly. More work, lower cost. Many YC companies do this for their first SOC 2.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Compliance as Sales Enablement</h2>
-                
-                <p>Don't hide your compliance — market it:</p>
-                
-                <p>• <strong>Trust center:</strong> Public page with compliance reports, security whitepapers, and certifications. "Security & Compliance" link in footer.<br>
-                • <strong>Security questionnaire:</strong> Pre-fill answers to common enterprise security questions. Share proactively during sales.<br>
-                • <strong>Case studies:</strong> "How we achieved SOC 2 in 6 months" — content marketing that builds trust.<br>
-                • <strong>Pricing:</strong> Enterprise tier includes "SOC 2 audit reports" as a feature. Makes compliance visible in the buying process.</p>
-            </div>
-            
-            <div class="section">
-                <h2>Compliance Metrics</h2>
-                
-                <p>• <strong>Audit findings:</strong> Count of critical/high/medium findings. Trending down = improving.<br>
-                • <strong>Policy adherence:</strong> % of employees who've completed security training. Target: 100%.<br>
-                • <strong>Access review completion:</strong> % of quarterly access reviews completed on time. Target: 100%.<br>
-                • <strong>Vulnerability patch time:</strong> Days from disclosure to patch. Target: < 7 days critical, < 30 days high.<br>
-                • <strong>Penetration test findings:</strong> Count of findings per test. Should decrease over time.<br>
-                • <strong>Compliance-driven revenue:</strong> % of enterprise deals that mention compliance as a decision factor. Track to prove ROI.</p>
+                <p>☐ SOC 2 Type I completed (if selling to SMB/mid-market)
+                ☐ SOC 2 Type II in progress (if selling to enterprise)
+                ☐ GDPR compliance assessed and documented
+                ☐ Privacy policy published and up to date
+                ☐ Cookie consent implemented
+                ☐ Data Processing Agreements (DPAs) with all subprocessors
+                ☐ Data subject rights workflow defined and tested
+                ☐ 72-hour breach notification process documented
+                ☐ Cross-border transfer mechanisms in place (SCCs)
+                ☐ HIPAA BAA template ready (if applicable)
+                ☐ PCI-DSS compliance assessed (if storing card data)
+                ☐ Tokenization implemented (Stripe/Braintree) to avoid PCI scope
+                ☐ CCPA/CPRA compliance (if serving California residents)
+                ☐ ISO 27001 gap assessment (if required by customers)
+                ☐ Compliance automation platform deployed (Vanta/Drata/Secureframe)
+                ☐ Security whitepaper published
+                ☐ Customer trust center page live
+                ☐ Annual penetration testing scheduled
+                ☐ Quarterly compliance review meetings scheduled
+                ☐ Employee security and privacy training completed
+                ☐ Incident response plan includes regulatory notification requirements
+                ☐ Data retention and deletion policies documented and automated
+                ☐ Audit logs retained for required periods (SOC 2: 1 year, PCI: 1 year, HIPAA: 6 years)
+                ☐ Compliance roadmap defined (which certifications, in what order, by when)</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Compliance Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with framework comparisons, audit checklists, and policy templates.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with framework comparison, implementation roadmaps, and template library.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
