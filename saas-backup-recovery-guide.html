@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Backup & Recovery Guide — Free Download</title>
+    <meta name="description" content="Free SaaS backup and recovery guide. Protect your data, build resilient systems, and recover from failures with confidence.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .backup {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .strategy-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .strategy-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .strategy-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💾 Backup & Recovery</h1>
+            <p class="subtitle">Protect your data. Sleep at night.</p>
+        </div>
+        
+        <div class="backup">
+            <div class="section">
+                <h2>The 3-2-1 Backup Rule</h2>
+                
+                <p>3 copies of your data, on 2 different media, with 1 offsite. This is the gold standard for data protection. In SaaS, it translates to: primary database, replica/snapshot, and offsite/cloud backup.</p>
+                
+                <p>Why? Because hardware fails, humans make mistakes, and disasters happen. A backup you can't restore is worthless. Test your backups monthly.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Database Backups</h2>
+                
+                <div class="strategy-box">
+                    <div class="strategy-name">🔄 Continuous Replication</div>
+                    <div class="strategy-detail">Streaming replication to a standby server. Near-zero RPO (Recovery Point Objective). Used for HA, not primary backup. If primary corrupts data, replica gets corrupted too. Always pair with point-in-time backups.</div>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-name">📸 Snapshots</div>
+                    <div class="strategy-detail">Point-in-time disk snapshots (AWS EBS, GCP Persistent Disk). Fast to create, fast to restore. Good for disaster recovery. Take daily, retain 7-30 days. Not a substitute for logical backups (can't restore individual rows easily).</div>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-name">💾 Logical Backups (SQL Dumps)</div>
+                    <div class="strategy-detail">Export database as SQL (pg_dump, mysqldump). Can restore individual tables or rows. Slower to create and restore than snapshots. Essential for granular recovery. Run daily, retain 30 days locally, 90 days in cloud storage.</div>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-name">☁️ Offsite/Cloud Backups</div>
+                    <div class="strategy-detail">Upload backups to separate cloud provider (AWS S3, GCS, Backblaze B2). Cross-region replication for maximum resilience. If your primary cloud fails, backups are in a different provider. Retain 90 days minimum, 1 year for compliance.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Backup Strategies by Data Type</h2>
+                
+                <p><strong>Transactional Data (Database):</strong></p>
+                
+                <p>• Full backup: Daily at low-traffic hours (2-4 AM)
+                • Incremental/wal archiving: Continuous, for point-in-time recovery
+                • Retention: 7 daily, 4 weekly, 12 monthly
+                • Testing: Restore to staging environment weekly
+                • Encryption: Encrypt at rest and in transit</p>
+                
+                <p><strong>File Storage (S3, uploads):</strong></p>
+                
+                <p>• Versioning: Enable object versioning on S3
+                • Cross-region replication: Replicate to different region
+                • Lifecycle policies: Move old versions to cheaper storage (Glacier)
+                • Integrity: Checksums (SHA-256) to detect corruption</p>
+                
+                <p><strong>Application Code:</strong></p>
+                
+                <p>• Git repository: Already distributed (every clone is a backup)
+                • Multiple remotes: Push to GitHub AND GitLab AND self-hosted
+                • Release artifacts: Store Docker images, build artifacts in registry with versioning
+                • Infrastructure as code: Terraform/CloudFormation configs in version control</p>
+                
+                <p><strong>Configuration & Secrets:</strong></p>
+                
+                <p>• Environment configs: Version controlled (not secrets)
+                • Secrets: Encrypted backup of secret manager (HashiCorp Vault, AWS Secrets Manager)
+                • API keys: Documented with rotation procedures
+                • SSL certificates: Automated renewal (Let's Encrypt) + backup of private keys</p>
+            </div>
+            
+            <div class="section">
+                <h2>Recovery Objectives</h2>
+                
+                <p><strong>RPO (Recovery Point Objective):</strong> Maximum acceptable data loss. How much data can you afford to lose? RPO = 1 hour means you can lose up to 1 hour of data. Set by business requirements, not technical convenience.</p>
+                
+                <p><strong>RTO (Recovery Time Objective):</strong> Maximum acceptable downtime. How long can you be down? RTO = 4 hours means service must be restored within 4 hours. Again, business-driven.</p>
+                
+                <p><strong>Common SaaS targets:</strong></p>
+                
+                <p>• Tier 1 (core database): RPO < 1 hour, RTO < 4 hours
+                • Tier 2 (file storage): RPO < 24 hours, RTO < 8 hours
+                • Tier 3 (analytics): RPO < 24 hours, RTO < 24 hours
+                • Tier 4 (marketing site): RPO < 72 hours, RTO < 4 hours</p>
+            </div>
+            
+            <div class="section">
+                <h2>Testing Recovery</h2>
+                
+                <p>Untested backups are Schrödinger's backups — they simultaneously exist and don't exist until you try to restore. Test monthly:</p>
+                
+                <p>1. Restore database to isolated staging environment
+                2. Verify data integrity (row counts, checksums, spot checks)
+                3. Verify application works with restored data
+                4. Document recovery time
+                5. Fix any issues found
+                6. Update runbooks with actual recovery steps</p>
+                
+                <p><strong>Chaos engineering:</strong> Simulate failures. Kill a database node during business hours (in staging!). Trigger a restore from backup. Does your team know what to do? Does the process work? Fix gaps before real disasters.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Backup Tools</h2>
+                
+                <p><strong>Managed:</strong> AWS RDS automated backups, GCP Cloud SQL backups, Azure Database backups. Set and forget, but verify they work.</p>
+                
+                <p><strong>Open source:</strong> pgBackRest (PostgreSQL), Percona XtraBackup (MySQL), Restic (universal, encrypts and deduplicates), BorgBackup (deduplication, compression).</p>
+                
+                <p><strong>SaaS:</strong> Rewind (Shopify, QuickBooks), Backupify (Google Workspace, Salesforce), OwnBackup (Salesforce). Good for third-party SaaS you depend on.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Backup & Recovery Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with recovery playbooks, RPO/RTO templates, and testing procedures.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('backupRecoveryEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
