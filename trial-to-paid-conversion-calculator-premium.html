@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Trial-to-Paid Conversion Calculator — Premium</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .results { display: none; }
+        .results.show { display: block; }
+        .result-card {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 { font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+        .result-value { font-size: 2rem; font-weight: 700; color: #6366f1; }
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Trial-to-Paid Conversion Calculator</h1>
+        <p class="subtitle">Calculate trial conversion rates and optimize your trial funnel.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Trial Signups/Month</label>
+                <input type="number" id="trials" value="100" placeholder="100">
+            </div>
+            <div class="input-group">
+                <label>Trial-to-Paid Conversion (%)</label>
+                <input type="number" id="conversion" value="20" placeholder="20">
+            </div>
+            <div class="input-group">
+                <label>Paid Plan Price ($/mo)</label>
+                <input type="number" id="price" value="49" placeholder="49">
+            </div>
+            <div class="input-group">
+                <label>Trial Length (days)</label>
+                <input type="number" id="trialLength" value="14" placeholder="14">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Conversion</button>
+        
+        <div class="results" id="results">
+            <div class="result-card">
+                <h3>Monthly Paid Conversions</h3>
+                <div class="result-value" id="paid">20</div>
+            </div>
+            <div class="result-card">
+                <h3>Monthly Revenue from Trials</h3>
+                <div class="result-value" id="revenue">$980</div>
+            </div>
+            <div class="result-card">
+                <h3>Conversion Health</h3>
+                <div class="result-value" id="health">Good</div>
+            </div>
+            
+            <div class="unlock-section">
+                <h2>🔓 Unlock Trial Optimization Playbook</h2>
+                <p>Get 15 tactics to boost trial-to-paid conversion rates.</p>
+                <div style="font-size: 2.5rem; font-weight: 700; color: #6366f1; margin-bottom: 16px;">$9</div>
+                <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto 16px;">
+                    <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const trials = parseFloat(document.getElementById('trials').value) || 0;
+            const conversion = parseFloat(document.getElementById('conversion').value) || 0;
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            
+            const paid = trials * (conversion / 100);
+            const revenue = paid * price;
+            
+            let health = 'Poor';
+            if (conversion >= 25) health = 'Excellent';
+            else if (conversion >= 15) health = 'Good';
+            else if (conversion >= 10) health = 'Fair';
+            
+            document.getElementById('paid').textContent = paid.toFixed(0);
+            document.getElementById('revenue').textContent = '$' + revenue.toLocaleString();
+            document.getElementById('health').textContent = health;
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('trialConversionReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
