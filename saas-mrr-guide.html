@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS MRR Guide — Free Download</title>
+    <meta name="description" content="Free SaaS MRR guide. Understand Monthly Recurring Revenue, track it correctly, and use MRR movements to diagnose business health.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .mrr {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 1rem;
+        }
+        .component-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .component-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .component-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 MRR Guide</h1>
+            <p class="subtitle">Master Monthly Recurring Revenue.</p>
+        </div>
+        
+        <div class="mrr">
+            <div class="section">
+                <h2>What is MRR?</h2>
+                
+                <p>Monthly Recurring Revenue is the predictable revenue your SaaS generates every month from subscriptions. It's the North Star metric for SaaS businesses because it reflects sustainable, repeatable income.</p>
+                
+                <div class="formula-box">
+                    <div class="formula">MRR = Σ (Monthly Subscription Revenue from Active Customers)</div>
+                </div>
+                
+                <p><strong>Key principle:</strong> MRR excludes one-time fees, setup charges, and non-recurring revenue. Only count what repeats monthly.</p>
+            </div>
+            
+            <div class="section">
+                <h2>MRR Movements</h2>
+                
+                <div class="component-box">
+                    <div class="component-name">📈 New MRR</div>
+                    <div class="component-detail">Revenue from new customers in the period.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">📊 Expansion MRR</div>
+                    <div class="component-detail">Additional revenue from existing customers (upgrades, more seats, usage increases).</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">📉 Churned MRR</div>
+                    <div class="component-detail">Lost revenue from canceled customers.</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">📉 Contraction MRR</div>
+                    <div class="component-detail">Lost revenue from downgrades or usage decreases (customer stays but pays less).</div>
+                </div>
+                
+                <div class="component-box">
+                    <div class="component-name">📈 Reactivation MRR</div>
+                    <div class="component-detail">Revenue from previously churned customers who returned.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Net MRR Growth</h2>
+                
+                <div class="formula-box">
+                    <div class="formula">Net MRR Growth = New MRR + Expansion MRR + Reactivation MRR - Churned MRR - Contraction MRR</div>
+                </div>
+                
+                <p><strong>Example:</strong></p>
+                <p>Starting MRR: $50,000<br>
+                New: +$8,000 | Expansion: +$3,000 | Reactivation: +$1,000<br>
+                Churned: -$4,000 | Contraction: -$1,000<br><br>
+                Net MRR Change: +$7,000<br>
+                Ending MRR: $57,000 (14% monthly growth)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Common Mistakes</h2>
+                
+                <p>❌ <strong>Including one-time fees.</strong> Setup fees, implementation, consulting — these are not MRR.</p>
+                
+                <p>❌ <strong>Counting annual contracts as monthly.</strong> A $12,000 annual contract = $1,000 MRR, not $12,000.</p>
+                
+                <p>❌ <strong>Ignoring late payments.</strong> If a customer hasn't paid in 60+ days, exclude them from MRR.</p>
+                
+                <p>❌ <strong>Mixing currencies.</strong> Convert all revenue to your reporting currency.</p>
+            </div>
+            
+            <div class="section">
+                <h2>MRR Growth Rate Benchmarks</h2>
+                
+                <p>• <strong>Seed ($0-$1M ARR):</strong> 15-20% monthly growth<br>
+                • <strong>Series A ($1M-$5M ARR):</strong> 10-15% monthly growth<br>
+                • <strong>Series B ($5M-$20M ARR):</strong> 5-10% monthly growth<br>
+                • <strong>Scale ($20M+ ARR):</strong> 2-5% monthly growth</p>
+                
+                <p><strong>Rule of thumb:</strong> Double ARR every year until $10M. Then growth naturally slows.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full MRR Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with MRR tracking spreadsheet, forecasting model, and investor reporting template.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('mrrGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
