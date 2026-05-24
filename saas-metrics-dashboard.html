@@ -1,192 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SaaS Metrics Dashboard — SimpleRecover</title>
-<style>
-:root{--bg:#0f0f1a;--surface:#16162a;--surface2:#1e1e3a;--text:#e8e8f0;--text2:#a0a0c0;--accent:#6366f1;--accent2:#8b5cf6;--accent3:#a78bfa;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--gold:#fbbf24}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
-.container{max-width:1200px;margin:0 auto;padding:20px}
-header{text-align:center;padding:40px 0 30px}
-header h1{font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-header p{color:var(--text2);font-size:1.1rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
-.card{background:var(--surface);border:1px solid rgba(99,102,241,0.15);border-radius:16px;padding:24px;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-3px);border-color:rgba(99,102,241,0.35)}
-.card h2{font-size:.9rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.card h2::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.metric-value{font-size:2.6rem;font-weight:800;margin-bottom:4px}
-.metric-label{font-size:.85rem;color:var(--text2)}
-.metric-change{font-size:.9rem;margin-top:8px;font-weight:600}
-.up{color:var(--success)}.down{color:var(--danger)}.neutral{color:var(--warning)}
-.input-group{margin-bottom:16px}
-.input-group label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:6px}
-.input-group input,.input-group select{width:100%;padding:12px 14px;background:var(--surface2);border:1px solid rgba(99,102,241,0.2);border-radius:10px;color:var(--text);font-size:1rem;outline:none;transition:border-color .2s}
-.input-group input:focus,.input-group select:focus{border-color:var(--accent)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .2s}
-.btn:hover{opacity:.9;transform:translateY(-1px)}
-.btn-secondary{background:var(--surface2);border:1px solid rgba(99,102,241,0.3)}
-.visual{height:140px;margin-top:16px;border-radius:10px;position:relative;overflow:hidden;background:var(--surface2)}
-.bar{position:absolute;bottom:0;width:12%;border-radius:4px 4px 0 0;transition:height .6s ease;background:linear-gradient(180deg,var(--accent),var(--accent2))}
-.locked{position:relative;overflow:hidden}
-.locked::after{content:"🔒";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:.15}
-.lock-overlay{position:absolute;inset:0;background:rgba(15,15,26,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:16px;z-index:10}
-.lock-overlay p{color:var(--text2);font-size:.9rem}
-.email-capture{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:400px;width:100%}
-.email-capture input{flex:1;min-width:180px;padding:12px 16px;background:var(--surface2);border:1px solid rgba(99,102,241,0.3);border-radius:10px;color:var(--text);font-size:.9rem;outline:none}
-.email-capture button{padding:12px 20px;background:linear-gradient(135deg,var(--gold),#f59e0b);color:#0f0f1a;border:none;border-radius:10px;font-weight:700;cursor:pointer;white-space:nowrap}
-.stats-row{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:20px 24px;background:var(--surface);border:1px solid rgba(99,102,241,0.15);border-radius:16px;margin-bottom:20px}
-.stats-row .stat{text-align:center}
-.stats-row .stat .num{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stats-row .stat .lbl{font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
-.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(99,102,241,.15);color:var(--accent3);border:1px solid rgba(99,102,241,.2)}
-footer{text-align:center;padding:40px 0;color:var(--text2);font-size:.85rem}
-footer a{color:var(--accent3);text-decoration:none}
-.gauge{height:8px;background:var(--surface2);border-radius:4px;margin-top:12px;overflow:hidden}
-.gauge-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s ease}
-@media(max-width:768px){.container{padding:14px}header h1{font-size:1.7rem}.grid{grid-template-columns:1fr}.metric-value{font-size:2rem}.stats-row{gap:14px}.stats-row .stat .num{font-size:1.4rem}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Dashboard — Interactive Calculator</title>
+    <meta name="description" content="Interactive SaaS metrics dashboard showing MRR, churn, LTV, CAC, NRR, and growth. Calculate and visualize all key SaaS metrics in one view.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .metric-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .metric-delta {
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .positive { color: #10b981; }
+        .negative { color: #ef4444; }
+        .input-section {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .input-section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .chart-area {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .chart-area h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+        }
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 200px;
+            padding: 20px 0;
+        }
+        .bar {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 4px 4px 0 0;
+            min-height: 4px;
+            transition: height 0.3s ease;
+        }
+        .bar-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        .locked-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+        }
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 26, 0.9);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .unlock-text {
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .unlock-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<header>
-<h1>SaaS Metrics Dashboard</h1>
-<p>Calculate and visualize every metric that matters. Basic metrics free — full dashboard export unlocked with email.</p>
-</header>
-
-<section class="stats-row">
-<div class="stat"><div class="num" id="stat-mrr">$0</div><div class="lbl">MRR</div></div>
-<div class="stat"><div class="num" id="stat-ltv">$0</div><div class="lbl">LTV</div></div>
-<div class="stat"><div class="num" id="stat-cac">$0</div><div class="lbl">CAC</div></div>
-<div class="stat"><div class="num" id="stat-nrr">0%</div><div class="lbl">NRR</div></div>
-<div class="stat"><div class="num" id="stat-churn">0%</div><div class="lbl">Churn</div></div>
-</section>
-
-<div class="grid">
-<div class="card">
-<h2>Revenue Inputs</h2>
-<div class="input-group"><label>Monthly Recurring Revenue ($)</label><input type="number" id="mrr" value="25000" oninput="calc()"></div>
-<div class="input-group"><label>Average Revenue Per User ($)</label><input type="number" id="arpu" value="99" oninput="calc()"></div>
-<div class="input-group"><label>Growth Rate (% / month)</label><input type="number" id="growth" value="8" oninput="calc()"></div>
-<div class="metric-value" id="arr">$300K</div><div class="metric-label">Annual Run Rate</div>
-</div>
-
-<div class="card">
-<h2>Customer Metrics</h2>
-<div class="input-group"><label>Total Customers</label><input type="number" id="customers" value="253" oninput="calc()"></div>
-<div class="input-group"><label>Monthly Churn Rate (%)</label><input type="number" id="churn" value="3.5" step="0.1" oninput="calc()"></div>
-<div class="input-group"><label>New Customers / Month</label><input type="number" id="newCust" value="22" oninput="calc()"></div>
-<div class="metric-value" id="ltv">$2,829</div><div class="metric-label">Customer Lifetime Value</div>
-<div class="gauge"><div class="gauge-fill" id="ltv-gauge" style="width:45%"></div></div>
-</div>
-
-<div class="card">
-<h2>Acquisition</h2>
-<div class="input-group"><label>Monthly Ad Spend ($)</label><input type="number" id="adSpend" value="5000" oninput="calc()"></div>
-<div class="input-group"><label>Sales Team Cost ($ / mo)</label><input type="number" id="salesCost" value="8000" oninput="calc()"></div>
-<div class="input-group"><label>Other CAC ($ / mo)</label><input type="number" id="otherCac" value="1500" oninput="calc()"></div>
-<div class="metric-value" id="cac">$568</div><div class="metric-label">Customer Acquisition Cost</div>
-<div class="metric-change" id="ltv-cac">LTV:CAC = 5.0x</div>
-</div>
-
-<div class="card">
-<h2>Retention & Expansion</h2>
-<div class="input-group"><label>Expansion Revenue ($ / mo)</label><input type="number" id="expansion" value="1200" oninput="calc()"></div>
-<div class="input-group"><label>Contraction Revenue ($ / mo)</label><input type="number" id="contraction" value="400" oninput="divcalc()"></div>
-<div class="input-group"><label>Gross Margin (%)</label><input type="number" id="margin" value="75" oninput="calc()"></div>
-<div class="metric-value" id="nrr">108%</div><div class="metric-label">Net Revenue Retention</div>
-<div class="metric-change up" id="nrr-health">Healthy (&gt;100%)</div>
-</div>
-</div>
-
-<div class="card" style="margin-bottom:20px">
-<h2>12-Month Projection</h2>
-<div class="visual" id="chart"></div>
-</div>
-
-<div class="card locked" style="position:relative">
-<h2>Full Dashboard Export <span class="pill">PRO</span></h2>
-<p style="color:var(--text2);margin-bottom:12px">Export complete dashboard with cohort tables, CSV download, PDF report, and benchmark comparisons.</p>
-<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px">
-<div style="flex:1;min-width:200px;padding:16px;background:var(--surface2);border-radius:12px"><div style="font-size:1.4rem;font-weight:800">CSV + PDF</div><div style="font-size:.8rem;color:var(--text2)">Export all metrics</div></div>
-<div style="flex:1;min-width:200px;padding:16px;background:var(--surface2);border-radius:12px"><div style="font-size:1.4rem;font-weight:800">Benchmarks</div><div style="font-size:.8rem;color:var(--text2)">Compare to peers</div></div>
-<div style="flex:1;min-width:200px;padding:16px;background:var(--surface2);border-radius:12px"><div style="font-size:1.4rem;font-weight:800">Cohorts</div><div style="font-size:.8rem;color:var(--text2)">Retention tables</div></div>
-</div>
-<div class="lock-overlay" id="lock1">
-<p>Unlock full export for <strong style="color:var(--gold)">$9</strong> — one-time purchase</p>
-<div class="email-capture"><input type="email" id="email1" placeholder="your@email.com"><button onclick="unlock('lock1','email1')">Unlock Now</button></div>
-</div>
-</div>
-
-<footer>Built by <a href="https://simplerecover.io">SimpleRecover</a> · The payment recovery toolkit for SaaS founders</footer>
-</div>
-
-<script>
-function fmt$(n){return '$'+Math.round(n).toLocaleString()}
-function fmtPct(n){return n.toFixed(1)+'%'}
-function calc(){
- const mrr=+document.getElementById('mrr').value||0;
- const arpu=+document.getElementById('arpu').value||0;
- const growth=+document.getElementById('growth').value||0;
- const customers=+document.getElementById('customers').value||1;
- const churn=+document.getElementById('churn').value||0;
- const newCust=+document.getElementById('newCust').value||0;
- const adSpend=+document.getElementById('adSpend').value||0;
- const salesCost=+document.getElementById('salesCost').value||0;
- const otherCac=+document.getElementById('otherCac').value||0;
- const expansion=+document.getElementById('expansion').value||0;
- const contraction=+document.getElementById('contraction').value||0;
- const margin=+document.getElementById('margin').value||0;
- const arr=mrr*12;
- const ltv=churn>0?(arpu*margin/100)/(churn/100):arpu*margin/100*24;
- const totalCacSpend=adSpend+salesCost+otherCac;
- const cac=newCust>0?totalCacSpend/newCust:0;
- const nrr=mrr>0?((mrr+expansion-contraction)/mrr)*100:100;
- const ltvCac=cac>0?ltv/cac:0;
- const churnHealth=churn<=2?'Excellent':churn<=5?'Fair':'Needs Work';
- document.getElementById('arr').textContent=fmt$(arr);
- document.getElementById('ltv').textContent=fmt$(ltv);
- document.getElementById('cac').textContent=fmt$(cac);
- document.getElementById('nrr').textContent=fmtPct(nrr);
- document.getElementById('ltv-cac').textContent='LTV:CAC = '+ltvCac.toFixed(1)+'x';
- const nrrEl=document.getElementById('nrr-health');
- nrrEl.textContent=nrr>=100?'Healthy (>100%)':nrr>=90?'Warning (<100%)':'Critical (<90%)';
- nrrEl.className='metric-change '+(nrr>=100?'up':nrr>=90?'neutral':'down');
- document.getElementById('stat-mrr').textContent=fmt$(mrr);
- document.getElementById('stat-ltv').textContent=fmt$(ltv);
- document.getElementById('stat-cac').textContent=fmt$(cac);
- document.getElementById('stat-nrr').textContent=fmtPct(nrr);
- document.getElementById('stat-churn').textContent=fmtPct(churn);
- const maxLTV=50000;
- document.getElementById('ltv-gauge').style.width=Math.min(100,(ltv/maxLTV)*100)+'%';
- renderChart(mrr,growth/100);
-}
-function renderChart(startMRR,growthRate){
- const chart=document.getElementById('chart');
- chart.innerHTML='';
- let m=startMRR;
- const vals=[];
- for(let i=0;i<12;i++){vals.push(m);m*=1+growthRate}
- const max=Math.max(...vals);
- vals.forEach((v,i)=>{
-  const bar=document.createElement('div');
-  bar.className='bar';
-  bar.style.left=(8+i*8)+'%';
-  bar.style.height=(v/max*85+5)+'%';
-  bar.style.width='6%';
-  bar.style.opacity=.6+i/24;
-  chart.appendChild(bar);
- });
-}
-function unlock(lockId,emailId){
- const email=document.getElementById(emailId).value;
- if(!email||!email.includes('@')){alert('Please enter a valid email.');return}
- alert('Thanks! Unlock link sent to '+email);
- document.getElementById(lockId).style.display='none';
-}
-calc();
-</script>
+    <div class="container">
+        <div class="header">
+            <h1>📊 SaaS Metrics Dashboard</h1>
+            <p class="subtitle">Calculate and visualize all key SaaS metrics in one view.</p>
+        </div>
+        
+        <div class="input-section">
+            <h2>Your Numbers</h2>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>MRR ($)</label>
+                    <input type="number" id="mrr" value="10000" onchange="calculateMetrics()">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Churn (%)</label>
+                    <input type="number" id="churn" value="5" step="0.1" onchange="calculateMetrics()">
+                </div>
+                <div class="input-group">
+                    <label>ARPU ($)</label>
+                    <input type="number" id="arpu" value="50" onchange="calculateMetrics()">
+                </div>
+                <div class="input-group">
+                    <label>CAC ($)</label>
+                    <input type="number" id="cac" value="200" onchange="calculateMetrics()">
+                </div>
+                <div class="input-group">
+                    <label>Gross Margin (%)</label>
+                    <input type="number" id="margin" value="80" onchange="calculateMetrics()">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Growth (%)</label>
+                    <input type="number" id="growth" value="10" step="0.1" onchange="calculateMetrics()">
+                </div>
+            </div>
+        </div>
+        
+        <div class="metrics-grid" id="metricsGrid">
+            <div class="metric-card">
+                <div class="metric-label">MRR</div>
+                <div class="metric-value" id="mrrDisplay">$10,000</div>
+                <div class="metric-delta positive" id="mrrDelta">+$1,000/mo growth</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">LTV</div>
+                <div class="metric-value" id="ltvDisplay">$800</div>
+                <div class="metric-delta" id="ltvContext">4.0x CAC</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">LTV/CAC</div>
+                <div class="metric-value" id="ltvCacDisplay">4.0x</div>
+                <div class="metric-delta positive" id="ltvCacContext">Healthy (3x+ target)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Payback Period</div>
+                <div class="metric-value" id="paybackDisplay">5.0 mo</div>
+                <div class="metric-delta positive" id="paybackContext">Good (&lt;12mo target)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Customer Lifetime</div>
+                <div class="metric-value" id="lifetimeDisplay">20 mo</div>
+                <div class="metric-delta" id="lifetimeContext">Churn: 5%/mo</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">ARR</div>
+                <div class="metric-value" id="arrDisplay">$120K</div>
+                <div class="metric-delta positive" id="arrDelta">+$12K ARR growth</div>
+            </div>
+        </div>
+        
+        <div class="chart-area">
+            <h2>MRR Growth Projection (12 Months)</h2>
+            <div class="bar-chart" id="mrrChart"></div>
+        </div>
+        
+        <div class="locked-section" id="lockedSection">
+            <h2 style="color: #6366f1; margin-bottom: 16px;">Full Dashboard Export</h2>
+            <p style="color: #94a3b8; margin-bottom: 24px;">Export all metrics as CSV, PNG charts, and PDF report. Includes cohort analysis, scenario planning, and investor-ready dashboards.</p>
+            <div class="locked-overlay" id="lockedOverlay">
+                <div class="lock-icon">🔒</div>
+                <p class="unlock-text">Unlock full dashboard export for $9</p>
+                <button class="unlock-btn" onclick="showUnlockForm()">Unlock Now →</button>
+            </div>
+            <div id="unlockForm" style="display: none;">
+                <form onsubmit="handleUnlock(event)">
+                    <input type="email" id="unlockEmail" placeholder="your@email.com" required style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0; margin-bottom: 12px; width: 100%; max-width: 300px;">
+                    <br>
+                    <button type="submit" class="cta-btn">Get Access — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculateMetrics() {
+            const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const churn = parseFloat(document.getElementById('churn').value) || 0;
+            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+            const cac = parseFloat(document.getElementById('cac').value) || 0;
+            const margin = parseFloat(document.getElementById('margin').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+            
+            const customers = mrr / arpu;
+            const monthlyChurn = churn / 100;
+            const lifetime = monthlyChurn > 0 ? 1 / monthlyChurn : 0;
+            const ltv = arpu * (margin / 100) * lifetime;
+            const ltvCac = cac > 0 ? ltv / cac : 0;
+            const payback = (arpu * (margin / 100)) > 0 ? cac / (arpu * (margin / 100)) : 0;
+            const arr = mrr * 12;
+            const growthAmount = mrr * (growth / 100);
+            const arrGrowth = growthAmount * 12;
+            
+            document.getElementById('mrrDisplay').textContent = '$' + mrr.toLocaleString();
+            document.getElementById('mrrDelta').textContent = '+$' + growthAmount.toLocaleString() + '/mo growth';
+            document.getElementById('ltvDisplay').textContent = '$' + Math.round(ltv).toLocaleString();
+            document.getElementById('ltvContext').textContent = ltvCac.toFixed(1) + 'x CAC';
+            document.getElementById('ltvCacDisplay').textContent = ltvCac.toFixed(1) + 'x';
+            document.getElementById('ltvCacContext').textContent = ltvCac >= 3 ? 'Healthy (3x+ target)' : ltvCac >= 1 ? 'Marginal' : 'Unhealthy';
+            document.getElementById('ltvCacContext').className = 'metric-delta ' + (ltvCac >= 3 ? 'positive' : 'negative');
+            document.getElementById('paybackDisplay').textContent = payback.toFixed(1) + ' mo';
+            document.getElementById('paybackContext').textContent = payback <= 12 ? 'Good (<12mo target)' : payback <= 18 ? 'Marginal' : 'Too long';
+            document.getElementById('paybackContext').className = 'metric-delta ' + (payback <= 12 ? 'positive' : 'negative');
+            document.getElementById('lifetimeDisplay').textContent = lifetime.toFixed(0) + ' mo';
+            document.getElementById('lifetimeContext').textContent = 'Churn: ' + churn + '%/mo';
+            document.getElementById('arrDisplay').textContent = '$' + (arr / 1000).toFixed(0) + 'K';
+            document.getElementById('arrDelta').textContent = '+$' + (arrGrowth / 1000).toFixed(0) + 'K ARR growth';
+            
+            // MRR Chart
+            const chartContainer = document.getElementById('mrrChart');
+            chartContainer.innerHTML = '';
+            let currentMrr = mrr;
+            const maxMrr = mrr * Math.pow(1 + growth / 100, 11);
+            for (let i = 0; i < 12; i++) {
+                const bar = document.createElement('div');
+                bar.style.flex = '1';
+                bar.style.display = 'flex';
+                bar.style.flexDirection = 'column';
+                bar.style.alignItems = 'center';
+                
+                const barInner = document.createElement('div');
+                barInner.className = 'bar';
+                const height = (currentMrr / maxMrr) * 180;
+                barInner.style.height = Math.max(height, 4) + 'px';
+                
+                const label = document.createElement('div');
+                label.className = 'bar-label';
+                label.textContent = 'M' + (i + 1);
+                
+                bar.appendChild(barInner);
+                bar.appendChild(label);
+                chartContainer.appendChild(bar);
+                
+                currentMrr = currentMrr * (1 + growth / 100);
+            }
+        }
+        
+        function showUnlockForm() {
+            document.getElementById('lockedOverlay').style.display = 'none';
+            document.getElementById('unlockForm').style.display = 'block';
+        }
+        
+        function handleUnlock(e) {
+            e.preventDefault();
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('metricsDashboardEmail', email);
+            alert('✅ Thank you! Full dashboard access will be emailed to you shortly.');
+        }
+        
+        calculateMetrics();
+    </script>
 </body>
 </html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Reduction Playbook — Interactive Calculator</title>
+    <meta name="description" content="Interactive churn reduction playbook with 20 tactics. Score your current efforts and get actionable recommendations to reduce SaaS churn.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .score-section {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#6366f1 var(--score, 0%), rgba(255,255,255,0.05) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #1a1a2e;
+        }
+        .score-value {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .score-label {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+        .tactics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .tactic-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .tactic-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .tactic-desc {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        .tactic-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .tactic-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            color: #94a3b8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        .tactic-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+        .impact-high { border-left: 3px solid #10b981; }
+        .impact-medium { border-left: 3px solid #f59e0b; }
+        .impact-low { border-left: 3px solid #94a3b8; }
+        .results-section {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .results-section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+        }
+        .recommendation {
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .recommendation-title {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .recommendation-text {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .locked-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+        }
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 26, 0.9);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .unlock-text {
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .unlock-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .tactics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Churn Reduction Playbook</h1>
+            <p class="subtitle">Score your current efforts and get actionable recommendations.</p>
+        </div>
+        
+        <div class="score-section">
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-value" id="scoreValue">0</div>
+            </div>
+            <div class="score-label" id="scoreLabel">Not Started</div>
+        </div>
+        
+        <div class="tactics-grid" id="tacticsGrid">
+            <div class="tactic-card impact-high" data-tactic="onboarding">
+                <div class="tactic-name">1. Onboarding Optimization</div>
+                <div class="tactic-desc">Guide new users to first value within 24 hours with checklists and in-app tours.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-high" data-tactic="health">
+                <div class="tactic-name">2. Health Scoring</div>
+                <div class="tactic-desc">Track user engagement, feature adoption, and support tickets to predict churn.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-high" data-tactic="intervention">
+                <div class="tactic-name">3. Proactive Intervention</div>
+                <div class="tactic-desc">Reach out to at-risk users before they churn with personalized offers or support.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-high" data-tactic="feedback">
+                <div class="tactic-name">4. Exit Surveys</div>
+                <div class="tactic-desc">Ask churning users why they're leaving and act on their feedback.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-high" data-tactic="annual">
+                <div class="tactic-name">5. Annual Plans</div>
+                <div class="tactic-desc">Offer 15-20% discounts for annual prepay to lock in customers longer.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-medium" data-tactic="winback">
+                <div class="tactic-name">6. Win-Back Campaigns</div>
+                <div class="tactic-desc">Re-engage churned users with targeted emails, offers, and product updates.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-medium" data-tactic="expansion">
+                <div class="tactic-name">7. Expansion Revenue</div>
+                <div class="tactic-desc">Upsell and cross-sell to existing customers to offset churn impact.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-medium" data-tactic="community">
+                <div class="tactic-name">8. Community Building</div>
+                <div class="tactic-desc">Create user communities, forums, or Slack groups to increase stickiness.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-medium" data-tactic="dunning">
+                <div class="tactic-name">9. Dunning Management</div>
+                <div class="tactic-desc">Automate failed payment recovery with retries, emails, and in-app alerts.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-medium" data-tactic="nps">
+                <div class="tactic-name">10. NPS Tracking</div>
+                <div class="tactic-desc">Measure Net Promoter Score and follow up with detractors and passives.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-low" data-tactic="features">
+                <div class="tactic-name">11. Feature Usage Alerts</div>
+                <div class="tactic-desc">Notify users when they haven't used key features that drive retention.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+            
+            <div class="tactic-card impact-low" data-tactic="education">
+                <div class="tactic-name">12. Customer Education</div>
+                <div class="tactic-desc">Provide webinars, tutorials, and documentation to increase product mastery.</div>
+                <div class="tactic-buttons">
+                    <button class="tactic-btn" data-value="0" onclick="setScore(this)">Not Done</button>
+                    <button class="tactic-btn" data-value="1" onclick="setScore(this)">Partial</button>
+                    <button class="tactic-btn" data-value="2" onclick="setScore(this)">Done</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <h2>Your Top Recommendations</h2>
+            <div id="recommendations">
+                <p style="color: #94a3b8;">Score your tactics above to get personalized recommendations.</p>
+            </div>
+        </div>
+        
+        <div class="locked-section" id="lockedSection">
+            <h2 style="color: #6366f1; margin-bottom: 16px;">Full Playbook (20 Tactics)</h2>
+            <p style="color: #94a3b8; margin-bottom: 24px;">Access all 20 churn reduction tactics with implementation guides, email templates, and automation workflows.</p>
+            <div class="locked-overlay" id="lockedOverlay">
+                <div class="lock-icon">🔒</div>
+                <p class="unlock-text">Unlock full playbook for $9</p>
+                <button class="unlock-btn" onclick="showUnlockForm()">Unlock Now →</button>
+            </div>
+            <div id="unlockForm" style="display: none;">
+                <form onsubmit="handleUnlock(event)">
+                    <input type="email" id="unlockEmail" placeholder="your@email.com" required style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0; margin-bottom: 12px; width: 100%; max-width: 300px;">
+                    <br>
+                    <button type="submit" class="unlock-btn">Get Access — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const scores = {};
+        const maxScore = 24; // 12 tactics × 2 points max
+        
+        function setScore(btn) {
+            const card = btn.closest('.tactic-card');
+            const tactic = card.dataset.tactic;
+            const value = parseInt(btn.dataset.value);
+            
+            // Remove active from siblings
+            card.querySelectorAll('.tactic-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            scores[tactic] = value;
+            updateScore();
+        }
+        
+        function updateScore() {
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const percentage = Math.round((total / maxScore) * 100);
+            
+            document.getElementById('scoreValue').textContent = percentage;
+            document.getElementById('scoreCircle').style.setProperty('--score', percentage + '%');
+            
+            let label = '';
+            if (percentage < 25) label = 'Critical — Major churn risk';
+            else if (percentage < 50) label = 'At Risk — Significant improvements needed';
+            else if (percentage < 75) label = 'Developing — Good foundation, room to grow';
+            else if (percentage < 90) label = 'Strong — Solid churn prevention';
+            else label = 'Excellent — World-class retention';
+            
+            document.getElementById('scoreLabel').textContent = label;
+            
+            // Generate recommendations
+            const notDone = [];
+            const partial = [];
+            document.querySelectorAll('.tactic-card').forEach(card => {
+                const tactic = card.dataset.tactic;
+                const name = card.querySelector('.tactic-name').textContent;
+                const value = scores[tactic] || 0;
+                if (value === 0) notDone.push(name);
+                else if (value === 1) partial.push(name);
+            });
+            
+            let recs = '';
+            if (notDone.length > 0) {
+                recs += '<div class="recommendation"><div class="recommendation-title">🚨 Priority: Start These</div><div class="recommendation-text">' + notDone.slice(0, 3).join(', ') + '</div></div>';
+            }
+            if (partial.length > 0) {
+                recs += '<div class="recommendation"><div class="recommendation-title">⚡ Quick Wins: Complete These</div><div class="recommendation-text">' + partial.slice(0, 3).join(', ') + '</div></div>';
+            }
+            if (notDone.length === 0 && partial.length === 0) {
+                recs = '<div class="recommendation"><div class="recommendation-title">🎉 Excellent!</div><div class="recommendation-text">You\'ve implemented all basic tactics. Consider the full playbook for advanced strategies.</div></div>';
+            }
+            
+            document.getElementById('recommendations').innerHTML = recs;
+        }
+        
+        function showUnlockForm() {
+            document.getElementById('lockedOverlay').style.display = 'none';
+            document.getElementById('unlockForm').style.display = 'block';
+        }
+        
+        function handleUnlock(e) {
+            e.preventDefault();
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('churnPlaybookEmail', email);
+            alert('✅ Thank you! Full playbook access will be emailed to you shortly.');
+        }
+    </script>
+</body>
+</html>
