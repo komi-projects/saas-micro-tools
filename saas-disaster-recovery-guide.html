@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Disaster Recovery Guide — Free Download</title>
+    <meta name="description" content="Free SaaS disaster recovery guide. Plan for the worst, recover fast, and keep your business running through any crisis.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .disaster {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .phase-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .phase-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .phase-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌪️ Disaster Recovery</h1>
+            <p class="subtitle">Plan for the worst. Recover fast. Stay alive.</p>
+        </div>
+        
+        <div class="disaster">
+            <div class="section">
+                <h2>What is Disaster Recovery?</h2>
+                
+                <p>Disaster recovery (DR) is the process of restoring IT infrastructure and operations after a catastrophic event — natural disaster, cyberattack, data center failure, or human error. For SaaS companies, DR isn't optional. Your customers depend on your service being available.</p>
+                
+                <p>The difference between incident management and disaster recovery: incident management handles partial failures (one server down, one service degraded). DR handles total failure (entire data center offline, database corrupted, ransomware encrypted everything).</p>
+            </div>
+            
+            <div class="section">
+                <h2>Disaster Scenarios</h2>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🔥 Infrastructure Failure</div>
+                    <div class="phase-detail">Data center outage, cloud region failure, network partition. AWS us-east-1 has had multiple multi-hour outages. If all your infrastructure is in one region, you're down when it's down.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🗑️ Data Loss/Corruption</div>
+                    <div class="phase-detail">Database corruption from bad migration, accidental DROP TABLE, ransomware encryption, storage failure. Without good backups and tested recovery, this is company-ending.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🔓 Security Breach</div>
+                    <div class="phase-detail">Ransomware, data exfiltration, compromised credentials. You may need to rebuild systems from scratch, rotate all secrets, and notify customers. Incident response + DR together.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">👤 Human Error</div>
+                    <div class="phase-detail">Developer deletes production database. Ops engineer misconfigures firewall. Deploy script drops wrong table. Most outages are human-caused, not system-caused.</div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">🏢 Physical Disaster</div>
+                    <div class="phase-detail">Earthquake, flood, fire at primary data center. Less common with cloud, but still relevant if you have on-premise infrastructure or physical offices.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>DR Planning Framework</h2>
+                
+                <p><strong>1. Business Impact Analysis (BIA)</strong></p>
+                
+                <p>Identify critical systems and their downtime impact:</p>
+                
+                <p>• Tier 1 (Revenue-critical): Payment processing, core API, database. Downtime = immediate revenue loss.
+                • Tier 2 (Customer-facing): Dashboard, reporting, webhooks. Downtime = customer frustration.
+                • Tier 3 (Internal): Admin tools, analytics, billing UI. Downtime = operational impact.
+                • Tier 4 (Non-critical): Marketing site, docs, blog. Downtime = minimal impact.</p>
+                
+                <p><strong>2. Recovery Objectives</strong></p>
+                
+                <p>For each tier, define RPO and RTO. Be realistic — DR to meet 5-minute RTO costs 10x more than 4-hour RTO.</p>
+                
+                <p><strong>3. DR Strategies</strong></p>
+                
+                <p>• <strong>Backup and Restore:</strong> Cheapest. Back up to cloud storage, restore when needed. RTO: hours to days. Good for Tier 3-4.
+                • <strong>Pilot Light:</strong> Core systems running at minimal capacity in secondary region. Scale up during disaster. RTO: 30-60 minutes. Good for Tier 2.
+                • <strong>Warm Standby:</strong> Full system running in secondary region at reduced capacity. Traffic switched via DNS. RTO: 5-15 minutes. Good for Tier 1.
+                • <strong>Hot Standby / Active-Active:</strong> Full system running in multiple regions simultaneously. Automatic failover. RTO: seconds to minutes. Expensive. For Tier 1 with high availability requirements.</p>
+                
+                <p><strong>4. DR Site</strong></p>
+                
+                <p>Choose a secondary region/geography. If primary is us-east-1, secondary should be us-west-2 (different power grid, different earthquake zone). For global DR, consider cross-cloud (AWS primary, GCP secondary).</p>
+            </div>
+            
+            <div class="section">
+                <h2>DR Runbook</h2>
+                
+                <p>Document step-by-step recovery procedures:</p>
+                
+                <p>1. <strong>Detection:</strong> How do you know a disaster occurred? Monitoring alerts, customer reports, manual checks.
+                2. <strong>Declaration:</strong> Who declares a disaster? CEO? CTO? On-call engineer? What criteria trigger DR (vs. normal incident response)?
+                3. <strong>Notification:</strong> Who gets notified? Customers (status page), team (Slack/Teams), executives (phone), regulators (if required).
+                4. <strong>Recovery:</strong> Step-by-step to restore service. Exact commands, exact runbooks, exact infrastructure code. Tested monthly.
+                5. <strong>Verification:</strong> How do you confirm service is fully restored? Health checks, synthetic monitoring, spot checks.
+                6. <strong>Post-DR Review:</strong> What worked? What didn't? Update DR plan. Similar to post-mortem but for DR.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Testing Your DR Plan</h2>
+                
+                <p>An untested DR plan is a fantasy. Test it:</p>
+                
+                <p><strong>Tabletop exercise:</strong> Walk through the plan on paper. 2 hours, key team members. Identify gaps without touching production.</p>
+                
+                <p><strong>Functional test:</strong> Actually restore from backup to a test environment. Verify data integrity, application functionality, and recovery time. Quarterly.</p>
+                
+                <p><strong>Full DR drill:</strong> Failover to secondary site during low-traffic hours. Run production traffic through DR site for 1-4 hours. Verify everything works. Annually (or biannually for Tier 1).</p>
+                
+                <p><strong>Chaos engineering:</strong> Randomly kill production instances, databases, or services. Verify automatic recovery. Start in staging, move to production with safeguards.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Cloud-Native DR</h2>
+                
+                <p><strong>AWS:</strong> RDS Multi-AZ + cross-region read replicas. S3 cross-region replication. Route 53 health checks with failover routing. CloudFormation for infrastructure as code (rebuild in minutes).</p>
+                
+                <p><strong>GCP:</strong> Cloud SQL high availability. Cloud Storage dual-region buckets. Cloud DNS with health checks. Deployment Manager / Terraform for reproducible infrastructure.</p>
+                
+                <p><strong>Azure:</strong> SQL Database geo-replication. Storage geo-redundancy. Traffic Manager for DNS failover. Azure Site Recovery for VM replication.</p>
+                
+                <p><strong>Multi-cloud:</strong> For maximum resilience, primary on AWS, DR on GCP. Complex, expensive, but protects against cloud provider-wide issues (rare but not impossible).</p>
+            </div>
+            
+            <div class="section">
+                <h2>DR Costs vs. Risk</h2>
+                
+                <p>DR is insurance. You pay for protection you hope to never use. Balance cost with risk:</p>
+                
+                <p>• <strong>Startup ($0-1M ARR):</strong> Backup and restore. Daily backups to S3, tested monthly. RTO: 4-8 hours. Cost: $50-200/month.
+                • <strong>Growth ($1M-10M ARR):</strong> Pilot light or warm standby. Cross-region replication, automated failover for database. RTO: 30-60 minutes. Cost: $500-2K/month.
+                • <strong>Scale ($10M+ ARR):</strong> Hot standby / active-active. Full multi-region deployment, automated failover, load balancing. RTO: seconds to minutes. Cost: $5K-20K/month.</p>
+                
+                <p>The cost of DR is always less than the cost of a major outage at scale.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Disaster Recovery Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with DR templates, runbooks, and testing frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('disasterRecoveryEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
