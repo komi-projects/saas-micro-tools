@@ -1,294 +1,179 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Expansion Revenue Calculator — Premium Upsell Analytics</title>
+    <title>SaaS Expansion Revenue Calculator — Premium</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f0f1a;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
             color: #e2e8f0;
+            min-height: 100vh;
             padding: 40px 20px;
-            line-height: 1.6;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 700px; margin: 0 auto; }
         h1 {
-            text-align: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
         .input-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
         .input-group {
             background: #1a1a2e;
-            padding: 20px;
-            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
         }
-        label {
+        .input-group label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
             color: #94a3b8;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
-        input {
+        .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #0f0f1a;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             color: #e2e8f0;
             font-size: 1rem;
         }
-        input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-        .cta {
-            display: block;
+        .calculate-btn {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 32px;
             border: none;
-            cursor: pointer;
+            border-radius: 12px;
             font-size: 1.1rem;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
         }
-        .cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-        }
-        .results {
-            display: none;
-        }
-        .results.active {
-            display: block;
-        }
+        .results { display: none; }
+        .results.show { display: block; }
         .result-card {
             background: #1a1a2e;
-            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 { font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+        .result-value { font-size: 2rem; font-weight: 700; color: #6366f1; }
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
             border-radius: 16px;
             padding: 32px;
-            margin-bottom: 24px;
-        }
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .result-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        .result-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .result-detail {
-            color: #64748b;
-            font-size: 0.95rem;
-            margin-top: 8px;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .metric-box {
-            background: #0f0f1a;
-            padding: 20px;
-            border-radius: 8px;
             text-align: center;
+            margin-top: 32px;
         }
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-        .metric-label {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        .recommendation {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 24px;
-        }
-        .recommendation-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #818cf8;
-        }
-        .tooltip {
+        .stripe-btn {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 16px;
-            font-size: 0.7rem;
-            cursor: help;
-            margin-left: 4px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
         @media (max-width: 768px) {
             .input-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8rem; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>SaaS Expansion Revenue Calculator</h1>
-        <p class="subtitle">Premium upsell and expansion analytics</p>
-
+        <h1>📈 Expansion Revenue Calculator</h1>
+        <p class="subtitle">Calculate revenue from upsells, cross-sells, and plan upgrades.</p>
+        
         <div class="input-grid">
             <div class="input-group">
-                <label>Current MRR ($) <span class="tooltip" title="Current monthly recurring revenue">?</span></label>
-                <input type="number" id="currentMRR" placeholder="50000" value="50000">
-            </div>
-            <div class="input-group">
-                <label>Upsell MRR ($)</label>
-                <input type="number" id="upsellMRR" placeholder="5000" value="5000">
-            </div>
-            <div class="input-group">
-                <label>Expansion Rate (%/mo)</label>
-                <input type="number" id="expansionRate" placeholder="10" value="10">
+                <label>Current MRR ($)</label>
+                <input type="number" id="currentMRR" value="10000" placeholder="10000">
             </div>
             <div class="input-group">
                 <label>Customer Count</label>
-                <input type="number" id="customers" placeholder="500" value="500">
+                <input type="number" id="customers" value="200" placeholder="200">
+            </div>
+            <div class="input-group">
+                <label>Upsell Rate (%/mo)</label>
+                <input type="number" id="upsellRate" value="5" placeholder="5">
+            </div>
+            <div class="input-group">
+                <label>Average Upsell Value ($)</label>
+                <input type="number" id="upsellValue" value="50" placeholder="50">
             </div>
         </div>
-
-        <button class="cta" onclick="calculate()">Calculate Expansion Analytics</button>
-
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Expansion Revenue</button>
+        
         <div class="results" id="results">
             <div class="result-card">
-                <div class="result-header">
-                    <div class="result-title">Net Revenue Retention</div>
-                    <div class="result-value" id="nrr">0%</div>
-                </div>
-                <div class="result-detail" id="nrrDetail">How much revenue you retain and expand from existing customers</div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-value" id="expansionMRR">$0</div>
-                        <div class="metric-label">Expansion MRR</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="expansionARR">$0</div>
-                        <div class="metric-label">Expansion ARR</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="perCustomer">$0</div>
-                        <div class="metric-label">Per Customer</div>
-                    </div>
-                </div>
-
-                <div class="recommendation">
-                    <div class="recommendation-title">💡 Expansion Insights</div>
-                    <div id="recommendationText">Calculate to see personalized expansion recommendations.</div>
-                </div>
+                <h3>Monthly Expansion Revenue</h3>
+                <div class="result-value" id="expansionRevenue">$500</div>
             </div>
-
             <div class="result-card">
-                <div class="result-header">
-                    <div class="result-title">Growth Trajectory</div>
-                </div>
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-value" id="projectedMRR">$0</div>
-                        <div class="metric-label">Projected MRR (12mo)</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="projectedARR">$0</div>
-                        <div class="metric-label">Projected ARR (12mo)</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-value" id="growthMultiple">0x</div>
-                        <div class="metric-label">Growth Multiple</div>
-                    </div>
-                </div>
+                <h3>Expansion as % of MRR</h3>
+                <div class="result-value" id="expansionPercent">5%</div>
+            </div>
+            <div class="result-card">
+                <h3>Annual Expansion Revenue</h3>
+                <div class="result-value" id="annualExpansion">$6,000</div>
+            </div>
+            
+            <div class="unlock-section">
+                <h2>🔓 Unlock Expansion Revenue Playbook</h2>
+                <p>Get 20 upsell tactics with expected impact and implementation guides.</p>
+                <div style="font-size: 2.5rem; font-weight: 700; color: #6366f1; margin-bottom: 16px;">$9</div>
+                <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto 16px;">
+                    <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
             </div>
         </div>
     </div>
-
+    
     <script>
         function calculate() {
-            const currentMRR = parseFloat(document.getElementById('currentMRR').value) || 0;
-            const upsellMRR = parseFloat(document.getElementById('upsellMRR').value) || 0;
-            const expansionRate = parseFloat(document.getElementById('expansionRate').value) || 0;
-            const customers = parseFloat(document.getElementById('customers').value) || 1;
-
-            const nrr = ((currentMRR + upsellMRR) / currentMRR) * 100;
-            const expansionARR = upsellMRR * 12;
-            const perCustomer = upsellMRR / customers;
-
-            // Projected growth
-            let projectedMRR = currentMRR;
-            for (let i = 0; i < 12; i++) {
-                projectedMRR = projectedMRR * (1 + expansionRate / 100);
-            }
-            const projectedARR = projectedMRR * 12;
-            const growthMultiple = projectedMRR / currentMRR;
-
-            document.getElementById('nrr').textContent = nrr.toFixed(1) + '%';
-            document.getElementById('expansionMRR').textContent = '$' + upsellMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
-            document.getElementById('expansionARR').textContent = '$' + expansionARR.toLocaleString('en-US', {maximumFractionDigits: 0});
-            document.getElementById('perCustomer').textContent = '$' + perCustomer.toFixed(2);
-            document.getElementById('projectedMRR').textContent = '$' + projectedMRR.toLocaleString('en-US', {maximumFractionDigits: 0});
-            document.getElementById('projectedARR').textContent = '$' + projectedARR.toLocaleString('en-US', {maximumFractionDigits: 0});
-            document.getElementById('growthMultiple').textContent = growthMultiple.toFixed(1) + 'x';
-
-            let recommendation = '';
-            if (nrr >= 120) {
-                recommendation = '🎉 Exceptional NRR! You\'re growing through existing customers. Focus on: 1) Land-and-expand strategy, 2) Enterprise upsells, 3) Usage-based pricing to capture growth.';
-            } else if (nrr >= 110) {
-                recommendation = '✅ Good expansion. To reach 120%+: 1) Add premium tiers, 2) Implement usage-based pricing, 3) Create add-on products, 4) Launch customer success program.';
-            } else if (nrr >= 100) {
-                recommendation = '⚠️ Flat NRR. You\'re not expanding existing customers. Try: 1) In-app upgrade prompts, 2) Quarterly business reviews, 3) Feature usage-based expansion, 4) Add integrations as paid add-ons.';
-            } else {
-                recommendation = '🚨 Shrinking revenue from existing customers! Churn exceeds expansion. Urgent: 1) Stop the leak (fix churn first), 2) Survey at-risk customers, 3) Add downgrade alternatives, 4. Launch win-back campaigns.';
-            }
-            document.getElementById('recommendationText').textContent = recommendation;
-            document.getElementById('results').classList.add('active');
+            const mrr = parseFloat(document.getElementById('currentMRR').value) || 0;
+            const customers = parseFloat(document.getElementById('customers').value) || 0;
+            const upsellRate = parseFloat(document.getElementById('upsellRate').value) || 0;
+            const upsellValue = parseFloat(document.getElementById('upsellValue').value) || 0;
+            
+            const upsellCustomers = customers * (upsellRate / 100);
+            const expansionRevenue = upsellCustomers * upsellValue;
+            const expansionPercent = mrr > 0 ? ((expansionRevenue / mrr) * 100).toFixed(1) + '%' : 'N/A';
+            const annual = expansionRevenue * 12;
+            
+            document.getElementById('expansionRevenue').textContent = '$' + expansionRevenue.toLocaleString();
+            document.getElementById('expansionPercent').textContent = expansionPercent;
+            document.getElementById('annualExpansion').textContent = '$' + annual.toLocaleString();
+            
+            document.getElementById('results').classList.add('show');
         }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('expansionReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
     </script>
 </body>
 </html>
