@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaaS Pricing Strategy Guide — Free Download</title>
-    <meta name="description" content="Free SaaS pricing strategy guide. Optimize your pricing model, test willingness to pay, and maximize revenue per customer.">
+    <meta name="description" content="Free SaaS pricing strategy guide. Design pricing models that maximize revenue, reduce churn, and align with customer value perception.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -103,96 +103,236 @@
     <div class="container">
         <div class="header">
             <h1>💰 Pricing Strategy</h1>
-            <p class="subtitle">Price for value. Test relentlessly. Maximize revenue.</p>
+            <p class="subtitle">Design pricing that maximizes revenue and aligns with value.</p>
         </div>
         
         <div class="pricing">
             <div class="section">
+                <h2>Why Pricing is Strategy</h2>
+                
+                <p>Pricing is the fastest way to increase revenue. A 1% improvement in pricing can increase profits by 11% (McKinsey). And unlike acquiring new customers, better pricing requires no additional marketing spend, no more sales hires, and no product changes.</p>
+                
+                <p>But most SaaS companies underprice. They set prices based on cost plus margin, or by copying competitors, or by guessing. Then they fear raising prices will cause churn. The result: they leave 30-50% of potential revenue on the table.</p>
+                
+                <p>This guide covers how to design pricing models, test willingness to pay, and implement price changes that increase revenue without increasing churn.</p>
+            </div>
+            
+            <div class="section">
                 <h2>Pricing Models</h2>
                 
                 <div class="model-box">
-                    <div class="model-name">👤 Per-User (Seat-Based)</div>
-                    <div class="model-detail">Simple, predictable, easy to understand. But caps expansion — customers limit seats to save money. Best for tools where everyone needs their own account (Slack, Notion, CRM).</div>
+                    <div class="model-name">1. Flat Rate (Simple)</div>
+                    <div class="model-detail">
+                        One price, all features, unlimited usage.
+                        • Pros: Simple to understand, easy to sell, predictable revenue
+                        • Cons: No expansion revenue, one-size-fits-all, misses high-value customers
+                        • Best for: Simple tools with uniform value (Basecamp, Buffer early days)
+                        • Example: "$99/month for everything"
+                    </div>
                 </div>
                 
                 <div class="model-box">
-                    <div class="model-name">📊 Usage-Based (Metered)</div>
-                    <div class="model-detail">Pay for what you use. Aligns cost with value. Scales with customer success. Best for API tools, infrastructure, payment processing (Stripe, AWS, Twilio).</div>
+                    <div class="model-name">2. Per-User (Seat-Based)</div>
+                    <div class="model-detail">
+                        Charge per user per month.
+                        • Pros: Scales with customer growth, predictable, easy to calculate
+                        • Cons: Creates friction to add users, encourages seat sharing, doesn't capture usage value
+                        • Best for: Tools where each user gets independent value (Slack, Notion, Zoom)
+                        • Variations: Per-user with tiers (Basic $10, Pro $20, Enterprise $30)
+                        • Watch out: "$50/user" sounds expensive at 100 users. Consider per-seat pricing that drops with volume.
+                    </div>
                 </div>
                 
                 <div class="model-box">
-                    <div class="model-name">🏢 Tiered (Good-Better-Best)</div>
-                    <div class="model-detail">3-4 plans with clear differentiation. Most common SaaS model. Starter for SMB, Pro for growth, Enterprise for big teams. 60-70% of customers choose the middle tier.</div>
+                    <div class="model-name">3. Usage-Based (Consumption)</div>
+                    <div class="model-detail">
+                        Charge for what customers actually use.
+                        • Pros: Aligns price with value, low barrier to entry, natural expansion
+                        • Cons: Unpredictable revenue, complex billing, customers fear runaway costs
+                        • Best for: Infrastructure, APIs, messaging, data processing (AWS, Twilio, Stripe)
+                        • Variations: Per API call, per GB stored, per transaction, per email sent
+                        • Hybrid: Base fee + usage overage to reduce unpredictability
+                    </div>
                 </div>
                 
                 <div class="model-box">
-                    <div class="model-name">🎯 Freemium</div>
-                    <div class="model-detail">Free tier + paid upgrades. Acquisition machine but expensive to support free users. Best when free users create value for paid users (network effects) or when marginal cost is near zero.</div>
+                    <div class="model-name">4. Tiered (Good-Better-Best)</div>
+                    <div class="model-detail">
+                        Multiple plans with increasing features and limits.
+                        • Pros: Captures different segments, clear upgrade path, price anchoring
+                        • Cons: Complex to design, can confuse customers, requires feature gating
+                        • Best for: Most SaaS products (the industry standard)
+                        • Structure: Starter (individuals), Professional (teams), Enterprise (organizations)
+                        • Psychology: The middle tier should be your target. Most customers choose it.
+                        • Example: Notion Free → Plus ($8) → Business ($15) → Enterprise (custom)
+                    </div>
                 </div>
                 
                 <div class="model-box">
-                    <div class="model-name">🤝 Value-Based (Outcome)</div>
-                    <div class="model-detail">Price based on ROI delivered. "We save you $100K/year, so we charge $10K/year." Hard to implement but powerful. Best for high-ROI tools (cost savings, revenue generation).</div>
+                    <div class="model-name">5. Freemium</div>
+                    <div class="model-detail">
+                        Free tier with paid upgrades.
+                        • Pros: Low barrier to entry, viral growth, product-led acquisition
+                        • Cons: High support costs, low conversion rates, free users can overwhelm resources
+                        • Best for: Products with network effects or viral loops (Dropbox, Slack, Zoom)
+                        • Free tier design: Genuinely useful, not a crippled demo. Limit usage, not features.
+                        • Conversion target: 2-5% of free users upgrade (varies by product)
+                        • Danger: If free is too good, nobody pays. If free is too limited, nobody signs up.
+                    </div>
+                </div>
+                
+                <div class="model-box">
+                    <div class="model-name">6. Custom/Enterprise</div>
+                    <div class="model-detail">
+                        Tailored pricing for large accounts.
+                        • Pros: Capture maximum value from big customers, handle complex requirements
+                        • Cons: Long sales cycles, custom contracts, higher CAC
+                        • Best for: $50K+ ACV deals with procurement teams and compliance needs
+                        • Process: Discovery → Proposal → Negotiation → Contract → Implementation
+                        • Pricing: "Contact sales" — opaque pricing allows value-based negotiation
+                        • Minimums: Set a floor (e.g., $20K/year) to ensure profitability
+                    </div>
                 </div>
             </div>
             
             <div class="section">
                 <h2>Pricing Psychology</h2>
                 
-                <p><strong>Anchoring:</strong> Show the most expensive plan first. "$199/mo" makes "$49/mo" look cheap. The middle tier becomes the "smart choice."</p>
+                <p><strong>1. Value-based pricing:</strong></p>
                 
-                <p><strong>Charm pricing:</strong> $49 instead of $50. $99 instead of $100. The left-digit effect. $49 feels closer to $40 than $50.</p>
+                <p>• Price based on customer value, not your costs. If you save them $10K/month, charging $500 is leaving money on the table.
+                • Understand their economic buyer: What metric do they use to justify spend? (revenue, cost savings, efficiency)
+                • Quantify ROI: "Our customers save 20 hours/month at $50/hour = $1,000/month in value. Our price is $199."
+                • Segment by value: Different customers get different value. Charge accordingly.
+                • Test willingness to pay: Survey, Van Westendorp, or conjoint analysis</p>
                 
-                <p><strong>Decoy effect:</strong> Add a plan that's clearly worse value. $49 (1 user), $99 (5 users), $129 (5 users + priority). The $99 plan looks like a steal.</p>
+                <p><strong>2. Price anchoring:</strong></p>
                 
-                <p><strong>Loss aversion:</strong> Frame annual billing as "Save 20%" not "Pay annually." People avoid losses more than they seek gains.</p>
+                <p>• Show the most expensive plan first. Everything else looks reasonable by comparison.
+                • Enterprise tier: Even if nobody buys it, it makes Professional look like a bargain.
+                • Decoy pricing: Add a slightly worse option to make your target plan look better.
+                • Annual vs. monthly: Annual at 20% discount anchors customers to longer commitments.
+                • "Most popular" badge: Social proof that pushes customers to your preferred tier.</p>
                 
-                <p><strong>Social proof:</strong> "Most popular" badge on the middle tier. "Trusted by 10,000+ teams." People follow the crowd.</p>
+                <p><strong>3. Framing:</strong></p>
+                
+                <p>• "$99/month" vs. "$1,188/year" — monthly feels cheaper even when annual is better value
+                • "Less than $4/day" — daily framing makes expensive products feel affordable
+                • "Save 20% with annual" — focus on savings, not the total commitment
+                • "Start free, upgrade anytime" — reduces commitment anxiety
+                • "No credit card required" — removes friction and fear</p>
+                
+                <p><strong>4. Payment terms:</strong></p>
+                
+                <p>• Monthly: Lower commitment, higher churn, better for SMB
+                • Annual: 20-30% discount, better cash flow, lower churn, better for mid-market
+                • Multi-year: Deep discounts (30-40%), guaranteed revenue, enterprise only
+                • Upfront payment: Annual paid upfront improves cash flow massively
+                • Net 30/60/90: Enterprise standard but delays cash collection
+                • Auto-renewal: Default to auto-renew with opt-out (reduces churn)</p>
             </div>
             
             <div class="section">
-                <h2>Willingness to Pay Research</h2>
+                <h2>Pricing Implementation</h2>
                 
-                <p><strong>Van Westendorp Price Sensitivity Meter:</strong> Ask 4 questions:</p>
+                <p><strong>1. Pricing page design:</strong></p>
                 
-                <p>1. At what price would you consider this too expensive? (Upper limit)<br>
-                2. At what price would you consider this so cheap you'd question quality? (Lower limit)<br>
-                3. At what price would you consider this a bargain? (Good value)<br>
-                4. At what price would you consider this starting to get expensive? (Marginal)</p>
+                <p>• Clear comparison: Show what's included in each tier. Don't make users guess.
+                • Feature gating: Critical features in higher tiers (but not so many that free is useless)
+                • Usage limits: Seats, storage, API calls — clearly displayed
+                • CTA clarity: "Start free trial" vs. "Contact sales" — match the tier to the action
+                • FAQ section: Address common pricing objections
+                • Currency: Show local currency for international customers
+                • Guarantee: "30-day money back" or "Cancel anytime" reduces risk</p>
                 
-                <p>Plot the cumulative distributions. The intersection of "too cheap" and "too expensive" = optimal price point.</p>
+                <p><strong>2. Price changes:</strong></p>
                 
-                <p><strong>Gabor-Granger:</strong> Show product, ask "Would you buy at $X?" Vary X. Plot demand curve. Find revenue-maximizing price (price × % willing to buy).</p>
-            </div>
-            
-            <div class="section">
-                <h2>Pricing Tests to Run</h2>
+                <p>• Grandfathering: Existing customers keep old pricing (reduces churn risk)
+                • Advance notice: 60-90 days before price increases take effect
+                • Value justification: "We're adding [features] and improving [capabilities]. New pricing reflects this value."
+                • Opt-out offers: "Lock in current pricing for another year by renewing now"
+                • Segment rollout: Test price changes on new customers first
+                • Monitor churn: Watch for churn spikes after price changes. Be ready to adjust.</p>
                 
-                <p><strong>1. Annual vs. Monthly:</strong> Offer 2 months free for annual. Test different discounts (15%, 20%, 25%).</p>
+                <p><strong>3. Discounts:</strong></p>
                 
-                <p><strong>2. Plan names:</strong> "Starter/Pro/Enterprise" vs. "Basic/Business/Enterprise" vs. "Free/Growth/Scale." Names affect perceived value.</p>
-                
-                <p><strong>3. Feature bundling:</strong> Which features drive upgrades? Test moving features between tiers.</p>
-                
-                <p><strong>4. Price increases:</strong> Test on new customers first. Grandfather existing customers. Monitor churn closely.</p>
-                
-                <p><strong>5. Add-ons:</strong> Test unbundling premium features as add-ons vs. including in higher tiers.</p>
+                <p>• Never default to discounts. They're addictive and devalue your product.
+                • If you must discount: Trade for something — annual commitment, case study, referral
+                • Standardize: Create a discount matrix (10% for annual, 20% for multi-year, 30% for referrals)
+                • Approval process: Require manager approval for discounts >10%
+                • Track discount rates: If >20% of deals are discounted, your list price is wrong
+                • Never discount to close bad-fit customers. They'll churn anyway.</p>
             </div>
             
             <div class="section">
                 <h2>Pricing Metrics</h2>
                 
-                <p>• <strong>ARPU (Average Revenue Per User):</strong> Total MRR / total users. Should grow with pricing optimization.<br>
-                • <strong>ACV (Average Contract Value):</strong> Average annual contract. Enterprise focus = higher ACV.<br>
-                • <strong>Expansion revenue %:</strong> % of new MRR from existing customers. Target: 20-30%.<br>
-                • <strong>Plan distribution:</strong> % on each tier. 60-70% on middle tier is healthy.<br>
-                • <strong>Price sensitivity:</strong> Churn rate after price increase. <2% increase in churn is acceptable.</p>
+                <p><strong>Revenue:</strong></p>
+                
+                <p>• Average Revenue Per User (ARPU): Total revenue / total users
+                • Average Revenue Per Account (ARPA): Total revenue / total customers
+                • MRR/ARR: Monthly/Annual Recurring Revenue
+                • Revenue per plan: Which tier generates the most revenue?
+                • Expansion revenue: $ from upgrades and add-ons</p>
+                
+                <p><strong>Conversion:</strong></p>
+                
+                <p>• Free-to-paid: % of free users who upgrade (benchmark: 2-5%)
+                • Trial-to-paid: % of trial users who convert (benchmark: 15-25%)
+                • Plan distribution: % of customers on each tier
+                • Upgrade rate: % of customers who upgrade annually</p>
+                
+                <p><strong>Efficiency:</strong></p>
+                
+                <p>• CAC payback: Months to recover acquisition cost
+                • LTV:CAC ratio: Lifetime value vs. acquisition cost (benchmark: 3:1+)
+                • Gross margin: Revenue minus COGS (benchmark: 75-85% for SaaS)
+                • Discount rate: % of revenue sold at a discount
+                • Price sensitivity: How demand changes with price (price elasticity)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Pricing Mistakes</h2>
+                
+                <p><strong>1. Underpricing:</strong> The most common mistake. Founders fear rejection so they price low. Result: unsustainable unit economics, inability to invest in product, and customers who don't value the product.</p>
+                
+                <p><strong>2. Copying competitors:</strong> Their pricing is based on their costs, their strategy, and their mistakes. Your value proposition is different. Price based on your value.</p>
+                
+                <p><strong>3. Too many tiers:</strong> Five plans with overlapping features confuses customers. Three tiers is the sweet spot. Four if you have a clear enterprise segment.</p>
+                
+                <p><strong>4. No annual option:</strong> Monthly-only pricing kills cash flow and increases churn. Always offer annual at a discount (15-30%).</p>
+                
+                <p><strong>5. Hidden fees:</strong> Surprise charges for setup, support, or overages. Transparency builds trust. Opaque pricing breeds resentment.</p>
+                
+                <p><strong>6. Never testing:</strong> Setting prices once and never changing them. Markets evolve, value perception shifts, competition changes. Test pricing annually.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Pricing Strategy Checklist</h2>
+                
+                <p>☐ Pricing model selected (flat, per-user, usage-based, tiered, freemium, enterprise)
+                ☐ Value-based pricing framework documented
+                ☐ Customer willingness-to-pay research completed
+                ☐ Three tiers designed with clear differentiation
+                ☐ Annual pricing defined (15-30% discount from monthly)
+                ☐ Enterprise/custom pricing process established
+                ☐ Pricing page designed with clear comparison
+                ☐ Feature gating plan documented
+                ☐ Usage limits and overages defined
+                ☐ Discount policy and approval process established
+                ☐ Grandfathering policy for existing customers
+                ☐ Price increase communication template ready
+                ☐ Payment terms and billing frequency defined
+                ☐ Pricing metrics dashboard live
+                ☐ A/B test plan for pricing experiments
+                ☐ Competitive pricing analysis completed
+                ☐ Pricing review scheduled quarterly</p>
             </div>
         </div>
         
         <div class="cta-section">
             <h2>Get the Full Pricing Strategy Guide</h2>
-            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with pricing models, willingness-to-pay frameworks, and A/B test templates.</p>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with pricing models, willingness-to-pay frameworks, and price testing methodologies.</p>
             <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
                 <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
                 <button type="submit" class="cta-btn">Download Free →</button>
