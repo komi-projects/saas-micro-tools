@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS API Documentation Template — Free Download</title>
+    <meta name="description" content="Free SaaS API documentation template. RESTful API reference with endpoints, examples, and error codes.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .endpoint {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .method {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .method-get { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .method-post { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .path { color: #e2e8f0; font-family: 'Courier New', monospace; font-size: 1rem; }
+        .code-block {
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 API Documentation Template</h1>
+            <p class="subtitle">RESTful API reference with endpoints, examples, and error codes.</p>
+        </div>
+        
+        <div class="endpoint">
+            <div class="endpoint-header">
+                <span class="method method-get">GET</span>
+                <span class="path">/api/v1/customers</span>
+            </div>
+            <p style="color:#94a3b8; margin-bottom:16px;">List all customers with pagination.</p>
+            
+            <div class="code-block">
+GET /api/v1/customers?page=1&limit=50
+Authorization: Bearer {token}
+            </div>
+            
+            <div class="code-block">
+{
+  "data": [
+    {
+      "id": "cust_123",
+      "email": "user@example.com",
+      "status": "active",
+      "mrr": 49.00
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "total": 150
+  }
+}
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div class="endpoint-header">
+                <span class="method method-post">POST</span>
+                <span class="path">/api/v1/webhooks</span>
+            </div>
+            <p style="color:#94a3b8; margin-bottom:16px;">Register a webhook endpoint.</p>
+            
+            <div class="code-block">
+POST /api/v1/webhooks
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "url": "https://yourapp.com/webhooks",
+  "events": ["payment.failed", "subscription.cancelled"]
+}
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Documentation Template</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete API reference with 20+ endpoints, authentication guide, and SDK examples.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('apiDocsEmail', email);
+            alert('✅ Template coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
