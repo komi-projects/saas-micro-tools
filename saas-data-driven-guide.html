@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Data-Driven Decisions Guide — Free Download</title>
+    <meta name="description" content="Free SaaS data-driven decisions guide. Turn data into action. Stop guessing, start growing.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .data {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .phase-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .phase-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .phase-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Data-Driven Decisions</h1>
+            <p class="subtitle">Stop guessing. Start growing.</p>
+        </div>
+        
+        <div class="data">
+            <div class="section">
+                <h2>Why Data-Driven Decisions Matter</h2>
+                
+                <p>In SaaS, opinions are cheap and data is expensive to ignore. "I think users want this feature" costs nothing to say but can cost months of development and lost opportunity if wrong. "40% of trial users drop off at the billing page" is a fact that points directly to action.</p>
+                
+                <p>Data-driven doesn't mean data-obsessed. It means using evidence to reduce uncertainty, not eliminate judgment. The best product teams combine quantitative data (what users do) with qualitative data (why they do it) and domain expertise (what's technically possible and strategically important).</p>
+                
+                <p>This guide covers how to build a data-driven culture, make decisions with incomplete information, avoid common data traps, and turn insights into action.</p>
+            </div>
+            
+            <div class="section">
+                <h2>The Data-Driven Decision Framework</h2>
+                
+                <div class="phase-box">
+                    <div class="phase-name">1. Define the Question</div>
+                    <div class="phase-detail">
+                        Start with a business question, not a metric.
+                        Bad: "What's our DAU?"
+                        Good: "Why did activation drop 15% last week?"
+                        Good: "Should we build feature X or feature Y?"
+                        Good: "Which customer segment is most likely to expand?"
+                        
+                        The question determines what data you need. Vague questions lead to fishing expeditions.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">2. Gather Evidence</div>
+                    <div class="phase-detail">
+                        Collect relevant data from multiple sources:
+                        • Quantitative: Funnel metrics, cohort data, A/B test results, usage analytics
+                        • Qualitative: User interviews, support tickets, survey responses, session recordings
+                        • Competitive: Market research, competitor features, pricing benchmarks
+                        • Financial: CAC, LTV, payback period, unit economics
+                        
+                        Don't cherry-pick data that supports your pre-existing opinion. Look for disconfirming evidence too.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">3. Analyze and Interpret</div>
+                    <div class="phase-detail">
+                        Turn raw data into insight:
+                        • Segment the data (mobile vs. desktop, enterprise vs. SMB, organic vs. paid)
+                        • Look for patterns and anomalies (why is this cohort different?)
+                        • Calculate confidence intervals (not just point estimates)
+                        • Distinguish correlation from causation
+                        • Consider base rates and historical trends
+                        
+                        The goal is understanding, not just numbers. "Signups are down 20%" is a fact. "Signups are down 20% because our top-performing ad creative was paused and organic traffic hasn't compensated" is an insight.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">4. Form Hypothesis</div>
+                    <div class="phase-detail">
+                        Based on evidence, form a testable hypothesis:
+                        "If we [action], then [metric] will [change] because [mechanism]."
+                        
+                        Example: "If we simplify the onboarding from 5 steps to 3, then activation rate will increase 10% because each additional step causes 8% drop-off."
+                        
+                        A good hypothesis is specific, falsifiable, and has a proposed mechanism.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">5. Test and Measure</div>
+                    <div class="phase-detail">
+                        Validate your hypothesis:
+                        • A/B test for user-facing changes
+                        • Cohort analysis for longitudinal effects
+                        • Quasi-experiments when true randomization isn't possible
+                        • Run for sufficient duration and sample size
+                        • Track guardrail metrics (don't improve conversion while destroying retention)
+                        
+                        Be willing to be wrong. A disproven hypothesis is progress — you learned what doesn't work.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">6. Decide and Act</div>
+                    <div class="phase-detail">
+                        Make the decision and implement:
+                        • Ship the winner (if A/B test was conclusive)
+                        • Iterate and test again (if results were mixed)
+                        • Kill the initiative (if hypothesis was disproven)
+                        • Escalate for judgment call (if data is genuinely ambiguous)
+                        
+                        The worst decision is no decision. "We need more data" is sometimes true, often an excuse for indecision.
+                    </div>
+                </div>
+                
+                <div class="phase-box">
+                    <div class="phase-name">7. Review and Learn</div>
+                    <div class="phase-detail">
+                        After implementation, measure the impact:
+                        • Did the metric change as predicted?
+                        • Were there unintended side effects?
+                        • What did we learn about users?
+                        • How should this change our mental model?
+                        
+                        Document learnings in a decision log. Future-you will thank present-you.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Data Traps to Avoid</h2>
+                
+                <p><strong>1. Survivorship bias:</strong> Only looking at active users and ignoring churned ones. "Our users love feature X!" — did the users who left because feature X was confusing get surveyed? No, they churned. Always include churned users in analysis.</p>
+                
+                <p><strong>2. Confirmation bias:</strong> Seeking data that supports your existing belief and ignoring contradictory evidence. "This feature will work because I believe in it" → find data that challenges this.</p>
+                
+                <p><strong>3. Causation vs. correlation:</strong> Users who use feature X retain better. Is it because feature X causes retention, or because retained users have time to explore and discover feature X? Cohort analysis and controlled experiments separate the two.</p>
+                
+                <p><strong>4. Base rate neglect:</strong> "This customer segment has 50% higher LTV!" Great, but what % of your customers are in that segment? If it's 2%, the impact on overall LTV is tiny. Weighted averages matter.</p>
+                
+                <p><strong>5. Small sample sizes:</strong> "3 out of 5 beta users loved it!" That's not a sample, that's anecdote. Need 30+ for directional signal, 100+ for confidence. Don't make big bets on small samples.</p>
+                
+                <p><strong>6. Metric gaming:</strong> Optimizing the metric while hurting the business. "Let's make signup mandatory before seeing the product" → conversion rate goes up but activation crashes because visitors weren't qualified. Always track guardrail metrics.</p>
+                
+                <p><strong>7. Analysis paralysis:</strong> Waiting for perfect data before acting. Perfect data doesn't exist. "Better to be roughly right than precisely wrong." Make the best decision with available information, then adapt as you learn.</p>
+                
+                <p><strong>8. Vanity metrics:</strong> Tracking what looks good instead of what drives value. "10,000 signups!" Who cares? How many activated? Paid? Retained? Refocus on metrics that predict revenue.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Building a Data-Driven Culture</h2>
+                
+                <p><strong>1. Metrics in every meeting:</strong> Start team meetings with metrics review. "Here's what changed this week and why." Normalize data discussion.</p>
+                
+                <p><strong>2. Accessible dashboards:</strong> Every team member should be able to answer basic questions without filing a ticket. Self-serve analytics tools (Metabase, Amplitude, Mixpanel) democratize data access.</p>
+                
+                <p><strong>3. Decision logs:</strong> Document major decisions and their outcomes. "We did X because data showed Y. Result: Z." This builds institutional memory and accountability.</p>
+                
+                <p><strong>4. Celebrate being wrong:</strong> When a hypothesis is disproven, celebrate the learning. "Great, we learned that users don't want this feature — let's test what they do want." This encourages risk-taking and honest reporting.</p>
+                
+                <p><strong>5. Data literacy training:</strong> Not everyone needs to be a data scientist, but everyone should understand: statistical significance, sample sizes, confidence intervals, and correlation vs. causation. Lunch-and-learn sessions work.</p>
+                
+                <p><strong>6. Question everything:</strong> The most valuable phrase in data culture is "What data do we have to support that?" Ask it kindly but consistently. It trains everyone to think in evidence.</p>
+                
+                <p><strong>7. Data quality first:</strong> Bad data is worse than no data. Invest in data validation, event taxonomy, and data governance. If stakeholders don't trust the data, they won't use it.</p>
+            </div>
+            
+            <div class="section">
+                <h2>When Data Isn't Enough</h2>
+                
+                <p>Data tells you what happened. It doesn't tell you what to build next. Some decisions require judgment beyond data:</p>
+                
+                <p>• <strong>Vision bets:</strong> Building something that doesn't exist yet has no data. "Should we build an AI feature?" — there are no usage metrics for something that doesn't exist. Vision, market intuition, and customer conversations fill the gap.</p>
+                
+                <p>• <strong>Strategic pivots:</strong> Data might show your current path is working okay. But a strategic pivot to a bigger opportunity requires seeing beyond current metrics. "We're profitable but the market is shrinking" — data supports staying the course, but strategy says pivot.</p>
+                
+                <p>• <strong>Brand and positioning:</strong> How users feel about your brand is hard to quantify. "Do users trust us?" — surveys help, but brand is built through consistent action over time, not A/B tests.</p>
+                
+                <p>• <strong>Ethical decisions:</strong> "Should we use this data for targeting?" Data can show it works. Ethics determines whether you should. Data doesn't answer "should" questions.</p>
+                
+                <p>Data is a powerful input to decisions, not a replacement for judgment. The best teams use data to reduce uncertainty in a framework of clear values and strategy.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Decision Velocity</h2>
+                
+                <p>The speed of decision-making matters as much as decision quality. In fast-moving markets, waiting for perfect data means missing the window. Optimize for decision velocity:</p>
+                
+                <p><strong>Two-way door decisions:</strong> Most SaaS decisions are reversible. You can change the pricing, kill the feature, or adjust the algorithm. For reversible decisions, decide quickly with 70% confidence. For irreversible decisions (re-architecting the database), take more time.</p>
+                
+                <p><strong>Decision rights:</strong> Clarify who decides what. Product manager decides feature priorities. Engineering lead decides technical approach. CEO decides strategic bets. Don't escalate reversible decisions to the highest level — it slows everyone down.</p>
+                
+                <p><strong>Time-boxing:</strong> "We have 3 days to decide on the onboarding flow. After that, we ship the best option and measure." Deadlines force prioritization and prevent infinite analysis.</p>
+                
+                <p><strong>Default decisions:</strong> "If we can't decide by Friday, we go with option A." Having a default removes the cost of indecision. Option A was probably reasonable anyway.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Data-Driven Decisions Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with decision frameworks, analysis templates, and culture-building playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('dataDrivenEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
