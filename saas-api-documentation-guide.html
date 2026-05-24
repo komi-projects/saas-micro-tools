@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS API Documentation Guide — Free Download</title>
+    <meta name="description" content="Free SaaS API documentation guide. Build developer-friendly docs that drive adoption, reduce integration time, and minimize support burden.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .api-docs {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .element-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .element-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .element-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 API Documentation</h1>
+            <p class="subtitle">Docs that developers love. Adoption that scales.</p>
+        </div>
+        
+        <div class="api-docs">
+            <div class="section">
+                <h2>Why API Documentation is Critical</h2>
+                
+                <p>For developer-facing SaaS products, API documentation is the product. Developers don't evaluate your sales deck — they evaluate your docs. If they can't understand your API in 5 minutes, they won't integrate. If integration takes a week instead of a day, they'll choose your competitor.</p>
+                
+                <p>Great API documentation:</p>
+                
+                <p>• Reduces integration time from days to hours
+                • Reduces support tickets from developers by 60-80%
+                • Increases API adoption and usage
+                • Enables self-service onboarding (no sales required)
+                • Improves developer satisfaction and advocacy
+                • Generates organic traffic (developers search for "how to do X with [API]")</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Documentation Elements</h2>
+                
+                <div class="element-box">
+                    <div class="element-name">1. Getting Started</div>
+                    <div class="element-detail">
+                        The first 5 minutes. Account creation, API key generation, first request.
+                        • Sign up for an account
+                        • Generate an API key (with security warnings)
+                        • Make your first API call (copy-paste ready)
+                        • Expected response format
+                        • Common errors and how to fix them
+                        Include a "Try it" button that works with test keys.
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">2. Authentication</div>
+                    <div class="element-detail">
+                        How to authenticate requests. Be explicit.
+                        • API key in header (Authorization: Bearer sk_live_...)
+                        • OAuth 2.0 flow (if applicable)
+                        • Token expiration and refresh
+                        • Rate limits per key
+                        • Revocation process
+                        Include code examples in curl, Python, JavaScript, and Ruby.
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">3. Core Resources / Endpoints</div>
+                    <div class="element-detail">
+                        Organized by resource, not by endpoint name.
+                        • /customers — Create, read, update, delete
+                        • /invoices — List, create, void, send
+                        • /webhooks — Subscribe, list, delete
+                        For each endpoint:
+                        - HTTP method and URL
+                        - Request parameters (required vs. optional, types, defaults)
+                        - Request body schema (JSON example)
+                        - Response schema (success and error)
+                        - Status codes and their meanings
+                        - Code examples in 3+ languages
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">4. Error Handling</div>
+                    <div class="element-detail">
+                        Every error code explained with solutions.
+                        • 400 Bad Request — Invalid parameters (check types and required fields)
+                        • 401 Unauthorized — Invalid API key (generate a new one)
+                        • 403 Forbidden — Insufficient permissions (upgrade plan or check scopes)
+                        • 404 Not Found — Resource doesn't exist (check ID)
+                        • 429 Too Many Requests — Rate limit hit (exponential backoff)
+                        • 500 Internal Server Error — Retry with exponential backoff, contact support if persistent
+                        Include error response format: { "error": { "code": "...", "message": "...", "details": "..." } }
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">5. Pagination</div>
+                    <div class="element-detail">
+                        How to handle large result sets.
+                        • cursor-based (preferred for real-time data)
+                        • offset/limit (simpler but less reliable for live data)
+                        • Include total count, has_more flag, and next cursor
+                        • Code example showing how to iterate through all results
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">6. Webhooks</div>
+                    <div class="element-detail">
+                        Event-driven integration.
+                        • How to subscribe to webhooks
+                        • Event types and payload formats
+                        • Retry logic (exponential backoff)
+                        • Signature verification (security)
+                        • Idempotency (prevent duplicate processing)
+                        • Testing webhooks locally (ngrok, Stripe CLI)
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">7. SDKs and Libraries</div>
+                    <div class="element-detail">
+                        Official wrappers make integration easier.
+                        • npm install your-sdk
+                        • pip install your-sdk
+                        • gem install your-sdk
+                        • composer require your/sdk
+                        Maintain official SDKs for top 3 languages. Community SDKs for the rest. SDK docs should mirror API docs but with language idioms.
+                    </div>
+                </div>
+                
+                <div class="element-box">
+                    <div class="element-name">8. Changelog & Versioning</div>
+                    <div class="element-detail">
+                        API changes break integrations. Communicate clearly.
+                        • Semantic versioning for API (v1, v2)
+                        • Deprecation policy (6-12 months notice)
+                        • Migration guides between versions
+                        • Sunsetting dates for deprecated endpoints
+                        • Changelog with all additions, changes, and removals
+                        Email developers about breaking changes 90 days in advance.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Documentation Best Practices</h2>
+                
+                <p>• <strong>Copy-paste ready:</strong> Every code example should work if pasted into a terminal or IDE. No placeholders like <YOUR_API_KEY> without instructions.</p>
+                
+                <p>• <strong>Multiple languages:</strong> At minimum: curl, JavaScript, Python. Add Ruby, PHP, Go, Java based on your audience.</p>
+                
+                <p>• <strong>Interactive console:</strong> Let developers make real API calls from the docs. Stripe's "Try it" feature is the gold standard.</p>
+                
+                <p>• <strong>Real responses:</strong> Show actual JSON responses, not simplified versions. Developers need to see edge cases, null values, and nested structures.</p>
+                
+                <p>• <strong>Search:</strong> Developers search for endpoints, error codes, and concepts. Algolia DocSearch is the standard.</p>
+                
+                <p>• <strong>Mobile-friendly:</strong> Developers read docs on phones during commutes, on tablets while testing. Responsive design is essential.</p>
+                
+                <p>• <strong>Dark mode:</strong> Developers expect it. It's not a nice-to-have anymore.</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Documentation Tools</h2>
+                
+                <p><strong>All-in-one platforms:</strong></p>
+                
+                <p>• <strong>ReadMe:</strong> The gold standard. Interactive API console, changelog, community. Paid but worth it.
+                • <strong>Stoplight:</strong> Design-first API docs. Visual OpenAPI editor + documentation.
+                • <strong>Bump.sh:</strong> Auto-generated from OpenAPI. Clean, modern design.
+                • <strong>Postman Public Workspaces:</strong> Collections + documentation + collaboration. Free tier available.</p>
+                
+                <p><strong>Open source / Static site:</strong></p>
+                
+                <p>• <strong>Swagger UI:</strong> Classic OpenAPI renderer. Functional but dated design.
+                • <strong>Redoc:</strong> Beautiful OpenAPI documentation. Three-panel layout. Highly customizable.
+                • <strong>Docusaurus + OpenAPI:</strong> Full documentation site with API reference. Used by Meta, Supabase.
+                • <strong>Slate:</strong> Static API docs. Clean three-column layout. Used by Stripe (original version).
+                • <strong>GitBook:</strong> Good for mixed content (guides + API reference). Less interactive than ReadMe.</p>
+                
+                <p><strong>Auto-generation:</strong></p>
+                
+                <p>• <strong>OpenAPI Generator:</strong> Generate docs, SDKs, and server stubs from OpenAPI spec.
+                • <strong>Swagger Codegen:</strong> Similar to OpenAPI Generator.
+                • <strong>Postman:</strong> Convert collections to documentation.
+                • <strong>Insomnia:</strong> Generate docs from request collections.</p>
+            </div>
+            
+            <div class="section">
+                <h2>OpenAPI Specification</h2>
+                
+                <p>OpenAPI (formerly Swagger) is the industry standard for API description. A single YAML/JSON file describes your entire API:</p>
+                
+                <p>• <strong>Benefits:</strong> Single source of truth. Generate docs, SDKs, tests, and mock servers from one file.
+                • <strong>Version:</strong> Use OpenAPI 3.0 or 3.1. 2.0 is legacy.
+                • <strong>Validation:</strong> Validate requests/responses against spec in CI/CD. Catch breaking changes.
+                • <strong>Code-first vs. Design-first:</strong> Code-first generates spec from code annotations. Design-first writes spec, then generates code. Design-first is preferred for public APIs.
+                • <strong>Tools:</strong> Swagger Editor (online), Stoplight Studio (desktop), Insomnia (design + test), Postman (import OpenAPI).</p>
+            </div>
+            
+            <div class="section">
+                <h2>Developer Experience (DX)</h2>
+                
+                <p>API documentation is part of a broader developer experience:</p>
+                
+                <p>• <strong>Onboarding:</strong> Sign up → API key → first request in < 5 minutes. Stripe does this perfectly.
+                • <strong>Sandbox:</strong> Test environment with fake data. No risk, no real charges.
+                • <strong>Postman collection:</strong> Import and start testing immediately. Pre-filled with examples.
+                • <strong>Status page:</strong> API uptime, latency, incident history. Builds trust.
+                • <strong>Community:</strong> Forum, Discord, Stack Overflow tag. Developers help each other.
+                • <strong>Support:</strong> Developer-focused support (not generic). Fast response to API questions.
+                • <strong>Examples:</strong> Real-world use cases, not just endpoint reference. "Build a subscription system" tutorial.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full API Documentation Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with OpenAPI templates, DX checklists, and tool comparisons.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('apiDocumentationEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
