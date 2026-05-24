@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Security Guide — Free Download</title>
+    <meta name="description" content="Free SaaS security guide. Implement security best practices, pass SOC 2 audits, and protect customer data from day one.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .security {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .tactic-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .tactic-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .tactic-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Security</h1>
+            <p class="subtitle">Protect your product, your customers, and your reputation.</p>
+        </div>
+        
+        <div class="security">
+            <div class="section">
+                <h2>Security-First Mindset</h2>
+                
+                <p>Security isn't a feature you add later. It's a foundation you build from day one. In SaaS, a single breach can destroy trust, trigger legal liability, and end your business. Security is not "IT's problem" — it's everyone's responsibility.</p>
+                
+                <p><strong>The security triad:</strong> Confidentiality (keep data private), Integrity (data is accurate and tamper-proof), Availability (systems are up when needed). Balance all three — over-indexing on one weakens the others.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Core Security Practices</h2>
+                
+                <div class="tactic-box">
+                    <div class="tactic-name">🔐 Authentication & Authorization</div>
+                    <div class="tactic-detail">Use SSO (OAuth 2.0, SAML) for enterprise. Implement MFA for all admin accounts. Role-based access control (RBAC) — users see only what they need. Never store plaintext passwords (bcrypt/Argon2 only).</div>
+                </div>
+                
+                <div class="tactic-box">
+                    <div class="tactic-name">🛡️ Input Validation</div>
+                    <div class="tactic-detail">Sanitize all user input. SQL injection, XSS, and CSRF are still the top attack vectors. Use parameterized queries, escape output, validate on server-side. Never trust client-side validation alone.</div>
+                </div>
+                
+                <div class="tactic-box">
+                    <div class="tactic-name">🔑 Encryption</div>
+                    <div class="tactic-detail">TLS 1.3 for data in transit. AES-256 for data at rest. Encrypt backups, logs, and anything that touches PII. Use managed key services (AWS KMS, Google Cloud KMS) for key rotation.</div>
+                </div>
+                
+                <div class="tactic-box">
+                    <div class="tactic-name">📋 Audit Logging</div>
+                    <div class="tactic-detail">Log every security-relevant event: logins, permission changes, data exports, failed access attempts. Immutable logs (append-only, signed). Retain for 1+ year. Essential for incident response and compliance.</div>
+                </div>
+                
+                <div class="tactic-box">
+                    <div class="tactic-name">🧪 Security Testing</div>
+                    <div class="tactic-detail">Automated vulnerability scanning (Snyk, Dependabot). Penetration testing annually (or after major changes). Bug bounty program for continuous external testing. Static analysis in CI/CD pipeline.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Compliance Frameworks</h2>
+                
+                <p><strong>SOC 2 Type II:</strong> Security, availability, confidentiality. The enterprise SaaS standard. Requires policies, procedures, evidence, and an auditor. Takes 6-12 months to achieve. Use Vanta or Drata to automate evidence collection.</p>
+                
+                <p><strong>ISO 27001:</strong> International security standard. More comprehensive than SOC 2 but less US-market-specific. Good for global SaaS companies.</p>
+                
+                <p><strong>GDPR (EU):</strong> Data protection regulation. Right to access, delete, and port data. Consent for tracking. Data Processing Agreements (DPAs) with subprocessors. Fines up to 4% of global revenue.</p>
+                
+                <p><strong>CCPA/CPRA (California):</strong> US state-level privacy law. Similar to GDPR but narrower. "Do Not Sell My Info" links. Disclosure of data collection. Opt-out for data sales.</p>
+                
+                <p><strong>HIPAA (Healthcare):</strong> If you touch health data, you need Business Associate Agreements, encrypted everything, access controls, and audit trails. Non-negotiable.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Response</h2>
+                
+                <p><strong>1. Detect:</strong> Monitoring and alerting. Anomaly detection on login patterns, data access, and API usage. 24/7 alerting for critical systems.</p>
+                
+                <p><strong>2. Contain:</strong> Isolate affected systems. Rotate compromised credentials. Block malicious IPs. Preserve evidence (logs, snapshots).</p>
+                
+                <p><strong>3. Eradicate:</strong> Remove the root cause. Patch vulnerabilities. Fix misconfigurations. Update dependencies.</p>
+                
+                <p><strong>4. Recover:</strong> Restore from clean backups. Verify system integrity. Monitor for re-infection.</p>
+                
+                <p><strong>5. Learn:</strong> Post-mortem. What happened? How did we detect it? How do we prevent it? Document and share. No blame, just learning.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Security Metrics</h2>
+                
+                <p>• <strong>Mean Time to Detection (MTTD):</strong> How fast you detect incidents. Target: < 1 hour.<br>
+                • <strong>Mean Time to Response (MTTR):</strong> How fast you respond. Target: < 4 hours.<br>
+                • <strong>Vulnerability patch time:</strong> Days from CVE disclosure to patch. Target: < 7 days for critical.<br>
+                • <strong>Phish test pass rate:</strong> % of employees who report phishing emails. Target: > 80%.<br>
+                • <strong>Security audit findings:</strong> Count of critical/high/medium findings. Trending down = improving.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Security Checklist</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Launch Day Security</div>
+                    <div class="example-text">
+                        ✅ HTTPS everywhere (TLS 1.3)<br>
+                        ✅ Strong password policy + MFA<br>
+                        ✅ Input validation on all endpoints<br>
+                        ✅ Encrypted database (at rest)<br>
+                        ✅ Audit logging enabled<br>
+                        ✅ Dependency vulnerability scan<br>
+                        ✅ Backup and recovery tested<br>
+                        ✅ Incident response runbook<br>
+                        ✅ Security headers (CSP, HSTS, X-Frame-Options)<br>
+                        ✅ Rate limiting on API and login endpoints
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Security Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with compliance roadmaps, incident response playbooks, and security audit checklists.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('securityGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
