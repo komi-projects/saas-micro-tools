@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Webhooks Guide — Free Download</title>
+    <meta name="description" content="Free SaaS webhooks guide. Design reliable webhook systems, handle retries, verify signatures, and build real-time integrations.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .webhooks {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .principle-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .principle-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .principle-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 Webhooks</h1>
+            <p class="subtitle">Build real-time integrations. Handle failures. Verify signatures.</p>
+        </div>
+        
+        <div class="webhooks">
+            <div class="section">
+                <h2>What are Webhooks?</h2>
+                
+                <p>Webhooks are user-defined HTTP callbacks. Instead of your app polling our API every minute ("Did anything change?"), we push events to your URL in real-time ("Something changed!"). They're the backbone of modern SaaS integrations.</p>
+                
+                <p><strong>Polling:</strong> You ask us every minute. 1,440 requests/day. 99% return nothing. Wasteful, slow, expensive.<br>
+                <strong>Webhooks:</strong> We tell you when something happens. Instant. Efficient. Scalable.</p>
+                
+                <p>Every major SaaS uses webhooks: Stripe (payment events), Slack (message events), GitHub (push events), Twilio (SMS delivery). If you're building a SaaS, you need webhooks.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Design Principles</h2>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🎯 Event-Driven Architecture</div>
+                    <div class="principle-detail">Webhooks are notifications, not commands. "Payment succeeded" not "Charge this card." Keep webhooks stateless and idempotent. The receiver decides what to do with the event.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🔐 Signature Verification</div>
+                    <div class="principle-detail">Sign every payload with HMAC-SHA256. Include signature in header (e.g., X-Webhook-Signature). Receivers verify before processing. Prevents tampering and replay attacks. Never send secrets in the payload.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🔄 Idempotency</div>
+                    <div class="principle-detail">Same event ID = same outcome. Receivers should handle duplicate webhooks gracefully (network retries, redeliveries). Include event_id in payload. Store processed IDs for 24+ hours.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">⏱️ Retry with Backoff</div>
+                    <div class="principle-detail">If receiver returns non-2xx, retry with exponential backoff. 1 min, 2 min, 4 min, 8 min... up to 24 hours. Max 3-5 retries for most events, 10+ for critical (payments, security). Don't spam failed endpoints.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">📋 Event Payload Design</div>
+                    <div class="principle-detail">Include event metadata (id, type, timestamp) and resource snapshot (current state, not just delta). "invoice.paid" should include the full invoice object, not just "invoice_id": "inv_123". Reduces API calls for receivers.</div>
+                </div>
+                
+                <div class="principle-box">
+                    <div class="principle-name">🧪 Test Endpoints</div>
+                    <div class="principle-detail">Provide a way to test webhooks without real events. Dashboard "Send Test Webhook" button. CLI tool. Postman collection. Developers need to verify their handler before going live.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Event Types</h2>
+                
+                <p>Name events consistently: resource.action</p>
+                
+                <p>• <strong>Lifecycle:</strong> customer.created, customer.updated, customer.deleted<br>
+                • <strong>Billing:</strong> invoice.created, invoice.paid, invoice.payment_failed, subscription.canceled<br>
+                • <strong>Usage:</strong> report.generated, export.completed, limit.approaching<br>
+                • <strong>Security:</strong> user.login, api_key.created, permission.changed, mfa.enabled<br>
+                • <strong>Integration:</strong> integration.connected, integration.disconnected, sync.completed</p>
+                
+                <p>Document every event: trigger condition, payload schema, example payload, retry policy. Maintain a changelog when events are added, modified, or deprecated.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Implementing Webhooks (Sender)</h2>
+                
+                <p><strong>1. Registration:</strong> User provides URL + optional secret + event types they want. Validate URL (HEAD request, check 2xx). Store with webhook_id.</p>
+                
+                <p><strong>2. Delivery:</strong> Queue event → worker picks up → POST to URL with payload + headers. Timeout: 5-30 seconds. Don't block user requests.</p>
+                
+                <p><strong>3. Signature:</strong> Sign payload with shared secret: HMAC-SHA256(secret, timestamp + "." + payload). Include timestamp to prevent replays. Receiver verifies: extract timestamp, reconstruct signature, compare.</p>
+                
+                <p><strong>4. Retries:</strong> On failure, requeue with delay. Exponential backoff: 1 min → 2 min → 4 min → 8 min → 15 min → 30 min → 1 hour → 2 hours → 4 hours. Max attempts: 5-10. After max: mark as failed, notify user.</p>
+                
+                <p><strong>5. Monitoring:</strong> Track delivery rate, latency, failure rate per endpoint. Alert users if their endpoint has been failing for > 24 hours. Provide delivery logs in dashboard.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Implementing Webhooks (Receiver)</h2>
+                
+                <p><strong>1. Verify signature:</strong> Before processing anything. Reject if invalid. Use constant-time comparison to prevent timing attacks.</p>
+                
+                <p><strong>2. Check timestamp:</strong> Reject if timestamp is > 5 minutes old. Prevents replay attacks.</p>
+                
+                <p><strong>3. Acknowledge quickly:</strong> Return 200 immediately, then process async. Webhooks should be fast. If processing takes > 30 seconds, the sender may retry (duplicate processing).</p>
+                
+                <p><strong>4. Handle duplicates:</strong> Store processed event IDs. Check before processing. Return 200 for duplicates (sender should stop retrying).</p>
+                
+                <p><strong>5. Queue for processing:</strong> Don't process webhook payload directly in the HTTP handler. Push to internal queue (Redis, RabbitMQ, SQS). Worker processes asynchronously. Prevents timeouts and handles bursts.</p>
+                
+                <p><strong>6. Graceful degradation:</strong> If your service is down, sender retries. When you come back, you'll catch up. Design for eventual consistency.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Dashboard Features</h2>
+                
+                <p>• <strong>Endpoint management:</strong> Add, edit, delete webhook URLs. Test connectivity.<br>
+                • <strong>Event filtering:</strong> Subscribe to specific event types. Reduce noise.<br>
+                • <strong>Delivery logs:</strong> History of sent webhooks with status, response code, latency, payload.<br>
+                • <strong>Retry controls:</strong> Manual retry for failed deliveries. Pause/resume endpoints.<br>
+                • <strong>Secret rotation:</strong> Generate new secrets without downtime. Support multiple active secrets during transition.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Metrics</h2>
+                
+                <p>• <strong>Delivery rate:</strong> % of webhooks delivered successfully. Target: > 99.5%.<br>
+                • <strong>Latency (P95):</strong> Time from event to delivery. Target: < 5 seconds.<br>
+                • <strong>Failure rate by endpoint:</strong> Identify problematic receiver URLs.<br>
+                • <strong>Retry rate:</strong> % requiring retries. High = unreliable receivers or network issues.<br>
+                • <strong>Endpoint health:</strong> % of endpoints failing for > 24 hours. Alert users to fix.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Webhooks Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation code, signature verification examples, and retry logic templates.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('webhooksGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
