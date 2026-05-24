@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS DevOps Guide — Free Download</title>
+    <meta name="description" content="Free SaaS DevOps guide. Deploy faster, recover from failures, and build reliable infrastructure with CI/CD, containers, and automation.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .devops {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .practice-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .practice-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .practice-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DevOps</h1>
+            <p class="subtitle">Deploy fast. Recover faster. Sleep at night.</p>
+        </div>
+        
+        <div class="devops">
+            <div class="section">
+                <h2>DevOps for SaaS</h2>
+                
+                <p>DevOps isn't just about tools — it's about culture. The goal: ship code to production safely, quickly, and repeatedly. Small changes, frequent deploys, fast recovery. The opposite: big-bang releases, manual processes, weekend deploys, "don't touch it, it works."</p>
+                
+                <p>For SaaS, DevOps is critical. Your product is live 24/7. Every minute of downtime is lost revenue and trust. Every slow deploy is delayed value.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Core Practices</h2>
+                
+                <div class="practice-box">
+                    <div class="practice-name">🔄 CI/CD (Continuous Integration / Continuous Deployment)</div>
+                    <div class="practice-detail">Every code change is built, tested, and deployed automatically. Git push → tests run → deploy to staging → manual approval → deploy to production. Tools: GitHub Actions, GitLab CI, CircleCI, Jenkins. Target: deploy to production > 10x per week.</div>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-name">📦 Infrastructure as Code (IaC)</div>
+                    <div class="practice-detail">Define infrastructure in code (Terraform, CloudFormation, Pulumi), not manual clicks. Version-controlled, reviewable, reproducible. Spin up a new environment in minutes. Disaster recovery: run the script, rebuild everything.</div>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-name">🐳 Containers & Orchestration</div>
+                    <div class="practice-detail">Docker containers package your app + dependencies. Kubernetes (or managed: ECS, GKE, AKS) orchestrates scaling, health checks, rollouts. "It works on my machine" becomes "It works in a container."</div>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-name">🧪 Automated Testing</div>
+                    <div class="practice-detail">Unit tests (fast, isolated), integration tests (APIs, DBs), and end-to-end tests (full user flows). Run on every PR. Block deploy if tests fail. Test coverage > 70% is a good target. 100% coverage with bad tests is worse than 50% with good tests.</div>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-name">📊 Monitoring & Alerting</div>
+                    <div class="practice-detail">If you can't measure it, you can't improve it. Metrics (CPU, memory, request latency), logs (structured, searchable), traces (request flows across services). Alert on symptoms (error rate > 1%), not causes (disk > 90%). Page on revenue-impacting issues only.</div>
+                </div>
+                
+                <div class="practice-box">
+                    <div class="practice-name">🔄 Feature Flags</div>
+                    <div class="practice-detail">Deploy code, release features separately. Merge incomplete features behind a flag. Enable for 5% of users, then 50%, then 100%. If something breaks, flip the flag off — no rollback needed. Tools: LaunchDarkly, Split, Unleash, or simple config flags.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Deployment Strategy</h2>
+                
+                <p><strong>Blue-Green Deployment:</strong> Two identical environments. Deploy to "green," test, switch traffic from "blue." Instant rollback: switch back. Zero downtime. Requires double infrastructure.</p>
+                
+                <p><strong>Canary Deployment:</strong> Deploy to 5% of servers, monitor, then 25%, then 50%, then 100%. If error rate spikes, halt. Gradual, safe, data-driven.</p>
+                
+                <p><strong>Rolling Deployment:</strong> Replace servers one by one. No extra infrastructure needed. Slower, but cost-effective. Good for stateless apps.</p>
+                
+                <p><strong>Database Migrations:</strong> Never drop columns in the same deploy that stops using them. Three-step process: (1) Add new column, (2) Update code to write to both, (3) Remove old column. Backward-compatible = zero-downtime.</p>
+            </div>
+            
+            <div class="section">
+                <h2>DevOps Tooling Stack</h2>
+                
+                <p><strong>Code & Collaboration:</strong> GitHub, GitLab, Bitbucket<br>
+                <strong>CI/CD:</strong> GitHub Actions, GitLab CI, CircleCI, Travis CI<br>
+                <strong>IaC:</strong> Terraform, Pulumi, AWS CloudFormation<br>
+                <strong>Containers:</strong> Docker, Kubernetes, ECS, GKE<br>
+                <strong>Monitoring:</strong> Datadog, New Relic, Prometheus + Grafana<br>
+                <strong>Logging:</strong> ELK Stack, Splunk, Papertrail, LogDNA<br>
+                <strong>Feature Flags:</strong> LaunchDarkly, Split, Unleash<br>
+                <strong>Secrets:</strong> Vault, AWS Secrets Manager, Doppler</p>
+                
+                <p><strong>Rule:</strong> Pick tools your team knows. A mediocre tool used well beats a perfect tool no one understands. Start simple, add complexity when needed.</p>
+            </div>
+            
+            <div class="section">
+                <h2>DevOps Metrics (DORA)</h2>
+                
+                <p>The DevOps Research Alliance (DORA) identified 4 key metrics:</p>
+                
+                <p>• <strong>Deployment Frequency:</strong> How often you deploy. Elite: on-demand (> 1/day). High: 1/week-1/day. Medium: 1/month-1/week. Low: < 1/month.<br>
+                • <strong>Lead Time for Changes:</strong> Time from commit to production. Elite: < 1 hour. High: < 1 day. Medium: 1 day-1 week. Low: > 1 month.<br>
+                • <strong>Change Failure Rate:</strong> % of deploys causing incidents. Elite: < 5%. High: 5-15%. Medium: 15-30%. Low: > 30%.<br>
+                • <strong>Mean Time to Recovery (MTTR):</strong> Time to recover from failure. Elite: < 1 hour. High: < 1 day. Medium: 1 day-1 week. Low: > 1 week.</p>
+                
+                <p><strong>Elite performers:</strong> Deploy multiple times per day, recover in under an hour, and have < 5% failure rate. They're not <strong>more careful</strong> — they're <strong>better at detecting and recovering</strong>.</p>
+            </div>
+            
+            <div class="section">
+                <h2>On-Call Best Practices</h2>
+                
+                <p><strong>1. Rotate on-call:</strong> Weekly rotations. No one should be on-call > 25% of the time. Compensate: extra PTO or pay.</p>
+                
+                <p><strong>2. Runbooks for everything:</strong> "If alert X fires, check Y, run Z, escalate to W." No one should wake up at 3 AM and guess what to do.</p>
+                
+                <p><strong>3. Post-mortems without blame:</strong> What happened? How did we detect it? How did we fix it? How do we prevent it? Document and share. The goal is learning, not punishment.</p>
+                
+                <p><strong>4. Reduce alert noise:</strong> If an alert fires and no action is needed, it's not an alert — it's a metric. Page only on revenue-impacting issues. Everything else: Slack notification during business hours.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full DevOps Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with CI/CD templates, infrastructure patterns, and incident response playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('devopsGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
