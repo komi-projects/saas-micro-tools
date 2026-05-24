@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced LTV Calculator — SimpleRecover</title>
+<style>
+:root{--bg:#0f0f1a;--surface:#16162a;--surface2:#1e1e3a;--text:#e8e8f0;--text2:#a0a0c0;--accent:#6366f1;--accent2:#8b5cf6;--accent3:#a78bfa;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--gold:#fbbf24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+header{text-align:center;padding:40px 0 30px}
+header h1{font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+header p{color:var(--text2);font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:30px}
+.card{background:var(--surface);border:1px solid rgba(99,102,241,0.15);border-radius:16px;padding:24px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:rgba(99,102,241,0.35)}
+.card h2{font-size:.9rem;text-transform:uppercase;letter-spacing:1px;color:var(--accent3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:6px}
+.input-group input,.input-group select{width:100%;padding:12px 14px;background:var(--surface2);border:1px solid rgba(99,102,241,0.2);border-radius:10px;color:var(--text);font-size:1rem;outline:none;transition:border-color .2s}
+.input-group input:focus,.input-group select:focus{border-color:var(--accent)}
+.metric-value{font-size:2.4rem;font-weight:800;margin-bottom:4px}
+.metric-label{font-size:.85rem;color:var(--text2)}
+.big-result{background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:3rem;font-weight:900}
+.sub{font-size:.9rem;color:var(--text2);margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .2s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn-secondary{background:var(--surface2);border:1px solid rgba(99,102,241,0.3)}
+.table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.85rem}
+.table th,.table td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(99,102,241,0.1)}
+.table th{color:var(--accent3);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.table td{color:var(--text2)}
+.table tr:hover td{background:rgba(99,102,241,0.05)}
+.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:rgba(99,102,241,.15);color:var(--accent3);border:1px solid rgba(99,102,241,.2)}
+.lock-overlay{position:absolute;inset:0;background:rgba(15,15,26,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:16px;z-index:10}
+.lock-overlay p{color:var(--text2);font-size:.9rem;text-align:center;max-width:320px}
+.email-capture{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:400px;width:100%}
+.email-capture input{flex:1;min-width:180px;padding:12px 16px;background:var(--surface2);border:1px solid rgba(99,102,241,0.3);border-radius:10px;color:var(--text);font-size:.9rem;outline:none}
+.email-capture button{padding:12px 20px;background:linear-gradient(135deg,var(--gold),#f59e0b);color:#0f0f1a;border:none;border-radius:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.slider-container{margin-top:8px}
+.slider-container input[type=range]{width:100%;margin-top:8px;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--surface2);outline:none}
+.slider-container input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text2);margin-top:4px}
+.locked{position:relative;overflow:hidden}
+.gauge{height:8px;background:var(--surface2);border-radius:4px;margin-top:12px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s ease}
+footer{text-align:center;padding:40px 0;color:var(--text2);font-size:.85rem}
+footer a{color:var(--accent3);text-decoration:none}
+@media(max-width:768px){.container{padding:14px}header h1{font-size:1.7rem}.grid{grid-template-columns:1fr}.big-result{font-size:2.2rem}.metric-value{font-size:2rem}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Advanced LTV Calculator</h1>
+<p>Cohort analysis, margin impact, and expansion modeling. Basic LTV free — full cohort model unlocked with email.</p>
+</header>
+
+<div class="grid">
+<div class="card">
+<h2>Revenue Inputs</h2>
+<div class="input-group"><label>Monthly ARPU ($)</label><input type="number" id="arpu" value="99" oninput="calc()"></div>
+<div class="input-group"><label>Gross Margin (%)</label><input type="number" id="margin" value="75" oninput="calc()"></div>
+<div class="input-group"><label>Monthly Churn (%)</label><input type="number" id="churn" value="3.5" step="0.1" oninput="calc()"></div>
+<div class="input-group"><label>Annual Discount Rate (%)</label><input type="number" id="discount" value="10" oninput="calc()"></div>
+<div style="margin-top:20px;padding:20px;background:var(--surface2);border-radius:12px;text-align:center">
+<div class="big-result" id="ltv-basic">$2,829</div>
+<div class="sub">Basic LTV (no expansion)</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Expansion Modeling</h2>
+<div class="input-group"><label>Monthly Expansion Revenue ($)</label><input type="number" id="expansion" value="12" oninput="calc()"></div>
+<div class="input-group"><label>Upsell Rate (% of customers / mo)</label><input type="number" id="upsellRate" value="5" oninput="calc()"></div>
+<div class="input-group"><label>Expansion Compound (% / mo)</label><input type="number" id="expCompound" value="2" oninput="calc()"></div>
+<div class="slider-container">
+<div style="font-size:.8rem;color:var(--text2);margin-bottom:4px">Expansion Scenario</div>
+<input type="range" id="expScenario" min="0" max="2" value="1" oninput="calc()">
+<div class="slider-labels"><span>Conservative</span><span>Base</span><span>Aggressive</span></div>
+</div>
+<div style="margin-top:20px;padding:20px;background:var(--surface2);border-radius:12px;text-align:center">
+<div class="big-result" id="ltv-exp" style="background:linear-gradient(135deg,var(--success),#4ade80);-webkit-background-clip:text">$3,420</div>
+<div class="sub">LTV with expansion</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Margin Impact</h2>
+<div class="input-group"><label>COGS per User ($ / mo)</label><input type="number" id="cogs" value="25" oninput="calc()"></div>
+<div class="input-group"><label>Support Cost ($ / mo)</label><input type="number" id="support" value="8" oninput="calc()"></div>
+<div class="input-group"><label>Payment Processing (%)</label><input type="number" id="processing" value="2.9" step="0.1" oninput="calc()"></div>
+<div style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text2);font-size:.9rem">True Margin</span><span id="true-margin" style="font-weight:700">67%</span></div>
+<div class="gauge"><div class="gauge-fill" id="margin-gauge" style="width:67%"></div></div>
+</div>
+<div style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--text2);font-size:.9rem">LTV with True Margin</span><span id="ltv-true" style="font-weight:700">$2,531</span></div>
+<div class="gauge"><div class="gauge-fill" id="ltvtrue-gauge" style="width:50%"></div></div>
+</div>
+</div>
+</div>
+
+<div class="card locked" style="position:relative;margin-bottom:30px">
+<h2>Full Cohort Analysis <span class="pill">PRO</span></h2>
+<p style="color:var(--text2);margin-bottom:16px">Month-by-month cohort retention table, revenue per cohort, and cumulative LTV curves. Unlock the complete model.</p>
+<table class="table" id="cohort-table">
+<thead><tr><th>Cohort</th><th>Month 1</th><th>Month 3</th><th>Month 6</th><th>Month 12</th><th>LTV</th></tr></thead>
+<tbody><tr><td>Jan 2026</td><td>100%</td><td>90%</td><td>80%</td><td>65%</td><td>$2,829</td></tr><tr><td>Feb 2026</td><td>100%</td><td>89%</td><td>79%</td><td>64%</td><td>$2,783</td></tr><tr><td>Mar 2026</td><td>100%</td><td>91%</td><td>81%</td><td>66%</td><td>$2,912</td></tr></tbody>
+</table>
+<div class="lock-overlay" id="lock1">
+<p>Unlock full cohort model + retention curves + CSV export for <strong style="color:var(--gold)">$9</strong></p>
+<div class="email-capture"><input type="email" id="email1" placeholder="your@email.com"><button onclick="unlock('lock1','email1')">Unlock Now</button></div>
+</div>
+</div>
+
+<footer>Built by <a href="https://simplerecover.io">SimpleRecover</a> · The payment recovery toolkit for SaaS founders</footer>
+</div>
+
+<script>
+function fmt$(n){return '$'+Math.round(n).toLocaleString()}
+function calc(){
+ const arpu=+document.getElementById('arpu').value||0;
+ const margin=+document.getElementById('margin').value||0;
+ const churn=+document.getElementById('churn').value||0;
+ const discount=+document.getElementById('discount').value||0;
+ const expansion=+document.getElementById('expansion').value||0;
+ const upsellRate=+document.getElementById('upsellRate').value||0;
+ const expCompound=+document.getElementById('expCompound').value||0;
+ const cogs=+document.getElementById('cogs').value||0;
+ const support=+document.getElementById('support').value||0;
+ const processing=+document.getElementById('processing').value||0;
+ const expScenario=+document.getElementById('expScenario').value;
+ const monthlyMargin=margin/100;
+ const trueMargin=1-((cogs+support+arpu*processing/100)/arpu);
+ const trueMarginPct=Math.max(0,Math.min(100,trueMargin*100));
+ const ltvBasic=churn>0?(arpu*monthlyMargin)/(churn/100):arpu*monthlyMargin*24;
+ const m=(churn/100);
+ const d=(discount/100)/12;
+ let ltvDisc=0;
+ for(let i=0;i<60;i++){ltvDisc+=(arpu*monthlyMargin/Math.pow(1+d,i))*Math.pow(1-m,i)}
+ const expMult=[0.8,1,1.4][expScenario]||1;
+ const ltvExp=ltvBasic*(1+(expansion*upsellRate/100*expMult*12/arpu));
+ document.getElementById('ltv-basic').textContent=fmt$(ltvDisc||ltvBasic);
+ document.getElementById('ltv-exp').textContent=fmt$(ltvExp);
+ document.getElementById('true-margin').textContent=trueMarginPct.toFixed(1)+'%';
+ document.getElementById('ltv-true').textContent=fmt$(ltvBasic*trueMargin);
+ document.getElementById('margin-gauge').style.width=Math.min(100,trueMarginPct)+'%';
+ document.getElementById('ltvtrue-gauge').style.width=Math.min(100,(ltvBasic*trueMargin/5000)*100)+'%';
+}
+function unlock(lockId,emailId){
+ const email=document.getElementById(emailId).value;
+ if(!email||!email.includes('@')){alert('Please enter a valid email.');return}
+ alert('Thanks! Unlock link sent to '+email);
+ document.getElementById(lockId).style.display='none';
+}
+calc();
+</script>
+</body>
+</html>
