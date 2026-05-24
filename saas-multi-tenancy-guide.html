@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Multi-Tenancy Guide — Free Download</title>
+    <meta name="description" content="Free SaaS multi-tenancy guide. Architect your product for scale, reduce costs, and serve thousands of customers from a single deployment.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .tenancy {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .model-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .model-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .model-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Multi-Tenancy</h1>
+            <p class="subtitle">One codebase. Thousands of customers. Maximum efficiency.</p>
+        </div>
+        
+        <div class="tenancy">
+            <div class="section">
+                <h2>What is Multi-Tenancy?</h2>
+                
+                <p>Multi-tenancy is an architecture where a single instance of your software serves multiple customers (tenants). Each tenant's data is isolated, but they share the same infrastructure, codebase, and database.</p>
+                
+                <p><strong>Single-tenant:</strong> One deployment per customer. Dedicated servers, dedicated database. Simple, secure, expensive. Good for enterprise with strict compliance.</p>
+                
+                <p><strong>Multi-tenant:</strong> One deployment for all customers. Shared everything. Complex, cost-efficient, scalable. Good for SMB/mid-market SaaS.</p>
+                
+                <p>Most successful SaaS companies are multi-tenant. AWS, Salesforce, Slack, Stripe — all multi-tenant. The cost savings (5-10x lower infrastructure per customer) and operational simplicity (one deploy affects everyone) are massive.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Multi-Tenancy Models</h2>
+                
+                <div class="model-box">
+                    <div class="model-name">🔵 Shared Database, Shared Schema</div>
+                    <div class="model-detail">One database, one set of tables. Every table has a tenant_id column. Queries always filter by tenant_id. Simplest model, highest resource efficiency. Risk: one tenant's heavy query can affect others. Mitigation: query limits, resource quotas, read replicas.</div>
+                </div>
+                
+                <div class="model-box">
+                    <div class="model-name">🟢 Shared Database, Separate Schema</div>
+                    <div class="model-detail">One database, separate schema per tenant (e.g., tenant_123.users). Better isolation than shared schema. Easy to export one tenant's data. Slightly more complex migrations (apply to all schemas). Good for mid-market with data isolation requirements.</div>
+                </div>
+                
+                <div class="model-box">
+                    <div class="model-name">🟡 Separate Database per Tenant</div>
+                    <div class="model-detail">Completely isolated databases. Maximum data isolation. Easier compliance (each tenant's data is physically separate). Higher operational overhead (more connections, more backups, harder migrations). Good for enterprise or regulated industries.</div>
+                </div>
+                
+                <div class="model-box">
+                    <div class="model-name">🔴 Hybrid (Tenant-Aware)</div>
+                    <div class="model-detail">Most tenants on shared schema. Large/enterprise tenants on separate databases or schemas. Best of both worlds. Complexity: application must route queries to the right database based on tenant tier. This is what Salesforce and Stripe do.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Data Isolation</h2>
+                
+                <p><strong>The #1 risk of multi-tenancy:</strong> Tenant A sees Tenant B's data. This is a catastrophic failure. Prevent it at every layer:</p>
+                
+                <p><strong>Application layer:</strong> Every query must include tenant_id. Use an ORM middleware that automatically injects tenant_id into all queries. Never allow raw SQL without tenant filtering.</p>
+                
+                <p><strong>API layer:</strong> Authenticate and extract tenant from JWT/token. Reject requests that don't include a valid tenant context.</p>
+                
+                <p><strong>Database layer:</strong> Row-level security (RLS) policies in PostgreSQL. Even if application forgets tenant_id, database enforces it.</p>
+                
+                <p><strong>Testing:</strong> Automated tests that verify cross-tenant access is blocked. "As Tenant A, try to access Tenant B's resource" → should return 403.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Tenant Identification</h2>
+                
+                <p>How do you know which tenant a request belongs to?</p>
+                
+                <p><strong>Subdomain:</strong> tenant.yourapp.com. Clean, scalable, requires wildcard SSL. Extract tenant from Host header.</p>
+                
+                <p><strong>Path:</strong> yourapp.com/tenant-slug/page. Simple, works everywhere, less elegant. tenant slug in URL path.</p>
+                
+                <p><strong>Header/Token:</strong> X-Tenant-ID header or JWT claim. Best for APIs. Frontend must include it on every request.</p>
+                
+                <p><strong>User context:</strong> User belongs to tenant. Look up tenant from user ID. Simplest but requires user to be logged in. Doesn't work for public pages.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Resource Management</h2>
+                
+                <p>In shared environments, one tenant can consume disproportionate resources. Implement limits:</p>
+                
+                <p><strong>Rate limiting:</strong> Per-tenant API rate limits. Free: 100/hour, Pro: 10,000/hour, Enterprise: custom. Prevents one tenant from overwhelming the system.</p>
+                
+                <p><strong>Storage quotas:</strong> Max file storage per tenant. Max records per table. Alerts at 80%, hard limit at 100%.</p>
+                
+                <p><strong>Compute quotas:</strong> Max concurrent jobs, max report generation time, max export rows. Kill long-running queries that exceed tenant limits.</p>
+                
+                <p><strong>Connection pooling:</strong> Per-tenant connection limits. Prevents one tenant from exhausting the database connection pool.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Operational Considerations</h2>
+                
+                <p><strong>Migrations:</strong> Apply to all tenants simultaneously (shared schema) or sequentially (separate schemas/databases). For large numbers of tenants, use a job queue to apply migrations. Test on a staging tenant first.</p>
+                
+                <p><strong>Backups:</strong> Shared schema: backup whole database. Separate schemas/databases: backup per tenant for compliance, whole database for disaster recovery.</p>
+                
+                <p><strong>Monitoring:</strong> Tag all metrics by tenant_id. Identify noisy tenants. Alert if one tenant generates 50% of errors. Capacity planning per tenant tier.</p>
+                
+                <p><strong>Data export/deletion:</strong> GDPR right to portability and deletion. For shared schema: export tenant's rows, delete tenant's rows. For separate databases: export database, drop database. Automate this — manual exports are error-prone.</p>
+            </div>
+            
+            <div class="section">
+                <h2>When to Choose Each Model</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Decision Framework</div>
+                    <div class="example-text">
+                        <strong>Shared Schema</strong> → Startup, SMB focus, cost-sensitive, no strict data isolation requirements<br><br>
+                        <strong>Separate Schema</strong> → Mid-market, some compliance needs, moderate scale (100-10K tenants)<br><br>
+                        <strong>Separate Database</strong> → Enterprise, regulated industries (healthcare, finance), strict compliance<br><br>
+                        <strong>Hybrid</strong> → Scale from SMB to enterprise. Start shared, migrate large tenants to dedicated resources.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Multi-Tenancy Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with architecture patterns, migration strategies, and operational playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('multiTenancyEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
