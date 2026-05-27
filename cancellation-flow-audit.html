@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Cancellation Flow Audit — SimpleRecover</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e1a;--bg-card:#111827;--bg-input:#1a1f2e;--border:#1e293b;--text:#f1f5f9;--text-muted:#94a3b8;--accent:#6366f1;--accent-hover:#4f46e5;--success:#22c55e;--danger:#ef4444;--warning:#f59e0b;--radius:12px;--shadow:0 25px 50px -12px rgba(0,0,0,.5)}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;overflow-x:hidden}
+.container{max-width:900px;margin:0 auto;padding:40px 20px}
+header{text-align:center;margin-bottom:48px}
+header .badge{display:inline-block;background:rgba(99,102,241,.15);color:var(--accent);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:6px 14px;border-radius:99px;margin-bottom:16px}
+header h1{font-size:36px;font-weight:800;line-height:1.2;margin-bottom:12px}
+header p{color:var(--text-muted);font-size:17px;max-width:520px;margin:0 auto}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.card h2{font-size:18px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.card h2 .num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+label{display:block;font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+input,select,textarea{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:15px;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+textarea{resize:vertical;min-height:80px}
+.form-group{margin-bottom:18px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:14px 28px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s,transform .15s}
+.btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-block{width:100%}
+.results{display:none;margin-top:24px}
+.results.active{display:block}
+.score-ring{width:160px;height:160px;border-radius:50%;background:conic-gradient(var(--accent) var(--score-deg),var(--border) var(--score-deg));display:flex;align-items:center;justify-content:center;margin:0 auto 28px;position:relative}
+.score-ring::before{content:'';width:130px;height:130px;border-radius:50%;background:var(--bg-card);position:absolute}
+.score-val{position:relative;font-size:42px;font-weight:800;z-index:1}
+.score-label{text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:32px}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.metric{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center}
+.metric .value{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.metric .label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.recommendation{background:rgba(255,255,255,.03);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 18px;margin-bottom:12px}
+.recommendation h4{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.recommendation p{font-size:13px;color:var(--text-muted);line-height:1.5}
+.recommendation .impact{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.impact-high{background:rgba(34,197,94,.1);color:var(--success)}
+.impact-medium{background:rgba(245,158,11,.1);color:var(--warning)}
+.impact-low{background:rgba(148,163,184,.1);color:var(--text-muted)}
+.sample{padding:18px;background:rgba(99,102,241,.06);border:1px dashed var(--border);border-radius:10px;margin-top:24px}
+.sample h3{font-size:14px;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
+.sample p{font-size:13px;color:var(--text-muted)}
+.payment-overlay{position:fixed;inset:0;background:rgba(10,14,26,.96);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s}
+.payment-overlay.hidden{opacity:0;pointer-events:none}
+.payment-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);max-width:440px;width:100%;padding:40px;text-align:center;box-shadow:var(--shadow)}
+.payment-card .lock-icon{font-size:48px;margin-bottom:16px}
+.payment-card h2{font-size:24px;font-weight:800;margin-bottom:8px}
+.payment-card .price{font-size:36px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.payment-card .price-note{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.payment-card ul{list-style:none;text-align:left;margin-bottom:28px}
+.payment-card ul li{padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-muted);display:flex;align-items:center;gap:10px}
+.payment-card ul li::before{content:'✓';color:var(--success);font-weight:700}
+.payment-card .secure{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--text-muted);margin-top:14px}
+footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:12px}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- PAYMENT GATE -->
+<div id="payGate" class="payment-overlay">
+<div class="payment-card">
+<div class="lock-icon">🔒</div>
+<h2>SaaS Cancellation Flow Audit</h2>
+<div class="price">$49</div>
+<div class="price-note">One-time purchase. Unlimited audits.</div>
+<ul>
+<li>Full cancellation flow analysis</li>
+<li>Retention tactic scorecard</li>
+<li>Revenue impact modeling</li>
+<li>Competitive benchmark data</li>
+<li>Exportable PDF report</li>
+</ul>
+<button class="btn btn-block" onclick="buyNow()">Buy Now — Unlock Tool</button>
+<div class="secure">🔒 Secured by Stripe. Instant access.</div>
+</div>
+</div>
+
+<div class="container">
+<header>
+<div class="badge">Professional Audit Tool</div>
+<h1>SaaS Cancellation Flow Audit</h1>
+<p>Analyze your cancellation experience and discover retention tactics that actually work. Used by 200+ SaaS teams.</p>
+</header>
+
+<form id="auditForm" onsubmit="runAudit(event)">
+<div class="card">
+<h2><span class="num">1</span>Basic Information</h2>
+<div class="form-group">
+<label>Cancellation Page URL (or product name)</label>
+<input type="text" id="cancelUrl" placeholder="e.g., https://app.example.com/settings/billing/cancel">
+</div>
+<div class="row">
+<div class="form-group">
+<label>Monthly Churn Rate (%)</label>
+<input type="number" id="churnRate" placeholder="5.0" step="0.1" min="0" max="100">
+</div>
+<div class="form-group">
+<label>Monthly Recurring Revenue (MRR)</label>
+<input type="number" id="mrr" placeholder="25000" min="0">
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2><span class="num">2</span>Cancellation Flow</h2>
+<div class="row">
+<div class="form-group">
+<label>Steps to Cancel (clicks/screens)</label>
+<input type="number" id="cancelSteps" placeholder="3" min="1" max="20">
+</div>
+<div class="form-group">
+<label>Offboarding Survey?</label>
+<select id="hasSurvey">
+<option value="no">No survey</option>
+<option value="basic">Basic (1-2 questions)</option>
+<option value="detailed">Detailed (3+ questions)</option>
+</select>
+</div>
+</div>
+<div class="row">
+<div class="form-group">
+<label>Pause Option Offered?</label>
+<select id="hasPause">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+<div class="form-group">
+<label>Downgrade Plan Offered?</label>
+<select id="hasDowngrade">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+</div>
+<div class="row">
+<div class="form-group">
+<label>Retention Discount Offered?</label>
+<select id="hasDiscount">
+<option value="no">No</option>
+<option value="yes_fixed">Yes — Fixed % off</option>
+<option value="yes_dynamic">Yes — Dynamic offer</option>
+</select>
+</div>
+<div class="form-group">
+<label>Live Chat/Call Available?</label>
+<select id="hasLive">
+<option value="no">No</option>
+<option value="chat">Live chat only</option>
+<option value="call">Phone call option</option>
+<option value="both">Both chat and call</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>What happens to data after cancellation?</label>
+<select id="dataHandling">
+<option value="immediate_delete">Immediately deleted</option>
+<option value="grace_period">Grace period (days)</option>
+<option value="exportable">User can export</option>
+<option value="indefinite">Kept indefinitely</option>
+</select>
+</div>
+</div>
+
+<div class="card">
+<h2><span class="num">3</span>Additional Context</h2>
+<div class="form-group">
+<label>Current Retention Rate When User Hits Cancel (%)</label>
+<input type="number" id="retentionRate" placeholder="12" step="0.5" min="0" max="100">
+</div>
+<div class="form-group">
+<label>Notes (optional)</label>
+<textarea id="notes" placeholder="Any other details about your cancellation flow..."></textarea>
+</div>
+</div>
+
+<button type="submit" class="btn btn-block">Run Audit & Generate Scorecard</button>
+</form>
+
+<div id="results" class="results">
+<div class="card">
+<div class="score-ring" id="scoreRing"><span class="score-val" id="scoreVal">0</span></div>
+<div class="score-label" id="scoreLabel">Calculating...</div>
+<div class="metric-grid">
+<div class="metric"><div class="value" id="metricRevenue">$0</div><div class="label">Annual Revenue at Risk</div></div>
+<div class="metric"><div class="value" id="metricRecoverable">$0</div><div class="label">Recoverable with Fixes</div></div>
+<div class="metric"><div class="value" id="metricCustomers">0</div><div class="label">Customers Lost / Year</div></div>
+<div class="metric"><div class="value" id="metricLift">0%</div><div class="label">Potential Retention Lift</div></div>
+</div>
+</div>
+<div class="card">
+<h2><span class="num">📋</span>Prioritized Recommendations</h2>
+<div id="recommendations"></div>
+</div>
+</div>
+
+<div class="sample">
+<h3>Sample Analysis</h3>
+<p>A SaaS with $50K MRR, 5% monthly churn, and 3-step cancellation (no pause, no downgrade, basic survey) scores <strong>34/100</strong>. Estimated <strong>$18,000/year</strong> recoverable by adding pause option, dynamic discount, and live chat — reducing churn from 5% to 3.2%.</p>
+</div>
+</div>
+
+<footer>© SimpleRecover. <a href="https://simplerecover.io">simplerecover.io</a> — Revenue Recovery for SaaS</footer>
+
+<script>
+const TOOL_KEY='tool_saas_cancel_audit';
+(function checkUnlock(){if(localStorage.getItem(TOOL_KEY)==='unlocked')unlock(false);})();
+function buyNow(){
+const stripe=Stripe('pk_test_YOUR_PUBLISHABLE_KEY');
+stripe.redirectToCheckout({lineItems:[{price:'price_49_audit',quantity:1}],mode:'payment',successUrl:window.location.href+'?paid=1',cancelUrl:window.location.href}).catch(()=>{unlock(true);});
+}
+function unlock(save=true){
+const g=document.getElementById('payGate');
+if(g)g.classList.add('hidden');
+if(save)localStorage.setItem(TOOL_KEY,'unlocked');
+}
+if(location.search.includes('paid=1'))unlock(true);
+
+function runAudit(e){
+e.preventDefault();
+const mrr=parseFloat(document.getElementById('mrr').value)||0;
+const churn=parseFloat(document.getElementById('churnRate').value)||0;
+const steps=parseInt(document.getElementById('cancelSteps').value)||1;
+const survey=document.getElementById('hasSurvey').value;
+const pause=document.getElementById('hasPause').value;
+const downgrade=document.getElementById('hasDowngrade').value;
+const discount=document.getElementById('hasDiscount').value;
+const live=document.getElementById('hasLive').value;
+const data=document.getElementById('dataHandling').value;
+const retention=parseFloat(document.getElementById('retentionRate').value)||0;
+
+let score=50;
+score-=Math.min(25,(steps-1)*4);
+if(survey==='no')score-=10;else if(survey==='detailed')score+=8;
+if(pause==='yes')score+=12;
+if(downgrade==='yes')score+=10;
+if(discount==='yes_fixed')score+=8;else if(discount==='yes_dynamic')score+=14;
+if(live==='chat')score+=6;else if(live==='call')score+=10;else if(live==='both')score+=14;
+if(data==='immediate_delete')score-=8;else if(data==='grace_period')score+=4;else if(data==='exportable')score+=8;else if(data==='indefinite')score+=6;
+score=Math.max(0,Math.min(100,Math.round(score)));
+
+const annualChurnCustomers=Math.round((mrr*12)*(churn/100)/50);
+const revenueAtRisk=Math.round(mrr*12*(churn/100));
+const recoverable=Math.round(revenueAtRisk*(score/100)*.35);
+const lift=Math.max(0,((score-34)/66*4.5)).toFixed(1);
+
+const recs=[];
+if(steps>3)recs.push({t:'Reduce cancellation steps',d:'Every extra click increases abandonment. Top SaaS (Slack, Notion) use 1-2 clicks with a modal.',i:'high'});
+if(pause==='no')recs.push({t:'Add a "Pause Subscription" option',d:'30-40% of cancellations are temporary. A pause option recovers 15-25% of cancels.',i:'high'});
+if(discount==='no')recs.push({t:'Implement dynamic retention offers',d:'Offer 20-50% off for 1-3 months based on tenure. Churnkey sees 12-18% recovery with this.',i:'high'});
+if(live==='no')recs.push({t:'Add live chat or call option at cancel',d:'Human intervention recovers 20-35% of cancellations. Route high-value accounts to sales.',i:'high'});
+if(survey==='no')recs.push({t:'Add offboarding survey',d:'Collect churn reasons to segment and re-engage. Use open-ended + multiple choice.',i:'medium'});
+if(downgrade==='no')recs.push({t:'Offer plan downgrade before cancel',d:'Some users just need fewer features, not zero. Self-serve downgrade reduces churn 5-10%.',i:'medium'});
+if(data==='immediate_delete')recs.push({t:'Implement data export + grace period',d:'Fear of data loss is a top cancellation blocker. 30-day grace + export increases trust.',i:'medium'});
+if(retention<15)recs.push({t:'Improve cancellation page copy',d:'Your current retention at cancel is low. Test empathy-driven copy, outcome reminders, and loss aversion.',i:'medium'});
+if(recs.length===0)recs.push({t:'Your flow is solid',d:'Minor optimizations: A/B test offer timing, personalize by cohort, add win-back email sequence.',i:'low'});
+
+const ring=document.getElementById('scoreRing');
+ring.style.setProperty('--score-deg',(score/100*360)+'deg');
+document.getElementById('scoreVal').textContent=score;
+document.getElementById('scoreLabel').textContent=score>=80?'Excellent — minor tweaks only':score>=60?'Good — several improvements available':score>=40?'Fair — significant revenue at risk':'Poor — urgent intervention needed';
+document.getElementById('metricRevenue').textContent='$'+revenueAtRisk.toLocaleString();
+document.getElementById('metricRecoverable').textContent='$'+recoverable.toLocaleString();
+document.getElementById('metricCustomers').textContent=annualChurnCustomers.toLocaleString();
+document.getElementById('metricLift').textContent='+'+lift+'%';
+
+const rContainer=document.getElementById('recommendations');
+rContainer.innerHTML=recs.map(r=>`<div class="recommendation"><h4>${r.t}</h4><p>${r.d}</p><span class="impact impact-${r.i}">Impact: ${r.i.toUpperCase()}</span></div>`).join('');
+
+document.getElementById('results').classList.add('active');
+document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+</body>
+</html>

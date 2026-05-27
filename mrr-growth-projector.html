@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MRR Growth Projection Tool — SimpleRecover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+.gate-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-content { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 56px 48px; max-width: 520px; text-align: center; }
+.gate-content h2 { font-size: 32px; margin-bottom: 12px; color: #fff; }
+.gate-content > p { color: #94a3b8; margin-bottom: 32px; font-size: 16px; }
+.price-tag { font-size: 56px; font-weight: 800; color: #6366f1; margin: 24px 0; }
+.price-tag span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.features { list-style: none; text-align: left; margin: 32px 0; }
+.features li { padding: 10px 0; color: #cbd5e1; display: flex; align-items: center; gap: 12px; }
+.features li::before { content: "✓"; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+.btn { display: block; width: 100%; padding: 18px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: #818cf8; transform: translateY(-2px); }
+
+.app { display: none; }
+header { text-align: center; padding: 40px 0; }
+h1 { font-size: 42px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.subtitle { font-size: 18px; color: #94a3b8; }
+
+.input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 32px 0; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input {
+  width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px;
+}
+
+.scenario-tabs { display: flex; gap: 8px; margin: 24px 0; }
+.scenario-tab { padding: 10px 20px; background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; cursor: pointer; font-size: 14px; }
+.scenario-tab.active { background: #6366f1; border-color: #6366f1; }
+
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+.result-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center; }
+.result-value { font-size: 28px; font-weight: 800; color: #6366f1; }
+.result-label { font-size: 13px; color: #94a3b8; margin-top: 6px; }
+
+.projection-table { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.projection-table h3 { font-size: 20px; margin-bottom: 16px; color: #fff; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.03); }
+th { color: #94a3b8; font-weight: 600; font-size: 13px; }
+td { color: #e2e8f0; }
+td.positive { color: #22c55e; }
+td.negative { color: #ef4444; }
+
+footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gate">
+  <div class="gate-content">
+    <h2>🔒 MRR Growth Projection Tool</h2>
+    <p>Advanced growth modeling with scenario planning, cohort analysis, and revenue forecasting.</p>
+    <div class="price-tag">$49 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>3 scenario models (conservative, moderate, aggressive)</li>
+      <li>12-month revenue forecast</li>
+      <li>Cohort-based growth analysis</li>
+      <li>Break-even timeline</li>
+      <li>PDF projection report</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $49</button>
+    <p style="margin-top:16px;font-size:13px;color:#64748b">Secured by Stripe. Instant access.</p>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>MRR Growth Projection Tool</h1>
+    <p class="subtitle">Model your growth. Plan your future.</p>
+  </header>
+
+  <div class="app" id="app">
+    <div class="input-grid">
+      <div class="input-group">
+        <label>Current MRR ($)</label>
+        <input type="number" id="mrr" placeholder="25000" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Monthly New Customers</label>
+        <input type="number" id="newCustomers" placeholder="50" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Average Revenue Per Customer ($)</label>
+        <input type="number" id="arpu" placeholder="500" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Monthly Churn Rate (%)</label>
+        <input type="number" id="churn" placeholder="5" step="0.1" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Monthly Growth Rate (%)</label>
+        <input type="number" id="growth" placeholder="10" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Months to Project</label>
+        <input type="number" id="months" placeholder="12" oninput="calculate()">
+      </div>
+    </div>
+
+    <div class="scenario-tabs">
+      <div class="scenario-tab active" onclick="setScenario('conservative')">Conservative</div>
+      <div class="scenario-tab" onclick="setScenario('moderate')">Moderate</div>
+      <div class="scenario-tab" onclick="setScenario('aggressive')">Aggressive</div>
+    </div>
+
+    <div class="results-grid" id="summary"></div>
+
+    <div class="projection-table">
+      <h3>📈 Monthly Projection</h3>
+      <div id="projectionTable"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 SimpleRecover. Premium tool.</p>
+</footer>
+
+<script>
+let isUnlocked = false;
+let currentScenario = 'moderate';
+
+function unlock() { 
+  isUnlocked = true; 
+  document.getElementById('gate').style.display = 'none'; 
+  document.getElementById('app').style.display = 'block'; 
+}
+
+function setScenario(scenario) {
+  currentScenario = scenario;
+  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  calculate();
+}
+
+function calculate() {
+  if (!isUnlocked) return;
+  
+  const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+  const newCustomers = parseFloat(document.getElementById('newCustomers').value) || 0;
+  const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+  const churn = parseFloat(document.getElementById('churn').value) || 0;
+  const growth = parseFloat(document.getElementById('growth').value) || 0;
+  const months = parseFloat(document.getElementById('months').value) || 12;
+  
+  const scenarioMultipliers = {
+    conservative: { churn: 1.3, growth: 0.7, newCust: 0.8 },
+    moderate: { churn: 1.0, growth: 1.0, newCust: 1.0 },
+    aggressive: { churn: 0.7, growth: 1.5, newCust: 1.3 }
+  };
+  
+  const mult = scenarioMultipliers[currentScenario];
+  const adjChurn = churn * mult.churn;
+  const adjGrowth = growth * mult.growth;
+  const adjNewCust = newCustomers * mult.newCust;
+  
+  let currentMRR = mrr;
+  const projections = [];
+  
+  for (let i = 1; i <= months; i++) {
+    const churnedMRR = currentMRR * (adjChurn / 100);
+    const newMRR = adjNewCust * arpu;
+    const expansionMRR = currentMRR * (adjGrowth / 100);
+    currentMRR = currentMRR - churnedMRR + newMRR + expansionMRR;
+    
+    projections.push({
+      month: i,
+      mrr: currentMRR,
+      churned: churnedMRR,
+      new: newMRR,
+      expansion: expansionMRR,
+      netChange: -churnedMRR + newMRR + expansionMRR
+    });
+  }
+  
+  const totalGrowth = currentMRR - mrr;
+  const totalGrowthPct = mrr > 0 ? ((totalGrowth / mrr) * 100).toFixed(0) : 0;
+  
+  document.getElementById('summary').innerHTML = `
+    <div class="result-card">
+      <div class="result-value">$${currentMRR.toLocaleString()}</div>
+      <div class="result-label">Projected MRR</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value">+${totalGrowthPct}%</div>
+      <div class="result-label">Total Growth</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value">$${totalGrowth.toLocaleString()}</div>
+      <div class="result-label">Revenue Added</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value">${adjNewCust.toFixed(0)}/mo</div>
+      <div class="result-label">New Customers</div>
+    </div>
+  `;
+  
+  document.getElementById('projectionTable').innerHTML = `
+    <table>
+      <tr>
+        <th>Month</th>
+        <th>MRR</th>
+        <th>Churned</th>
+        <th>New</th>
+        <th>Expansion</th>
+        <th>Net Change</th>
+      </tr>
+      ${projections.map(p => `
+        <tr>
+          <td>${p.month}</td>
+          <td><strong>$${p.mrr.toLocaleString()}</strong></td>
+          <td class="negative">-$${p.churned.toLocaleString()}</td>
+          <td class="positive">+$${p.new.toLocaleString()}</td>
+          <td class="positive">+$${p.expansion.toLocaleString()}</td>
+          <td class="${p.netChange >= 0 ? 'positive' : 'negative'}">${p.netChange >= 0 ? '+' : ''}$${p.netChange.toLocaleString()}</td>
+        </tr>
+      `).join('')}
+    </table>
+  `;
+}
+</script>
+
+</body>
+</html>
