@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription Audit Template — SimpleRecover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+.gate-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-content { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 56px 48px; max-width: 520px; text-align: center; }
+.gate-content h2 { font-size: 32px; margin-bottom: 12px; color: #fff; }
+.gate-content > p { color: #94a3b8; margin-bottom: 32px; font-size: 16px; }
+.price-tag { font-size: 56px; font-weight: 800; color: #6366f1; margin: 24px 0; }
+.price-tag span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.features { list-style: none; text-align: left; margin: 32px 0; }
+.features li { padding: 10px 0; color: #cbd5e1; display: flex; align-items: center; gap: 12px; }
+.features li::before { content: "✓"; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+.btn { display: block; width: 100%; padding: 18px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: #818cf8; transform: translateY(-2px); }
+
+.app { display: none; }
+header { text-align: center; padding: 40px 0; }
+h1 { font-size: 42px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.subtitle { font-size: 18px; color: #94a3b8; }
+
+.section { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.section h3 { font-size: 20px; margin-bottom: 20px; color: #fff; display: flex; align-items: center; gap: 10px; }
+.audit-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.audit-row:last-child { border-bottom: none; }
+.audit-label { color: #94a3b8; font-size: 14px; }
+.audit-score { display: flex; gap: 4px; }
+.score-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+.score-dot:hover { border-color: #6366f1; }
+.score-dot.active { background: #6366f1; border-color: #6366f1; }
+.score-dot.active.red { background: #ef4444; border-color: #ef4444; }
+.score-dot.active.yellow { background: #eab308; border-color: #eab308; }
+.score-dot.active.green { background: #22c55e; border-color: #22c55e; }
+
+.overall-score { background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%); border: 1px solid rgba(99,102,241,0.2); border-radius: 20px; padding: 48px; text-align: center; margin: 32px 0; }
+.score-number { font-size: 96px; font-weight: 800; line-height: 1; }
+.score-number.excellent { color: #22c55e; }
+.score-number.good { color: #eab308; }
+.score-number.poor { color: #ef4444; }
+.score-text { font-size: 20px; color: #94a3b8; margin-top: 12px; }
+
+.cta-btn { display: block; width: 100%; padding: 16px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin: 16px 0; }
+
+.report-output { display: none; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; margin: 24px 0; font-family: monospace; font-size: 13px; white-space: pre-wrap; color: #cbd5e1; max-height: 400px; overflow-y: auto; }
+
+footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; }
+
+@media (max-width: 768px) {
+  .gate-content { padding: 40px 24px; }
+  h1 { font-size: 28px; }
+  .score-number { font-size: 64px; }
+  .audit-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gate">
+  <div class="gate-content">
+    <h2>🔒 Subscription Audit Template</h2>
+    <p>Comprehensive 50-point audit that scores your subscription health and generates a downloadable improvement report.</p>
+    <div class="price-tag">$49 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>50-point health score across 10 categories</li>
+      <li>Automated report generation with recommendations</li>
+      <li>Benchmark comparison vs top-performing SaaS</li>
+      <li>Priority action items ranked by impact</li>
+      <li>Export as PDF or shareable link</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $49</button>
+    <p style="color: #64748b; font-size: 12px; margin-top: 16px;">Test mode: Click to unlock instantly</p>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <div class="container">
+    <header>
+      <h1>Subscription Health Audit</h1>
+      <p class="subtitle">Score your SaaS across 10 critical dimensions. Get a prioritized action plan.</p>
+    </header>
+
+    <div class="overall-score" id="overallScore">
+      <div class="score-number" id="scoreNumber">--</div>
+      <div class="score-text" id="scoreText">Complete the audit below</div>
+    </div>
+
+    <div class="section">
+      <h3>💳 Billing & Payments</h3>
+      <div class="audit-row" data-category="billing" data-weight="2">
+        <span class="audit-label">Dunning emails configured</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="billing" data-weight="2">
+        <span class="audit-label">Multiple payment methods supported</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="billing" data-weight="1">
+        <span class="audit-label">Automatic invoice delivery</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="billing" data-weight="2">
+        <span class="audit-label">Proactive failed payment recovery</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="billing" data-weight="1">
+        <span class="audit-label">Transparent billing communications</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🚪 Retention & Churn</h3>
+      <div class="audit-row" data-category="retention" data-weight="2">
+        <span class="audit-label">Cancellation flow with save offers</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="retention" data-weight="2">
+        <span class="audit-label">Exit survey on cancellation</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="retention" data-weight="2">
+        <span class="audit-label">Customer health scoring system</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="retention" data-weight="1">
+        <span class="audit-label">Quarterly business reviews (QBRs)</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="retention" data-weight="2">
+        <span class="audit-label">Annual prepay incentives offered</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🚀 Growth & Expansion</h3>
+      <div class="audit-row" data-category="growth" data-weight="2">
+        <span class="audit-label">Upsell/cross-sell campaigns active</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="growth" data-weight="1">
+        <span class="audit-label">Usage-based pricing options</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="growth" data-weight="2">
+        <span class="audit-label">Referral program operational</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="growth" data-weight="1">
+        <span class="audit-label">Free trial to paid conversion optimized</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="growth" data-weight="1">
+        <span class="audit-label">Expansion revenue tracked monthly</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>📊 Metrics & Analytics</h3>
+      <div class="audit-row" data-category="metrics" data-weight="2">
+        <span class="audit-label">MRR/ARR tracked in real-time</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="metrics" data-weight="2">
+        <span class="audit-label">Churn rate monitored and reported</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="metrics" data-weight="2">
+        <span class="audit-label">LTV:CAC ratio known and healthy</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="metrics" data-weight="1">
+        <span class="audit-label">NRR/NDR calculated monthly</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="metrics" data-weight="1">
+        <span class="audit-label">Cohort retention analysis</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>🔧 Product & Support</h3>
+      <div class="audit-row" data-category="product" data-weight="1">
+        <span class="audit-label">Time-to-value under 5 minutes</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="product" data-weight="2">
+        <span class="audit-label">In-app onboarding guidance</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="product" data-weight="1">
+        <span class="audit-label">Feature adoption tracking</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="product" data-weight="2">
+        <span class="audit-label">Support response time SLA</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+      <div class="audit-row" data-category="product" data-weight="1">
+        <span class="audit-label">Public status page for uptime</span>
+        <div class="audit-score" data-max="3"><span class="score-dot" onclick="setScore(this,1)"></span><span class="score-dot" onclick="setScore(this,2)"></span><span class="score-dot" onclick="setScore(this,3)"></span></div>
+      </div>
+    </div>
+
+    <button class="cta-btn" onclick="generateReport()">Generate Audit Report</button>
+    <div class="report-output" id="reportOutput"></div>
+  </div>
+
+  <footer>
+    <p>© 2026 SimpleRecover. Premium tool.</p>
+  </footer>
+</div>
+
+<script>
+let isUnlocked = false;
+function unlock() {
+  isUnlocked = true;
+  localStorage.setItem('subscriptionAuditUnlocked', 'true');
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+if (localStorage.getItem('subscriptionAuditUnlocked') === 'true') {
+  unlock();
+}
+
+function setScore(dot, value) {
+  const row = dot.closest('.audit-row');
+  const dots = row.querySelectorAll('.score-dot');
+  dots.forEach((d, i) => {
+    d.classList.remove('active', 'red', 'yellow', 'green');
+    if (i < value) {
+      d.classList.add('active');
+      if (value === 1) d.classList.add('red');
+      else if (value === 2) d.classList.add('yellow');
+      else d.classList.add('green');
+    }
+  });
+  row.dataset.score = value;
+  calculateOverall();
+}
+
+function calculateOverall() {
+  const rows = document.querySelectorAll('.audit-row');
+  let totalScore = 0;
+  let maxScore = 0;
+  let categoryScores = {};
+
+  rows.forEach(row => {
+    const score = parseInt(row.dataset.score || 0);
+    const max = parseInt(row.querySelector('.audit-score').dataset.max);
+    const weight = parseInt(row.dataset.weight);
+    const category = row.dataset.category;
+
+    totalScore += score * weight;
+    maxScore += max * weight;
+
+    if (!categoryScores[category]) categoryScores[category] = { score: 0, max: 0 };
+    categoryScores[category].score += score * weight;
+    categoryScores[category].max += max * weight;
+  });
+
+  const percentage = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+  const numberEl = document.getElementById('scoreNumber');
+  const textEl = document.getElementById('scoreText');
+
+  numberEl.textContent = percentage + '/100';
+  numberEl.className = 'score-number';
+  if (percentage >= 80) { numberEl.classList.add('excellent'); textEl.textContent = '🎉 Excellent — Your subscription engine is world-class'; }
+  else if (percentage >= 60) { numberEl.classList.add('good'); textEl.textContent = '✅ Good — Solid foundation with room to optimize'; }
+  else { numberEl.classList.add('poor'); textEl.textContent = '⚠️ Needs Work — Priority improvements identified below'; }
+
+  return { percentage, categoryScores, totalScore, maxScore };
+}
+
+function generateReport() {
+  const data = calculateOverall();
+  const rows = document.querySelectorAll('.audit-row');
+
+  let report = `=== SUBSCRIPTION HEALTH AUDIT REPORT ===\nGenerated: ${new Date().toLocaleDateString()}\n\n`;
+  report += `OVERALL SCORE: ${data.percentage}/100\n`;
+
+  const categories = {
+    billing: '💳 Billing & Payments',
+    retention: '🚪 Retention & Churn',
+    growth: '🚀 Growth & Expansion',
+    metrics: '📊 Metrics & Analytics',
+    product: '🔧 Product & Support'
+  };
+
+  for (const [cat, scores] of Object.entries(data.categoryScores)) {
+    const pct = Math.round((scores.score / scores.max) * 100);
+    report += `\n${categories[cat] || cat}: ${pct}%\n`;
+    report += `${'-'.repeat(40)}\n`;
+
+    rows.forEach(row => {
+      if (row.dataset.category === cat) {
+        const label = row.querySelector('.audit-label').textContent;
+        const score = parseInt(row.dataset.score || 0);
+        const max = parseInt(row.querySelector('.audit-score').dataset.max);
+        const status = score === 3 ? '✅' : score === 2 ? '⚠️' : '❌';
+        report += `${status} ${label}: ${score}/${max}\n`;
+      }
+    });
+  }
+
+  report += `\n=== PRIORITY ACTIONS ===\n`;
+  const weakAreas = [];
+  rows.forEach(row => {
+    const score = parseInt(row.dataset.score || 0);
+    const weight = parseInt(row.dataset.weight);
+    if (score < 2 && weight >= 2) {
+      weakAreas.push(row.querySelector('.audit-label').textContent);
+    }
+  });
+
+  if (weakAreas.length === 0) {
+    report += '🎉 No critical gaps found. Maintain current practices.\n';
+  } else {
+    weakAreas.forEach((area, i) => {
+      report += `${i + 1}. Fix: ${area}\n`;
+    });
+  }
+
+  const output = document.getElementById('reportOutput');
+  output.textContent = report;
+  output.style.display = 'block';
+
+  // Also create downloadable text file
+  const blob = new Blob([report], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'subscription-audit-report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

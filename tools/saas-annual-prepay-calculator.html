@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Annual Prepay Discount Calculator — Free Download</title>
+    <meta name="description" content="Free SaaS annual prepay discount calculator. Calculate optimal annual discounts, cash flow impact, and break-even points for annual vs monthly billing.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .calculator {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .input-field {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .input-field label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .input-field input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .result-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .result-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 0.95rem;
+        }
+        .insight-box {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 3px solid #10b981;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+        .insight-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .insight-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .input-group { grid-template-columns: 1fr; }
+            .result-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💳 Annual Prepay Calculator</h1>
+            <p class="subtitle">Calculate optimal annual discounts and cash flow impact.</p>
+        </div>
+        
+        <div class="calculator">
+            <div class="section">
+                <h2>The Annual Prepay Equation</h2>
+                
+                <p>Annual prepay discounts improve cash flow and reduce churn — but give away revenue. Find the sweet spot where the benefit (cash now + retention) exceeds the cost (discount given).</p>
+                
+                <div class="formula-box">
+                    <div class="formula">Break-even Discount = Monthly Churn Rate × 12 × Gross Margin</div>
+                    <p style="color: #94a3b8; margin-top: 8px;">If monthly churn is 5% and gross margin is 80%:<br>
+                    Break-even discount = 5% × 12 × 0.8 = <strong>48%</strong><br><br>
+                    Any discount < 48% improves your economics.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Example Calculation</h2>
+                
+                <div class="input-group">
+                    <div class="input-field">
+                        <label>Monthly Price</label>
+                        <input type="text" value="$99" readonly>
+                    </div>
+                    <div class="input-field">
+                        <label>Annual Discount</label>
+                        <input type="text" value="20%" readonly>
+                    </div>
+                </div>
+                
+                <div class="result-grid">
+                    <div class="result-card">
+                        <div class="result-value">$1,188</div>
+                        <div class="result-label">Monthly Total (12mo)</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value">$950</div>
+                        <div class="result-label">Annual Price (-20%)</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value">$238</div>
+                        <div class="result-label">Discount Given</div>
+                    </div>
+                </div>
+                
+                <div class="result-grid">
+                    <div class="result-card">
+                        <div class="result-value">$950</div>
+                        <div class="result-label">Cash Upfront</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value">+$792</div>
+                        <div class="result-label">Cash Flow Benefit</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value">~40%</div>
+                        <div class="result-label">Less Churn Risk</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Industry Benchmarks</h2>
+                
+                <p>• <strong>B2B SaaS:</strong> 15-20% annual discount is standard<br>
+                • <strong>B2C SaaS:</strong> 30-50% (Netflix model: 2 months free)<br>
+                • <strong>Enterprise:</strong> 10-15% (custom negotiation)<br>
+                • <strong>Freemium:</strong> Don't discount — annual is the upsell itself</p>
+            </div>
+            
+            <div class="section">
+                <h2>Advanced: The Cash Flow Multiplier</h2>
+                
+                <div class="insight-box">
+                    <div class="insight-title">💡 Why Annual Prepay Matters</div>
+                    <div class="insight-text"><strong>Scenario:</strong> You have 100 customers paying $100/month. Monthly churn: 5%.<br><br>
+                    Monthly cash flow: $10K/month, but losing $500/mo to churn.<br><br>
+                    If 50% switch to annual (10% discount): You get $54K upfront instead of $5K/month.<br><br>
+                    That $54K can fund: 2 engineers for 3 months, or 6 months of ads, or 1 year of runway extension.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Best Practices</h2>
+                
+                <p>1. <strong>Default to annual.</strong> Show annual pricing first. Make monthly the "alternative."</p>
+                
+                <p>2. <strong>Frame as savings, not discount.</strong> "Save $240/year" > "20% off." Loss aversion > gain framing.</p>
+                
+                <p>3. <strong>Offer annual after trial.</strong> Don't ask for annual on signup. Let them experience value first.</p>
+                
+                <p>4. <strong> grandfather existing customers.</strong> Don't force monthly users to annual. Offer it as an upgrade with extra benefits.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Annual Prepay Calculator</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Interactive calculator with churn-adjusted NPV, cash flow projections, and optimal discount finder.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('annualPrepayEmail', email);
+            alert('✅ Calculator coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

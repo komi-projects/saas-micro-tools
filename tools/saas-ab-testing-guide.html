@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS A/B Testing Guide — Experiment Your Way to Growth</title>
+    <meta name="description" content="Free SaaS A/B testing guide. Design, run, and analyze experiments that move the needle on conversion, activation, and retention.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .abtest {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 A/B Testing</h1>
+            <p class="subtitle">Experiment your way to growth.</p>
+        </div>
+        
+        <div class="abtest">
+            <div class="section">
+                <h2>Why A/B Testing is Essential for SaaS</h2>
+                
+                <p>A/B testing removes guesswork from growth. Instead of debating which headline, button color, or pricing page converts better, you run an experiment and let the data decide. The best SaaS companies run hundreds of experiments per year — testing everything from onboarding flows to email subject lines to feature positioning.</p>
+                
+                <p>The compound effect is massive. A 5% improvement in trial conversion from one test, combined with a 10% improvement in activation from another, and a 15% improvement in retention from a third — these compound into 30%+ revenue growth without acquiring a single additional visitor.</p>
+                
+                <p>This guide covers how to design, run, and analyze A/B tests that move the needle on your most important metrics.</p>
+            </div>
+            
+            <div class="section">
+                <h2>The A/B Testing Framework</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Hypothesis Formation</div>
+                    <div class="pillar-detail">
+                        Every test starts with a clear prediction.
+                        • Format: "Because we observed [data/feedback], we believe that [change] will cause [impact]"
+                        • Example: "Because 60% of users drop off at the email verification step, we believe removing verification will increase activation by 20%"
+                        • Source ideas: Support tickets, user interviews, funnel analysis, competitor research
+                        • Priority: ICE scoring (Impact × Confidence × Ease) to rank test ideas
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Test Design</div>
+                    <div class="pillar-detail">
+                        Control for variables, measure what matters.
+                        • Single variable: Change one thing per test (headline OR button, not both)
+                        • Control group: 50% see current version, 50% see variant (or 80/20 for risky tests)
+                        • Duration: Run for complete business cycles (min 1 week, prefer 2)
+                        • Sample size: Calculate minimum detectable effect (use power calculator)
+                        • Segmentation: Test by user type, device, or channel if sample size allows
+                        • Guardrails: Define early stopping rules (don't peek at results constantly)
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Statistical Rigor</div>
+                    <div class="pillar-detail">
+                        Don't trust your gut — trust the math.
+                        • Significance: 95% confidence level (p < 0.05) standard
+                        • Power: 80% power to detect the effect you're looking for
+                        • Sample size calculator: Evan Miller's tool, Optimizely's calculator
+                        • Multiple testing: Bonferroni correction if running many variants
+                        • Novelty effect: New things often perform better temporarily — run long enough
+                        • Seasonality: Don't run tests during unusual periods (holidays, launches)
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Implementation and Monitoring</div>
+                    <div class="pillar-detail">
+                        Execute cleanly, watch carefully.
+                        • Randomization: Proper random assignment (not pseudo-random by user ID)
+                        • Consistency: Same user always sees same variant (cookie/localStorage)
+                        • Tracking: Log variant assignment for every user
+                        • QA: Test both variants thoroughly before launch
+                        • Monitoring: Watch for bugs, broken experiences, or negative metrics
+                        • Don't peek: Resist checking results daily (introduces bias)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>What to Test in SaaS</h2>
+                
+                <p><strong>1. Acquisition (traffic → trial):</strong></p>
+                
+                <p>• Landing page headlines (outcome-focused vs. feature-focused)
+                • CTA button copy ("Start Free Trial" vs. "Get Started — It's Free")
+                • Hero images (product screenshot vs. lifestyle vs. illustration)
+                • Social proof placement (above fold vs. below fold)
+                • Form fields (email only vs. email + password vs. email + company + role)
+                • Pricing page layout (3 tiers vs. 4 tiers, annual default vs. monthly)
+                • Free trial length (7 days vs. 14 days vs. 30 days)
+                • Exit intent popups (discount offer vs. lead magnet vs. nothing)</p>
+                
+                <p><strong>2. Activation (trial → aha moment):</strong></p>
+                
+                <p>• Onboarding flow length (3 steps vs. 5 steps vs. wizard vs. self-serve)
+                • Empty states (blank vs. sample data vs. templates)
+                • First action guidance (tooltip vs. checklist vs. demo video)
+                • Email verification (before vs. after aha moment)
+                • Progress indicators (percentage complete vs. steps remaining vs. none)
+                • Personalization ("What's your goal?" vs. generic onboarding)
+                • Feature gating (show all features vs. progressive disclosure)</p>
+                
+                <p><strong>3. Retention (active → engaged):</strong></p>
+                
+                <p>• Email frequency (daily vs. weekly vs. triggered only)
+                • Re-engagement subject lines (curiosity vs. benefit vs. urgency)
+                • Feature announcements (in-app modal vs. email vs. both)
+                • Usage reports (weekly summary vs. monthly vs. milestone-based)
+                • Upgrade prompts (free trial ending vs. feature usage threshold vs. team size)
+                • Cancellation flow (instant vs. survey + offer vs. call requirement)</p>
+                
+                <p><strong>4. Revenue (user → paying):</strong></p>
+                
+                <p>• Pricing presentation ($29 vs. $29.99 vs. "Less than $1/day")
+                • Plan positioning ("Most Popular" badge placement)
+                • Trial-to-paid nudges (email sequence vs. in-app banner vs. both)
+                • Payment page friction (saved cards vs. re-enter vs. PayPal vs. Apple Pay)
+                • Annual discount (15% vs. 20% vs. 2 months free)
+                • Add-on presentation (bundled vs. separate vs. usage-based)</p>
+            </div>
+            
+            <div class="section">
+                <h2>A/B Testing Tools</h2>
+                
+                <p><strong>1. For startups:</strong></p>
+                
+                <p>• Google Optimize: Free, integrates with GA4, easy setup
+                • PostHog: Open-source, product analytics + feature flags + A/B testing
+                • Split: Free tier, SDK for code-level experiments
+                • Firebase Remote Config: Free, good for mobile apps
+                • DIY: Roll your own with feature flags + event tracking</p>
+                
+                <p><strong>2. For growth stage:</strong></p>
+                
+                <p>• Optimizely: Enterprise-grade, visual editor, stats engine
+                • VWO: Full-funnel testing, heatmaps, session recordings
+                • Unbounce: Landing page testing without dev involvement
+                • LaunchDarkly: Feature flags + experimentation, developer-focused
+                • Amplitude Experiment: Integrated with product analytics</p>
+                
+                <p><strong>3. For scale:</strong></p>
+                
+                <p>• Statsig: Modern experimentation platform, warehouse-native
+                • Eppo: Bayesian statistics, experimentation on data warehouse
+                • GrowthBook: Open-source, warehouse-connected, free self-hosted
+                • Custom: In-house platform built on data warehouse + feature flags</p>
+            </div>
+            
+            <div class="section">
+                <h2>A/B Testing Mistakes</h2>
+                
+                <p><strong>1. Peeking:</strong> Checking results before the test is complete. If you peek and see a positive result, you stop the test — but that result might not hold. Define your sample size upfront and don't stop early unless there's a clear bug or harm.</p>
+                
+                <p><strong>2. Multiple variants without correction:</strong> Testing 10 variants against control means one will "win" by chance even if none are actually better. Use Bonferroni correction or limit to 2-3 variants.</p>
+                
+                <p><strong>3. Seasonal bias:</strong> Running a test during Black Friday, a product launch, or a holiday. Your results won't generalize to normal times.</p>
+                
+                <p><strong>4. Segment blindness:</strong> The overall winner might be a loser for mobile users, or enterprise customers, or new visitors. Always segment your results.</p>
+                
+                <p><strong>5. Copycat testing:</strong> "Competitor X does Y, so let's test it." What works for them might not work for your audience, product, or stage.</p>
+                
+                <p><strong>6. No documentation:</strong> Running tests without recording hypotheses, results, and learnings. Build an experiment log that future team members can learn from.</p>
+            </div>
+            
+            <div class="section">
+                <h2>A/B Testing Checklist</h2>
+                <p>☐ Experiment backlog created (ICE scored, prioritized)
+                ☐ Hypothesis template defined and used for every test
+                ☐ Success metric identified (primary metric + 2-3 guardrail metrics)
+                ☐ Minimum detectable effect calculated (what % lift do we need to detect?)
+                ☐ Sample size calculated (use power calculator, 80% power, 95% significance)
+                ☐ Test duration defined (minimum 1 week, 2 preferred, complete business cycles)
+                ☐ Randomization method implemented (proper random assignment)
+                ☐ Variant consistency ensured (same user always sees same variant)
+                ☐ Tracking configured (log variant assignment, events, conversions)
+                ☐ QA completed on both variants (no bugs, broken flows, or visual issues)
+                ☐ Guardrail metrics set (watch for negative impacts on other metrics)
+                ☐ Early stopping rules defined (only for harm/bugs, not for positive results)
+                ☐ No-peek policy communicated (team resists checking results daily)
+                ☐ Post-test analysis plan defined (segment by device, channel, user type)
+                ☐ Statistical significance checked (p < 0.05 or Bayesian probability > 95%)
+                ☐ Practical significance assessed (is the lift worth the implementation cost?)
+                ☐ Winner implementation planned (rollout to 100%, monitor for 2 weeks)
+                ☐ Loser learnings documented (why didn't it work? what does this tell us?)
+                ☐ Experiment log maintained (hypothesis, results, learnings, date)
+                ☐ Testing velocity target set (1 test per week minimum)
+                ☐ Testing culture established (celebrate learnings, not just wins)
+                ☐ Tool selected and implemented (Google Optimize, PostHog, Optimizely, etc.)
+                ☐ Team trained on statistical concepts (significance, power, sample size, p-hacking)
+                ☐ Testing roadmap created (next 4 weeks of experiments planned)
+                ☐ Cross-functional alignment (product, marketing, engineering all involved)
+                ☐ Executive dashboard built (active tests, win rate, velocity, cumulative impact)
+                ☐ Testing ethics considered (no dark patterns, no deceptive practices)
+                ☐ Legal/privacy review completed (cookie consent, data collection disclosures)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full A/B Testing Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with hypothesis templates, statistical calculators, and experiment documentation frameworks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('abTestingEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

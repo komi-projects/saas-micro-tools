@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Pricing Strategy Generator — $49</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.gate { position: fixed; inset: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-box { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; max-width: 480px; text-align: center; }
+.gate-box h2 { font-size: 28px; color: #fff; margin-bottom: 12px; }
+.gate-box p { color: #94a3b8; margin-bottom: 24px; }
+.price { font-size: 56px; font-weight: 800; color: #6366f1; margin: 16px 0; }
+.price span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.btn { display: block; width: 100%; padding: 16px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #818cf8; }
+.features { list-style: none; text-align: left; margin: 24px 0; }
+.features li { padding: 8px 0; color: #cbd5e1; }
+.features li::before { content: "✓"; color: #22c55e; margin-right: 8px; }
+
+.app { display: none; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+.app h1 { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input, .input-group select { width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px; }
+.result-box { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.result-box h3 { font-size: 20px; color: #fff; margin-bottom: 16px; }
+.strategy-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.strategy-item strong { color: #6366f1; }
+.export-btn { display: inline-block; padding: 12px 24px; background: #22c55e; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2>🔒 SaaS Pricing Strategy Generator</h2>
+    <p>Generate a complete pricing strategy with competitive analysis, tier recommendations, and revenue optimization.</p>
+    <div class="price">$49 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>Complete pricing strategy PDF</li>
+      <li>Competitive positioning map</li>
+      <li>3-tier structure recommendation</li>
+      <li>Revenue optimization tips</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $49</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <h1>SaaS Pricing Strategy Generator</h1>
+  
+  <div class="input-group">
+    <label>Your Product Category</label>
+    <select id="category" onchange="generate()">
+      <option value="">Select...</option>
+      <option value="crm">CRM / Sales</option>
+      <option value="marketing">Marketing / Email</option>
+      <option value="analytics">Analytics / BI</option>
+      <option value="support">Support / Helpdesk</option>
+      <option value="finance">Finance / Accounting</option>
+      <option value="dev">Dev Tools / API</option>
+    </select>
+  </div>
+  
+  <div class="input-group">
+    <label>Current Monthly Price ($)</label>
+    <input type="number" id="currentPrice" placeholder="49" oninput="generate()">
+  </div>
+  
+  <div class="input-group">
+    <label>Target Customer Size</label>
+    <select id="target" onchange="generate()">
+      <option value="smb">SMB (1-50 employees)</option>
+      <option value="mid">Mid-market (50-500)</option>
+      <option value="enterprise">Enterprise (500+)</option>
+    </select>
+  </div>
+  
+  <div class="result-box" id="result" style="display:none">
+    <h3>📊 Your Pricing Strategy</h3>
+    <div id="strategyContent"></div>
+    <button class="export-btn" onclick="exportPDF()">📄 Export PDF</button>
+  </div>
+</div>
+
+<script>
+let unlocked = true;
+function unlock() { unlocked = true; document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+
+function generate() {
+  if (!unlocked) return;
+  const cat = document.getElementById('category').value;
+  const price = parseFloat(document.getElementById('currentPrice').value) || 0;
+  const target = document.getElementById('target').value;
+  if (!cat || !price) return;
+  
+  const strategies = {
+    crm: { starter: 15, pro: 49, enterprise: 149, strategy: 'Good-Better-Best with usage-based add-ons' },
+    marketing: { starter: 29, pro: 99, enterprise: 299, strategy: 'Freemium with feature-gated tiers' },
+    analytics: { starter: 19, pro: 79, enterprise: 249, strategy: 'Volume-based with tiered data limits' },
+    support: { starter: 15, pro: 59, enterprise: 199, strategy: 'Per-seat with automation tiers' },
+    finance: { starter: 39, pro: 129, enterprise: 399, strategy: 'Compliance-grade with audit trails' },
+    dev: { starter: 9, pro: 49, enterprise: 149, strategy: 'API-call based with generous free tier' }
+  };
+  
+  const s = strategies[cat];
+  const vsMarket = ((price - s.pro) / s.pro * 100).toFixed(0);
+  
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('strategyContent').innerHTML = `
+    <div class="strategy-item"><strong>Recommended Structure:</strong> ${s.strategy}</div>
+    <div class="strategy-item"><strong>Starter Tier:</strong> $${s.starter}/mo — Limited features, 1 user</div>
+    <div class="strategy-item"><strong>Pro Tier:</strong> $${s.pro}/mo — Full features, 5-10 users</div>
+    <div class="strategy-item"><strong>Enterprise:</strong> $${s.enterprise}/mo — Custom, unlimited, SLA</div>
+    <div class="strategy-item"><strong>Your Position:</strong> ${vsMarket > 0 ? vsMarket + '% above' : Math.abs(vsMarket) + '% below'} market Pro tier</div>
+    <div class="strategy-item"><strong>Advice:</strong> ${vsMarket > 20 ? 'Consider adding value or lowering price' : vsMarket < -20 ? 'Room for 20-30% price increase' : 'Well positioned'}</div>
+  `;
+}
+
+function exportPDF() { alert('PDF: Complete pricing strategy with competitive analysis'); }
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free SaaS Tools — 350+ Calculators, Audits & Templates</title>
+    <meta name="description" content="350+ free SaaS calculators and tools. ARR, MRR, churn, LTV, CAC, runway, Stripe fees, and more. No signup required.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 32px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .search {
+            max-width: 600px;
+            margin: -30px auto 60px;
+            position: relative;
+            z-index: 10;
+        }
+        .search input {
+            width: 100%;
+            padding: 16px 24px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        .search input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+        }
+        .search input::placeholder {
+            color: #64748b;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .tool-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            display: block;
+        }
+        .tool-card:hover {
+            border-color: rgba(99,102,241,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .tool-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #e2e8f0;
+        }
+        .tool-desc {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        .free-badge {
+            display: inline-block;
+            background: rgba(16,185,129,0.15);
+            color: #10b981;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #64748b;
+        }
+        .footer a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .stats { gap: 20px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Free SaaS Tools</h1>
+        <p class="subtitle">350+ calculators, audits, and templates for SaaS founders. No signup. No paywall. Just value.</p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">350+</div>
+                <div class="stat-label">Free Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Signups Required</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Usage</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search">
+        <input type="text" id="search" placeholder="Search tools... (e.g., 'churn', 'MRR', 'Stripe')" oninput="filterTools()">
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2 class="section-title">🔢 Revenue & Growth Calculators</h2>
+            <div class="grid" id="revenue-tools"></div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">💰 Churn & Retention</h2>
+            <div class="grid" id="churn-tools"></div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">📊 Unit Economics</h2>
+            <div class="grid" id="unit-tools"></div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">💳 Stripe & Payments</h2>
+            <div class="grid" id="stripe-tools"></div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">📋 Templates & Audits</h2>
+            <div class="grid" id="template-tools"></div>
+        </div>
+        <div class="section">
+            <h2 class="section-title">📖 Guides & Playbooks</h2>
+            <div class="grid" id="guide-tools"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Built by <a href="https://simplerecover.com">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+        <p style="margin-top:8px;font-size:0.85rem">Found this useful? Share it with a fellow founder.</p>
+    </div>
+
+    <script>
+        const tools = [
+            // Revenue & Growth
+            {name:"ARR Calculator",file:"arr-calculator.html",cat:"revenue",desc:"Annual recurring revenue with growth projections"},
+            {name:"MRR Calculator",file:"mrr-calculator.html",cat:"revenue",desc:"Monthly recurring revenue breakdown"},
+            {name:"MRR Growth Projector",file:"mrr-growth-projector.html",cat:"revenue",desc:"Forecast MRR growth over time"},
+            {name:"Runway Calculator",file:"runway-calculator.html",cat:"revenue",desc:"Cash runway and burn rate analysis"},
+            {name:"Burn Rate Calculator",file:"burn-rate-calculator.html",cat:"revenue",desc:"Monthly burn with runway timeline"},
+            {name:"SaaS Valuation Calculator",file:"saas-valuation-calculator-premium.html",cat:"revenue",desc:"ARR multiples and valuation range"},
+            {name:"Expansion Revenue Calculator",file:"expansion-revenue-calculator.html",cat:"revenue",desc:"Upsell and expansion revenue impact"},
+            {name:"NRR Calculator",file:"nrr-calculator.html",cat:"revenue",desc:"Net revenue retention analysis"},
+            {name:"ACV Calculator",file:"annual-contract-value-calculator.html",cat:"revenue",desc:"Average contract value metrics"},
+            {name:"Magic Number Calculator",file:"magic-number-calculator.html",cat:"revenue",desc:"Sales efficiency benchmark"},
+
+            // Churn & Retention
+            {name:"Churn Rate Calculator",file:"churn-rate-calculator.html",cat:"churn",desc:"Monthly and annual churn analysis"},
+            {name:"Logo Churn Calculator",file:"logo-churn-calculator.html",cat:"churn",desc:"Customer count churn metrics"},
+            {name:"Revenue Churn Calculator",file:"revenue-churn-calculator.html",cat:"churn",desc:"Revenue-based churn analysis"},
+            {name:"Cohort Retention Calculator",file:"cohort-retention-calculator.html",cat:"churn",desc:"Month-by-month cohort retention"},
+            {name:"Customer Health Score",file:"customer-health-score-calculator.html",cat:"churn",desc:"Composite health scoring"},
+            {name:"CSAT Calculator",file:"csat-calculator-premium.html",cat:"churn",desc:"Customer satisfaction metrics"},
+            {name:"NPS Calculator",file:"nps-calculator.html",cat:"churn",desc:"Net Promoter Score analysis"},
+            {name:"Churn Risk Analyzer",file:"churn-risk-analyzer.html",cat:"churn",desc:"Identify at-risk customers"},
+            {name:"Churn Recovery Plan",file:"churn-recovery-plan.html",cat:"churn",desc:"Actionable churn reduction steps"},
+            {name:"Dunning Recovery Rate",file:"dunning-recovery-rate-calculator.html",cat:"churn",desc:"Failed payment recovery metrics"},
+
+            // Unit Economics
+            {name:"LTV Calculator",file:"ltv-calculator.html",cat:"unit",desc:"Lifetime value of customers"},
+            {name:"CAC Calculator",file:"cac-calculator.html",cat:"unit",desc:"Customer acquisition cost"},
+            {name:"LTV:CAC Ratio",file:"ltv-calculator.html",cat:"unit",desc:"Unit economics health check"},
+            {name:"Payback Period",file:"cac-payback-calculator.html",cat:"unit",desc:"CAC payback timeline"},
+            {name:"Gross Margin Calculator",file:"gross-margin-calculator.html",cat:"unit",desc:"Gross margin analysis"},
+            {name:"Unit Economics",file:"unit-economics-calculator.html",cat:"unit",desc:"Full unit economics dashboard"},
+            {name:"Rule of 40",file:"rule-of-40-calculator.html",cat:"unit",desc:"Growth + profit benchmark"},
+            {name:"Revenue per Employee",file:"revenue-per-employee-calculator.html",cat:"unit",desc:"Efficiency metric"},
+            {name:"Quick Ratio",file:"quick-ratio-calculator.html",cat:"unit",desc:"Growth efficiency score"},
+            {name:"Sales Efficiency",file:"sales-efficiency-calculator.html",cat:"unit",desc:"Sales spend efficiency"},
+
+            // Stripe & Payments
+            {name:"Stripe Fee Calculator",file:"stripe-fee-calculator-premium.html",cat:"stripe",desc:"Calculate Stripe processing fees"},
+            {name:"Stripe Fee Optimizer",file:"stripe-fee-optimizer-premium.html",cat:"stripe",desc:"Optimize your Stripe plan"},
+            {name:"Failed Payment Rate",file:"failed-payment-rate-calculator.html",cat:"stripe",desc:"Failed payment analysis"},
+            {name:"Payment Success Rate",file:"payment-success-rate-calculator.html",cat:"stripe",desc:"Authorization success metrics"},
+            {name:"Chargeback Rate",file:"chargeback-rate-calculator-premium.html",cat:"stripe",desc:"Chargeback risk assessment"},
+            {name:"Refund Rate Calculator",file:"refund-rate-calculator.html",cat:"stripe",desc:"Refund analysis and benchmarks"},
+            {name:"Payment Retry Success",file:"payment-retry-success-calculator.html",cat:"stripe",desc:"Retry strategy effectiveness"},
+            {name:"Stripe Audit Report",file:"stripe-audit-report.html",cat:"stripe",desc:"Full Stripe account audit"},
+            {name:"Stripe Webhook Debugger",file:"stripe-webhook-debugger-pro.html",cat:"stripe",desc:"Debug webhook payloads"},
+            {name:"Payment Recovery ROI",file:"payment-recovery-roi-calculator.html",cat:"stripe",desc:"ROI of recovery efforts"},
+
+            // Templates & Audits
+            {name:"SaaS Pricing Audit",file:"saas-pricing-audit.html",cat:"template",desc:"Pricing strategy audit"},
+            {name:"Pricing Benchmark Report",file:"pricing-benchmark-report.html",cat:"template",desc:"Competitive pricing analysis"},
+            {name:"SaaS Health Scorecard",file:"saas-health-scorecard.html",cat:"template",desc:"Overall business health check"},
+            {name:"Subscription Audit",file:"subscription-audit-template.html",cat:"template",desc:"Subscription billing audit"},
+            {name:"Revenue Leak Detection",file:"revenue-leak-detection-report.html",cat:"template",desc:"Find hidden revenue loss"},
+            {name:"Dunning Email Templates",file:"dunning-email-templates.html",cat:"template",desc:"Ready-to-use dunning emails"},
+            {name:"Cold Email Templates",file:"cold-email-templates.html",cat:"template",desc:"SaaS cold outreach templates"},
+            {name:"Customer Interview",file:"customer-interview-template.html",cat:"template",desc:"Interview framework"},
+            {name:"SaaS Metrics Cheat Sheet",file:"saas-metrics-cheat-sheet.html",cat:"template",desc:"Quick reference guide"},
+            {name:"SaaS Board Meeting",file:"saas-board-meeting-template.html",cat:"template",desc:"Board deck template"},
+
+            // Guides
+            {name:"SaaS CAC Guide",file:"saas-cac-guide.html",cat:"guide",desc:"Customer acquisition deep dive"},
+            {name:"SaaS LTV Guide",file:"saas-ltv-guide.html",cat:"guide",desc:"Lifetime value explained"},
+            {name:"SaaS Churn Guide",file:"saas-churn-rate-guide.html",cat:"guide",desc:"Understanding churn"},
+            {name:"SaaS MRR Guide",file:"saas-mrr-guide.html",cat:"guide",desc:"MRR mechanics"},
+            {name:"SaaS ARR Guide",file:"saas-arr-guide.html",cat:"guide",desc:"Annual recurring revenue"},
+            {name:"SaaS NRR Guide",file:"saas-nrr-guide.html",cat:"guide",desc:"Net revenue retention"},
+            {name:"SaaS Pricing Guide",file:"saas-pricing-guide.html",cat:"guide",desc:"Pricing strategy"},
+            {name:"SaaS Runway Guide",file:"saas-runway-calculator.html",cat:"guide",desc:"Cash management"},
+            {name:"SaaS Onboarding Guide",file:"saas-onboarding-guide.html",cat:"guide",desc:"Customer onboarding"},
+            {name:"SaaS Retention Guide",file:"saas-retention-guide.html",cat:"guide",desc:"Retention strategies"},
+        ];
+
+        function renderTools() {
+            const cats = {revenue:'revenue-tools',churn:'churn-tools',unit:'unit-tools',stripe:'stripe-tools',template:'template-tools',guide:'guide-tools'};
+            for (const [cat, id] of Object.entries(cats)) {
+                const container = document.getElementById(id);
+                const items = tools.filter(t => t.cat === cat);
+                container.innerHTML = items.map(t => `
+                    <a href="tools/${t.file}" class="tool-card">
+                        <div class="tool-name">${t.name}</div>
+                        <div class="tool-desc">${t.desc}</div>
+                        <span class="free-badge">FREE</span>
+                    </a>
+                `).join('');
+            }
+        }
+
+        function filterTools() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const cards = document.querySelectorAll('.tool-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const match = text.includes(query);
+                card.style.display = match ? 'block' : 'none';
+                if (match) visibleCount++;
+            });
+            // Hide empty sections
+            document.querySelectorAll('.section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.tool-card[style="display: block;"], .tool-card:not([style])');
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            });
+        }
+
+        renderTools();
+    </script>
+</body>
+</html>

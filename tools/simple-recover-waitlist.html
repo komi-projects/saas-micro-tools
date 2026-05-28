@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleRecover — Join the Waitlist</title>
+    <meta name="description" content="Stop losing revenue to failed Stripe payments. Join the waitlist for SimpleRecover — payment recovery for SaaS founders.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            font-size: 2.5rem;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .waitlist-form {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .waitlist-form h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .waitlist-form p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .form-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .form-input::placeholder { color: #475569; }
+        .form-input:focus { outline: none; border-color: #6366f1; }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .success-msg {
+            display: none;
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: #10b981;
+            margin-top: 16px;
+        }
+        .success-msg.show { display: block; }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .feature {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .feature-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .feature h3 { font-size: 1rem; margin-bottom: 4px; }
+        .feature p { color: #64748b; font-size: 0.8rem; }
+        
+        .social-proof {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .social-proof strong { color: #e2e8f0; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .features { grid-template-columns: 1fr; }
+            .form-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚀</div>
+        <h1>SimpleRecover</h1>
+        <p class="subtitle">Payment recovery for SaaS founders.<br>Stop losing revenue to failed Stripe payments.</p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>5-Min Setup</h3>
+                <p>Connect Stripe and start recovering</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📈</div>
+                <h3>60-70% Recovery</h3>
+                <p>Smart dunning that actually works</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <h3>$2K+/mo Saved</h3>
+                <p>Average customer recovery</p>
+            </div>
+        </div>
+        
+        <div class="waitlist-form">
+            <h2>Join the Waitlist</h2>
+            <p>Be the first to access SimpleRecover when we launch. Get early pricing and exclusive features.</p>
+            
+            <form id="waitlistForm">
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="First Name" id="firstName" required>
+                    <input type="email" class="form-input" placeholder="your@email.com" id="email" required>
+                </div>
+                <div class="form-row">
+                    <input type="text" class="form-input" placeholder="Company (optional)" id="company">
+                    <input type="text" class="form-input" placeholder="MRR Range ($)" id="mrr">
+                </div>
+                <button type="submit" class="submit-btn">Join Waitlist — Free</button>
+            </form>
+            
+            <div class="success-msg" id="successMsg">
+                ✅ You're on the list! We'll email you when SimpleRecover launches.
+            </div>
+        </div>
+        
+        <p class="social-proof">
+            <strong>847 founders</strong> on the waitlist. <strong>Launching soon.</strong>
+        </p>
+    </div>
+    
+    <script>
+        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                firstName: document.getElementById('firstName').value,
+                email: document.getElementById('email').value,
+                company: document.getElementById('company').value,
+                mrr: document.getElementById('mrr').value,
+                joinedAt: new Date().toISOString()
+            };
+            
+            // Store locally (replace with backend when ready)
+            let waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+            waitlist.push(data);
+            localStorage.setItem('waitlist', JSON.stringify(waitlist));
+            
+            document.getElementById('successMsg').classList.add('show');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

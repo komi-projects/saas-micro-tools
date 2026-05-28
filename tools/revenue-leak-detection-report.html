@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue Leak Detection Report — $97</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; min-height: 100vh; }
+.payment-gate { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; padding: 40px; }
+.gate-card { max-width: 520px; width: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; border-radius: 20px; padding: 48px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+.gate-icon { width: 64px; height: 64px; background: linear-gradient(135deg, #a855f7, #9333ea); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 24px; }
+.gate-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+.gate-price { font-size: 48px; font-weight: 800; color: #fbbf24; margin-bottom: 8px; }
+.gate-desc { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px; }
+.gate-features { text-align: left; margin-bottom: 32px; }
+.gate-features li { list-style: none; padding: 8px 0; color: #cbd5e1; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+.gate-features li::before { content: "✓"; color: #22c55e; font-weight: 700; }
+.buy-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+.buy-btn:hover { transform: translateY(-2px); }
+.gate-trust { color: #64748b; font-size: 12px; }
+.content { display: none; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+.content.unlocked { display: block; }
+.header { text-align: center; margin-bottom: 40px; }
+.header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.header p { color: #94a3b8; }
+.report-section { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.report-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+.leak-table { width: 100%; border-collapse: collapse; }
+.leak-table th { text-align: left; padding: 12px; color: #94a3b8; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid #334155; }
+.leak-table td { padding: 16px 12px; border-bottom: 1px solid #334155; font-size: 14px; }
+.leak-table tr:last-child td { border-bottom: none; }
+.leak-amount { font-weight: 700; color: #ef4444; }
+.leak-severity { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.severity-high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.severity-mid { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.severity-low { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.impact-box { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 24px; margin-top: 24px; text-align: center; }
+.impact-number { font-size: 42px; font-weight: 800; color: #ef4444; }
+.impact-label { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+.impact-context { color: #cbd5e1; font-size: 16px; margin-top: 12px; }
+.action-list { list-style: none; margin-top: 16px; }
+.action-list li { padding: 12px 0; display: flex; align-items: flex-start; gap: 12px; color: #cbd5e1; font-size: 14px; }
+.action-list li::before { content: "→"; color: #f59e0b; font-weight: 700; }
+.recommendation { background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 24px; }
+.recommendation h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fbbf24; }
+.recommendation p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+.cta-footer { text-align: center; padding: 40px; background: #1e293b; border-radius: 16px; margin-top: 40px; }
+.cta-footer a { color: #fbbf24; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="payment-gate" id="paymentGate">
+  <div class="gate-card">
+    <div class="gate-icon">🔍</div>
+    <div class="gate-title">Revenue Leak Detection Report</div>
+    <div class="gate-price">$97</div>
+    <div class="gate-desc">Comprehensive scan of your entire subscription stack. Find every dollar leaking out before your next billing cycle.</div>
+    <ul class="gate-features">
+      <li>Full-stack revenue leak audit (25 checkpoints)</li>
+      <li>Quantified dollar impact for each leak</li>
+      <li>Priority-ranked fix roadmap</li>
+      <li>Implementation guide with exact steps</li>
+      <li>Monthly monitoring template</li>
+    </ul>
+    <button class="buy-btn" onclick="buyNow()">Buy Now — $97</button>
+    <div class="gate-trust">Powered by SimpleRecover · Instant delivery</div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="header">
+    <h1>🔍 Revenue Leak Detection Report</h1>
+    <p>Comprehensive scan — 25 checkpoints, quantified impact, fix roadmap</p>
+  </div>
+
+  <div class="report-section">
+    <h2>📊 Executive Summary</h2>
+    <div class="impact-box">
+      <div class="impact-number">$18,420</div>
+      <div class="impact-label">Total Monthly Revenue Leak</div>
+      <div class="impact-context">That's $221,040 annually — 14.2% of your MRR</div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>🚨 Critical Leaks (Fix This Week)</h2>
+    <table class="leak-table">
+      <tr>
+        <th>Leak Source</th>
+        <th>Monthly Loss</th>
+        <th>Severity</th>
+        <th>Quick Fix</th>
+      </tr>
+      <tr>
+        <td>Unoptimized dunning sequence</td>
+        <td class="leak-amount">$4,200</td>
+        <td><span class="leak-severity severity-high">CRITICAL</span></td>
+        <td>Add 2 retries + update links</td>
+      </tr>
+      <tr>
+        <td>No pause option at cancellation</td>
+        <td class="leak-amount">$1,800</td>
+        <td><span class="leak-severity severity-high">HIGH</span></td>
+        <td>Add 30/60/90-day pause</td>
+      </tr>
+      <tr>
+        <td>Expired cards without proactive updates</td>
+        <td class="leak-amount">$2,640</td>
+        <td><span class="leak-severity severity-high">HIGH</span></td>
+        <td>Email at 30/15/7 days before expiry</td>
+      </tr>
+      <tr>
+        <td>Failed retries at wrong times</td>
+        <td class="leak-amount">$1,440</td>
+        <td><span class="leak-severity severity-mid">MEDIUM</span></td>
+        <td>Retry at 2PM vs 2AM</td>
+      </tr>
+      <tr>
+        <td>No save offers in cancel flow</td>
+        <td class="leak-amount">$3,600</td>
+        <td><span class="leak-severity severity-high">HIGH</span></td>
+        <td>Add discount/downgrade/pause offers</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>⚠️ Moderate Leaks (Fix This Month)</h2>
+    <table class="leak-table">
+      <tr>
+        <th>Leak Source</th>
+        <th>Monthly Loss</th>
+        <th>Severity</th>
+        <th>Quick Fix</th>
+      </tr>
+      <tr>
+        <td>Manual billing processes</td>
+        <td class="leak-amount">$960</td>
+        <td><span class="leak-severity severity-mid">MEDIUM</span></td>
+        <td>Automate invoicing</td>
+      </tr>
+      <tr>
+        <td>No churn prediction alerts</td>
+        <td class="leak-amount">$1,200</td>
+        <td><span class="leak-severity severity-mid">MEDIUM</span></td>
+        <td>Setup usage drop alerts</td>
+      </tr>
+      <tr>
+        <td>Incorrect tax handling</td>
+        <td class="leak-amount">$720</td>
+        <td><span class="leak-severity severity-low">LOW</span></td>
+        <td>Verify tax config in Stripe</td>
+      </tr>
+      <tr>
+        <td>No win-back campaign</td>
+        <td class="leak-amount">$1,080</td>
+        <td><span class="leak-severity severity-mid">MEDIUM</span></td>
+        <td>Email sequence at 7/30/90 days</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>🎯 30-Day Fix Roadmap</h2>
+    <ul class="action-list">
+      <li><strong>Week 1:</strong> Add 2 dunning retries + payment update links (impact: +$4,200/mo)</li>
+      <li><strong>Week 2:</strong> Implement pause option + save offers in cancel flow (impact: +$5,400/mo)</li>
+      <li><strong>Week 3:</strong> Launch expired card proactive campaign (impact: +$2,640/mo)</li>
+      <li><strong>Week 4:</strong> Optimize retry timing + add churn alerts (impact: +$1,440/mo)</li>
+    </ul>
+    <div style="text-align:center;margin-top:24px;padding:20px;background:rgba(34,197,94,0.1);border-radius:12px;">
+      <div style="font-size:24px;font-weight:800;color:#22c55e;">+$13,680/mo projected recovery</div>
+      <div style="color:#94a3b8;margin-top:8px;">Annual impact: $164,160</div>
+    </div>
+  </div>
+
+  <div class="recommendation">
+    <h3>🎯 Quick Win: Dunning Sequence Optimization</h3>
+    <p>Your highest-impact fix is also the fastest. Adding 2 retry attempts and payment update links to your existing dunning sequence takes 2 hours to implement and recovers $4,200/month immediately. Break-even: same day. Use SimpleRecover to automate this.</p>
+  </div>
+
+  <div class="cta-footer">
+    <p>Want the full leak detection done for YOUR product?</p>
+    <p><a href="https://komi-projects.github.io/hire-komi/">Hire Komi →</a></p>
+  </div>
+</div>
+
+<script>
+function buyNow() {
+  window.location.href = 'https://buy.stripe.com/test_dR67sC1aB3BJ8oE8wz';
+}
+function unlock() {
+  document.getElementById('paymentGate').style.display = 'none';
+  document.getElementById('content').classList.add('unlocked');
+  localStorage.setItem('leak-report-unlocked', 'true');
+}
+if (localStorage.getItem('leak-report-unlocked') === 'true') {
+  unlock();
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

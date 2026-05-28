@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Churn Risk Analyzer — SimpleRecover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+.gate-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-content { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 56px 48px; max-width: 520px; text-align: center; }
+.gate-content h2 { font-size: 32px; margin-bottom: 12px; color: #fff; }
+.gate-content > p { color: #94a3b8; margin-bottom: 32px; font-size: 16px; }
+.price-tag { font-size: 56px; font-weight: 800; color: #6366f1; margin: 24px 0; }
+.price-tag span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.features { list-style: none; text-align: left; margin: 32px 0; }
+.features li { padding: 10px 0; color: #cbd5e1; display: flex; align-items: center; gap: 12px; }
+.features li::before { content: "✓"; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+.btn { display: block; width: 100%; padding: 18px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: #818cf8; transform: translateY(-2px); }
+
+.app { display: none; }
+header { text-align: center; padding: 40px 0; }
+h1 { font-size: 42px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.subtitle { font-size: 18px; color: #94a3b8; }
+
+.input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 32px 0; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input, .input-group select {
+  width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px;
+}
+
+.risk-display { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; text-align: center; margin: 32px 0; }
+.risk-value { font-size: 72px; font-weight: 800; }
+.risk-value.low { color: #22c55e; }
+.risk-value.medium { color: #eab308; }
+.risk-value.high { color: #ef4444; }
+.risk-label { font-size: 20px; color: #94a3b8; margin-top: 8px; }
+
+.factors { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.factors h3 { font-size: 20px; margin-bottom: 16px; color: #fff; }
+.factor-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.factor-name { color: #94a3b8; }
+.factor-score { font-weight: 700; }
+
+footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gate">
+  <div class="gate-content">
+    <h2>🔒 Customer Churn Risk Analyzer</h2>
+    <p>Predict which customers are likely to churn based on behavioral signals and usage patterns.</p>
+    <div class="price-tag">$59 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>Churn risk scoring algorithm</li>
+      <li>Behavioral signal analysis</li>
+      <li>Intervention recommendations</li>
+      <li>Segmentation by risk level</li>
+      <li>PDF risk report</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $59</button>
+    <p style="margin-top:16px;font-size:13px;color:#64748b">Secured by Stripe. Instant access.</p>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>Customer Churn Risk Analyzer</h1>
+    <p class="subtitle">Predict churn before it happens. Intervene before they leave.</p>
+  </header>
+
+  <div class="app" id="app">
+    <div class="input-grid">
+      <div class="input-group">
+        <label>Days Since Last Login</label>
+        <input type="number" id="lastLogin" placeholder="7" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Feature Usage (%) last 30 days</label>
+        <input type="number" id="featureUsage" placeholder="45" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Support Tickets (last 90 days)</label>
+        <input type="number" id="tickets" placeholder="2" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Payment Failures (last 6 months)</label>
+        <input type="number" id="paymentFails" placeholder="1" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>NPS Score (if known)</label>
+        <input type="number" id="nps" placeholder="7" min="0" max="10" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Plan Tier</label>
+        <select id="planTier" onchange="calculate()">
+          <option value="annual">Annual</option>
+          <option value="monthly">Monthly</option>
+          <option value="trial">Trial / Free</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="risk-display">
+      <div class="risk-value" id="riskValue">--</div>
+      <div class="risk-label" id="riskLabel">Enter metrics above</div>
+    </div>
+
+    <div class="factors">
+      <h3>🎯 Risk Factors</h3>
+      <div id="factorsList"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 SimpleRecover. Premium tool.</p>
+</footer>
+
+<script>
+let isUnlocked = false;
+function unlock() { isUnlocked = true; document.getElementById('gate').style.display = 'none'; document.getElementById('app').style.display = 'block'; }
+
+function calculate() {
+  if (!isUnlocked) return;
+  
+  const lastLogin = parseFloat(document.getElementById('lastLogin').value) || 0;
+  const featureUsage = parseFloat(document.getElementById('featureUsage').value) || 0;
+  const tickets = parseFloat(document.getElementById('tickets').value) || 0;
+  const paymentFails = parseFloat(document.getElementById('paymentFails').value) || 0;
+  const nps = parseFloat(document.getElementById('nps').value) || 5;
+  const planTier = document.getElementById('planTier').value;
+  
+  let score = 0;
+  if (lastLogin > 30) score += 25;
+  else if (lastLogin > 14) score += 15;
+  
+  if (featureUsage < 20) score += 25;
+  else if (featureUsage < 50) score += 10;
+  
+  if (tickets > 3) score += 15;
+  if (paymentFails > 0) score += 20;
+  if (nps < 6) score += 15;
+  if (planTier === 'trial') score += 10;
+  
+  score = Math.min(100, score);
+  
+  const el = document.getElementById('riskValue');
+  el.textContent = score + '%';
+  el.className = 'risk-value ' + (score < 40 ? 'low' : score < 70 ? 'medium' : 'high');
+  
+  document.getElementById('riskLabel').textContent = score < 40 ? 'Low Risk — Healthy Customer' : score < 70 ? 'Medium Risk — Monitor Closely' : 'High Risk — Immediate Intervention Needed';
+  
+  const factors = [
+    { name: 'Activity Score', value: lastLogin > 30 ? 'Critical' : lastLogin > 14 ? 'Warning' : 'Good' },
+    { name: 'Engagement', value: featureUsage < 20 ? 'Critical' : featureUsage < 50 ? 'Warning' : 'Good' },
+    { name: 'Support Burden', value: tickets > 3 ? 'High' : tickets > 1 ? 'Medium' : 'Low' },
+    { name: 'Payment Health', value: paymentFails > 0 ? 'Failed' : 'Clean' },
+    { name: 'Sentiment', value: nps < 6 ? 'Negative' : nps < 8 ? 'Neutral' : 'Positive' }
+  ];
+  
+  document.getElementById('factorsList').innerHTML = factors.map(f => `
+    <div class="factor-row">
+      <span class="factor-name">${f.name}</span>
+      <span class="factor-score" style="color:${f.value === 'Critical' || f.value === 'Failed' ? '#ef4444' : f.value === 'Warning' || f.value === 'Medium' || f.value === 'Negative' ? '#eab308' : '#22c55e'}">${f.value}</span>
+    </div>
+  `).join('');
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

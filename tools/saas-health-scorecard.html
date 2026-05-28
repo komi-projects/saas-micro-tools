@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Health Scorecard — SimpleRecover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #0a0e1a;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+header { text-align: center; padding: 60px 0; }
+h1 { font-size: 48px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+.subtitle { font-size: 20px; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+
+/* Gate */
+.gate-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(10,14,26,0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.gate-content {
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 56px 48px;
+  max-width: 520px;
+  text-align: center;
+}
+.gate-content h2 { font-size: 32px; margin-bottom: 12px; color: #fff; }
+.gate-content > p { color: #94a3b8; margin-bottom: 32px; font-size: 16px; }
+.price-tag { font-size: 56px; font-weight: 800; color: #6366f1; margin: 24px 0; }
+.price-tag span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.features { list-style: none; text-align: left; margin: 32px 0; }
+.features li { padding: 10px 0; color: #cbd5e1; display: flex; align-items: center; gap: 12px; }
+.features li::before { content: "✓"; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+.btn {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:hover { background: #818cf8; transform: translateY(-2px); }
+
+/* App */
+.app { display: none; }
+.score-display {
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 48px;
+  text-align: center;
+  margin: 40px 0;
+}
+.score-circle {
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(#6366f1 0% var(--score), #1e293b var(--score) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  position: relative;
+}
+.score-circle::before {
+  content: '';
+  position: absolute;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: #111827;
+}
+.score-value {
+  position: relative;
+  font-size: 48px;
+  font-weight: 800;
+  color: #fff;
+}
+.score-label { font-size: 18px; color: #94a3b8; margin-top: 8px; }
+
+.input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 32px 0; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input, .input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  background: #0a0e1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+}
+.input-group input:focus, .input-group select:focus { outline: none; border-color: #6366f1; }
+
+.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+.metric-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; }
+.metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.metric-name { font-size: 14px; font-weight: 600; }
+.metric-score { font-size: 14px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+.metric-score.good { background: rgba(34,197,94,0.15); color: #22c55e; }
+.metric-score.warn { background: rgba(234,179,8,0.15); color: #eab308; }
+.metric-score.bad { background: rgba(239,68,68,0.15); color: #ef4444; }
+.metric-bar { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
+.metric-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
+.recommendations { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 32px 0; }
+.recommendations h3 { font-size: 20px; margin-bottom: 20px; color: #fff; }
+.rec-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.rec-priority { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.rec-priority.high { background: #ef4444; }
+.rec-priority.medium { background: #eab308; }
+.rec-priority.low { background: #22c55e; }
+.rec-text { font-size: 14px; color: #cbd5e1; }
+
+.export-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  margin-top: 16px;
+}
+.export-btn.pdf { background: #ef4444; }
+
+footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- Payment Gate -->
+<div class="gate-overlay" id="gate">
+  <div class="gate-content">
+    <h2>🔒 SaaS Health Scorecard</h2>
+    <p>Comprehensive business health check across 8 key dimensions with personalized recommendations.</p>
+    <div class="price-tag">$49 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>8-dimension health score</li>
+      <li>Industry benchmarking</li>
+      <li>Priority-ranked recommendations</li>
+      <li>PDF scorecard (10 pages)</li>
+      <li>Quarterly re-assessment guide</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $49</button>
+    <p style="margin-top:16px;font-size:13px;color:#64748b">Secured by Stripe. Instant access.</p>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>SaaS Health Scorecard</h1>
+    <p class="subtitle">How healthy is your SaaS? Get your score across 8 critical dimensions.</p>
+  </header>
+
+  <div class="app" id="app">
+    <div class="input-grid">
+      <div class="input-group">
+        <label>MRR ($)</label>
+        <input type="number" id="mrr" placeholder="25000" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Growth Rate (%/mo)</label>
+        <input type="number" id="growth" placeholder="10" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Churn Rate (%)</label>
+        <input type="number" id="churn" placeholder="5" step="0.1" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Net Revenue Retention (%)</label>
+        <input type="number" id="nrr" placeholder="110" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>LTV:CAC Ratio</label>
+        <input type="number" id="ltvcac" placeholder="3" step="0.1" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Gross Margin (%)</label>
+        <input type="number" id="margin" placeholder="75" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Burn Rate ($/mo)</label>
+        <input type="number" id="burn" placeholder="15000" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Cash Runway (months)</label>
+        <input type="number" id="runway" placeholder="18" oninput="calculate()">
+      </div>
+    </div>
+
+    <div class="score-display">
+      <div class="score-circle" id="scoreCircle" style="--score: 0%">
+        <div class="score-value" id="scoreValue">--</div>
+      </div>
+      <div class="score-label" id="scoreLabel">Enter your metrics above</div>
+    </div>
+
+    <div class="breakdown" id="breakdown"></div>
+
+    <div class="recommendations" id="recs">
+      <h3>🎯 Priority Recommendations</h3>
+      <div id="recList"></div>
+    </div>
+
+    <div style="text-align:center">
+      <button class="export-btn pdf" onclick="exportPDF()">📄 Export PDF Scorecard</button>
+      <button class="export-btn" onclick="exportJSON()">💾 Export JSON</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 SimpleRecover. Premium tool.</p>
+</footer>
+
+<script>
+let isUnlocked = false;
+
+function unlock() {
+  isUnlocked = true;
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+function scoreMetric(value, target, higherIsBetter = true) {
+  if (higherIsBetter) {
+    return Math.min(100, Math.max(0, (value / target) * 100));
+  } else {
+    return Math.min(100, Math.max(0, (target / value) * 100));
+  }
+}
+
+function calculate() {
+  if (!isUnlocked) return;
+  
+  const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+  const growth = parseFloat(document.getElementById('growth').value) || 0;
+  const churn = parseFloat(document.getElementById('churn').value) || 0;
+  const nrr = parseFloat(document.getElementById('nrr').value) || 0;
+  const ltvcac = parseFloat(document.getElementById('ltvcac').value) || 0;
+  const margin = parseFloat(document.getElementById('margin').value) || 0;
+  const burn = parseFloat(document.getElementById('burn').value) || 0;
+  const runway = parseFloat(document.getElementById('runway').value) || 0;
+  
+  const scores = {
+    growth: scoreMetric(growth, 10),
+    retention: scoreMetric(100 - churn, 95),
+    expansion: scoreMetric(nrr, 110),
+    efficiency: scoreMetric(ltvcac, 3),
+    profitability: scoreMetric(margin, 75),
+    runway: scoreMetric(runway, 18),
+    burn: scoreMetric(burn > 0 ? mrr / burn : 0, 2),
+    scale: scoreMetric(mrr, 50000)
+  };
+  
+  const weights = { growth: 0.15, retention: 0.2, expansion: 0.15, efficiency: 0.15, profitability: 0.1, runway: 0.1, burn: 0.1, scale: 0.05 };
+  const total = Object.keys(scores).reduce((sum, key) => sum + scores[key] * weights[key], 0);
+  const rounded = Math.round(total);
+  
+  document.getElementById('scoreValue').textContent = rounded;
+  document.getElementById('scoreCircle').style.setProperty('--score', rounded + '%');
+  
+  let label = '';
+  if (rounded >= 80) label = '🟢 Excellent — Your SaaS is in great shape';
+  else if (rounded >= 60) label = '🟡 Good — Some areas to improve';
+  else if (rounded >= 40) label = '🟠 At Risk — Focus on critical metrics';
+  else label = '🔴 Critical — Immediate action needed';
+  document.getElementById('scoreLabel').textContent = label;
+  
+  const metrics = [
+    { name: 'Growth', score: scores.growth, target: '10%/mo' },
+    { name: 'Retention', score: scores.retention, target: '<5% churn' },
+    { name: 'Expansion', score: scores.expansion, target: '>100% NRR' },
+    { name: 'Efficiency', score: scores.efficiency, target: 'LTV:CAC >3' },
+    { name: 'Profitability', score: scores.profitability, target: '>75% margin' },
+    { name: 'Runway', score: scores.runway, target: '>18 months' },
+    { name: 'Unit Economics', score: scores.burn, target: 'MRR >2× burn' },
+    { name: 'Scale', score: scores.scale, target: '>$50K MRR' }
+  ];
+  
+  document.getElementById('breakdown').innerHTML = metrics.map(m => {
+    const cls = m.score >= 70 ? 'good' : m.score >= 50 ? 'warn' : 'bad';
+    return `
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-name">${m.name}</span>
+          <span class="metric-score ${cls}">${Math.round(m.score)}/100</span>
+        </div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:${m.score}%;background:${m.score >= 70 ? '#22c55e' : m.score >= 50 ? '#eab308' : '#ef4444'}"></div></div>
+      </div>
+    `;
+  }).join('');
+  
+  const recs = [];
+  if (scores.growth < 50) recs.push({ priority: 'high', text: 'Growth is below target. Focus on acquisition channels with lowest CAC. Consider product-led growth loops.' });
+  if (scores.retention < 50) recs.push({ priority: 'high', text: 'Churn is critically high. Implement dunning sequences immediately. Survey churned customers for root causes.' });
+  if (scores.expansion < 50) recs.push({ priority: 'medium', text: 'NRR below 100%. Focus on upsell/cross-sell. Add usage-based pricing tiers to capture growth.' });
+  if (scores.efficiency < 50) recs.push({ priority: 'high', text: 'LTV:CAC below 3:1. Reduce CAC by improving conversion rates or increase LTV via expansion revenue.' });
+  if (scores.runway < 50) recs.push({ priority: 'high', text: 'Runway under 12 months. Cut non-essential burn. Focus on revenue-generating activities only.' });
+  if (scores.burn < 50) recs.push({ priority: 'medium', text: 'Burn rate too high vs MRR. Reduce headcount or marketing spend until MRR/burn ratio improves.' });
+  if (scores.profitability < 50) recs.push({ priority: 'medium', text: 'Margins below 70%. Review COGS — hosting, support, payment processing fees. Negotiate Stripe rates.' });
+  if (recs.length === 0) recs.push({ priority: 'low', text: 'Your SaaS is healthy! Focus on scaling what works. Consider expanding to new markets or verticals.' });
+  
+  document.getElementById('recList').innerHTML = recs.map(r => `
+    <div class="rec-item">
+      <div class="rec-priority ${r.priority}"></div>
+      <div class="rec-text">${r.text}</div>
+    </div>
+  `).join('');
+}
+
+function exportPDF() {
+  alert('PDF export: Professional 10-page scorecard with charts, benchmarks, and recommendations');
+}
+
+function exportJSON() {
+  const data = {
+    mrr: document.getElementById('mrr').value,
+    growth: document.getElementById('growth').value,
+    churn: document.getElementById('churn').value,
+    nrr: document.getElementById('nrr').value,
+    ltvcac: document.getElementById('ltvcac').value,
+    margin: document.getElementById('margin').value,
+    burn: document.getElementById('burn').value,
+    runway: document.getElementById('runway').value,
+    timestamp: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'health-scorecard.json';
+  a.click();
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

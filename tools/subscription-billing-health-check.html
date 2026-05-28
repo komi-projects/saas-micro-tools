@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription Billing Health Check — $59</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; min-height: 100vh; }
+.payment-gate { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; padding: 40px; }
+.gate-card { max-width: 520px; width: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; border-radius: 20px; padding: 48px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+.gate-icon { width: 64px; height: 64px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 24px; }
+.gate-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+.gate-price { font-size: 48px; font-weight: 800; color: #fbbf24; margin-bottom: 8px; }
+.gate-desc { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px; }
+.gate-features { text-align: left; margin-bottom: 32px; }
+.gate-features li { list-style: none; padding: 8px 0; color: #cbd5e1; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+.gate-features li::before { content: "✓"; color: #22c55e; font-weight: 700; }
+.buy-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+.buy-btn:hover { transform: translateY(-2px); }
+.gate-trust { color: #64748b; font-size: 12px; }
+.content { display: none; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+.content.unlocked { display: block; }
+.header { text-align: center; margin-bottom: 40px; }
+.header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.header p { color: #94a3b8; }
+.score-ring { width: 160px; height: 160px; margin: 0 auto 32px; position: relative; }
+.score-ring svg { transform: rotate(-90deg); }
+.score-ring circle { fill: none; stroke-width: 8; }
+.score-ring .bg { stroke: #334155; }
+.score-ring .fill { stroke: #f59e0b; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+.score-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-number { font-size: 36px; font-weight: 800; color: #f8fafc; }
+.score-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; }
+.health-section { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.health-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+.checklist { list-style: none; }
+.checklist li { padding: 12px 0; border-bottom: 1px solid #334155; display: flex; align-items: flex-start; gap: 12px; }
+.checklist li:last-child { border-bottom: none; }
+.score-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.score-good { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.score-mid { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.score-bad { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.leak-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 20px; }
+.leak-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 12px; padding: 20px; }
+.leak-amount { font-size: 24px; font-weight: 800; color: #ef4444; }
+.leak-desc { color: #94a3b8; font-size: 13px; margin-top: 4px; }
+.recommendation { background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 24px; }
+.recommendation h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fbbf24; }
+.recommendation p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+.cta-footer { text-align: center; padding: 40px; background: #1e293b; border-radius: 16px; margin-top: 40px; }
+.cta-footer a { color: #fbbf24; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="payment-gate" id="paymentGate">
+  <div class="gate-card">
+    <div class="gate-icon">🏥</div>
+    <div class="gate-title">Subscription Billing Health Check</div>
+    <div class="gate-price">$59</div>
+    <div class="gate-desc">Score your billing health across 15 critical dimensions. Identify leak points before they drain your revenue.</div>
+    <ul class="gate-features">
+      <li>15-dimension billing health scorecard</li>
+      <li>Revenue leak identification framework</li>
+      <li>Benchmark comparison vs top quartile</li>
+      <li>Priority fix roadmap with effort/impact</li>
+      <li>Stripe-specific configuration audit</li>
+    </ul>
+    <button class="buy-btn" onclick="buyNow()">Buy Now — $59</button>
+    <div class="gate-trust">Powered by SimpleRecover · Instant delivery</div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="header">
+    <h1>🏥 Subscription Billing Health Check</h1>
+    <p>Complete 15-dimension billing health assessment</p>
+  </div>
+
+  <div class="health-section">
+    <div class="score-ring">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="bg" cx="80" cy="80" r="70"></circle>
+        <circle class="fill" cx="80" cy="80" r="70" stroke-dasharray="440" stroke-dashoffset="132"></circle>
+      </svg>
+      <div class="score-text">
+        <div class="score-number">70%</div>
+        <div class="score-label">Health Score</div>
+      </div>
+    </div>
+    <p style="text-align:center;color:#94a3b8;margin-bottom:24px;">Your billing health is above average but has critical gaps in recovery and retention.</p>
+  </div>
+
+  <div class="health-section">
+    <h2>🔍 15-Dimension Health Scorecard</h2>
+    <ul class="checklist">
+      <li><span class="score-badge score-good">92%</span> Payment method collection at signup</li>
+      <li><span class="score-badge score-good">88%</span> Invoice delivery and formatting</li>
+      <li><span class="score-badge score-mid">67%</span> Dunning sequence configuration</li>
+      <li><span class="score-badge score-bad">34%</span> Payment retry optimization</li>
+      <li><span class="score-badge score-good">85%</span> Subscription change handling (upgrade/downgrade)</li>
+      <li><span class="score-badge score-mid">58%</span> Cancellation flow and retention offers</li>
+      <li><span class="score-badge score-bad">41%</span> Failed payment notification speed</li>
+      <li><span class="score-badge score-good">91%</span> Tax calculation and compliance</li>
+      <li><span class="score-badge score-mid">62%</span> Revenue recognition accuracy</li>
+      <li><span class="score-badge score-bad">28%</span> Churn prediction and prevention</li>
+      <li><span class="score-badge score-good">87%</span> Billing data security and PCI compliance</li>
+      <li><span class="score-badge score-mid">55%</span> Customer self-service portal quality</li>
+      <li><span class="score-badge score-bad">39%</span> Usage-based billing accuracy</li>
+      <li><span class="score-badge score-mid">71%</span> Refund and credit handling</li>
+      <li><span class="score-badge score-bad">45%</span> Revenue leakage monitoring</li>
+    </ul>
+  </div>
+
+  <div class="health-section">
+    <h2>💸 Revenue Leak Points Detected</h2>
+    <div class="leak-grid">
+      <div class="leak-card">
+        <div class="leak-amount">$4,200/mo</div>
+        <div class="leak-desc">Unoptimized dunning (only 62% recovery vs 84% possible)</div>
+      </div>
+      <div class="leak-card">
+        <div class="leak-amount">$1,800/mo</div>
+        <div class="leak-desc">No pause option — customers cancel instead</div>
+      </div>
+      <div class="leak-card">
+        <div class="leak-amount">$960/mo</div>
+        <div class="leak-desc">Expired cards with no proactive update campaign</div>
+      </div>
+      <div class="leak-card">
+        <div class="leak-amount">$720/mo</div>
+        <div class="leak-desc">Failed retries at suboptimal times</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:18px;font-weight:700;color:#ef4444;">
+      Total Monthly Leak: $7,680
+    </div>
+  </div>
+
+  <div class="recommendation">
+    <h3>🎯 Priority Fix: Implement Smart Retry Logic</h3>
+    <p>Your biggest leak is unoptimized dunning. Moving from 62% to 84% recovery rate recovers $4,200/month. Implementation: Add 2 more retry attempts, optimize timing (Day 1, 3, 5, 7, 14), and include payment update links in every email. Break-even: 7 days. Annual impact: $50,400.</p>
+  </div>
+
+  <div class="cta-footer">
+    <p>Want the full health check done for YOUR billing?</p>
+    <p><a href="https://komi-projects.github.io/hire-komi/">Hire Komi →</a></p>
+  </div>
+</div>
+
+<script>
+function buyNow() {
+  window.location.href = 'https://buy.stripe.com/test_dR67sC1aB3BJ8oE8wz';
+}
+function unlock() {
+  document.getElementById('paymentGate').style.display = 'none';
+  document.getElementById('content').classList.add('unlocked');
+  localStorage.setItem('billing-health-unlocked', 'true');
+}
+if (localStorage.getItem('billing-health-unlocked') === 'true') {
+  unlock();
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

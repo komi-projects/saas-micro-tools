@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Database Design Guide — Scalable Data Architecture</title>
+    <meta name="description" content="Free SaaS database design guide. Build scalable, multi-tenant data architectures that grow with your product and customer base.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .database {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Database Design</h1>
+            <p class="subtitle">Build scalable multi-tenant data architectures.</p>
+        </div>
+        
+        <div class="database">
+            <div class="section">
+                <h2>Why Database Design Matters in SaaS</h2>
+                
+                <p>Database design is the foundation of your SaaS product. Get it wrong early, and every subsequent feature becomes harder to build, slower to query, and more expensive to scale. Get it right, and you have a platform that grows smoothly from 10 customers to 10,000 without rewrites.</p>
+                
+                <p>SaaS databases face unique challenges: multi-tenancy (keeping customer data separate), scalability (handling millions of rows per tenant), compliance (GDPR, SOC2, HIPAA), and performance (sub-100ms queries under load). The choices you make in month 1 affect you in year 5.</p>
+                
+                <p>This guide covers database design patterns for SaaS, from multi-tenant architectures to indexing strategies to scaling approaches that work from startup to enterprise.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Multi-Tenant Architectures</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Shared Database, Shared Schema</div>
+                    <div class="pillar-detail">
+                        All tenants in one database, one set of tables.
+                        • Tenant ID column: Every table has a tenant_id foreign key
+                        • Query pattern: WHERE tenant_id = ? on every query
+                        • Pros: Simplest to implement, easiest to query across tenants, lowest infrastructure cost
+                        • Cons: Harder to scale (one giant database), noisy neighbor risk, complex compliance isolation
+                        • Best for: Early-stage SaaS, small tenants, rapid prototyping
+                        • Example: Most SaaS startups start here
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Shared Database, Separate Schema</div>
+                    <div class="pillar-detail">
+                        One database, but each tenant has their own schema (namespace).
+                        • Schema per tenant: tenant_1234.users, tenant_1234.orders
+                        • Pros: Better isolation than shared schema, easier compliance, can optimize per tenant
+                        • Cons: More complex migrations (apply to N schemas), harder cross-tenant analytics
+                        • Best for: Mid-size SaaS, compliance requirements, varied tenant sizes
+                        • Example: Heroku Postgres, some Salesforce implementations
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Separate Database per Tenant</div>
+                    <div class="pillar-detail">
+                        Each tenant gets their own database instance.
+                        • Complete isolation: No shared resources, maximum security
+                        • Pros: Best compliance (data physically separate), no noisy neighbors, tenant-specific optimization
+                        • Cons: Highest infrastructure cost, complex migrations, harder analytics across tenants
+                        • Best for: Enterprise SaaS, regulated industries (healthcare, finance), large tenants
+                        • Example: Salesforce orgs, some AWS RDS multi-tenant setups
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Hybrid Approach</div>
+                    <div class="pillar-detail">
+                        Different architectures for different tenant tiers.
+                        • Free/SMB tenants: Shared schema (cost-efficient)
+                        • Pro/Mid-market: Separate schema (better isolation)
+                        • Enterprise: Separate database (compliance + performance)
+                        • Migration path: Tenants can move up tiers as they grow
+                        • Pros: Optimized cost/performance for each segment
+                        • Cons: Most complex to implement and maintain
+                        • Best for: SaaS with clear tenant tiers (free/pro/enterprise)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Core Tables Every SaaS Needs</h2>
+                
+                <p><strong>1. Tenants/Organizations:</strong></p>
+                
+                <div class="code-block">
+CREATE TABLE tenants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    plan VARCHAR(50) DEFAULT 'free', -- free, pro, enterprise
+    status VARCHAR(50) DEFAULT 'active', -- active, suspended, deleted
+    settings JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+                </div>
+                
+                <p><strong>2. Users:</strong></p>
+                
+                <div class="code-block">
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'member', -- owner, admin, member, viewer
+    status VARCHAR(50) DEFAULT 'active',
+    last_login_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(tenant_id, email)
+);
+                </div>
+                
+                <p><strong>3. Audit Log:</strong></p>
+                
+                <div class="code-block">
+CREATE TABLE audit_logs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL,
+    action VARCHAR(100) NOT NULL, -- created, updated, deleted, exported
+    resource_type VARCHAR(100) NOT NULL, -- customer, invoice, settings
+    resource_id UUID,
+    changes JSONB, -- { "before": {}, "after": {} }
+    ip_address INET,
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+                </div>
+                
+                <p><strong>4. Subscriptions/Billing:</strong></p>
+                
+                <div class="code-block">
+CREATE TABLE subscriptions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    plan VARCHAR(50) NOT NULL,
+    status VARCHAR(50) DEFAULT 'active', -- active, canceled, past_due
+    billing_cycle VARCHAR(50) DEFAULT 'monthly', -- monthly, annual
+    price_cents INTEGER NOT NULL,
+    currency VARCHAR(3) DEFAULT 'USD',
+    current_period_start TIMESTAMP,
+    current_period_end TIMESTAMP,
+    cancel_at_period_end BOOLEAN DEFAULT FALSE,
+    payment_method_id UUID,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Indexing Strategies</h2>
+                
+                <p><strong>1. Tenant isolation:</strong></p>
+                
+                <p>• Index every tenant_id column: CREATE INDEX idx_users_tenant ON users(tenant_id);
+                • Composite indexes for common queries: CREATE INDEX idx_orders_tenant_status ON orders(tenant_id, status);
+• Partial indexes for filtered queries: CREATE INDEX idx_active_users ON users(tenant_id) WHERE status = 'active';
+                • Covering indexes: Include frequently queried columns to avoid table lookups</p>
+                
+                <p><strong>2. Query optimization:</strong></p>
+                
+                <p>• EXPLAIN ANALYZE: Run on every slow query before adding indexes
+                • Index selectivity: Index columns with high cardinality (many unique values)
+                • Write impact: Every index slows down writes; don't over-index
+                • Index maintenance: Reindex periodically, especially after bulk loads</p>
+                
+                <p><strong>3. Partitioning:</strong></p>
+                
+                <p>• Time-based: Partition large tables by created_at (monthly, quarterly)
+                • Tenant-based: Partition by tenant_id for very large tenants
+                • Benefits: Faster queries, easier archival, parallel vacuum
+                • Trade-offs: More complex queries, harder schema changes</p>
+            </div>
+            
+            <div class="section">
+                <h2>Scaling Strategies</h2>
+                
+                <p><strong>1. Read replicas:</strong></p>
+                
+                <p>• Separate read and write traffic
+                • Route analytics, exports, and heavy queries to replicas
+                • Async replication lag: 100ms-1s typical; handle stale reads
+                • Automated failover: Promote replica if primary fails</p>
+                
+                <p><strong>2. Connection pooling:</strong></p>
+                
+                <p>• PgBouncer for PostgreSQL, ProxySQL for MySQL
+                • Prevent connection exhaustion under load
+                • Transaction vs. session pooling modes
+                • Monitor: active connections, queue depth, wait time</p>
+                
+                <p><strong>3. Sharding:</strong></p>
+                
+                <p>• Horizontal partitioning: Split data across multiple databases
+                • Shard key: Usually tenant_id for SaaS (all tenant data on one shard)
+                • Rebalancing: Move tenants between shards as they grow
+                • Cross-shard queries: Avoid if possible; use aggregation service if necessary</p>
+                
+                <p><strong>4. Caching:</strong></p>
+                
+                <p>• Redis/Memcached: Cache frequently accessed data (tenant settings, user permissions)
+                • Query cache: Cache expensive query results (PostgreSQL has this built-in)
+                • Application cache: Cache computed values (dashboard metrics, reports)
+                • Cache invalidation: TTL-based, event-based, or manual</p>
+            </div>
+            
+            <div class="section">
+                <h2>Database Design Checklist</h2>
+                
+                <p>☐ Multi-tenant architecture chosen (shared schema, separate schema, or separate DB)
+                ☐ Tenant isolation implemented (tenant_id on every table)
+                ☐ Core tables created (tenants, users, audit_logs, subscriptions)
+                ☐ Indexes on all foreign keys and tenant_id columns
+                ☐ Composite indexes for common query patterns
+                ☐ Partial indexes for filtered queries
+                ☐ EXPLAIN ANALYZE run on slow queries
+                ☐ Soft deletes implemented (deleted_at instead of hard delete)
+                ☐ Timestamps on all tables (created_at, updated_at)
+                ☐ Audit logging configured for sensitive operations
+                ☐ UUID primary keys (not auto-increment for security)
+                ☐ JSONB columns for flexible schemas (settings, metadata)
+                ☐ Constraints defined (NOT NULL, UNIQUE, CHECK, FOREIGN KEY)
+                ☐ Connection pooling configured
+                ☐ Read replicas set up (if needed)
+                ☐ Backup strategy defined (point-in-time recovery, retention policy)
+                ☐ Encryption at rest enabled
+                ☐ Encryption in transit (TLS) enforced
+                ☐ Database monitoring configured (slow queries, connection count, disk usage)
+                ☐ Partitioning strategy defined (if tables >10M rows)
+                ☐ Archival policy defined (move old data to cold storage)
+                ☐ GDPR/data deletion process documented
+                ☐ Migration strategy (Alembic, Flyway, or manual with rollback plans)
+                ☐ Seeding strategy for new tenants (default data, templates)
+                ☐ Load testing performed (simulate N concurrent tenants)
+                ☐ Disaster recovery plan tested (restore from backup)
+                ☐ Documentation: ERD, schema notes, query patterns</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Database Design Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with schema templates, indexing cookbook, and scaling decision tree.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('databaseDesignEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

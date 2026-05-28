@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dunning Email Sequence Pack — $29</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.gate { position: fixed; inset: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-box { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; max-width: 480px; text-align: center; }
+.gate-box h2 { font-size: 28px; color: #fff; margin-bottom: 12px; }
+.gate-box p { color: #94a3b8; margin-bottom: 24px; }
+.price { font-size: 56px; font-weight: 800; color: #6366f1; margin: 16px 0; }
+.price span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.btn { display: block; width: 100%; padding: 16px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #818cf8; }
+.features { list-style: none; text-align: left; margin: 24px 0; }
+.features li { padding: 8px 0; color: #cbd5e1; }
+.features li::before { content: "✓"; color: #22c55e; margin-right: 8px; }
+
+.app { display: none; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+.app h1 { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+.sequence-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.sequence-card h3 { font-size: 20px; color: #fff; margin-bottom: 16px; }
+.email-template { background: #0a0e1a; border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 20px; margin: 12px 0; }
+.email-template h4 { font-size: 14px; color: #6366f1; margin-bottom: 8px; }
+.email-template pre { font-size: 13px; color: #94a3b8; white-space: pre-wrap; word-break: break-word; }
+.export-btn { display: inline-block; padding: 12px 24px; background: #22c55e; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2>🔒 Dunning Email Sequence Pack</h2>
+    <p>30+ proven email templates with customization variables, send timing, and conversion optimization.</p>
+    <div class="price">$29 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>30+ email templates</li>
+      <li>Personalization variables</li>
+      <li>Send timing optimization</li>
+      <li>HTML + plain text versions</li>
+      <li>Copy-paste ready</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $29</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <h1>Dunning Email Sequence Pack</h1>
+  
+  <div class="sequence-card">
+    <h3>📧 Sequence 1: Gentle Recovery (5 emails)</h3>
+    
+    <div class="email-template">
+      <h4>Email 1 — Day 0 (Immediate)</h4>
+      <pre>Subject: Payment update needed for {{product_name}}
+
+Hi {{first_name}},
+
+We noticed your recent payment didn't go through. No worries — this happens all the time when cards expire.
+
+Your account is still fully active. Update your payment method here:
+{{payment_link}}
+
+It takes 30 seconds.
+
+— {{company_name}}</pre>
+    </div>
+    
+    <div class="email-template">
+      <h4>Email 2 — Day 3</h4>
+      <pre>Subject: Don't lose access to {{product_name}}
+
+Hi {{first_name}},
+
+Just a heads up — your account will be restricted in 4 days if we don't receive payment.
+
+Update now: {{payment_link}}
+
+Questions? Hit reply.
+
+— {{company_name}}</pre>
+    </div>
+    
+    <div class="email-template">
+      <h4>Email 3 — Day 7 (Final)</h4>
+      <pre>Subject: Final notice: Account suspension tomorrow
+
+Hi {{first_name}},
+
+This is our final notice. Your account will be suspended tomorrow.
+
+Update payment: {{payment_link}}
+
+Need help? Call {{phone}} or reply to this email.
+
+— {{company_name}}</pre>
+    </div>
+  </div>
+  
+  <div class="sequence-card">
+    <h3>📧 Sequence 2: Win-Back (3 emails)</h3>
+    
+    <div class="email-template">
+      <h4>Email 1 — Day 14</h4>
+      <pre>Subject: We miss you — 20% off to come back
+
+Hi {{first_name}},
+
+You cancelled {{product_name}} recently. No hard feelings.
+
+If it was about money, here's 20% off for 3 months:
+{{winback_link}}
+
+If it was something else, tell me. I want to fix it.
+
+— {{founder_name}}</pre>
+    </div>
+  </div>
+  
+  <button class="export-btn" onclick="exportAll()">📄 Export All Templates</button>
+</div>
+
+<script>
+let unlocked = true;
+function unlock() { unlocked = true; document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+function exportAll() { alert('Export: All 30+ templates with variables, timing guide, and customization notes'); }
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

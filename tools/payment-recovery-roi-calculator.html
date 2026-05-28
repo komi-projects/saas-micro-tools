@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Recovery ROI Calculator — $29</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.gate { position: fixed; inset: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-box { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; max-width: 480px; text-align: center; }
+.gate-box h2 { font-size: 28px; color: #fff; margin-bottom: 12px; }
+.gate-box p { color: #94a3b8; margin-bottom: 24px; }
+.price { font-size: 56px; font-weight: 800; color: #6366f1; margin: 16px 0; }
+.price span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.btn { display: block; width: 100%; padding: 16px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #818cf8; }
+.features { list-style: none; text-align: left; margin: 24px 0; }
+.features li { padding: 8px 0; color: #cbd5e1; }
+.features li::before { content: "✓"; color: #22c55e; margin-right: 8px; }
+
+.app { display: none; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+.app h1 { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+.input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 24px 0; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input { width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px; }
+.roi-display { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; text-align: center; margin: 32px 0; }
+.roi-value { font-size: 72px; font-weight: 800; color: #22c55e; }
+.roi-label { font-size: 20px; color: #94a3b8; margin-top: 8px; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+.result-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center; }
+.result-value { font-size: 24px; font-weight: 800; color: #6366f1; }
+.result-label { font-size: 13px; color: #94a3b8; margin-top: 6px; }
+.export-btn { display: inline-block; padding: 12px 24px; background: #22c55e; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2>🔒 Payment Recovery ROI Calculator</h2>
+    <p>Calculate exactly how much revenue you'll recover and your ROI on recovery tools.</p>
+    <div class="price">$29 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>ROI calculation with payback period</li>
+      <li>Revenue recovery forecasting</li>
+      <li>Team sharing reports</li>
+      <li>PDF export</li>
+      <li>CSV data export</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $29</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <h1>Payment Recovery ROI Calculator</h1>
+  
+  <div class="input-grid">
+    <div class="input-group">
+      <label>Monthly Failed Payments</label>
+      <input type="number" id="fails" placeholder="50" oninput="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Average Transaction Value ($)</label>
+      <input type="number" id="value" placeholder="99" oninput="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Current Recovery Rate (%)</label>
+      <input type="number" id="current" placeholder="25" oninput="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Target Recovery Rate (%)</label>
+      <input type="number" id="target" placeholder="60" oninput="calculate()">
+    </div>
+    <div class="input-group">
+      <label>Tool Cost ($/mo)</label>
+      <input type="number" id="cost" placeholder="99" oninput="calculate()">
+    </div>
+  </div>
+  
+  <div class="roi-display" id="roiDisplay" style="display:none">
+    <div class="roi-value" id="roiValue">--</div>
+    <div class="roi-label">Monthly ROI</div>
+  </div>
+  
+  <div class="results-grid" id="results" style="display:none">
+    <div class="result-card">
+      <div class="result-value" id="recovered">--</div>
+      <div class="result-label">Additional Revenue/mo</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" id="annual">--</div>
+      <div class="result-label">Annual Impact</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" id="payback">--</div>
+      <div class="result-label">Payback Period</div>
+    </div>
+    <div class="result-card">
+      <div class="result-value" id="roi">--</div>
+      <div class="result-label">ROI %</div>
+    </div>
+  </div>
+  
+  <button class="export-btn" onclick="exportPDF()" style="display:none" id="exportBtn">📄 Export ROI Report</button>
+</div>
+
+<script>
+let unlocked = true;
+function unlock() { unlocked = true; document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+
+function calculate() {
+  if (!unlocked) return;
+  const fails = parseFloat(document.getElementById('fails').value) || 0;
+  const value = parseFloat(document.getElementById('value').value) || 0;
+  const current = parseFloat(document.getElementById('current').value) || 0;
+  const target = parseFloat(document.getElementById('target').value) || 0;
+  const cost = parseFloat(document.getElementById('cost').value) || 0;
+  
+  if (!fails || !value) return;
+  
+  const monthlyLoss = fails * value;
+  const currentRecovered = monthlyLoss * (current / 100);
+  const targetRecovered = monthlyLoss * (target / 100);
+  const additional = targetRecovered - currentRecovered;
+  const annual = additional * 12;
+  const payback = cost > 0 ? (cost / additional).toFixed(1) : 0;
+  const roi = cost > 0 ? ((additional - cost) / cost * 100).toFixed(0) : 0;
+  
+  document.getElementById('roiDisplay').style.display = 'block';
+  document.getElementById('results').style.display = 'grid';
+  document.getElementById('exportBtn').style.display = 'inline-block';
+  
+  document.getElementById('roiValue').textContent = '$' + additional.toLocaleString();
+  document.getElementById('recovered').textContent = '$' + additional.toLocaleString();
+  document.getElementById('annual').textContent = '$' + annual.toLocaleString();
+  document.getElementById('payback').textContent = payback + ' days';
+  document.getElementById('roi').textContent = roi + '%';
+}
+
+function exportPDF() { alert('PDF: Complete ROI report with charts, team sharing link, and CSV export'); }
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

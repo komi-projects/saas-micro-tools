@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Accessibility Guide — Free Download</title>
+    <meta name="description" content="Free SaaS accessibility guide. Build inclusive products, meet WCAG standards, and expand your market to users with disabilities.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .accessibility {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .rule-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .rule-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .rule-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>♿ Accessibility</h1>
+            <p class="subtitle">Build for everyone. Expand your market.</p>
+        </div>
+        
+        <div class="accessibility">
+            <div class="section">
+                <h2>Why Accessibility Matters</h2>
+                
+                <p>1 billion people worldwide live with disabilities. In the US alone, 61 million adults have a disability. By building accessible SaaS, you expand your market, improve UX for all users, and reduce legal risk.</p>
+                
+                <p>Accessibility isn't a feature — it's a requirement. The EU Accessibility Act mandates digital accessibility by 2025. The Americans with Disabilities Act (ADA) has driven thousands of lawsuits against inaccessible websites. Even if you're not legally required today, you will be soon.</p>
+                
+                <p>But the real reason: accessible products are better products. Clear navigation, readable text, keyboard support, and proper semantics improve the experience for everyone, not just users with disabilities.</p>
+            </div>
+            
+            <div class="section">
+                <h2>WCAG 2.1 AA — The Standard</h2>
+                
+                <p>WCAG (Web Content Accessibility Guidelines) is the international standard. AA level is the legal benchmark. Here's what you need:</p>
+                
+                <div class="rule-box">
+                    <div class="rule-name">1. Perceivable — Users must be able to perceive content</div>
+                    <div class="rule-detail">
+                        • Text alternatives for images (alt text)
+                        • Captions/transcripts for video and audio
+                        • Color contrast: 4.5:1 for normal text, 3:1 for large text
+                        • Resize text up to 200% without loss of content
+                        • Don't rely on color alone to convey information
+                    </div>
+                </div>
+                
+                <div class="rule-box">
+                    <div class="rule-name">2. Operable — Users must be able to operate the interface</div>
+                    <div class="rule-detail">
+                        • All functionality available via keyboard (Tab, Enter, Space, arrows)
+                        • No keyboard traps (user must be able to Tab out)
+                        • Skip links to bypass repetitive navigation
+                        • Enough time to read and use content (no auto-advancing carousels without pause)
+                        • Seizure-safe: no flashing more than 3 times per second
+                    </div>
+                </div>
+                
+                <div class="rule-box">
+                    <div class="rule-name">3. Understandable — Users must be able to understand content</div>
+                    <div class="rule-detail">
+                        • Page language declared (&lt;html lang="en"&gt;)
+                        • Predictable navigation (consistent across pages)
+                        • Error identification and suggestions ("Email is invalid" not "Form error")
+                        • Labels and instructions for all form inputs
+                    </div>
+                </div>
+                
+                <div class="rule-box">
+                    <div class="rule-name">4. Robust — Content must work with assistive technologies</div>
+                    <div class="rule-detail">
+                        • Valid HTML (proper nesting, unique IDs)
+                        • ARIA labels where HTML semantics aren't enough
+                        • Status messages announced to screen readers (aria-live)
+                        • Name, Role, Value for all interactive components
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>SaaS-Specific Accessibility</h2>
+                
+                <p><strong>Dashboards and Data:</strong></p>
+                
+                <p>• Charts and graphs: Provide data tables as alternatives. Use aria-label on chart containers. Ensure color-blind friendly palettes (not just red/green).</p>
+                
+                <p>• Tables: Proper &lt;th&gt; headers, scope attributes, captions. Screen readers can navigate tables if headers are marked up correctly.</p>
+                
+                <p>• Drag-and-drop: Provide keyboard alternatives (arrow keys, buttons). Not everyone can use a mouse.</p>
+                
+                <p><strong>Forms and Workflows:</strong></p>
+                
+                <p>• Multi-step wizards: Clear progress indication, ability to review and edit previous steps, confirmation before final submission.</p>
+                
+                <p>• Validation: Inline validation, not just on submit. Clear error messages next to fields. Red + icon + text (not color alone).</p>
+                
+                <p>• Complex inputs: Date pickers need keyboard input fallback. Rich text editors need screen reader support.</p>
+                
+                <p><strong>Notifications:</strong></p>
+                
+                <p>• Toast notifications: Use aria-live="polite" so screen readers announce them.
+                • Modal dialogs: Trap focus inside, return focus to trigger on close, announce dialog title.
+                • Loading states: "Loading, please wait" announced to screen readers.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Testing Accessibility</h2>
+                
+                <p><strong>Automated tools:</strong></p>
+                
+                <p>• axe DevTools: Browser extension, finds ~30% of issues. Integrate in CI/CD with @axe-core/cli.
+                • Lighthouse: Built into Chrome DevTools. Accessibility score 0-100.
+                • WAVE: WebAIM's accessibility evaluator. Shows errors visually on the page.
+                • Pa11y: Command-line accessibility testing. Good for CI integration.</p>
+                
+                <p><strong>Manual testing:</strong></p>
+                
+                <p>• Keyboard navigation: Unplug your mouse. Can you do everything with Tab, Enter, Space, arrows?
+                • Screen reader: Test with NVDA (Windows, free) or VoiceOver (Mac, built-in). Navigate your app blind.
+                • Color contrast: Use WebAIM's contrast checker. Test with color-blind simulators (Chrome DevTools has built-in).
+                • Zoom: Set browser zoom to 200%. Is content still usable?
+                • Focus indicators: Is the focused element clearly visible? Never remove focus outlines without replacement.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Accessibility Quick Wins</h2>
+                
+                <p>☐ Add alt text to all informative images (decorative images: alt="")
+                ☐ Ensure all buttons and links have visible focus indicators
+                ☐ Add skip navigation link (&lt;a href="#main"&gt;Skip to content&lt;/a&gt;)
+                ☐ Associate labels with inputs (&lt;label for="email"&gt;)
+                ☐ Add lang attribute to html element
+                ☐ Ensure color contrast meets 4.5:1 ratio
+                ☐ Add aria-label to icon-only buttons
+                ☐ Make modals keyboard accessible (trap focus, Escape to close)
+                ☐ Announce dynamic content with aria-live
+                ☐ Test with keyboard only (no mouse) for 10 minutes</p>
+            </div>
+            
+            <div class="section">
+                <h2>Accessibility ROI</h2>
+                
+                <p>• <strong>Market expansion:</strong> 15% of global population has a disability. Accessible products reach more customers.
+                • <strong>SEO:</strong> Semantic HTML, alt text, and proper headings improve search rankings.
+                • <strong>UX improvement:</strong> Accessible patterns (clear hierarchy, keyboard nav, readable text) help all users.
+                • <strong>Legal protection:</strong> WCAG compliance reduces lawsuit risk. ADA lawsuits against SaaS companies are increasing.
+                • <strong>Enterprise sales:</strong> Accessibility is a procurement requirement for government and large enterprises.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Accessibility Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with WCAG checklists, testing procedures, and implementation examples.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('accessibilityGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Caching Strategy Guide — Performance at Scale</title>
+    <meta name="description" content="Free SaaS caching strategy guide. Reduce latency, cut costs, and handle traffic spikes with smart caching at every layer of your stack.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .caching {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Caching Strategy</h1>
+            <p class="subtitle">Performance at scale, costs under control.</p>
+        </div>
+        
+        <div class="caching">
+            <div class="section">
+                <h2>Why Caching is Essential for SaaS</h2>
+                
+                <p>Every database query, API call, and computation costs time and money. Caching stores frequently accessed data in fast, inexpensive memory so you don't repeat expensive work. A well-designed caching strategy can reduce database load by 80%, cut response times from seconds to milliseconds, and handle 10x traffic spikes without breaking a sweat.</p>
+                
+                <p>The best SaaS companies cache at multiple layers: browser cache for static assets, CDN for global delivery, Redis for application state, and database query cache for repeated lookups. Each layer serves a different purpose and together they create a resilient, performant system.</p>
+                
+                <p>This guide covers caching strategies for every layer of your SaaS stack, from browser to database, with specific implementation patterns and trade-offs.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Caching Layers</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Browser Cache</div>
+                    <div class="pillar-detail">
+                        Static assets cached in the user's browser.
+                        • Cache-Control headers: max-age=31536000 for immutable assets
+                        • ETags: Conditional requests for updated resources
+                        • Service workers: Offline-first apps, background sync
+                        • LocalStorage/IndexedDB: User preferences, draft data
+                        • Pros: Zero server load, instant access, works offline
+                        • Cons: Limited storage (~5-50MB), no shared state between users
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. CDN (Content Delivery Network)</div>
+                    <div class="pillar-detail">
+                        Global edge servers cache content close to users.
+                        • Static assets: Images, CSS, JS, fonts (Cloudflare, Fastly, AWS CloudFront)
+                        • Dynamic content: Cache HTML at edge with stale-while-revalidate
+                        • API responses: Cache GET requests at edge with short TTL
+                        • Purging: Invalidate cache on deploy or content update
+                        • Pros: Global scale, DDoS protection, reduced origin load
+                        • Cons: Cache invalidation complexity, cost at high scale
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Application Cache (Redis/Memcached)</div>
+                    <div class="pillar-detail">
+                        In-memory data store for hot data.
+                        • Session storage: User sessions, auth tokens
+                        • Rate limiting: Sliding window counters
+                        • Feature flags: Fast flag evaluation
+                        • Computed data: Dashboard metrics, aggregations
+                        • Queue buffers: Temporary job storage
+                        • Pros: Sub-millisecond access, rich data structures, pub/sub
+                        • Cons: Memory limits, persistence trade-offs, eviction complexity
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Database Query Cache</div>
+                    <div class="pillar-detail">
+                        Cache repeated database queries.
+                        • PostgreSQL: Query plan cache, prepared statements
+                        • Application-level: Cache ORM query results
+                        • Materialized views: Pre-computed aggregations
+                        • Connection pooling: Reuse connections, reduce overhead
+                        • Pros: Transparent to application, automatic invalidation
+                        • Cons: Limited to query results, per-connection in some databases
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Full-Page Cache</div>
+                    <div class="pillar-detail">
+                        Cache entire rendered pages.
+                        • Varnish/Squid: HTTP reverse proxy cache
+                        • Edge functions: Cache at CDN with personalization
+                        • Fragment caching: Cache page components independently
+                        • Pros: Dramatic speedup for public pages, reduced server load
+                        • Cons: Stale content, hard to personalize, invalidation complexity
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Cache Invalidation Strategies</h2>
+                
+                <p><strong>1. TTL (Time to Live):</strong></p>
+                
+                <p>• Set expiration time when writing to cache
+                • Simplest approach, good for data that changes predictably
+                • Example: Cache user profile for 5 minutes, product catalog for 1 hour
+                • Stale-while-revalidate: Serve stale data while refreshing in background
+                • Risk: Serving outdated data during TTL window</p>
+                
+                <p><strong>2. Write-through:</strong></p>
+                
+                <p>• Update cache when database is updated
+                • Cache is always fresh, but writes are slower
+                • Best for: Data that must be consistent (user permissions, feature flags)
+                • Trade-off: Write latency increases by cache round-trip</p>
+                
+                <p><strong>3. Write-behind (async):</strong></p>
+                
+                <p>• Write to cache immediately, update database asynchronously
+• Fastest writes, risk of data loss if cache fails before database update
+                • Best for: High-write throughput, eventually consistent acceptable
+                • Requires: Queue (Redis, Kafka) to buffer database writes</p>
+                
+                <p><strong>4. Cache-aside (lazy loading):</strong></p>
+                
+                <p>• Check cache first, load from DB on miss, write to cache
+• Most common pattern, simple to implement
+                • Risk: Cache stampede (thundering herd) on expiration
+                • Mitigation: Staggered TTLs, request coalescing, circuit breakers</p>
+                
+                <p><strong>5. Event-based invalidation:</strong></p>
+                
+                <p>• Listen to database changes (CDC), invalidate affected cache keys
+• Most precise invalidation, no stale data
+                • Requires: Change data capture (Debezium, logical replication)
+                • Best for: Complex caching where TTL is too imprecise</p>
+            </div>
+            
+            <div class="section">
+                <h2>Redis Caching Patterns</h2>
+                
+                <p><strong>1. String cache:</strong></p>
+                
+                <div class="code-block">
+# Cache user profile
+SET user:123 "{name: 'John', plan: 'pro'}" EX 300
+
+# Read
+GET user:123
+
+# Delete on update
+DEL user:123
+                </div>
+                
+                <p><strong>2. Hash cache:</strong></p>
+                
+                <div class="code-block">
+# Cache object with multiple fields
+HSET product:456 name "Widget" price 99 stock 50
+EXPIRE product:456 600
+
+# Read specific field
+HGET product:456 price
+                </div>
+                
+                <p><strong>3. Set cache:</strong></p>
+                
+                <div class="code-block">
+# Cache user permissions
+SADD permissions:123 "read" "write" "delete"
+EXPIRE permissions:123 3600
+
+# Check permission
+SISMEMBER permissions:123 "write"
+                </div>
+                
+                <p><strong>4. Sorted set for leaderboards:</strong></p>
+                
+                <div class="code-block">
+# Cache top customers by MRR
+ZADD leaderboard:mrr 5000 "customer:1" 3200 "customer:2"
+ZREVRANGE leaderboard:mrr 0 9 WITHSCORES
+                </div>
+                
+                <p><strong>5. Pub/sub for invalidation:</strong></p>
+                
+                <div class="code-block">
+# Subscribe to invalidation channel
+SUBSCRIBE cache-invalidate
+
+# Publish invalidation
+PUBLISH cache-invalidate "user:123"
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Caching Mistakes</h2>
+                
+                <p><strong>1. No cache:</strong> Querying the database for every request. The database is 1000x slower than memory. Cache aggressively.</p>
+                
+                <p><strong>2. Over-caching:</strong> Caching everything including dynamic, user-specific data. Creates stale data issues and complexity.</p>
+                
+                <p><strong>3. Cache stampede:</strong> Thousands of requests hit cache simultaneously when it expires, all querying the database. Use staggered TTLs, request coalescing, or circuit breakers.</p>
+                
+                <p><strong>4. No invalidation:</strong> Setting long TTLs without a way to invalidate early. Users see stale data for hours. Always have a way to force refresh.</p>
+                
+                <p><strong>5. Cold start:</strong> Deploying cache with empty data, causing database overload. Warm cache on deploy with common queries.</p>
+                
+                <p><strong>6. Ignoring eviction:</strong> Redis evicts keys when memory is full. Configure eviction policy (allkeys-lru, volatile-lru) and monitor eviction rate.</p>
+                
+                <p><strong>7. Single cache server:</strong> One Redis instance is a single point of failure. Use Redis Cluster or Sentinel for HA.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Caching Strategy Checklist</h2>
+                
+                <p>☐ Browser cache configured (Cache-Control, ETags, service workers)
+                ☐ CDN configured (static assets, API responses with short TTL)
+                ☐ Redis/Memcached deployed (clustered for HA)
+                ☐ Connection pooling configured (PgBouncer, ProxySQL)
+                ☐ Cache layers documented (what goes where, why)
+                ☐ TTL strategy defined (per data type, per endpoint)
+                ☐ Invalidation strategy chosen (TTL, write-through, event-based)
+                ☐ Cache stampede protection (staggered TTLs, request coalescing)
+                ☐ Cold start plan (cache warming on deploy)
+                ☐ Redis eviction policy set (allkeys-lru recommended)
+                ☐ Memory monitoring configured (eviction rate, memory usage)
+                ☐ Hit rate monitoring (cache efficiency)
+                ☐ Cache key naming convention (resource:id:field)
+                ☐ Serialization format chosen (JSON, MessagePack, Protobuf)
+                ☐ Compression enabled (for large values)
+                ☐ Circuit breaker configured (fail fast when cache is down)
+                ☐ Cache debugging tools (clear cache, inspect keys)
+                ☐ Performance benchmarks (before/after cache implementation)
+                ☐ Cost analysis (cache infrastructure vs. database savings)
+                ☐ Disaster recovery (cache rebuild procedures)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Caching Strategy Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with Redis configuration templates, CDN setup guides, and cache monitoring dashboards.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('cachingStrategyEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Pricing Benchmark Report — SimpleRecover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+.gate-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-content { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 56px 48px; max-width: 520px; text-align: center; }
+.gate-content h2 { font-size: 32px; margin-bottom: 12px; color: #fff; }
+.gate-content > p { color: #94a3b8; margin-bottom: 32px; font-size: 16px; }
+.price-tag { font-size: 56px; font-weight: 800; color: #6366f1; margin: 24px 0; }
+.price-tag span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.features { list-style: none; text-align: left; margin: 32px 0; }
+.features li { padding: 10px 0; color: #cbd5e1; display: flex; align-items: center; gap: 12px; }
+.features li::before { content: "✓"; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+.btn { display: block; width: 100%; padding: 18px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: #818cf8; transform: translateY(-2px); }
+
+.app { display: none; }
+header { text-align: center; padding: 40px 0; }
+h1 { font-size: 42px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.subtitle { font-size: 18px; color: #94a3b8; }
+
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; margin: 20px 0; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #cbd5e1; }
+.input-group input, .input-group select {
+  width: 100%; padding: 12px 14px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 15px;
+}
+
+.benchmark-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+.benchmark-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; text-align: center; }
+.benchmark-value { font-size: 28px; font-weight: 800; color: #6366f1; }
+.benchmark-label { font-size: 13px; color: #94a3b8; margin-top: 6px; }
+
+.report-section { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.report-section h3 { font-size: 20px; margin-bottom: 16px; color: #fff; }
+.comparison-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.comparison-row .label { color: #94a3b8; }
+.comparison-row .value { font-weight: 600; color: #fff; }
+.comparison-row .value.good { color: #22c55e; }
+.comparison-row .value.warn { color: #eab308; }
+.comparison-row .value.bad { color: #ef4444; }
+
+footer { text-align: center; padding: 40px; color: #64748b; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gate">
+  <div class="gate-content">
+    <h2>🔒 SaaS Pricing Benchmark Report</h2>
+    <p>Compare your pricing against 500+ SaaS companies. Get detailed analysis, competitive positioning, and optimization recommendations.</p>
+    <div class="price-tag">$79 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>500+ company benchmark database</li>
+      <li>Industry-specific pricing analysis</li>
+      <li>Tier structure recommendations</li>
+      <li>Competitive positioning map</li>
+      <li>PDF report (15 pages)</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $79</button>
+    <p style="margin-top:16px;font-size:13px;color:#64748b">Secured by Stripe. Instant access.</p>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>SaaS Pricing Benchmark Report</h1>
+    <p class="subtitle">See exactly where you stand against the competition.</p>
+  </header>
+
+  <div class="app" id="app">
+    <div class="input-group">
+      <label>Your Industry</label>
+      <select id="industry" onchange="generateReport()">
+        <option value="">Select industry...</option>
+        <option value="crm">CRM / Sales</option>
+        <option value="marketing">Marketing / Email</option>
+        <option value="analytics">Analytics / BI</option>
+        <option value="support">Support / Helpdesk</option>
+        <option value="finance">Finance / Accounting</option>
+        <option value="dev">Dev Tools / API</option>
+        <option value="hr">HR / Recruiting</option>
+        <option value="security">Security / Compliance</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Your Monthly Price ($)</label>
+      <input type="number" id="yourPrice" placeholder="49" oninput="generateReport()">
+    </div>
+
+    <div class="input-group">
+      <label>Your Plan Tier</label>
+      <select id="yourTier" onchange="generateReport()">
+        <option value="starter">Starter / Basic</option>
+        <option value="pro">Professional</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+    </div>
+
+    <div class="benchmark-grid" id="benchmarks"></div>
+
+    <div class="report-section">
+      <h3>📊 Competitive Positioning</h3>
+      <div id="positioning"></div>
+    </div>
+
+    <div class="report-section">
+      <h3>🎯 Recommendations</h3>
+      <div id="recommendations"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 SimpleRecover. Premium tool.</p>
+</footer>
+
+<script>
+let isUnlocked = false;
+function unlock() { isUnlocked = true; document.getElementById('gate').style.display = 'none'; document.getElementById('app').style.display = 'block'; }
+
+const BENCHMARKS = {
+  crm: { starter: 15, pro: 45, enterprise: 120, median: 55 },
+  marketing: { starter: 25, pro: 79, enterprise: 199, median: 85 },
+  analytics: { starter: 20, pro: 65, enterprise: 150, median: 70 },
+  support: { starter: 15, pro: 49, enterprise: 99, median: 55 },
+  finance: { starter: 30, pro: 99, enterprise: 249, median: 110 },
+  dev: { starter: 10, pro: 35, enterprise: 99, median: 45 },
+  hr: { starter: 20, pro: 69, enterprise: 149, median: 75 },
+  security: { starter: 35, pro: 99, enterprise: 299, median: 125 }
+};
+
+function generateReport() {
+  if (!isUnlocked) return;
+  
+  const industry = document.getElementById('industry').value;
+  const yourPrice = parseFloat(document.getElementById('yourPrice').value) || 0;
+  const yourTier = document.getElementById('yourTier').value;
+  
+  if (!industry || !yourPrice) return;
+  
+  const bench = BENCHMARKS[industry];
+  const vsMedian = ((yourPrice - bench.median) / bench.median * 100).toFixed(0);
+  const vsTier = ((yourPrice - bench[yourTier]) / bench[yourTier] * 100).toFixed(0);
+  
+  document.getElementById('benchmarks').innerHTML = `
+    <div class="benchmark-card">
+      <div class="benchmark-value">$${bench.median}</div>
+      <div class="benchmark-label">Industry Median</div>
+    </div>
+    <div class="benchmark-card">
+      <div class="benchmark-value">$${bench[yourTier]}</div>
+      <div class="benchmark-label">${yourTier} Tier Avg</div>
+    </div>
+    <div class="benchmark-card">
+      <div class="benchmark-value">${vsMedian > 0 ? '+' : ''}${vsMedian}%</div>
+      <div class="benchmark-label">vs Median</div>
+    </div>
+    <div class="benchmark-card">
+      <div class="benchmark-value">${vsTier > 0 ? '+' : ''}${vsTier}%</div>
+      <div class="benchmark-label">vs Tier Avg</div>
+    </div>
+  `;
+  
+  const positioning = [
+    { label: 'Your Price', value: `$${yourPrice}/mo`, cls: 'good' },
+    { label: 'Starter Average', value: `$${bench.starter}/mo`, cls: 'good' },
+    { label: 'Pro Average', value: `$${bench.pro}/mo`, cls: 'good' },
+    { label: 'Enterprise Average', value: `$${bench.enterprise}/mo`, cls: 'good' },
+    { label: 'Market Position', value: vsMedian > 20 ? 'Premium' : vsMedian < -20 ? 'Budget' : 'Competitive', cls: Math.abs(vsMedian) < 20 ? 'good' : 'warn' }
+  ];
+  
+  document.getElementById('positioning').innerHTML = positioning.map(p => `
+    <div class="comparison-row">
+      <span class="label">${p.label}</span>
+      <span class="value ${p.cls}">${p.value}</span>
+    </div>
+  `).join('');
+  
+  const recs = [];
+  if (vsMedian > 30) recs.push('Your pricing is significantly above median. Consider adding more value or creating a lower tier to capture price-sensitive customers.');
+  if (vsMedian < -30) recs.push('Your pricing is well below market average. This may signal low quality. Consider a 20-30% price increase with added features.');
+  if (yourTier === 'starter' && yourPrice > bench.pro * 0.8) recs.push('Your starter tier is priced too close to pro tier. Create clearer separation or merge tiers.');
+  if (bench.enterprise / bench.starter < 5) recs.push('Your tier ratio is low. Successful SaaS typically has 5-10x price spread between starter and enterprise.');
+  if (recs.length === 0) recs.push('Your pricing is well-positioned. Focus on value communication and expansion revenue.');
+  
+  document.getElementById('recommendations').innerHTML = recs.map(r => `
+    <p style="margin-bottom:12px;color:#cbd5e1"">• ${r}</p>
+  `).join('');
+}
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

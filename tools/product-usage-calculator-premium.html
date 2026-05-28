@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Usage Calculator — Premium Engagement Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Product Usage Calculator</h1>
+        <p class="subtitle">Premium engagement and feature adoption analytics</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Total Users <span class="tooltip" title="Total active users">?</span></label>
+                <input type="number" id="users" placeholder="1000" value="1000">
+            </div>
+            <div class="input-group">
+                <label>Daily Active Users</label>
+                <input type="number" id="dau" placeholder="300" value="300">
+            </div>
+            <div class="input-group">
+                <label>Core Feature Users</label>
+                <input type="number" id="core" placeholder="400" value="400">
+            </div>
+            <div class="input-group">
+                <label>Power Users (5+ features)</label>
+                <input type="number" id="power" placeholder="100" value="100">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Usage Analytics</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Engagement Score</div>
+                    <div class="result-value" id="engagement">0</div>
+                </div>
+                <div class="result-detail" id="engagementDetail">Composite product usage and engagement indicator</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="dauRate">0%</div>
+                        <div class="metric-label">DAU/MAU</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="featureAdoption">0%</div>
+                        <div class="metric-label">Core Adoption</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 Usage Insights</div>
+                    <div id="recommendationText">Calculate to see personalized engagement recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Benchmarks</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">20%</div>
+                        <div class="metric-label">Good DAU/MAU</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">40%</div>
+                        <div class="metric-label">Strong DAU/MAU</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">60%+</div>
+                        <div class="metric-label">Excellent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const users = parseFloat(document.getElementById('users').value) || 1;
+            const dau = parseFloat(document.getElementById('dau').value) || 0;
+            const core = parseFloat(document.getElementById('core').value) || 0;
+            const power = parseFloat(document.getElementById('power').value) || 0;
+
+            const dauRate = (dau / users) * 100;
+            const featureAdoption = (core / users) * 100;
+            const powerRate = (power / users) * 100;
+            
+            // Engagement score (0-100) based on DAU/MAU, core adoption, and power users
+            let engagement = Math.min(100, (dauRate * 1.5) + (featureAdoption * 0.5) + (powerRate * 2));
+
+            let yourStatus = 'Unknown';
+            if (engagement >= 60) yourStatus = 'Excellent';
+            else if (engagement >= 40) yourStatus = 'Strong';
+            else if (engagement >= 20) yourStatus = 'Good';
+            else yourStatus = 'At Risk';
+
+            document.getElementById('engagement').textContent = Math.round(engagement);
+            document.getElementById('dauRate').textContent = dauRate.toFixed(1) + '%';
+            document.getElementById('featureAdoption').textContent = featureAdoption.toFixed(1) + '%';
+            document.getElementById('yourStatus').textContent = yourStatus;
+
+            let recommendation = '';
+            if (engagement >= 60) {
+                recommendation = '🏆 Excellent engagement! Users are deeply engaged with your product. To maintain: 1) Build community features to increase stickiness, 2. Add advanced features for power users, 3. Use engagement data to inform product roadmap.';
+            } else if (engagement >= 40) {
+                recommendation = '✅ Strong engagement. To reach excellent: 1. Add daily-use features (dashboards, notifications), 2. Improve empty states to encourage exploration, 3. Create habit-forming features.';
+            } else if (engagement >= 20) {
+                recommendation = '✓ Good engagement. To improve: 1. Identify and remove friction in core workflows, 2. Add in-app guidance for underused features, 3. Implement re-engagement emails for inactive users.';
+            } else {
+                recommendation = '🚨 Low engagement — users aren\'t finding value. Urgent: 1. Interview churned users — what did they miss?, 2. Simplify core workflow to reduce cognitive load, 3. Add "aha moment" early in user journey, 4. Consider if product solves real pain point.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

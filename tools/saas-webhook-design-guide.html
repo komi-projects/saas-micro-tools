@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Webhook Design Guide — Real-Time Integration Patterns</title>
+    <meta name="description" content="Free SaaS webhook design guide. Build reliable, secure webhook systems that developers trust and enjoy integrating with.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .webhook {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Webhook Design</h1>
+            <p class="subtitle">Build reliable real-time integrations.</p>
+        </div>
+        
+        <div class="webhook">
+            <div class="section">
+                <h2>Why Webhooks Matter</h2>
+                
+                <p>Webhooks are the nervous system of modern SaaS. While APIs let developers pull data on demand, webhooks push data when events happen — instantly, automatically, and efficiently. They're how Stripe notifies you of payments, how GitHub triggers CI/CD pipelines, and how Slack delivers messages.</p>
+                
+                <p>A well-designed webhook system is a competitive advantage. Developers choose platforms with reliable webhooks because they enable real-time workflows, reduce polling overhead, and create responsive integrations. A poorly designed webhook system — one that drops events, delivers out of order, or lacks security — becomes a liability that developers complain about and eventually abandon.</p>
+                
+                <p>This guide covers how to design webhook systems that are reliable, secure, and developer-friendly — from event design to delivery guarantees to troubleshooting tools.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Fundamentals</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Event-Driven Architecture</div>
+                    <div class="pillar-detail">
+                        Webhooks are HTTP callbacks triggered by events.
+                        • Event: Something happened (payment succeeded, user signed up, file uploaded)
+                        • Payload: JSON object describing the event and affected resource
+                        • Delivery: POST request to developer's configured URL
+                        • Acknowledgment: 2xx response means success, everything else means retry
+                        • Key principle: Webhooks are notifications, not commands. The receiver decides what to do.
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Event Types</div>
+                    <div class="pillar-detail">
+                        Use structured, hierarchical event names.
+                        • Format: resource.action (customer.created, invoice.paid, subscription.canceled)
+                        • Past tense: Events describe things that already happened
+                        • Granularity: Specific enough to be useful, general enough to not overwhelm
+                        • Examples: payment_intent.succeeded (Stripe), pull_request.opened (GitHub), message.sent (Slack)
+                        • Versioning: Include API version in payload for backwards compatibility
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Payload Design</div>
+                    <div class="pillar-detail">
+                        Include enough context to act without an API call.
+                        • Event metadata: id, type, timestamp, api_version
+                        • Resource data: Full object or summary ( Stripe sends full object)
+                        • Previous attributes: What changed (for update events)
+                        • Nested objects: Include related resources to reduce API calls
+                        • Size limit: Keep under 1MB; for large payloads, include a URL to fetch full data
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Delivery</h2>
+                
+                <p><strong>1. Retry Logic:</strong></p>
+                
+                <p>• Exponential backoff: Retry after 1s, 2s, 4s, 8s, 16s, 32s, 64s
+                • Max retries: 3-5 attempts over 24-72 hours
+                • Jitter: Add randomness to prevent thundering herd
+                • Dead letter queue: After max retries, store for manual inspection
+                • Idempotency: Same event ID = same payload; receivers should handle duplicates</p>
+                
+                <p><strong>2. Ordering:</strong></p>
+                
+                <p>• Best effort: Most webhook systems don't guarantee strict ordering
+                • Sequence numbers: Include sequence numbers for resources that need ordering
+                • Timestamps: Receivers can sort by timestamp if needed
+                • Idempotency: Design receivers to handle out-of-order events gracefully
+                • Event sourcing: For strict ordering, use event streams (Kafka, EventBridge) instead of webhooks</p>
+                
+                <p><strong>3. Performance:</strong></p>
+                
+                <p>• Timeout: 5-10 seconds max; if receiver doesn't respond in time, retry
+                • Acknowledge quickly: Receivers should return 2xx immediately, process asynchronously
+                • Batch processing: For high-volume events, consider batch webhooks (array of events)
+                • Rate limiting: Don't overwhelm receivers; implement per-URL rate limits
+                • Parallelism: Deliver to different URLs concurrently, but serialize to the same URL</p>
+                
+                <p><strong>4. Security:</strong></p>
+                
+                <p>• Signatures: Sign payloads with HMAC-SHA256; include signature in header
+                • Secret rotation: Support multiple secrets during rotation periods
+                • HTTPS only: Reject HTTP URLs; validate TLS certificates
+                • IP allowlisting: Publish webhook IP ranges so receivers can firewall
+                • Replay prevention: Include timestamp in signature; reject old events (>5 min)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Payload Example</h2>
+                
+                <div class="code-block">
+POST /webhook/stripe HTTP/1.1
+Host: api.yourapp.com
+Stripe-Signature: t=1640995200,v1=5257a869e7ecebeda32affa62cdca3fa51cad7e77a0e56ff536d0ce8e108d8bd
+Content-Type: application/json
+
+{
+  "id": "evt_1234567890",
+  "object": "event",
+  "api_version": "2024-01-01",
+  "created": 1640995200,
+  "type": "invoice.payment_succeeded",
+  "data": {
+    "object": {
+      "id": "in_1234567890",
+      "object": "invoice",
+      "amount_due": 1000,
+      "amount_paid": 1000,
+      "currency": "usd",
+      "customer": "cus_1234567890",
+      "status": "paid",
+      "subscription": "sub_1234567890",
+      "created": 1640995100
+    }
+  },
+  "livemode": true,
+  "pending_webhooks": 1,
+  "request": {
+    "id": "req_1234567890",
+    "idempotency_key": "key_1234567890"
+  }
+}
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Signature Verification</h2>
+                
+                <p>Developers must verify webhook signatures to ensure payloads came from you:</p>
+                
+                <div class="code-block">
+# Python example
+import hmac
+import hashlib
+import time
+
+def verify_webhook(payload, signature_header, secret):
+    # Parse header: t=timestamp,v1=signature
+    timestamp, signature = parse_signature(signature_header)
+    
+    # Check timestamp (prevent replay attacks)
+    if time.time() - int(timestamp) > 300:  # 5 minutes
+        raise ValueError("Webhook too old")
+    
+    # Compute expected signature
+    signed_payload = f"{timestamp}.{payload}"
+    expected = hmac.new(
+        secret.encode(),
+        signed_payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    
+    # Constant-time comparison (prevent timing attacks)
+    if not hmac.compare_digest(signature, expected):
+        raise ValueError("Invalid signature")
+    
+    return True
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Developer Experience</h2>
+                
+                <p><strong>1. Dashboard:</strong></p>
+                
+                <p>• Event logs: Show recent deliveries with status, payload, and response
+                • Replay: Let developers manually redeliver failed webhooks
+                • Test endpoint: Built-in request bin for testing during development
+                • Filtering: Choose which event types to receive
+                • Secret management: Generate, rotate, and revoke webhook secrets</p>
+                
+                <p><strong>2. Documentation:</strong></p>
+                
+                <p>• Event catalog: Every event type with description, payload schema, and example
+                • Testing guide: How to test webhooks locally (ngrok, Stripe CLI, etc.)
+                • Signature verification: Code examples in every language
+                • Retry behavior: Exactly how and when you retry
+                • IP addresses: List of IPs webhooks will come from
+                • Troubleshooting: Common issues and solutions</p>
+                
+                <p><strong>3. SDK support:</strong></p>
+                
+                <p>• Webhook helpers: Built-in signature verification in your SDKs
+                • Type definitions: Types for every event payload
+                • Testing utilities: Mock webhook generators for unit tests</p>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Examples</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Stripe: The Gold Standard</div>
+                    <div class="example-text">
+                        • Signed payloads with timestamp-based replay prevention
+                        • Dashboard with event logs, filtering, and replay
+                        • CLI tool for local webhook testing
+                        • Extensive documentation with code examples
+                        • 3 retry attempts with exponential backoff
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">GitHub: Developer-First</div>
+                    <div class="example-text">
+                        • Delivery headers with unique IDs and attempt numbers
+                        • Webhook deliveries API for programmatic inspection
+                        • IP allowlist published and maintained
+                        • Payload URL validation (must be HTTPS, can't be localhost)
+                        • Redelivery button in UI and API
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Slack: Interactive Events</div>
+                    <div class="example-text">
+                        • Challenge-response verification for URL configuration
+                        • Event subscriptions with granular filtering
+                        • Rate limit headers in responses
+                        • Retry with exponential backoff (up to 3 minutes)
+                        • App home with webhook status and debugging
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Webhook Checklist</h2>
+                
+                <p>☐ Event naming convention defined (resource.action, past tense)
+                ☐ Event catalog created (all events with descriptions and schemas)
+                ☐ Payload format standardized (event metadata + resource data)
+                ☐ Previous attributes included for update events
+                ☐ API version included in payload
+                ☐ Payload size limit defined (1MB recommended)
+                ☐ Webhook URL validation (HTTPS only, reachable)
+                ☐ HMAC-SHA256 signature implemented
+                ☐ Timestamp included in signature (replay prevention)
+                ☐ Secret rotation supported (multiple secrets)
+                ☐ Retry logic implemented (exponential backoff, 3-5 retries)
+                ☐ Jitter added to retry timing
+                ☐ Dead letter queue configured
+                ☐ Idempotency support (same event ID = same result)
+                ☐ Delivery timeout defined (5-10 seconds)
+                ☐ Rate limiting per destination URL
+                ☐ Parallel delivery to different URLs
+                ☐ Event logs dashboard for developers
+                ☐ Manual replay/redelivery functionality
+                ☐ Test endpoint/built-in request bin
+                ☐ Event filtering by type
+                ☐ IP allowlist published
+                ☐ Documentation: signature verification, testing, troubleshooting
+                ☐ SDK webhook helpers and type definitions
+                ☐ Monitoring: delivery rate, failure rate, latency
+                ☐ Alerting: notify on delivery failure spikes</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Webhook Design Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with payload templates, signature verification code, and delivery architecture diagrams.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('webhookDesignEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

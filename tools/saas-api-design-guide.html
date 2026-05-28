@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS API Design Guide — Build APIs Developers Love</title>
+    <meta name="description" content="Free SaaS API design guide. Build RESTful APIs that are intuitive, well-documented, and developer-friendly.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .api {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔌 API Design</h1>
+            <p class="subtitle">Build APIs developers love.</p>
+        </div>
+        
+        <div class="api">
+            <div class="section">
+                <h2>Why API Design Matters</h2>
+                
+                <p>Your API is your product's interface to the world. Developers judge your entire company by your API — its consistency, documentation, reliability, and developer experience. A great API turns customers into advocates who build on your platform, integrate your product into their workflows, and recommend you to other developers.</p>
+                
+                <p>The best SaaS APIs share common traits: they're predictable (same patterns everywhere), well-documented (clear examples, not just reference), versioned (changes don't break existing integrations), and developer-friendly (helpful errors, SDKs, sandboxes). Stripe set the gold standard — their API is so good that "Stripe-like" became the benchmark for developer experience.</p>
+                
+                <p>This guide covers the principles, patterns, and practices that make APIs developers love to use.</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Design Principles</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Consistency</div>
+                    <div class="pillar-detail">
+                        Same patterns everywhere.
+                        • Naming: Use snake_case or camelCase consistently
+                        • Structure: Same response format for all endpoints
+                        • Methods: POST for create, GET for read, PUT/PATCH for update, DELETE for remove
+                        • Errors: Same error format across all endpoints
+                        • Pagination: Same pagination params (limit, offset or cursor)
+                        • Filtering: Same query parameter patterns (?status=active&sort=-created_at)
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Predictability</div>
+                    <div class="pillar-detail">
+                        Developers should guess correctly.
+                        • URL structure: /resources/{id}/subresources (RESTful nesting)
+                        • Status codes: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 429 Rate Limited, 500 Server Error
+                        • Error format: { "error": { "type": "", "message": "", "code": "", "param": "" } }
+                        • Response format: { "data": {}, "meta": {}, "links": {} }
+                        • Idempotency: POST with Idempotency-Key header for safe retries
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Discoverability</div>
+                    <div class="pillar-detail">
+                        Easy to learn, hard to forget.
+                        • Documentation: Interactive docs with try-it-now (Swagger/OpenAPI)
+                        • Examples: Every endpoint has request/response examples
+                        • SDKs: Official libraries for popular languages (JavaScript, Python, Ruby, Go)
+                        • Postman collection: Import and start testing in 30 seconds
+                        • Changelog: Document every API change with migration guide
+                        • Blog: API tutorials, use cases, best practices
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Reliability</div>
+                    <div class="pillar-detail">
+                        It works, always.
+                        • Uptime SLA: 99.9% or 99.99% with financial backing
+                        • Rate limits: Clear headers (X-RateLimit-Remaining, X-RateLimit-Reset)
+                        • Timeouts: Document expected response times, set client timeouts
+                        • Retries: Document retry strategy (exponential backoff, max retries)
+                        • Idempotency: Safe to retry without double-charging or double-creating
+                        • Status page: Public status page with incident history
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Evolvability</div>
+                    <div class="pillar-detail">
+                        Change without breaking.
+                        • Versioning: URL path (/v1/, /v2/) or header (Accept: application/vnd.api+json;version=2)
+                        • Deprecation: 6-12 month notice before removing endpoints
+                        • Sunsetting: Gradual deprecation with warnings, then errors, then removal
+                        • Backwards compatibility: Never change existing field types or meanings
+                        • Additive changes: Only add new fields, never remove or rename existing
+                        • Migration guides: Step-by-step for major version changes
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>REST API Best Practices</h2>
+                
+                <p><strong>URL Structure:</strong></p>
+                
+                <div class="code-block">
+GET /v1/customers           # List customers
+GET /v1/customers/123       # Get specific customer
+POST /v1/customers          # Create customer
+PUT /v1/customers/123       # Update customer (full)
+PATCH /v1/customers/123     # Update customer (partial)
+DELETE /v1/customers/123    # Delete customer
+GET /v1/customers/123/orders # List customer's orders
+                </div>
+                
+                <p><strong>Response Format:</strong></p>
+                
+                <div class="code-block">
+{
+  "data": {
+    "id": "cust_123",
+    "name": "Acme Corp",
+    "email": "admin@acme.com",
+    "created_at": "2024-01-15T10:30:00Z",
+    "metadata": {
+      "plan": "pro",
+      "mrr": 299
+    }
+  },
+  "meta": {
+    "request_id": "req_abc123",
+    "timestamp": "2024-01-15T10:30:00Z"
+  }
+}
+                </div>
+                
+                <p><strong>Error Format:</strong></p>
+                
+                <div class="code-block">
+{
+  "error": {
+    "type": "invalid_request",
+    "message": "Invalid email format",
+    "code": "email_invalid",
+    "param": "email",
+    "request_id": "req_abc123"
+  }
+}
+                </div>
+                
+                <p><strong>Pagination:</strong></p>
+                
+                <div class="code-block">
+# Offset-based (simple)
+GET /v1/customers?limit=20&offset=40
+
+# Cursor-based (better for large datasets)
+GET /v1/customers?limit=20&cursor=eyJpZCI6MTIzfQ==
+
+# Response
+{
+  "data": [...],
+  "pagination": {
+    "has_more": true,
+    "next_cursor": "eyJpZCI6MTI0fQ==",
+    "total_count": 1500
+  }
+}
+                </div>
+                
+                <p><strong>Filtering & Sorting:</strong></p>
+                
+                <div class="code-block">
+GET /v1/customers?status=active&plan=pro&sort=-created_at
+# status=active: filter by status
+# plan=pro: filter by plan
+# sort=-created_at: sort by created_at descending (- prefix)
+                </div>
+                
+                <p><strong>Rate Limiting:</strong></p>
+                
+                <div class="code-block">
+HTTP/1.1 429 Too Many Requests
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1640995200
+Retry-After: 60
+
+{
+  "error": {
+    "type": "rate_limit_exceeded",
+    "message": "Rate limit exceeded. Try again in 60 seconds.",
+    "code": "rate_limit"
+  }
+}
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>API Documentation</h2>
+                
+                <p><strong>1. OpenAPI Spec:</strong> Machine-readable API definition. Generate docs, SDKs, and tests from one source of truth.</p>
+                
+                <p><strong>2. Interactive docs:</strong> Swagger UI or ReDoc where developers can try endpoints live. Include authentication helpers.</p>
+                
+                <p><strong>3. Getting started guide:</strong> "Your first API call in 5 minutes." Copy-paste ready code in multiple languages.</p>
+                
+                <p><strong>4. Authentication:</strong> Clear instructions for API keys, OAuth, or JWT. Include token generation examples.</p>
+                
+                <p><strong>5. Webhooks:</strong> Document event types, payload formats, retry logic, and signature verification.</p>
+                
+                <p><strong>6. SDKs:</strong> Official libraries for JavaScript/TypeScript, Python, Ruby, PHP, Go, Java. Community SDKs are nice, official ones are expected.</p>
+                
+                <p><strong>7. Changelog:</strong> Every API change documented with date, impact, and migration steps. RSS feed for subscribers.</p>
+                
+                <p><strong>8. Status page:</strong> Public page showing API uptime, incident history, and planned maintenance.</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Security</h2>
+                
+                <p><strong>1. Authentication:</strong> API keys for simple cases, OAuth 2.0 for user delegation, JWT for stateless auth. Never pass tokens in URL params.</p>
+                
+                <p><strong>2. HTTPS only:</strong> No HTTP, ever. HSTS headers. TLS 1.2+.</p>
+                
+                <p><strong>3. Rate limiting:</strong> Per-key limits to prevent abuse. Different limits for different plans.</p>
+                
+                <p><strong>4. Input validation:</strong> Validate everything: types, ranges, formats, lengths. Sanitize to prevent injection.</p>
+                
+                <p><strong>5. Idempotency:</strong> Idempotency-Key header for POST requests. Prevents double-charges, double-creates, double-anything.</p>
+                
+                <p><strong>6. Webhook signatures:</strong> Sign webhook payloads with HMAC. Document signature verification in every language.</p>
+                
+                <p><strong>7. CORS:</strong> Allow browser-based API calls from approved domains. Don't allow * in production.</p>
+                
+                <p><strong>8. Audit logging:</strong> Log all API calls with IP, key, endpoint, and timestamp. Retain for security investigation.</p>
+            </div>
+            
+            <div class="section">
+                <h2>API Design Checklist</h2>
+                
+                <p>☐ RESTful URL structure (nouns, not verbs; plural resources)
+                ☐ Consistent naming convention (snake_case or camelCase)
+                ☐ Standard HTTP methods (GET, POST, PUT, PATCH, DELETE)
+                ☐ Proper status codes (200, 201, 400, 401, 404, 429, 500)
+                ☐ Consistent error format across all endpoints
+                ☐ Response envelope (data, meta, pagination)
+                ☐ Pagination strategy (cursor-based for large datasets)
+                ☐ Filtering and sorting (query parameters)
+                ☐ Rate limiting with clear headers
+                ☐ Idempotency support for mutating operations
+                ☐ API versioning strategy (URL or header)
+                ☐ Deprecation policy (6-12 month notice)
+                ☐ OpenAPI specification generated
+                ☐ Interactive documentation (Swagger UI, ReDoc)
+                ☐ Getting started guide (5-minute tutorial)
+                ☐ Authentication documentation (API keys, OAuth)
+                ☐ SDKs for major languages (JS, Python, Ruby, Go)
+                ☐ Webhook documentation (events, payloads, retries)
+                ☐ Changelog with RSS feed
+                ☐ Public status page
+                ☐ HTTPS only, TLS 1.2+
+                ☐ Input validation and sanitization
+                ☐ Webhook signature verification
+                ☐ CORS configured correctly
+                ☐ Audit logging enabled
+                ☐ Performance monitoring (p50, p95, p99 response times)
+                ☐ SDK code examples in documentation
+                ☐ Error handling guide for developers
+                ☐ Postman/Insomnia collection available
+                ☐ API playground/sandbox environment</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full API Design Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with API templates, OpenAPI examples, and SDK development guide.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('apiDesignEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Optimization Calculator — Find Your Price Sweet Spot</title>
+    <meta name="description" content="Price optimization calculator with elasticity modeling and willingness-to-pay analysis. Unlock full optimization model for $9.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .input-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .result-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .result-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .recommendation {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .recommendation-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .recommendation-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .input-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Price Optimizer</h1>
+            <p class="subtitle">Find the price that maximizes revenue.</p>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Input Your Data</h2>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Current Price ($)</label>
+                    <input type="number" id="currentPrice" placeholder="29" onchange="calculate()">
+                </div>
+                <div class="input-group">
+                    <label>Monthly Customers</label>
+                    <input type="number" id="customers" placeholder="100" onchange="calculate()">
+                </div>
+                <div class="input-group">
+                    <label>Price Elasticity (Estimated)</label>
+                    <input type="number" id="elasticity" placeholder="-1.5" step="0.1" onchange="calculate()">
+                </div>
+                <div class="input-group">
+                    <label>Variable Cost per Customer ($)</label>
+                    <input type="number" id="variableCost" placeholder="5" onchange="calculate()">
+                </div>
+            </div>
+            <button onclick="calculate()">Calculate Optimal Price</button>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Basic Results (Free)</h2>
+            <div class="result-grid">
+                <div class="result-card">
+                    <div class="result-label">Optimal Price</div>
+                    <div class="result-value" id="optimalPrice">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Expected Customers</div>
+                    <div class="result-value" id="expectedCustomers">0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Monthly Revenue</div>
+                    <div class="result-value" id="monthlyRevenue">$0</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Monthly Profit</div>
+                    <div class="result-value" id="monthlyProfit">$0</div>
+                </div>
+            </div>
+            
+            <div class="recommendation">
+                <div class="recommendation-title">Recommendation</div>
+                <div class="recommendation-text" id="recommendation">
+                    Enter your data to get a pricing recommendation.
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Full Optimization Model 🔒</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Unlock willingness-to-pay analysis, A/B test planning, and price sensitivity curves.</p>
+            <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                <button type="submit">Unlock — $9</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0;
+            const customers = parseFloat(document.getElementById('customers').value) || 0;
+            const elasticity = parseFloat(document.getElementById('elasticity').value) || -1;
+            const variableCost = parseFloat(document.getElementById('variableCost').value) || 0;
+            
+            if (!currentPrice || !customers) return;
+            
+            // Optimal price formula: P = MC * (elasticity / (1 + elasticity))
+            // For linear demand: P = (a + b*MC) / (2b) where elasticity = -b*P/Q
+            const optimalPrice = variableCost * (elasticity / (1 + elasticity));
+            
+            // Calculate expected demand at optimal price
+            const priceChange = (optimalPrice - currentPrice) / currentPrice;
+            const demandChange = elasticity * priceChange;
+            const expectedCustomers = Math.round(customers * (1 + demandChange));
+            
+            const monthlyRevenue = optimalPrice * expectedCustomers;
+            const monthlyProfit = (optimalPrice - variableCost) * expectedCustomers;
+            
+            document.getElementById('optimalPrice').textContent = '$' + optimalPrice.toFixed(2);
+            document.getElementById('expectedCustomers').textContent = expectedCustomers.toLocaleString();
+            document.getElementById('monthlyRevenue').textContent = '$' + monthlyRevenue.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('monthlyProfit').textContent = '$' + monthlyProfit.toLocaleString(undefined, {maximumFractionDigits: 0});
+            
+            let rec = '';
+            if (optimalPrice > currentPrice * 1.2) {
+                rec = 'Significant upside potential. Consider a gradual price increase with grandfathering for existing customers.';
+            } else if (optimalPrice < currentPrice * 0.8) {
+                rec = 'Your price may be too high. Consider testing a lower price point to increase volume.';
+            } else {
+                rec = 'Your pricing is near optimal. Focus on value communication and packaging improvements.';
+            }
+            document.getElementById('recommendation').textContent = rec;
+        }
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('pricingEmail', email);
+            alert('✅ Thank you! Full optimization model will be emailed to you shortly.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

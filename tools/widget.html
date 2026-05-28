@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Micro Tools Widget</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.widget {
+  max-width: 320px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.emoji {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.name {
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 700;
+}
+.desc {
+  color: #94a3b8;
+  font-size: 12px;
+}
+.cta {
+  display: block;
+  background: #f59e0b;
+  color: #0f172a;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.links {
+  display: flex;
+  gap: 8px;
+}
+.link {
+  flex: 1;
+  background: transparent;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  text-align: center;
+  padding: 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 11px;
+}
+.footer {
+  margin-top: 12px;
+  text-align: center;
+  color: #64748b;
+  font-size: 10px;
+}
+.footer a {
+  color: #fbbf24;
+  text-decoration: none;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<div class="widget" id="widget">
+  <div class="header">
+    <div class="emoji" id="emoji">📊</div>
+    <div>
+      <div class="name" id="name">MRR Calculator</div>
+      <div class="desc" id="desc">Track monthly recurring revenue</div>
+    </div>
+  </div>
+  <a class="cta" href="https://komi-projects.github.io/saas-micro-tools/" id="cta">Try Free Calculator →</a>
+  <div class="links">
+    <a class="link" href="https://komi-projects.github.io/simple-recover-landing/">SimpleRecover</a>
+    <a class="link" href="https://komi-projects.github.io/hire-komi/">Hire Komi</a>
+  </div>
+  <div class="footer">
+    Powered by <a href="https://komi-projects.github.io/saas-micro-tools/">SaaS Micro Tools</a>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const slug = params.get('tool') || 'mrr-calculator-premium';
+const BASE = 'https://komi-projects.github.io/saas-micro-tools';
+
+const TOOLS = {
+  'mrr-calculator-premium': {name:'MRR Calculator', emoji:'📊', desc:'Track monthly recurring revenue'},
+  'churn-calculator-premium': {name:'Churn Calculator', emoji:'😰', desc:'Measure revenue loss'},
+  'ltv-calculator-premium': {name:'LTV Calculator', emoji:'💎', desc:'Customer lifetime value'},
+  'cac-calculator-premium': {name:'CAC Calculator', emoji:'🎯', desc:'Acquisition cost analysis'},
+  'runway-calculator-premium': {name:'Runway Calculator', emoji:'✈️', desc:'Cash runway & burn rate'},
+  'stripe-fee-optimizer-premium': {name:'Stripe Fee Optimizer', emoji:'💳', desc:'Minimize payment fees'},
+  'saas-pricing-calculator-premium': {name:'Pricing Calculator', emoji:'💰', desc:'Optimize your tiers'},
+  'nrr-calculator-premium': {name:'NRR Calculator', emoji:'📈', desc:'Net revenue retention'}
+};
+
+const tool = TOOLS[slug] || TOOLS['mrr-calculator-premium'];
+document.getElementById('emoji').textContent = tool.emoji;
+document.getElementById('name').textContent = tool.name;
+document.getElementById('desc').textContent = tool.desc;
+document.getElementById('cta').href = BASE + '/' + slug + '.html';
+</script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

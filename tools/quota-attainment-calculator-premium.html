@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Sales Quota Attainment Calculator — Premium Performance Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f1a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .results {
+            display: none;
+        }
+        .results.active {
+            display: block;
+        }
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-detail {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .metric-box {
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #818cf8;
+        }
+        .tooltip {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 0.7rem;
+            cursor: help;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SaaS Sales Quota Attainment Calculator</h1>
+        <p class="subtitle">Premium quota performance and commission analytics</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Quarterly Quota ($) <span class="tooltip" title="Total sales target for the quarter">?</span></label>
+                <input type="number" id="quota" placeholder="100000" value="100000">
+            </div>
+            <div class="input-group">
+                <label>Closed Won ($)</label>
+                <input type="number" id="closed" placeholder="85000" value="85000">
+            </div>
+            <div class="input-group">
+                <label>Commission Rate (%)</label>
+                <input type="number" id="commission" placeholder="10" value="10">
+            </div>
+            <div class="input-group">
+                <label>Accelerator Threshold (%)</label>
+                <input type="number" id="accelerator" placeholder="100" value="100">
+            </div>
+        </div>
+
+        <button class="cta" onclick="calculate()">Calculate Attainment</button>
+
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Quota Attainment</div>
+                    <div class="result-value" id="attainment">0%</div>
+                </div>
+                <div class="result-detail" id="attainmentDetail">Percentage of quarterly quota achieved</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value" id="commissionEarned">$0</div>
+                        <div class="metric-label">Commission</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="gap">$0</div>
+                        <div class="metric-label">Gap to Quota</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value" id="yourStatus">Unknown</div>
+                        <div class="metric-label">Status</div>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 Attainment Insights</div>
+                    <div id="recommendationText">Calculate to see personalized performance recommendations.</div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-title">Benchmarks</div>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">70%</div>
+                        <div class="metric-label">Minimum</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">80%</div>
+                        <div class="metric-label">Good</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">100%+</div>
+                        <div class="metric-label">On Target</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const quota = parseFloat(document.getElementById('quota').value) || 1;
+            const closed = parseFloat(document.getElementById('closed').value) || 0;
+            const commission = parseFloat(document.getElementById('commission').value) || 0;
+            const accelerator = parseFloat(document.getElementById('accelerator').value) || 100;
+
+            const attainment = (closed / quota) * 100;
+            const gap = Math.max(0, quota - closed);
+            
+            // Commission calculation with accelerator
+            let commissionEarned = 0;
+            if (attainment >= accelerator) {
+                // Accelerator: double commission above threshold
+                const baseAmount = quota * (accelerator / 100);
+                const accelAmount = closed - baseAmount;
+                commissionEarned = (baseAmount * commission / 100) + (accelAmount * commission * 2 / 100);
+            } else {
+                commissionEarned = closed * commission / 100;
+            }
+
+            let yourStatus = 'Unknown';
+            if (attainment >= 100) yourStatus = 'On Target';
+            else if (attainment >= 80) yourStatus = 'Good';
+            else if (attainment >= 70) yourStatus = 'At Risk';
+            else yourStatus = 'Off Track';
+
+            document.getElementById('attainment').textContent = attainment.toFixed(1) + '%';
+            document.getElementById('commissionEarned').textContent = '$' + Math.round(commissionEarned).toLocaleString('en-US');
+            document.getElementById('gap').textContent = '$' + Math.round(gap).toLocaleString('en-US');
+            document.getElementById('yourStatus').textContent = yourStatus;
+
+            let recommendation = '';
+            if (attainment >= 100) {
+                recommendation = '🎉 Quota attainment achieved! To exceed: 1) Push for accelerator bonuses, 2. Upsell existing customers for extra commission, 3. Build pipeline for next quarter early.';
+            } else if (attainment >= 80) {
+                recommendation = '✅ Close to target. To hit quota: 1. Focus on deals closest to closing, 2. Offer incentives to accelerate decisions, 3. Get leadership support on stalled deals.';
+            } else if (attainment >= 70) {
+                recommendation = '⚠️ At risk of missing quota. To recover: 1. Re-prioritize pipeline — which deals can close this quarter?, 2. Consider discounts for fast closes, 3. Partner with customer success on expansions.';
+            } else {
+                recommendation = '🚨 Off track — unlikely to hit quota. To salvage: 1. Be realistic about what can close — focus on sure things, 2. Start building next quarter\'s pipeline NOW, 3. Analyze why deals are stalling — is it pricing, product, or process?, 4. Discuss quota adjustment with manager if market conditions changed.';
+            }
+            document.getElementById('recommendationText').textContent = recommendation;
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

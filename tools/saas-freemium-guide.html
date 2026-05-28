@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Freemium Guide — Free Download</title>
+    <meta name="description" content="Free SaaS freemium guide. Design a free tier that drives acquisition without cannibalizing revenue. Learn feature gating, conversion tactics, and when freemium works.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .freemium {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .framework-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .framework-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .framework-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🆓 Freemium Guide</h1>
+            <p class="subtitle">Free tier that converts, not cannibalizes.</p>
+        </div>
+        
+        <div class="freemium">
+            <div class="section">
+                <h2>When Freemium Works</h2>
+                
+                <p>Freemium is a powerful acquisition tool, but it's not for everyone. It works when:</p>
+                
+                <p>• <strong>Low marginal cost.</strong> Free users cost almost nothing to serve (e.g., software, not hardware).<br>
+                • <strong>Network effects.</strong> More users = more value (e.g., Slack, Notion, Figma).<br>
+                • <strong>Viral potential.</strong> Free users invite other free users who convert to paid.<br>
+                • <strong>High conversion potential.</strong> Free users hit limits that drive upgrade.</p>
+                
+                <p><strong>Don't use freemium if:</strong> Your product is complex, requires high support, or has low viral coefficient. Free users will just drain resources.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Freemium Conversion Funnel</h2>
+                
+                <div class="framework-box">
+                    <div class="framework-name">1. Signup → Activation (40-60%)</div>
+                    <div class="framework-detail">User signs up and experiences core value. Free tier must include enough to reach "aha" moment.</div>
+                </div>
+                
+                <div class="framework-box">
+                    <div class="framework-name">2. Activation → Engagement (20-40%)</div>
+                    <div class="framework-detail">User returns regularly, builds habits, invites team. Free tier limits should create gentle friction.</div>
+                </div>
+                
+                <div class="framework-box">
+                    <div class="framework-name">3. Engagement → Limit Hit (10-20%)</div>
+                    <div class="framework-detail">User hits free plan limit (storage, users, features). This is the conversion trigger.</div>
+                </div>
+                
+                <div class="framework-box">
+                    <div class="framework-name">4. Limit Hit → Upgrade (2-5%)</div>
+                    <div class="framework-detail">User converts to paid. Target: 2-5% of free users convert monthly.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Gating Strategy</h2>
+                
+                <p><strong>Free tier includes:</strong> Core functionality, limited usage, basic features. Enough to experience value.</p>
+                
+                <p><strong>Paid tier includes:</strong></p>
+                
+                <p>• Advanced features (reporting, integrations, automation)<br>
+                • Higher limits (more users, more storage, more API calls)<br>
+                • Collaboration (team features, sharing, admin controls)<br>
+                • Support (priority support, dedicated CSM)<br>
+                • Customization (branding, custom domains, white-label)</p>
+                
+                <p><strong>Rule:</strong> Free users should feel the product is useful. Paid users should feel it's indispensable.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Freemium Metrics</h2>
+                
+                <p>• <strong>Free-to-Paid Conversion:</strong> Target 2-5% monthly. < 2% = free tier too generous. > 5% = free tier too limited.<br>
+                • <strong>Viral Coefficient:</strong> New users invited per free user. Target > 0.3.<br>
+                • <strong>Free User Support Load:</strong> Support tickets per free user. Target < 0.1/month.<br>
+                • <strong>Free User COGS:</strong> Cost to serve free users. Target < 5% of revenue.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Freemium Examples</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Slack</div>
+                    <div class="example-text">
+                        Free: 10K messages, 10 integrations, 1:1 video calls<br>
+                        Paid: Unlimited messages, unlimited integrations, group video, guest access<br>
+                        <strong>Why it works:</strong> Message limit creates natural friction. Teams hit 10K fast.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Notion</div>
+                    <div class="example-text">
+                        Free: Unlimited pages, 10 guests, 5MB file uploads<br>
+                        Paid: Unlimited guests, unlimited file uploads, version history, permissions<br>
+                        <strong>Why it works:</strong> Collaboration limits drive team upgrades.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Figma</div>
+                    <div class="example-text">
+                        Free: 3 projects, 2 editors, 30-day version history<br>
+                        Paid: Unlimited projects, unlimited editors, unlimited history, org-wide libraries<br>
+                        <strong>Why it works:</strong> Editor limits force team upgrades. Design is collaborative.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Freemium Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with freemium model design, conversion optimization, and pricing tier framework.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('freemiumGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

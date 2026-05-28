@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Product Analytics Guide — Free Download</title>
+    <meta name="description" content="Free SaaS product analytics guide. Track user behavior, measure feature adoption, and make data-driven product decisions that drive growth.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .analytics {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Product Analytics</h1>
+            <p class="subtitle">Make data-driven product decisions that drive growth.</p>
+        </div>
+        
+        <div class="analytics">
+            <div class="section">
+                <h2>Why Product Analytics is Essential</h2>
+                
+                <p>Product analytics is the difference between building what you think users want and building what they actually use. Without data, you're guessing. With data, you're optimizing. The best SaaS companies don't rely on intuition — they instrument every interaction, measure every funnel, and let user behavior guide product decisions.</p>
+                
+                <p>Product analytics answers critical questions: Where do users drop off in onboarding? Which features drive retention? What patterns predict expansion or churn? Which customer segments behave differently? These answers transform product development from opinion-driven to evidence-driven, increasing the odds that every feature you build actually moves the needle.</p>
+                
+                <p>This guide covers how to implement product analytics that tracks user behavior, measures feature adoption, and drives data-informed product decisions.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Pillars</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Event Tracking</div>
+                    <div class="pillar-detail">
+                        Capture every meaningful user action.
+                        • Core events: Signup, activation, feature usage, upgrade, downgrade, churn
+                        • Custom events: Specific actions unique to your product
+                        • Properties: Enrich events with context (user plan, company size, device)
+                        • Autocapture vs. manual: Autocapture catches everything; manual is cleaner
+                        • Tools: Mixpanel, Amplitude, PostHog, Segment, Heap
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Funnel Analysis</div>
+                    <div class="pillar-detail">
+                        Track conversion through key journeys.
+                        • Signup funnel: Landing page → Signup → Activation → Paid conversion
+                        • Feature adoption: Discovery → Trial → Adoption → Habit
+                        • Upgrade funnel: Free → Trial → Premium → Enterprise
+                        • Retention funnel: Day 0 → Day 7 → Day 30 → Day 90
+                        • Identify drop-off points: Where do users leave? Why?
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Cohort Analysis</div>
+                    <div class="pillar-detail">
+                        Compare user groups over time.
+                        • Signup cohorts: Users who signed up in the same week/month
+                        • Feature cohorts: Users who adopted a specific feature
+                        • Campaign cohorts: Users from a specific marketing campaign
+                        • Retention curves: What % of each cohort is still active?
+                        • Compare: Did the January cohort retain better than December? Why?
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. User Segmentation</div>
+                    <div class="pillar-detail">
+                        Analyze different users differently.
+                        • By plan: Free, Basic, Pro, Enterprise behavior patterns
+                        • By behavior: Power users, casual users, dormant users
+                        • By acquisition: Organic vs. paid vs. referral vs. content
+                        • By firmographics: Company size, industry, geography
+                        • Compare segments: Do enterprise users adopt features faster?
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. A/B Testing</div>
+                    <div class="pillar-detail">
+                        Make decisions with statistical confidence.
+                        • Hypothesis: "Changing the CTA from 'Start Trial' to 'Get Started' will increase conversions by 10%"
+                        • Metrics: Define primary success metric and guardrail metrics
+                        • Sample size: Calculate required users for statistical significance
+                        • Duration: Run for full business cycle (typically 1-2 weeks minimum)
+                        • Analysis: Segment by device, plan, geography — winners vary
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Key Product Metrics</h2>
+                
+                <p><strong>Acquisition:</strong></p>
+                
+                <p>• Signup rate: % of visitors who create an account
+                • Activation rate: % of signups who reach "aha" moment
+                • Time-to-activation: How long from signup to first value
+                • Source quality: Conversion rate by acquisition channel</p>
+                
+                <p><strong>Engagement:</strong></p>
+                
+                <p>• DAU/MAU ratio: Daily active users / Monthly active users (stickiness)
+                • Feature adoption: % of users who use each key feature
+                • Session frequency: How often users return per week/month
+                • Core action frequency: How often users perform the primary action
+                • Engagement depth: Number of features used per session</p>
+                
+                <p><strong>Retention:</strong></p>
+                
+                <p>• Day 1/7/30 retention: % of users active on Day N
+                • Cohort retention curves: Retention over time for each signup cohort
+                • Resurrection rate: % of dormant users who return
+                • Churn prediction: Behavioral signals that predict churn
+                • Feature-based retention: Do users of Feature X retain better?</p>
+                
+                <p><strong>Revenue:</strong></p>
+                
+                <p>• Trial-to-paid conversion: % of trials that convert
+                • Expansion rate: % of accounts that upgrade or add seats
+                • Time-to-upgrade: Days from signup to first paid conversion
+                • Feature-based revenue: Revenue correlation with feature usage
+                • Payback period: Time to recover CAC per cohort</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Implementation</h2>
+                
+                <p><strong>1. Define your events:</strong></p>
+                
+                <p>• Start with 10-15 core events that cover the entire user journey
+                • Name them clearly: "Signed Up", "Activated", "Invited Team Member"
+                • Include properties: Plan type, company size, acquisition source
+                • Create an event taxonomy document that the whole team uses
+                • Avoid event sprawl: 100 events is harder to analyze than 15 well-chosen ones</p>
+                
+                <p><strong>2. Set up your tool:</strong></p>
+                
+                <p>• Choose: Mixpanel (product-focused), Amplitude (advanced analytics), PostHog (open-source), Heap (autocapture)
+                • Implement tracking: SDK installation, event instrumentation
+                • User identification: Track anonymous → identified user journey
+                • Group analytics: Track account/company-level metrics (for B2B)
+                • Data warehouse: Sync to BigQuery/Snowflake for custom analysis</p>
+                
+                <p><strong>3. Build dashboards:</strong></p>
+                
+                <p>• Executive dashboard: MAU, MRR, churn, NRR, key funnels
+                • Product dashboard: Feature adoption, activation rate, retention curves
+                • Growth dashboard: CAC, LTV, payback, channel performance
+                • Health dashboard: Error rates, performance, support ticket volume
+                • Custom views: Per-team dashboards (product, marketing, success)</p>
+                
+                <p><strong>4. Analyze and act:</strong></p>
+                
+                <p>• Weekly: Review key metrics, identify anomalies, investigate drops
+                • Monthly: Cohort analysis, funnel optimization, feature adoption review
+                • Quarterly: Strategic review, metric goal-setting, tool evaluation
+                • Continuous: A/B tests, feature experiments, user research synthesis</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Analytics Mistakes</h2>
+                
+                <p><strong>1. Tracking everything:</strong> Instrumenting 500 events creates noise, not signal. Start with 10-15 core events that tell the story of user value.</p>
+                
+                <p><strong>2. Vanity metrics:</strong> Obsessing over pageviews, total signups, or downloads without measuring activation, retention, or revenue. 10K signups with 5% activation is worse than 1K signups with 50% activation.</p>
+                
+                <p><strong>3. No north star metric:</strong> Tracking 50 metrics with no single metric that captures core value. Define one metric that best represents user getting value from your product.</p>
+                
+                <p><strong>4. Analysis paralysis:</strong> Spending more time analyzing than acting. Data should inform decisions, not replace them. Set a deadline: "Decide by Friday."</p>
+                
+                <p><strong>5. No data culture:</strong> Product team makes decisions without looking at data. Build dashboards, share insights, celebrate data-driven wins, and question intuition with "What's the data say?"</p>
+                
+                <p><strong>6. Poor event naming:</strong> "Button Clicked" instead of "Upgrade Initiated". Event names should describe user intent, not UI elements. Future-you will thank present-you.</p>
+                
+                <p><strong>7. Ignoring qualitative data:</strong> Analytics tells you what users do, not why. Pair quantitative analytics with user interviews, surveys, and session recordings.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Product Analytics Checklist</h2>
+                
+                <p>☐ Analytics tool selected and implemented (Mixpanel, Amplitude, PostHog)
+                ☐ Event taxonomy defined (10-15 core events with naming convention)
+                ☐ Core events instrumented in product code
+                ☐ User identification system configured (anonymous → identified)
+                ☐ Group/account tracking enabled (for B2B multi-user accounts)
+                ☐ Data warehouse sync configured (BigQuery, Snowflake, Redshift)
+                ☐ Executive dashboard created (MAU, MRR, churn, NRR)
+                ☐ Product dashboard created (activation, feature adoption, retention)
+                ☐ Growth dashboard created (CAC, LTV, funnels, channels)
+                ☐ Funnel analysis set up (signup, activation, conversion, retention)
+                ☐ Cohort analysis configured (signup cohorts, feature cohorts)
+                ☐ User segmentation defined (by plan, behavior, acquisition source)
+                ☐ A/B testing framework set up (hypothesis template, metric definition)
+                ☐ North star metric defined and shared across team
+                ☐ Weekly metrics review process established
+                ☐ Monthly cohort and funnel review scheduled
+                ☐ Quarterly analytics strategy review scheduled
+                ☐ Team trained on analytics tool and event taxonomy
+                ☐ Documentation: Event dictionary, dashboard definitions, metric formulas
+                ☐ Data quality monitoring: Event validation, duplicate detection, missing data alerts</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Product Analytics Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with event taxonomies, dashboard templates, and implementation playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('productAnalyticsEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

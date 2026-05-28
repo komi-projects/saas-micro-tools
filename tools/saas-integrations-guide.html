@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Integrations Guide — Free Download</title>
+    <meta name="description" content="Free SaaS integrations guide. Build a powerful integration ecosystem, partner with platforms, and become indispensable to your customers.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .integrations {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .type-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .type-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .type-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Integrations</h1>
+            <p class="subtitle">Become indispensable. Integrate everywhere.</p>
+        </div>
+        
+        <div class="integrations">
+            <div class="section">
+                <h2>Why Integrations Matter</h2>
+                
+                <p>Integrations are the #1 driver of SaaS retention and expansion. When your product is connected to a customer's existing tools, switching costs skyrocket. You're not just a tool — you're part of their workflow.</p>
+                
+                <p>Companies with 10+ integrations have 40% higher retention and 2x higher expansion revenue than those with fewer integrations. Every integration is a distribution channel and a retention lock-in.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Integration Types</h2>
+                
+                <div class="type-box">
+                    <div class="type-name">🔌 Native Integrations</div>
+                    <div class="type-detail">Built by you, maintained by you. Deep, reliable, branded. Best for strategic partners (CRM, billing, analytics). High upfront cost, highest long-term value.</div>
+                </div>
+                
+                <div class="type-box">
+                    <div class="type-name">⚡ Zapier / Make / n8n</div>
+                    <div class="type-detail">No-code automation platforms. Fast to build (days, not months). Good for long-tail integrations. Users build their own workflows. Limited by platform capabilities.</div>
+                </div>
+                
+                <div class="type-box">
+                    <div class="type-name">🔧 Embedded iPaaS</div>
+                    <div class="type-detail">Integration platforms embedded in your product (Workato, Tray.io, Paragon). Users connect apps via your UI. Looks native to them, powered by iPaaS behind the scenes.</div>
+                </div>
+                
+                <div class="type-box">
+                    <div class="type-name">🤝 Partner Integrations</div>
+                    <div class="type-detail">Built by partners, certified by you. Expand ecosystem without engineering cost. Require partner program, documentation, and certification process.</div>
+                </div>
+                
+                <div class="type-box">
+                    <div class="type-name">📡 Webhooks + API</div>
+                    <div class="type-detail">Most flexible. Users build custom integrations. Good for developers and enterprise. Requires great docs, SDKs, and support.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Integration Strategy</h2>
+                
+                <p><strong>1. Map the ecosystem.</strong> What tools do your customers use? Survey them. Analyze job postings ("Experience with [your product] + [integration target]"). Check your support tickets for integration requests.</p>
+                
+                <p><strong>2. Prioritize by impact.</strong> Score integrations by: customer demand (how many ask for it), strategic value (does it open a market?), and effort (days vs. months). Build high-impact, low-effort first.</p>
+                
+                <p><strong>3. Build for the platform.</strong> Don't just sync data. Embed your product inside the platform. Slack app that posts reports. Salesforce widget that shows your data. The deeper the integration, the harder to replace.</p>
+                
+                <p><strong>4. Market the integration.</strong> Co-marketing with partners. "[Your Product] + [Partner] Integration" blog post. Joint webinar. Cross-promotion in both marketplaces. Both companies benefit.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Integration Metrics</h2>
+                
+                <p>• <strong>Integration adoption:</strong> % of customers using at least one integration. Target: > 60%.
+<br>
+                • <strong>Integration retention:</strong> Retention rate of customers with integrations vs. without. Should be 20-40% higher.
+<br>
+                • <strong>Integration NPS:</strong> Satisfaction with specific integrations. Low NPS = broken integration = churn risk.
+<br>
+                • <strong>Time to integrate:</strong> How long it takes a new customer to set up their first integration. Target: < 5 minutes.
+<br>
+                • <strong>Integration requests:</strong> Most-requested integrations = your roadmap. Track and prioritize.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Integration Examples</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Slack</div>
+                    <div class="example-text">
+                        Post notifications, create channels, run commands. Every SaaS needs a Slack integration. Users live in Slack — meet them there.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Salesforce</div>
+                    <div class="example-text">
+                        Sync customer data, create records, embed widgets. If you sell to enterprises, Salesforce integration is table stakes.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Stripe</div>
+                    <div class="example-text">
+                        Billing, invoicing, payment recovery. If you're a SaaS tool that touches money, Stripe integration is essential.
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Zapier</div>
+                    <div class="example-text">
+                        Connect to 5,000+ apps with no code. Covers the long tail of integration requests without engineering cost.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Integration Marketplace</h2>
+                
+                <p>Build an integration marketplace on your website. List all integrations with:</p>
+                
+                <p>• Logo and description
+<br>
+                • Setup time estimate
+<br>
+                • User ratings and reviews
+<br>
+                • Use case examples
+<br>
+                • Direct install link</p>
+                
+                <p>Marketplace SEO drives organic traffic. "[Your Product] + [Integration]" ranks for long-tail keywords. Each integration page is a landing page.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Integrations Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with integration prioritization frameworks, partner program templates, and marketplace setup playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('integrationsGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

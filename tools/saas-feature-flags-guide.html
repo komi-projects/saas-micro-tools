@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Feature Flags Guide — Ship Safely, Test in Production</title>
+    <meta name="description" content="Free SaaS feature flags guide. Deploy safely, test in production, and control feature rollouts with confidence.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .flags {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏁 Feature Flags</h1>
+            <p class="subtitle">Ship safely, test in production, control rollouts.</p>
+        </div>
+        
+        <div class="flags">
+            <div class="section">
+                <h2>What Are Feature Flags?</h2>
+                
+                <p>Feature flags (also called feature toggles) are a software development technique that lets you turn features on or off without deploying new code. They decouple deployment from release — you can deploy code to production but hide it from users until you're ready.</p>
+                
+                <p>Think of them as remote controls for your product. Instead of shipping a feature and hoping it works, you ship the code, test it with a small group, measure the impact, and gradually roll it out. If something goes wrong, you turn it off instantly — no rollback, no hotfix, no downtime.</p>
+                
+                <p>The best SaaS companies use feature flags for everything: gradual rollouts, A/B testing, kill switches, beta programs, and entitlements. This guide covers how to implement feature flags, when to use them, and best practices for managing them at scale.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Types of Feature Flags</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Release Toggles</div>
+                    <div class="pillar-detail">
+                        Hide incomplete features from production.
+                        • Use case: Deploy code for a feature still in development
+                        • Lifecycle: Short-term, removed after feature launches
+                        • Example: New dashboard layout — code deployed, flag off until design is finalized
+                        • Rule of thumb: If it's not ready for customers, hide it behind a flag
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Experiment Toggles</div>
+                    <div class="pillar-detail">
+                        Run A/B tests and measure impact.
+                        • Use case: Test two versions of a feature with real users
+                        • Lifecycle: Short-term, removed after experiment concludes
+                        • Example: Test new checkout flow — 50% see version A, 50% see version B
+                        • Measure: Conversion, engagement, revenue, support tickets
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Kill Switches</div>
+                    <div class="pillar-detail">
+                        Instantly disable problematic features.
+                        • Use case: Turn off a feature causing errors or performance issues
+                        • Lifecycle: Long-term, permanent safety mechanism
+                        • Example: Disable a new integration if its API goes down
+                        • Key: Must work instantly, no code deploy required
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Canary Toggles</div>
+                    <div class="pillar-detail">
+                        Gradually roll out to a percentage of users.
+                        • Use case: Reduce risk by exposing features to small groups first
+                        • Lifecycle: Short-term, ramped to 100% or rolled back
+                        • Example: Start at 1%, then 5%, 10%, 50%, 100% if metrics look good
+                        • Automatic: Set error rate thresholds for auto-rollback
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Entitlement Toggles</div>
+                    <div class="pillar-detail">
+                        Control access based on plan or user type.
+                        • Use case: Premium features available only to paying customers
+                        • Lifecycle: Long-term, permanent part of product packaging
+                        • Example: "Advanced reporting" flag — on for Pro/Enterprise, off for Basic
+                        • Benefit: No code changes needed to adjust plan features
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">6. Ops Toggles</div>
+                    <div class="pillar-detail">
+                        Operational controls for system behavior.
+                        • Use case: Adjust system behavior without code changes
+                        • Lifecycle: Long-term, infrastructure management
+                        • Example: Circuit breaker for external API calls, rate limiting thresholds
+                        • Use sparingly: These are for ops, not product features
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Architecture</h2>
+                
+                <p><strong>1. Simple approach (start here):</strong></p>
+                
+                <p>• Config file: Store flags in a JSON config file
+                • Environment variables: One flag per env var
+                • Database: Simple table with flag name, status, and targeting rules
+                • Pros: Fast to implement, no external dependencies
+                • Cons: Requires redeploy to change, no targeting, hard to manage at scale</p>
+                
+                <p><strong>2. Managed service (scale here):</strong></p>
+                
+                <p>• LaunchDarkly: Market leader, full feature set, $8.33/seat/month
+                • Split: Strong experimentation, analytics, $33/seat/month
+                • Flagsmith: Open-source, self-hosted option, free tier
+                • Unleash: Open-source, popular in enterprise, free tier
+                • GrowthBook: Open-source, strong experimentation focus, free tier
+                • PostHog: Product analytics + feature flags, generous free tier</p>
+                
+                <p><strong>3. Build vs. buy:</strong></p>
+                
+                <p>• Build: If you need simple on/off flags and have 1-2 teams
+                • Buy: If you need targeting, experiments, analytics, or have 3+ teams
+                • Hybrid: Build simple toggles, buy for experiments and canary releases
+                • Cost of building: 2-4 weeks engineering, ongoing maintenance
+                • Cost of buying: $50-500/month depending on seats and features</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Best Practices</h2>
+                
+                <p><strong>1. Naming:</strong> Use descriptive names with namespaces. "new-checkout-flow" not "flag_7". Include team prefix: "billing-new-checkout-flow".</p>
+                
+                <p><strong>2. Cleanup:</strong> Remove flags after they're no longer needed. "Permanent" flags should be rare. Schedule quarterly flag audits.</p>
+                
+                <p><strong>3. Testing:</strong> Test both flag on and flag off paths. A feature behind a flag that breaks when off is a hidden bug.</p>
+                
+                <p><strong>4. Documentation:</strong> Document what each flag does, who owns it, and when it should be removed. "Flag registry" in your wiki.</p>
+                
+                <p><strong>5. Access control:</strong> Not everyone should toggle production flags. Restrict to on-call engineers and product managers.</p>
+                
+                <p><strong>6. Monitoring:</strong> Track flag changes in your alerting system. "Flag X was turned off at 2:15 PM" should be visible.</p>
+                
+                <p><strong>7. Fallbacks:</strong> If flag service is down, default to safe behavior. Usually "off" is safer than "on" for new features.</p>
+                
+                <p><strong>8. Avoid flag explosion:</strong> Don't create flags for everything. Use for: risky changes, experiments, entitlements, kill switches. Don't use for: trivial UI changes, bug fixes, config values.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Examples</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Netflix: Gradual Codec Rollout</div>
+                    <div class="example-text">
+                        Netflix uses feature flags to roll out new video codecs gradually.
+                        • Start: 1% of devices, measure buffer health and error rates
+                        • Expand: 5%, 10%, 25%, 50%, 100% if metrics stable
+                        • Kill switch: If error rate > 0.1%, instant rollback to 0%
+                        • Result: Billions of streaming hours with minimal disruption
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Etsy: Continuous Deployment</div>
+                    <div class="example-text">
+                        Etsy deploys 50+ times per day using feature flags.
+                        • All changes behind flags by default
+                        • Engineers toggle on for themselves first
+                        • Then team, then 1% of users, then full rollout
+                        • Result: Fast iteration with production safety
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Stripe: Kill Switches</div>
+                    <div class="example-text">
+                        Stripe maintains kill switches for all third-party integrations.
+                        • External API down? Toggle off instantly.
+                        • Payment processor issue? Route traffic to backup.
+                        • New fraud rule causing false positives? Disable immediately.
+                        • Result: 99.999% uptime despite dependency failures
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Flag Checklist</h2>
+                
+                <p>☐ Feature flag system chosen (build, open-source, or managed)
+                ☐ SDK integrated into your application
+                ☐ Flag naming convention established (team-feature-name)
+                ☐ Flag registry created (documentation of all flags)
+                ☐ Cleanup process defined (quarterly audits, removal deadlines)
+                ☐ Access control configured (who can toggle what)
+                ☐ Monitoring set up (flag change alerts)
+                ☐ Fallback behavior defined (default to safe state)
+                ☐ Testing strategy for both flag states (on and off)
+                ☐ Kill switches implemented for critical features
+                ☐ Canary rollout process defined (1% → 5% → 10% → 50% → 100%)
+                ☐ A/B test framework configured (experiment toggles)
+                ☐ Entitlement toggles set up for plan-based features
+                ☐ Flag change audit log enabled (who changed what, when)
+                ☐ Performance impact measured (flag evaluation latency)
+                ☐ Runbook created for flag-related incidents
+                ☐ Team trained on flag usage and best practices
+                ☐ Flag expiration dates set (auto-remind after 30 days)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Feature Flags Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation templates, architecture diagrams, and vendor comparison.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('featureFlagsEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

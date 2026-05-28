@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dunning Sequence ROI Calculator — $39</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; min-height: 100vh; }
+.payment-gate { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98); display: flex; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; padding: 40px; }
+.gate-card { max-width: 520px; width: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; border-radius: 20px; padding: 48px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+.gate-icon { width: 64px; height: 64px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 24px; }
+.gate-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+.gate-price { font-size: 48px; font-weight: 800; color: #fbbf24; margin-bottom: 8px; }
+.gate-desc { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 32px; }
+.gate-features { text-align: left; margin-bottom: 32px; }
+.gate-features li { list-style: none; padding: 8px 0; color: #cbd5e1; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+.gate-features li::before { content: "✓"; color: #22c55e; font-weight: 700; }
+.buy-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+.buy-btn:hover { transform: translateY(-2px); }
+.gate-trust { color: #64748b; font-size: 12px; }
+.content { display: none; max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+.content.unlocked { display: block; }
+.header { text-align: center; margin-bottom: 40px; }
+.header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.header p { color: #94a3b8; }
+.calculator { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; color: #94a3b8; font-size: 14px; margin-bottom: 8px; }
+.input-group input { width: 100%; padding: 12px 16px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f8fafc; font-size: 16px; font-family: 'Inter', sans-serif; }
+.input-group input:focus { outline: none; border-color: #f59e0b; }
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+.result-card { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 12px; padding: 24px; text-align: center; }
+.result-value { font-size: 32px; font-weight: 800; color: #fbbf24; }
+.result-label { color: #94a3b8; font-size: 13px; margin-top: 4px; }
+.result-positive { color: #22c55e; }
+.result-negative { color: #ef4444; }
+.recommendation { background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 24px; }
+.recommendation h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fbbf24; }
+.recommendation p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+.cta-footer { text-align: center; padding: 40px; background: #1e293b; border-radius: 16px; margin-top: 40px; }
+.cta-footer a { color: #fbbf24; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="payment-gate" id="paymentGate">
+  <div class="gate-card">
+    <div class="gate-icon">📧</div>
+    <div class="gate-title">Dunning Sequence ROI Calculator</div>
+    <div class="gate-price">$39</div>
+    <div class="gate-desc">Model the exact revenue recovery from your dunning email sequence. See what each email is worth and optimize the sequence.</div>
+    <ul class="gate-features">
+      <li>Interactive dunning sequence builder</li>
+      <li>Per-email revenue attribution model</li>
+      <li>ROI calculator with break-even analysis</li>
+      <li>Sequence comparison (your current vs optimized)</li>
+      <li>Export results as PDF report</li>
+    </ul>
+    <button class="buy-btn" onclick="buyNow()">Buy Now — $39</button>
+    <div class="gate-trust">Powered by SimpleRecover · Instant delivery</div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="header">
+    <h1>📧 Dunning Sequence ROI Calculator</h1>
+    <p>Model revenue recovery and optimize your email sequence</p>
+  </div>
+
+  <div class="calculator">
+    <h2 style="margin-bottom: 20px;">Your Current Dunning Setup</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+      <div class="input-group">
+        <label>Monthly Failed Payments</label>
+        <input type="number" id="failedPayments" value="45" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Average Customer LTV ($)</label>
+        <input type="number" id="ltv" value="480" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Current Recovery Rate (%)</label>
+        <input type="number" id="recoveryRate" value="62" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Emails in Sequence</label>
+        <input type="number" id="emailCount" value="3" oninput="calculate()">
+      </div>
+    </div>
+
+    <h2 style="margin: 24px 0 20px;">Optimized Sequence Projection</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+      <div class="input-group">
+        <label>Target Recovery Rate (%)</label>
+        <input type="number" id="targetRecovery" value="84" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Optimized Email Count</label>
+        <input type="number" id="targetEmails" value="5" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Cost Per Email ($)</label>
+        <input type="number" id="emailCost" value="0.05" oninput="calculate()">
+      </div>
+      <div class="input-group">
+        <label>Tool/Platform Cost/Month ($)</label>
+        <input type="number" id="platformCost" value="49" oninput="calculate()">
+      </div>
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-value" id="currentRevenue">$0</div>
+        <div class="result-label">Current Monthly Recovery</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value result-positive" id="targetRevenue">$0</div>
+        <div class="result-label">Optimized Recovery</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value result-positive" id="monthlyLift">$0</div>
+        <div class="result-label">Monthly Revenue Lift</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value" id="annualLift">$0</div>
+        <div class="result-label">Annual Revenue Lift</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value result-positive" id="roi">0x</div>
+        <div class="result-label">ROI on Dunning Investment</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value" id="breakEven">0 days</div>
+        <div class="result-label">Break-Even Time</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendation">
+    <h3>🎯 Optimization: Add 2 More Emails</h3>
+    <p>Most SaaS companies stop at 3 dunning emails. Data shows that a 5-email sequence (Day 1, 3, 7, 14, 21) recovers 22% more revenue. The 4th and 5th emails often catch customers who intended to update payment but forgot. Each additional email costs pennies and returns dollars.</p>
+  </div>
+
+  <div class="cta-footer">
+    <p>Want a custom dunning sequence for your product?</p>
+    <p><a href="https://komi-projects.github.io/hire-komi/">Hire Komi →</a></p>
+  </div>
+</div>
+
+<script>
+function buyNow() {
+  window.location.href = 'https://buy.stripe.com/test_dR67sC1aB3BJ8oE8wz';
+}
+function unlock() {
+  document.getElementById('paymentGate').style.display = 'none';
+  document.getElementById('content').classList.add('unlocked');
+  localStorage.setItem('dunning-roi-unlocked', 'true');
+}
+if (localStorage.getItem('dunning-roi-unlocked') === 'true') {
+  unlock();
+}
+function calculate() {
+  const failed = parseInt(document.getElementById('failedPayments').value) || 0;
+  const ltv = parseInt(document.getElementById('ltv').value) || 0;
+  const currentRate = parseInt(document.getElementById('recoveryRate').value) || 0;
+  const targetRate = parseInt(document.getElementById('targetRecovery').value) || 0;
+  const emailCount = parseInt(document.getElementById('emailCount').value) || 0;
+  const targetEmails = parseInt(document.getElementById('targetEmails').value) || 0;
+  const emailCost = parseFloat(document.getElementById('emailCost').value) || 0;
+  const platformCost = parseInt(document.getElementById('platformCost').value) || 0;
+
+  const currentRevenue = Math.round(failed * (currentRate / 100) * ltv);
+  const targetRevenue = Math.round(failed * (targetRate / 100) * ltv);
+  const monthlyLift = targetRevenue - currentRevenue;
+  const annualLift = monthlyLift * 12;
+  const monthlyCost = (targetEmails * failed * emailCost) + platformCost;
+  const roi = monthlyCost > 0 ? (monthlyLift / monthlyCost).toFixed(1) : 0;
+  const breakEven = monthlyLift > 0 ? Math.ceil(monthlyCost / (monthlyLift / 30)) : 0;
+
+  document.getElementById('currentRevenue').textContent = '$' + currentRevenue.toLocaleString();
+  document.getElementById('targetRevenue').textContent = '$' + targetRevenue.toLocaleString();
+  document.getElementById('monthlyLift').textContent = '$' + monthlyLift.toLocaleString();
+  document.getElementById('annualLift').textContent = '$' + annualLift.toLocaleString();
+  document.getElementById('roi').textContent = roi + 'x';
+  document.getElementById('breakEven').textContent = breakEven + ' days';
+}
+calculate();
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Unit Economics Guide — Free Download</title>
+    <meta name="description" content="Free SaaS unit economics guide. Understand LTV, CAC, payback period, and the metrics that determine SaaS profitability.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .unit {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Unit Economics</h1>
+            <p class="subtitle">Understand the metrics that determine SaaS profitability.</p>
+        </div>
+        
+        <div class="unit">
+            <div class="section">
+                <h2>Why Unit Economics Matter</h2>
+                
+                <p>Unit economics answer the most important question in SaaS: Does each customer generate more revenue than it costs to acquire and serve? If yes, you can scale. If no, growth just burns cash faster.</p>
+                
+                <p>A company with great unit economics can raise capital, scale marketing, and invest in product. A company with poor unit economics is a ticking time bomb — every new customer accelerates the burn. Understanding unit economics isn't just finance — it's survival.</p>
+                
+                <p>This guide covers the essential unit economics metrics, how to calculate them, and what "good" looks like at different stages.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Core Unit Economics Metrics</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Customer Acquisition Cost (CAC)</div>
+                    <div class="pillar-detail">
+                        Total cost to acquire one customer.
+                        • Formula: (Sales + Marketing spend) / New customers acquired
+                        • Include: Salaries, tools, ad spend, content, events, commissions
+                        • Time period: Use the same period for spend and customers (usually a month or quarter)
+                        • Blended vs. paid: Blended includes organic; paid is just paid channels
+                        • CAC by channel: Know which channels are efficient vs. expensive
+                        • Early-stage CAC is high and lumpy — trend over 6-12 months
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Lifetime Value (LTV)</div>
+                    <div class="pillar-detail">
+                        Predicted revenue from a customer over their lifetime.
+                        • Formula: ARPU × Gross Margin × Customer Lifetime
+                        • Customer Lifetime = 1 / Monthly Churn Rate
+                        • Simplified: LTV = ARPU × Gross Margin / Monthly Churn
+                        • Gross margin matters: High-margin products have higher LTV
+                        • Expansion revenue: Include expected upgrades and cross-sells
+                        • Segment LTV: Enterprise LTV is often 10x self-serve LTV
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. LTV/CAC Ratio</div>
+                    <div class="pillar-detail">
+                        The ultimate unit economics health check.
+                        • Formula: LTV / CAC
+                        • < 1: You're losing money on every customer (unsustainable)
+                        • 1-3: Marginal — might work with great retention and low churn
+                        • 3-5: Healthy — room to invest in growth
+                        • 5+: Excellent — you can aggressively scale acquisition
+                        • Target: 3+ for sustainable SaaS growth
+                        • Higher is not always better: LTV/CAC of 10 might mean you're underinvesting in growth
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Payback Period</div>
+                    <div class="pillar-detail">
+                        Months to recover CAC from customer revenue.
+                        • Formula: CAC / (ARPU × Gross Margin)
+                        • < 6 months: Excellent — fast cash recovery
+                        • 6-12 months: Good — standard for SaaS
+                        • 12-18 months: Marginal — requires capital to fund growth
+                        • 18+ months: Risky — high chance of churn before payback
+                        • Target: 12 months or less
+                        • Cash flow impact: Longer payback = more capital required
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Gross Margin</div>
+                    <div class="pillar-detail">
+                        Revenue minus direct costs to serve customers.
+                        • Formula: (Revenue - COGS) / Revenue
+                        • COGS includes: Hosting, CDN, payment processing, support, infrastructure
+                        • Does not include: R&D, sales, marketing, G&A
+                        • SaaS target: 70-90% gross margin
+                        • Low margin: < 50% (harder to achieve profitability)
+                        • High margin: 85%+ (more cash for growth)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Additional Economics Metrics</h2>
+                
+                <p><strong>1. Net Revenue Retention (NRR):</strong></p>
+                
+                <p>• Formula: Starting MRR + Expansion - Contraction - Churn
+                • > 100%: Revenue grows from existing customers without new sales
+                • 100-110%: Healthy expansion
+                • 110-130%: Strong (top quartile)
+                • 130%+: Exceptional (Snowflake, Datadog)
+                • Expansion is the best growth — it's high margin and predictable</p>
+                
+                <p><strong>2. Magic Number:</strong></p>
+                
+                <p>• Formula: Net New ARR / Prior Quarter S&M Spend
+                • > 1.5: Excellent — efficient growth
+                • 0.75-1.5: Good — invest more in sales and marketing
+                • 0.5-0.75: Marginal — improve before scaling
+                • < 0.5: Unhealthy — fix unit economics first
+                • Used by VCs to evaluate SaaS efficiency</p>
+                
+                <p><strong>3. Rule of 40:</strong></p>
+                
+                <p>• Formula: Growth Rate + Profit Margin ≥ 40%
+                • Example: 30% growth + 15% margin = 45% (pass)
+                • Example: 50% growth + (-20%) margin = 30% (fail)
+                • Balances growth and profitability
+                • Used by investors to value SaaS companies
+                • Early-stage: Focus on growth; late-stage: Focus on profitability</p>
+                
+                <p><strong>4. Burn Multiple:</strong></p>
+                
+                <p>• Formula: Net Burn / Net New ARR
+                • < 1: Efficient — less than $1 burned for each $1 ARR added
+                • 1-1.5: Good — reasonable burn for growth
+                • 1.5-2: Marginal — expensive growth
+                • > 2: Inefficient — too much burn for too little growth
+                • Trend: Track monthly to see if efficiency is improving</p>
+            </div>
+            
+            <div class="section">
+                <h2>Unit Economics by Stage</h2>
+                
+                <p><strong>Seed ($0-1M ARR):</strong></p>
+                
+                <p>• Focus: Product-market fit, not unit economics
+                • CAC: Often undefined (founder-led sales)
+                • LTV: Hard to predict with limited data
+                • Churn: Likely high as you iterate on ICP
+                • Goal: Find 10 customers who love you, then measure</p>
+                
+                <p><strong>Series A ($1-10M ARR):</strong></p>
+                
+                <p>• Focus: Prove repeatable acquisition and positive unit economics
+                • LTV/CAC: Target 3+ with 12-month payback
+                • Churn: Reduce to < 5% monthly for SMB, < 2% for enterprise
+                • NRR: Target 100%+ (expansion offsetting churn)
+                • Goal: Show that $1 of S&M spend returns $3+ in LTV</p>
+                
+                <p><strong>Series B+ ($10M+ ARR):</strong></p>
+                
+                <p>• Focus: Scale efficiently, improve margins, prove profitability path
+                • LTV/CAC: 5+ with clear expansion mechanics
+                • Payback: 6-12 months
+                • NRR: 110%+ (net negative churn)
+                • Rule of 40: Target 40%+
+                • Goal: Capital-efficient growth with clear path to profitability</p>
+            </div>
+            
+            <div class="section">
+                <h2>Improving Unit Economics</h2>
+                
+                <p><strong>1. Reduce CAC:</strong></p>
+                
+                <p>• Organic channels: SEO, content, referrals, viral loops
+                • Conversion optimization: Better landing pages, onboarding, trials
+                • Sales efficiency: Reduce sales cycle, increase win rate
+                • Channel mix: Shift spend to lower-CAC channels
+                • Product-led growth: Let product sell itself, reduce sales touch</p>
+                
+                <p><strong>2. Increase LTV:</strong></p>
+                
+                <p>• Reduce churn: Better onboarding, proactive support, product stickiness
+                • Increase pricing: Value-based pricing, annual contracts, price increases
+                • Expand revenue: Upsells, cross-sells, usage-based pricing
+                • Extend lifetime: Annual contracts, multi-year deals, auto-renewal
+                • Improve margin: Optimize infrastructure, reduce COGS</p>
+                
+                <p><strong>3. Shorten payback:</strong></p>
+                
+                <p>• Annual prepay: Offer 15-20% discount for annual payment
+                • Trial optimization: Increase trial-to-paid conversion
+                • Faster time-to-value: Reduce onboarding friction
+                • Self-serve: Reduce sales touch for smaller deals
+                • Usage-based: Revenue starts immediately, not after sales cycle</p>
+            </div>
+            
+            <div class="section">
+                <h2>Unit Economics Mistakes</h2>
+                
+                <p><strong>1. Ignoring gross margin:</strong> LTV calculations that don't include COGS. A $100/month product with 50% margin is very different from one with 85% margin.</p>
+                
+                <p><strong>2. Using revenue instead of margin:</strong> LTV should use contribution margin, not top-line revenue. What matters is profit, not revenue.</p>
+                
+                <p><strong>3. Overestimating lifetime:</strong> Assuming 5-year customer lifetimes when data shows 18 months. Use actual cohort data, not aspirations.</p>
+                
+                <p><strong>4. No cohort analysis:</strong> Averaging all customers together. Enterprise and SMB have wildly different unit economics. Segment and analyze separately.</p>
+                
+                <p><strong>5. Static analysis:</strong> Calculating unit economics once and never updating. These metrics change monthly as you scale, iterate, and compete.</p>
+                
+                <p><strong>6. Ignoring payback period:</strong> Focusing only on LTV/CAC without considering cash flow. A 3-year payback with high churn means you never recover CAC.</p>
+                
+                <p><strong>7. No expansion in LTV:</strong> Calculating LTV based on current ARR without expected upgrades. NRR > 100% dramatically changes the math.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Unit Economics Checklist</h2>
+                
+                <p>☐ CAC calculated by channel and segment
+                ☐ LTV calculated with gross margin and actual churn data
+                ☐ LTV/CAC ratio > 3
+                ☐ Payback period < 12 months
+                ☐ Gross margin > 70%
+                ☐ Net Revenue Retention > 100%
+                ☐ Cohort retention curves analyzed
+                ☐ Churn rate by segment tracked
+                ☐ Expansion revenue as % of total tracked
+                ☐ Magic Number calculated monthly
+                ☐ Rule of 40 tracked quarterly
+                ☐ Burn Multiple tracked monthly
+                ☐ Unit economics dashboard live
+                ☐ Monthly unit economics review scheduled
+                ☐ CAC reduction experiments planned
+                ☐ LTV improvement experiments planned
+                ☐ Payback period optimization active
+                ☐ Annual prepay discount offered
+                ☐ Cohort-based LTV analysis completed
+                ☐ Competitive unit economics benchmarked</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Unit Economics Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with calculation templates, benchmarks by stage, and optimization playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('unitEconomicsEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

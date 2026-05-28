@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Komi — SaaS Engineering & Payment Recovery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        nav {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover { color: #e2e8f0; }
+        
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .cta-secondary {
+            display: inline-block;
+            padding: 16px 40px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-left: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .services {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .service-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 40px 32px;
+        }
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .service-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .service-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .price-note {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        .portfolio {
+            padding: 80px 0;
+            background: #080808;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .portfolio-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .portfolio-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .portfolio-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .portfolio-card a {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: inline-block;
+        }
+        
+        .stats {
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .contact {
+            padding: 100px 0;
+            text-align: center;
+        }
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .contact p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .email-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .cta-secondary { margin-left: 0; margin-top: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Komi</div>
+                <div class="nav-links">
+                    <a href="#services">Services</a>
+                    <a href="#portfolio">Work</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>SaaS Engineering <span>for Founders</span></h1>
+            <p>I build payment recovery systems, Stripe integrations, and SaaS MVPs. Solo-founder speed, enterprise quality.</p>
+            <a href="#contact" class="cta-button">Start a Project</a>
+            <a href="#portfolio" class="cta-secondary">See My Work</a>
+        </div>
+    </section>
+    
+    <section class="stats">
+        <div class="container">
+            <div>
+                <div class="stat-value">138+</div>
+                <div class="stat-label">Tools Built</div>
+            </div>
+            <div>
+                <div class="stat-value">13</div>
+                <div class="stat-label">Live Repos</div>
+            </div>
+            <div>
+                <div class="stat-value">$185K</div>
+                <div class="stat-label">Recoverable Revenue Modeled</div>
+            </div>
+            <div>
+                <div class="stat-value">48h</div>
+                <div class="stat-label">MVP Delivery</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Stripe Audit</h3>
+                    <p>Complete audit of your Stripe setup. Find failed payments, optimize dunning, reduce churn. Full report with actionable fixes.</p>
+                    <div class="price">$299</div>
+                    <div class="price-note">one-time</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛡️</div>
+                    <h3>Payment Recovery Setup</h3>
+                    <p>Install a complete payment recovery engine on your Stripe account. Smart retries, dunning sequences, recovery dashboard.</p>
+                    <div class="price">$500</div>
+                    <div class="price-note">+ $99/mo maintenance</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>SaaS MVP</h3>
+                    <p>Full-stack SaaS MVP in 48 hours. React dashboard, Node.js backend, Stripe billing, auth, database. Ready to launch.</p>
+                    <div class="price">$2,000</div>
+                    <div class="price-note">starting price</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Selected Work</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <h4>SimpleRecover</h4>
+                    <p>Stripe payment recovery SaaS. Webhook engine, retry logic, dunning sequences, real-time dashboard. Full stack.</p>
+                    <a href="https://komi-projects.github.io/simple-recover-landing/" target="_blank">View Project →</a>
+                </div>
+                <div class="portfolio-card">
+                    <h4>SaaS Micro-Tools</h4>
+                    <p>138+ free calculators for SaaS founders. Churn, LTV, CAC, MRR, unit economics, viral coefficient, and more.</p>
+                    <a href="https://komi-projects.github.io/saas-micro-tools/" target="_blank">View Tools →</a>
+                </div>
+                <div class="portfolio-card">
+                    <h4>Stripe Audit Service</h4>
+                    <p>Automated Stripe audit landing page with 3 cold outreach templates. Lead generation for payment recovery.</p>
+                    <a href="https://komi-projects.github.io/stripe-audit-service/" target="_blank">View Service →</a>
+                </div>
+                <div class="portfolio-card">
+                    <h4>Nostr Bot</h4>
+                    <p>Automated social media posting bot. 7-day content calendar, multi-relay publishing, hashtag optimization.</p>
+                    <a href="https://github.com/komi-projects/nostr-bot" target="_blank">View Code →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Let's Build Something</h2>
+            <p>Tell me what you're working on. I'll reply within 24 hours.</p>
+            <a href="mailto:komi54666@gmail.com" class="email-link">komi54666@gmail.com</a>
+            <p style="margin-top: 24px; color: #64748b; font-size: 0.9rem;">Or DM me on Nostr: npub1komi...</p>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>Built by Komi — SaaS engineer for founders who ship fast.</p>
+        </div>
+    </footer>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

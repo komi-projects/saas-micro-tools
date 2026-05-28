@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Data Analytics Guide — Free Download</title>
+    <meta name="description" content="Free SaaS data analytics guide. Collect, analyze, and act on data to make better product and business decisions.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .analytics {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Data Analytics</h1>
+            <p class="subtitle">Collect, analyze, and act on data for better decisions.</p>
+        </div>
+        
+        <div class="analytics">
+            <div class="section">
+                <h2>Why Data Analytics is Critical</h2>
+                
+                <p>In SaaS, intuition is a terrible substitute for data. "I think users want this feature" leads to wasted engineering months. "The data shows 80% of churned users never tried feature X" leads to a focused onboarding fix that cuts churn by 20%.</p>
+                
+                <p>Data analytics transforms opinions into evidence. It reveals patterns invisible to human observation. It validates assumptions before you invest. And it measures impact after you ship. Companies that make data-driven decisions grow faster, waste less, and build products people actually want.</p>
+                
+                <p>This guide covers how to collect the right data, analyze it effectively, and build a culture where data drives decisions.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Data Collection</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Product Analytics</div>
+                    <div class="pillar-detail">
+                        Track what users do in your product.
+                        • Events: Page views, clicks, feature usage, errors
+                        • User properties: Signup date, plan, industry, role
+                        • Session data: Duration, frequency, device, location
+                        • Funnels: Signup → Activation → Retention → Revenue
+                        • Cohorts: Group users by signup date, source, or behavior
+                        • Tools: Mixpanel, Amplitude, Heap, Pendo
+                        • Implementation: Event tracking via SDK or API
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Business Analytics</div>
+                    <div class="pillar-detail">
+                        Track revenue, costs, and financial health.
+                        • Revenue: MRR, ARR, expansion, churn, NRR
+                        • Customers: Count, segments, lifecycle stage, health score
+                        • Sales: Pipeline, conversion rates, deal size, cycle length
+                        • Costs: CAC, COGS, burn rate, runway
+                        • Tools: ChartMogul, Baremetrics, Stripe analytics, ProfitWell
+                        • Data source: CRM, billing system, accounting software
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Marketing Analytics</div>
+                    <div class="pillar-detail">
+                        Track acquisition and campaign performance.
+                        • Traffic: Visitors, sources, channels, campaigns
+                        • Conversion: Lead → MQL → SQL → Opportunity → Customer
+                        • Attribution: Which touchpoints drive conversions?
+                        • Engagement: Email opens, click-through rates, content performance
+                        • ROI: Cost per lead, CAC by channel, ROAS
+                        • Tools: Google Analytics, HubSpot, Marketo, Google Ads, Facebook Pixel
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Customer Analytics</div>
+                    <div class="pillar-detail">
+                        Track satisfaction, feedback, and support.
+                        • Surveys: NPS, CSAT, CES, product-market fit
+                        • Support: Ticket volume, resolution time, satisfaction
+                        • Feedback: Feature requests, bug reports, qualitative interviews
+                        • Sentiment: Social media, reviews, community discussions
+                        • Tools: Typeform, Delighted, Zendesk, Intercom, Brand24
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">5. Operational Analytics</div>
+                    <div class="pillar-detail">
+                        Track system health and performance.
+                        • Uptime: Availability, response times, error rates
+                        • Performance: API latency, database queries, page load times
+                        • Infrastructure: CPU, memory, disk usage, costs
+                        • Security: Login attempts, access patterns, anomalies
+                        • Tools: Datadog, New Relic, Grafana, Prometheus, PagerDuty
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Analysis Frameworks</h2>
+                
+                <p><strong>1. Cohort Analysis:</strong></p>
+                
+                <p>• Group users by a shared characteristic (signup date, acquisition channel, plan type)
+                • Track each cohort's behavior over time (retention, revenue, feature adoption)
+                • Compare cohorts: Are newer users retaining better or worse?
+                • Identify trends: What changed in March that improved April's cohort?
+                • Applications: Retention curves, LTV prediction, CAC payback by cohort
+                • Tools: Mixpanel, Amplitude, Excel, SQL</p>
+                
+                <p><strong>2. Funnel Analysis:</strong></p>
+                
+                <p>• Map the user journey: Signup → Activation → Engagement → Revenue → Retention
+                • Measure conversion at each step: What % advance from stage to stage?
+                • Identify drop-offs: Where do users get stuck or leave?
+                • Test fixes: A/B test changes at the biggest drop-off points
+                • Segment funnels: Compare funnels by channel, persona, or device
+                • Applications: Onboarding optimization, sales process improvement, feature adoption</p>
+                
+                <p><strong>3. Segmentation:</strong></p>
+                
+                <p>• Divide users into meaningful groups for targeted analysis
+                • Demographic: Company size, industry, geography, role
+                • Behavioral: Power users, casual users, at-risk users, champions
+                • Acquisition: Organic, paid, referral, partner
+                • Engagement: Daily active, weekly active, monthly active, dormant
+                • Value: High LTV, low LTV, expansion candidates, churn risks
+                • Applications: Personalized marketing, targeted interventions, product prioritization</p>
+                
+                <p><strong>4. Correlation and Causation:</strong></p>
+                
+                <p>• Correlation: "Users who do X are more likely to do Y"
+                • Causation: "Changing X causes Y to change" (requires experimentation)
+                • A/B testing: The gold standard for proving causation
+                • Multivariate analysis: Controlling for confounding variables
+                • Regression: Predicting outcomes based on multiple factors
+                • Applications: Identifying activation events, churn predictors, expansion signals</p>
+                
+                <p><strong>5. Predictive Analytics:</strong></p>
+                
+                <p>• Churn prediction: Which customers are likely to cancel?
+                • LTV prediction: How much will a customer generate over their lifetime?
+                • Lead scoring: Which prospects are most likely to convert?
+                • Demand forecasting: How much capacity will we need next quarter?
+                • Applications: Proactive retention, sales prioritization, capacity planning
+                • Tools: Python (scikit-learn, TensorFlow), R, BigQuery ML, custom models</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Tools</h2>
+                
+                <p><strong>Product analytics:</strong></p>
+                
+                <p>• <strong>Mixpanel:</strong> Event-based analytics, funnels, cohorts, A/B testing
+                • <strong>Amplitude:</strong> Behavioral analytics, user journeys, retention analysis
+                • <strong>Heap:</strong> Auto-capture all events, retroactive analysis
+                • <strong>Pendo:</strong> Analytics + in-app guidance and surveys
+                • <strong>FullStory:</strong> Session replay + analytics
+                • <strong>LogRocket:</strong> Session replay for web apps with error tracking</p>
+                
+                <p><strong>Business intelligence:</strong></p>
+                
+                <p>• <strong>Tableau:</strong> Enterprise BI, powerful visualizations
+                • <strong>Looker:</strong> Data modeling + visualization, Git-integrated
+                • <strong>Power BI:</strong> Microsoft ecosystem, affordable
+                • <strong>Metabase:</strong> Open-source, SQL-based, self-hosted
+                • <strong>Google Data Studio (Looker Studio):</strong> Free, Google-native
+                • <strong>Mode Analytics:</strong> SQL + Python/R for advanced analysis</p>
+                
+                <p><strong>Data infrastructure:</strong></p>
+                
+                <p>• <strong>Snowflake:</strong> Cloud data warehouse, scalable
+                • <strong>BigQuery:</strong> Google Cloud data warehouse, serverless
+                • <strong>Redshift:</strong> AWS data warehouse
+                • <strong>dbt:</strong> Data transformation, SQL-based modeling
+                • <strong>Fivetran / Stitch:</strong> Data pipeline automation (ETL)
+                • <strong>Airbyte:</strong> Open-source data integration</p>
+            </div>
+            
+            <div class="section">
+                <h2>Building a Data Culture</h2>
+                
+                <p><strong>1. Data accessibility:</strong></p>
+                
+                <p>• Democratize data: Everyone should access metrics relevant to their role
+                • Self-serve: Tools and training so teams can answer their own questions
+                • Dashboards: Real-time visibility into key metrics for every team
+                • Documentation: Clear definitions, sources, and caveats for each metric
+                • Data requests: Process for requesting new data or analysis</p>
+                
+                <p><strong>2. Decision-making with data:</strong></p>
+                
+                <p>• Hypothesis-driven: "We believe X. If true, we'll see Y in the data."
+                • Pre-mortems: "What would the data look like if this feature failed?"
+                • Post-launch analysis: "What happened after we shipped? Did it work?"
+                • Counter-arguments: "What data would prove us wrong?" (avoid confirmation bias)
+                • No data = no decision: If you can't measure it, don't prioritize it</p>
+                
+                <p><strong>3. Data quality:</strong></p>
+                
+                <p>• Ownership: Each metric has an owner who validates accuracy
+                • Testing: Data pipelines should have automated tests for accuracy
+                • Monitoring: Alerts when data freshness or quality degrades
+                • Documentation: Data dictionary, schema documentation, lineage tracking
+                • Governance: Who can access what data? How is sensitive data handled?</p>
+                
+                <p><strong>4. Analytics team:</strong></p>
+                
+                <p>• Data analysts: Answer business questions, build reports, support teams
+                • Data engineers: Build and maintain data pipelines and infrastructure
+                • Data scientists: Predictive models, advanced statistics, ML
+                • Analytics manager: Prioritize requests, maintain data quality, evangelize data culture
+                • Embedded analysts: One analyst per major team (product, marketing, sales)</p>
+            </div>
+            
+            <div class="section">
+                <h2>Analytics Mistakes</h2>
+                
+                <p><strong>1. Analysis paralysis:</strong> Collecting data forever without acting. Data is only valuable if it drives decisions. Set deadlines for analysis and commit to action.</p>
+                
+                <p><strong>2. Vanity metrics:</strong> Tracking "total signups" without conversion rate. "Total revenue" without churn. "Page views" without engagement. Metrics should drive action, not ego.</p>
+                
+                <p><strong>3. Correlation = causation:</strong> "Users who do X retain better" doesn't mean X causes retention. Maybe retained users naturally do X. Test with experiments before building.</p>
+                
+                <p><strong>4. Ignoring qualitative data:</strong> Numbers tell you what. Interviews tell you why. Both are necessary. A churned user's interview reveals what cohort analysis never will.</p>
+                
+                <p><strong>5. Data silos:</strong> Marketing has their data, product has theirs, finance has theirs. Nobody sees the full picture. Centralize data and create cross-functional dashboards.</p>
+                
+                <p><strong>6. No baseline:</strong> "We improved activation by 20%!" Great — from what baseline? And what was the control? Always measure against a baseline or control group.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Data Analytics Checklist</h2>
+                
+                <p>☐ Data collection plan defined (events, properties, sources)
+                ☐ Product analytics implemented (events tracking live)
+                ☐ Business analytics connected (revenue, customers, sales)
+                ☐ Marketing analytics configured (attribution, conversion, ROI)
+                ☐ Customer analytics active (surveys, support, feedback)
+                ☐ Operational analytics monitoring (uptime, performance, errors)
+                ☐ Data warehouse established (centralized storage)
+                ☐ ETL pipelines built (automated data ingestion)
+                ☐ Data transformation layer (dbt or equivalent)
+                ☐ Dashboards created for each team (executive, growth, product, CS, sales)
+                ☐ Cohort analysis process established
+                ☐ Funnel analysis configured for key journeys
+                ☐ Segmentation taxonomy defined
+                ☐ A/B testing framework implemented
+                ☐ Predictive models built (churn, LTV, lead scoring)
+                ☐ Data dictionary documented
+                ☐ Data quality monitoring active
+                ☐ Self-serve analytics training completed
+                ☐ Analytics team structure defined
+                ☐ Weekly analytics review meeting scheduled
+                ☐ Monthly deep-dive analysis cadence established
+                ☐ Data-driven decision-making framework adopted</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Data Analytics Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with analytics frameworks, tool evaluations, and data culture playbooks.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('dataAnalyticsEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

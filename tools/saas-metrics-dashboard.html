@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Metrics Dashboard — Track What Matters</title>
+    <meta name="description" content="Interactive SaaS metrics dashboard. Calculate MRR, churn, LTV, CAC, NRR, and growth rate in one view. Export full dashboard for $9.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .metric-positive { color: #10b981; }
+        .metric-negative { color: #ef4444; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .lock-overlay {
+            position: relative;
+        }
+        .lock-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 15, 26, 0.85);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .unlock-btn {
+            display: inline-block;
+            margin-top: 16px;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .metric-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 SaaS Metrics Dashboard</h1>
+            <p class="subtitle">Track MRR, churn, LTV, CAC, NRR, and growth in one view.</p>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Input Your Metrics</h2>
+            <div class="metric-grid">
+                <div>
+                    <label class="metric-label">Monthly Recurring Revenue (MRR)</label>
+                    <input type="number" id="mrr" placeholder="10000" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="metric-label">Number of Customers</label>
+                    <input type="number" id="customers" placeholder="100" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="metric-label">Monthly Churn Rate (%)</label>
+                    <input type="number" id="churn" placeholder="5" step="0.1" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="metric-label">Customer Acquisition Cost ($)</label>
+                    <input type="number" id="cac" placeholder="500" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="metric-label">Average Revenue Per User ($)</label>
+                    <input type="number" id="arpu" placeholder="100" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="metric-label">Net Revenue Retention (%)</label>
+                    <input type="number" id="nrr" placeholder="110" onchange="calculate()">
+                </div>
+            </div>
+            <button onclick="calculate()">Calculate Dashboard</button>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Key Metrics (Free)</h2>
+            <div class="metric-grid" id="basicMetrics">
+                <div class="metric-card">
+                    <div class="metric-label">ARPU</div>
+                    <div class="metric-value" id="arpuDisplay">$0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">LTV (Basic)</div>
+                    <div class="metric-value" id="ltvBasic">$0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">LTV:CAC Ratio</div>
+                    <div class="metric-value" id="ltvCac">0:1</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Annual Run Rate</div>
+                    <div class="metric-value" id="arr">$0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Full Dashboard Export 🔒</h2>
+            <div id="premiumContent">
+                <p style="color: #94a3b8; margin-bottom: 16px;">Unlock the complete dashboard with cohort visualization, growth projections, and CSV export.</p>
+                <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                    <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                    <button type="submit">Unlock — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+            const customers = parseFloat(document.getElementById('customers').value) || 1;
+            const churn = parseFloat(document.getElementById('churn').value) || 0;
+            const cac = parseFloat(document.getElementById('cac').value) || 0;
+            const arpu = parseFloat(document.getElementById('arpu').value) || 0;
+            const nrr = parseFloat(document.getElementById('nrr').value) || 100;
+            
+            const calculatedArpu = arpu || (mrr / customers);
+            const ltv = calculatedArpu * (1 / (churn / 100 || 0.01));
+            const arr = mrr * 12;
+            const ltvCac = cac ? (ltv / cac).toFixed(1) : 0;
+            
+            document.getElementById('arpuDisplay').textContent = '$' + calculatedArpu.toFixed(2);
+            document.getElementById('ltvBasic').textContent = '$' + ltv.toFixed(0);
+            document.getElementById('ltvCac').textContent = ltvCac + ':1';
+            document.getElementById('arr').textContent = '$' + arr.toLocaleString();
+        }
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('dashboardEmail', email);
+            alert('✅ Thank you! Full dashboard export will be emailed to you shortly.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

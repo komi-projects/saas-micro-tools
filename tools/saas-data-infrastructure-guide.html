@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Data Infrastructure Guide — Free Download</title>
+    <meta name="description" content="Free SaaS data infrastructure guide. Build scalable data pipelines, choose the right database, and ensure your product can handle growth.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .data {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .stack-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .stack-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .stack-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Data Infrastructure</h1>
+            <p class="subtitle">Build scalable data pipelines. Handle growth without breaking.</p>
+        </div>
+        
+        <div class="data">
+            <div class="section">
+                <h2>SaaS Data Stack</h2>
+                
+                <p>SaaS products generate massive amounts of data: user events, transactions, analytics, logs, and more. Your data infrastructure must handle growth without requiring constant rewrites.</p>
+                
+                <p><strong>The modern SaaS data stack:</strong></p>
+                
+                <div class="stack-box">
+                    <div class="stack-name">📊 Application Database</div>
+                    <div class="stack-detail">PostgreSQL for relational data. Flexible, reliable, supports JSON. Good for 99% of SaaS apps. When you outgrow single-node Postgres, add read replicas or shard.</div>
+                </div>
+                
+                <div class="stack-box">
+                    <div class="stack-name">📈 Analytics/Event Store</div>
+                    <div class="stack-detail">ClickHouse, BigQuery, or Snowflake for high-volume events. Separate from application DB to avoid slowing down user-facing queries. Events → Kafka/Redpanda → Data warehouse.</div>
+                </div>
+                
+                <div class="stack-box">
+                    <div class="stack-name">⚡ Cache Layer</div>
+                    <div class="stack-detail">Redis for hot data: sessions, rate limits, leaderboards, real-time features. Reduces DB load by 80-90% for read-heavy workloads.</div>
+                </div>
+                
+                <div class="stack-box">
+                    <div class="stack-name">🔍 Search</div>
+                    <div class="stack-detail">Elasticsearch or Meilisearch for full-text search. Don't query Postgres with LIKE '%term%' — it's slow and doesn't scale. Sync data via change data capture (CDC).</div>
+                </div>
+                
+                <div class="stack-box">
+                    <div class="stack-name">📁 Object Storage</div>
+                    <div class="stack-detail">S3, R2, or MinIO for files, images, exports. Cheap, infinite scale, CDN-compatible. Never store user uploads on local disk.</div>
+                </div>
+                
+                <div class="stack-box">
+                    <div class="stack-name">📡 Message Queue</div>
+                    <div class="stack-detail">Redis, RabbitMQ, or Kafka for async jobs: emails, webhooks, exports, reports. Decouples heavy work from user requests. Prevents timeouts and improves UX.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Database Scaling Strategy</h2>
+                
+                <p><strong>Phase 1 (0-1K users):</strong> Single-node Postgres. One app server. One Redis instance. Keep it simple.</p>
+                
+                <p><strong>Phase 2 (1K-10K users):</strong> Add read replicas for reporting. Add Redis for caching. Move long jobs to queues. Add CDN for static assets.</p>
+                
+                <p><strong>Phase 3 (10K-100K users):</strong> Shard by tenant (if multi-tenant) or by user ID. Add connection pooling (PgBouncer). Move analytics to separate data warehouse. Implement CDC for search sync.</p>
+                
+                <p><strong>Phase 4 (100K+ users):</strong> Consider specialized databases per workload. CockroachDB or Spanner for global distribution. Kafka for event streaming. Data lake for ML training data.</p>
+                
+                <p><strong>Rule:</strong> Don't optimize for Phase 4 when you're at Phase 1. But architect so Phase 2 is easy. Multi-tenancy, connection pooling, and queue-based jobs from day one.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Data Architecture Patterns</h2>
+                
+                <p><strong>1. Event Sourcing:</strong> Store events, not state. "User signed up," "User upgraded," "User churned." Reconstruct any state by replaying events. Audit-friendly, scalable, complex.</p>
+                
+                <p><strong>2. CQRS (Command Query Responsibility Segregation):</strong> Separate write and read models. Writes go to transactional DB. Reads go to optimized views (Redis, Elasticsearch, materialized views). Complex but powerful for read-heavy apps.</p>
+                
+                <p><strong>3. Multi-Tenancy:</strong> Shared database, shared schema with tenant_id column. Or shared database, separate schema per tenant. Or separate database per tenant. Tradeoffs: cost vs. isolation vs. complexity.</p>
+                
+                <p><strong>4. Change Data Capture (CDC):</strong> Stream database changes to other systems. Postgres → Debezium → Kafka → Elasticsearch/warehouse. Real-time sync without polling.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Data Security & Compliance</h2>
+                
+                <p><strong>Encryption:</strong> At rest (AES-256) and in transit (TLS 1.3). Non-negotiable. Use managed keys (AWS KMS, Google Cloud KMS) for key rotation.</p>
+                
+                <p><strong>Access control:</strong> Role-based access control (RBAC) for internal tools. Audit logs for all data access. Principle of least privilege: employees get minimum access needed.</p>
+                
+                <p><strong>GDPR/CCPA:</strong> Right to access, right to deletion, right to portability. Build these into your data model from day one. "Hard delete" vs. "soft delete." Data retention policies. Consent tracking.</p>
+                
+                <p><strong>SOC 2 / ISO 27001:</strong> Security policies, access reviews, incident response, penetration testing. Required for enterprise SaaS. Start documenting practices early — auditors love paper trails.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Data Infrastructure Metrics</h2>
+                
+                <p>• <strong>Query response time:</strong> P95 < 200ms for user-facing queries.<br>
+                • <strong>Database CPU:</strong> < 70% sustained. Spike to 90% during batch jobs is okay.<br>
+                • <strong>Cache hit rate:</strong> > 80% for Redis. Lower = missing opportunities.<br>
+                • <strong>Queue depth:</strong> Near-zero most of the time. Growing queue = workers can't keep up.<br>
+                • <strong>Replication lag:</strong> < 1 second for read replicas. Higher = stale data.<br>
+                • <strong>Storage growth:</strong> Track month-over-month. Plan capacity 3 months ahead.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Data Infrastructure Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with architecture patterns, scaling playbooks, and security checklists.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('dataInfrastructureEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

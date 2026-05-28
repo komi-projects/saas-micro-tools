@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Security Guide — Protect Your Product and Customers</title>
+    <meta name="description" content="Free SaaS security guide. Implement security from day one with authentication, authorization, data protection, and vulnerability management.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .security {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .example-title {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .example-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Security</h1>
+            <p class="subtitle">Protect your product, your customers, and your reputation.</p>
+        </div>
+        
+        <div class="security">
+            <div class="section">
+                <h2>Security is Not a Feature — It's the Foundation</h2>
+                
+                <p>In SaaS, security breaches don't just cost money — they destroy trust. One leaked customer database, one unauthorized access, one ransomware attack, and your reputation is damaged for years. Security isn't something you bolt on later; it's something you build in from day one, layer by layer, until it becomes part of your culture.</p>
+                
+                <p>The best SaaS companies treat security as a competitive advantage. They publish security whitepapers, share penetration test results, maintain bug bounty programs, and build trust through transparency. Their customers sleep better knowing their data is protected by people who take it seriously.</p>
+                
+                <p>This guide covers the essential security practices every SaaS company needs — from authentication to encryption to incident response. Not everything applies on day one, but knowing the full picture helps you build incrementally toward a secure product.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Authentication & Authorization</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Password Security</div>
+                    <div class="pillar-detail">
+                        Don't roll your own — use proven methods.
+                        • Hashing: bcrypt, scrypt, or Argon2 (never MD5, SHA1, or plain text)
+                        • Salting: Unique salt per password, stored with the hash
+                        • Complexity: Minimum 8 characters, but length > complexity (passphrases > passwords)
+                        • Breach detection: Check passwords against Have I Been Pwned database on signup
+                        • MFA: Enforce for admins, offer for all users (TOTP, WebAuthn, SMS fallback)
+                        • Password resets: Secure tokens (random, time-limited, single-use), sent via email
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. Session Management</div>
+                    <div class="pillar-detail">
+                        Secure tokens, short lifetimes, proper revocation.
+                        • JWT: Signed (not encrypted), short expiry (15-60 min), refresh tokens for long sessions
+                        • Cookies: HttpOnly, Secure, SameSite=Strict, path=/
+                        • Session storage: Redis for server-side sessions, signed cookies for stateless
+                        • Revocation: Instant logout everywhere, session invalidation on password change
+                        • Idle timeout: 30 minutes of inactivity → re-authentication
+                        • Concurrent sessions: Limit or allow, but show active sessions to user
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Role-Based Access Control (RBAC)</div>
+                    <div class="pillar-detail">
+                        Define who can do what.
+                        • Roles: Owner, Admin, Member, Viewer (customize for your product)
+                        • Permissions: Granular (create, read, update, delete, export, invite)
+                        • Resources: What objects can they access? (own data, team data, org data)
+                        • Enforcement: Check permissions at API gateway AND service layer (defense in depth)
+                        • Default deny: If permission isn't explicitly granted, it's denied
+                        • Audit: Log every permission check failure (potential attack indicator)
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. OAuth & SSO</div>
+                    <div class="pillar-detail">
+                        Let customers use their identity provider.
+                        • OAuth 2.0: Standard for delegated authorization (Google, GitHub, Microsoft login)
+                        • SAML 2.0: Enterprise SSO (Okta, Azure AD, OneLogin)
+                        • OIDC: Modern standard built on OAuth 2.0, preferred for new implementations
+                        • SCIM: Automatic user provisioning/deprovisioning from identity provider
+                        • Security: Validate tokens properly, use PKCE for SPA/mobile, verify state parameter
+                        • UX: "Sign in with Google" reduces friction, SSO reduces IT friction
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Data Protection</h2>
+                
+                <p><strong>1. Encryption at rest:</strong></p>
+                
+                <p>• Database: Enable TDE (Transparent Data Encryption) or disk-level encryption
+                • Files: Encrypt uploads before storing (AES-256)
+                • Backups: Encrypt all backups, test restore procedures regularly
+                • Keys: Use KMS (AWS KMS, Google Cloud KMS, Azure Key Vault) — don't hardcode keys
+                • Key rotation: Automatic rotation every 90 days for managed keys</p>
+                
+                <p><strong>2. Encryption in transit:</strong></p>
+                
+                <p>• TLS 1.2+ everywhere: No HTTP, ever. HSTS headers with long max-age.
+                • Certificate management: Automated with Let's Encrypt or managed certs
+                • API security: mTLS for service-to-service communication in microservices
+                • Internal traffic: Encrypt even internal service communication (zero trust)
+                • Downgrade prevention: TLS 1.3 where possible, disable weak cipher suites</p>
+                
+                <p><strong>3. Data classification:</strong></p>
+                
+                <p>• Public: Marketing content, pricing, documentation
+                • Internal: System configs, non-sensitive logs
+                • Confidential: Customer data, business metrics, API keys
+                • Restricted: PII, payment data, health records (PCI, HIPAA)
+                • Labeling: Tag data by classification, apply controls accordingly</p>
+                
+                <p><strong>4. Data retention & deletion:</strong></p>
+                
+                <p>• Retention policy: Define how long you keep each data type
+                • Automated deletion: Cron jobs or lifecycle policies for old data
+                • Right to deletion: GDPR Article 17 — delete user data on request within 30 days
+                • Backup cleanup: Ensure deleted data doesn't persist in backups forever
+                • Audit: Log all deletions for compliance</p>
+            </div>
+            
+            <div class="section">
+                <h2>Vulnerability Management</h2>
+                
+                <p><strong>1. Dependency scanning:</strong></p>
+                
+                <p>• Automated: Snyk, Dependabot, GitHub Advanced Security
+                • CI/CD integration: Block builds with critical/high vulnerabilities
+                • Update cadence: Weekly review of new vulnerabilities, monthly updates
+                • Pin versions: Lock files (package-lock.json, yarn.lock, poetry.lock) for reproducibility</p>
+                
+                <p><strong>2. Static analysis:</strong></p>
+                
+                <p>• SAST tools: SonarQube, CodeQL, Semgrep
+                • Rules: SQL injection, XSS, insecure deserialization, hardcoded secrets
+                • Integration: Pre-commit hooks and CI checks
+                • False positives: Tune rules to reduce noise, but don't disable security rules</p>
+                
+                <p><strong>3. Penetration testing:</strong></p>
+                
+                <p>• Annual: Hire external security firm for full penetration test
+                • Quarterly: Internal security review of new features
+                • Bug bounty: HackerOne, Bugcrowd, or self-managed program
+                • Scope: Define what's in scope (web app, API, mobile) and out of scope
+                • Remediation: 30-day SLA for critical, 90-day for high findings</p>
+                
+                <p><strong>4. Infrastructure security:</strong></p>
+                
+                <p>• Network: VPC, security groups, no public databases
+                • Containers: Non-root users, minimal base images, vulnerability scanning
+                • Secrets: Vault, AWS Secrets Manager, or 1Password — never in code or env vars in repos
+                • IAM: Least privilege, no shared credentials, MFA for all admin access
+                • Patching: Automated OS patching, container image updates monthly</p>
+            </div>
+            
+            <div class="section">
+                <h2>Incident Response</h2>
+                
+                <p><strong>1. Preparation:</strong></p>
+                
+                <p>• Incident response plan: Documented, tested, reviewed quarterly
+                • Response team: Primary, secondary, and executive contacts
+                • Communication templates: Customer notification, status page update, regulatory notice
+                • Forensics: Logging configured for investigation (audit logs, access logs, change logs)
+                • Insurance: Cyber liability insurance with appropriate coverage limits</p>
+                
+                <p><strong>2. Detection:</strong></p>
+                
+                <p>• Automated: SIEM rules, anomaly detection, threshold alerts
+                • Manual: Customer reports, employee reports, security researcher reports
+                • Triage: Classify severity (P0 data breach, P1 unauthorized access, P2 suspicious activity)
+                • Escalation: Who to wake up, when, and how</p>
+                
+                <p><strong>3. Response:</strong></p>
+                
+                <p>• Contain: Isolate affected systems, revoke compromised credentials, block malicious IPs
+                • Eradicate: Remove attacker access, patch vulnerabilities, rotate keys
+                • Recover: Restore from clean backups, verify system integrity, resume operations
+                • Communicate: Notify customers within 72 hours (GDPR), publish incident report</p>
+                
+                <p><strong>4. Post-incident:</strong></p>
+                
+                <p>• Postmortem: Timeline, root cause, impact assessment, lessons learned
+                • Action items: Specific, assigned, with deadlines
+                • Share: Publish redacted postmortem publicly (builds trust)
+                • Update: Revise incident response plan based on learnings</p>
+            </div>
+            
+            <div class="section">
+                <h2>Security Checklist</h2>
+                
+                <p>☐ Password hashing: bcrypt/scrypt/Argon2 with unique salts
+                ☐ MFA enforced for admins, offered for all users
+                ☐ Session management: secure, HttpOnly, SameSite cookies
+                ☐ JWT: short expiry, proper signing, refresh token rotation
+                ☐ RBAC implemented with default deny
+                ☐ OAuth/SSO supported (Google, Microsoft, SAML)
+                ☐ Password breach detection on signup
+                ☐ Account lockout after failed attempts (prevent brute force)
+                ☐ Encryption at rest: database, files, backups
+                ☐ Encryption in transit: TLS 1.2+, HSTS, secure cipher suites
+                ☐ Key management: KMS, automatic rotation
+                ☐ Data classification: public, internal, confidential, restricted
+                ☐ Data retention policy defined and automated
+                ☐ Right to deletion implemented (GDPR Article 17)
+                ☐ Dependency scanning automated (Snyk, Dependabot)
+                ☐ Static analysis in CI/CD (SonarQube, CodeQL)
+                ☐ Secrets detection in repos (GitHub Advanced Security, TruffleHog)
+                ☐ Penetration testing: annual external, quarterly internal
+                ☐ Bug bounty program established
+                ☐ Infrastructure: VPC, security groups, no public databases
+                ☐ Container security: non-root, minimal images, scanning
+                ☐ Secrets management: Vault/Secrets Manager, never in code
+                ☐ IAM: least privilege, MFA, no shared credentials
+                ☐ Automated patching: OS, containers, dependencies
+                ☐ Incident response plan documented and tested
+                ☐ Incident response team contacts current
+                ☐ Customer communication templates ready
+                ☐ Cyber liability insurance purchased
+                ☐ Security training for all employees (phishing, password hygiene)
+                ☐ Security whitepaper published (builds customer trust)
+                ☐ SOC 2 Type II audit scheduled (if selling to enterprises)
+                ☐ GDPR/CCPA compliance assessed and documented</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Security Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with implementation templates, security architecture diagrams, and compliance checklists.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('securityGuideEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

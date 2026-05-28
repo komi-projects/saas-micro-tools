@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Checkout Integration Template</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e2e8f0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        
+        .checkout-card {
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .checkout-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        .checkout-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .pricing-row:last-child { border-bottom: none; }
+        .pricing-label { color: #94a3b8; }
+        .pricing-value { font-weight: 600; }
+        .total-row {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .stripe-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #635bff 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .stripe-btn:hover { opacity: 0.9; }
+        .stripe-btn:disabled {
+            background: #333;
+            cursor: not-allowed;
+        }
+        
+        .test-mode {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #fbbf24;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background: #0d0d0d;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            color: #a5b4fc;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+        .code-label {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Stripe Checkout Template</h1>
+        <p class="subtitle">Copy-paste ready integration for premium tool unlocks. Works in test mode now, flips to live on key swap.</p>
+        
+        <div class="checkout-card">
+            <div class="test-mode">
+                ⚠️ Test Mode — Use card number 4242 4242 4242 4242, any future date, any CVC
+            </div>
+            
+            <h2>Unlock Full Report</h2>
+            <p>Get the complete analysis with detailed recommendations and PDF export.</p>
+            
+            <div class="pricing-row">
+                <span class="pricing-label">Full Report Access</span>
+                <span class="pricing-value">$9.00</span>
+            </div>
+            <div class="pricing-row">
+                <span class="pricing-label">Platform Fee</span>
+                <span class="pricing-value">$0.00</span>
+            </div>
+            <div class="pricing-row total-row">
+                <span>Total</span>
+                <span>$9.00</span>
+            </div>
+            
+            <button class="stripe-btn" id="checkoutBtn">Pay with Stripe — $9</button>
+        </div>
+        
+        <div class="checkout-card">
+            <div class="code-label">Integration Code</div>
+            <div class="code-block">
+                <pre>// 1. Include Stripe.js
+&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;
+
+// 2. Create checkout button handler
+const stripe = Stripe('pk_test_YOUR_KEY');
+
+document.getElementById('checkoutBtn').addEventListener('click', async () => {
+  // Call your backend to create a Checkout Session
+  const response = await fetch('/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      priceId: 'price_1234567890',
+      successUrl: window.location.href + '?success=true',
+      cancelUrl: window.location.href + '?canceled=true'
+    })
+  });
+  
+  const session = await response.json();
+  
+  // Redirect to Stripe Checkout
+  stripe.redirectToCheckout({ sessionId: session.id });
+});
+
+// 3. Handle success/cancel
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('success')) {
+  // Unlock premium content
+  localStorage.setItem('premiumUnlocked', 'true');
+  showPremiumContent();
+}</pre>
+            </div>
+        </div>
+        
+        <div class="checkout-card">
+            <div class="code-label">Backend (Node.js)</div>
+            <div class="code-block">
+                <pre>const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+app.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price: req.body.priceId,
+      quantity: 1
+    }],
+    mode: 'payment',
+    success_url: req.body.successUrl,
+    cancel_url: req.body.cancelUrl
+  });
+  
+  res.json({ id: session.id });
+});</pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('checkoutBtn').addEventListener('click', function() {
+            alert('🚧 Checkout integration ready!\n\nIn test mode: Use card 4242 4242 4242 4242\nTo go live: Replace pk_test_ with pk_live_ and backend key with sk_live_');
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

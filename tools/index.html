@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komi's SaaS Toolkit — 63+ Free Calculators for Founders</title>
+    <meta name="description" content="Free SaaS calculators for founders. Churn, MRR, LTV, CAC, pricing, growth, and more. 63+ tools to help you build a better SaaS.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .stat-label {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .search {
+            width: 100%;
+            padding: 14px 20px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+        .search::placeholder { color: #475569; }
+        .search:focus { outline: none; border-color: #6366f1; }
+        
+        .category {
+            margin-bottom: 32px;
+        }
+        .category h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .tool-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: all 0.2s;
+        }
+        .tool-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+        .tool-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            color: #6366f1;
+        }
+        .tool-card p {
+            font-size: 0.8rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        .tool-card .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #10b981;
+            margin-top: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 48px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            .stats { flex-direction: column; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛠️</div>
+            <h1>Komi's SaaS Toolkit</h1>
+            <p class="subtitle">63+ free calculators and tools for SaaS founders. Calculate churn, MRR, LTV, pricing, growth, and more.</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">63+</div>
+                    <div class="stat-label">Tools</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">13</div>
+                    <div class="stat-label">Repos</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">50</div>
+                    <div class="stat-label">Nostr Posts</div>
+                </div>
+            </div>
+            <a href="https://komi-projects.github.io/simple-recover-landing/" class="cta-btn">🚀 Try SimpleRecover — Free</a>
+        </div>
+        
+        <input type="text" class="search" placeholder="Search calculators..." id="search">
+        
+        <div class="category">
+            <h2>💰 Revenue & Financial</h2>
+            <div class="tools-grid">
+                <a href="mrr-calculator-premium.html" class="tool-card">
+                    <h3>MRR Calculator</h3>
+                    <p>Monthly recurring revenue with 12-month projections</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="arr-calculator-premium.html" class="tool-card">
+                    <h3>ARR Calculator</h3>
+                    <p>Annual revenue run rate with growth trajectory</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="ltv-calculator-premium.html" class="tool-card">
+                    <h3>LTV Calculator</h3>
+                    <p>Lifetime value with net churn and margin analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-valuation-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Valuation</h3>
+                    <p>Calculate valuation using industry-standard multiples</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="runway-calculator-premium.html" class="tool-card">
+                    <h3>Runway Calculator</h3>
+                    <p>Burn rate, runway, and break-even analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="stripe-fee-calculator-premium.html" class="tool-card">
+                    <h3>Stripe Fee Calculator</h3>
+                    <p>Effective rate and annual fee impact</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="stripe-fee-optimizer-premium.html" class="tool-card">
+                    <h3>Stripe Fee Optimizer</h3>
+                    <p>Compare plans and optimize for lowest fees</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="acv-calculator-premium.html" class="tool-card">
+                    <h3>ACV Calculator</h3>
+                    <p>Annual contract value with mix impact analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="founder-salary-calculator-premium.html" class="tool-card">
+                    <h3>Founder Salary</h3>
+                    <p>Optimal salary based on stage and revenue</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>📊 Growth & Retention</h2>
+            <div class="tools-grid">
+                <a href="churn-calculator-premium.html" class="tool-card">
+                    <h3>Churn Calculator</h3>
+                    <p>Logo and revenue churn with NRR analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="cohort-retention-calculator-premium.html" class="tool-card">
+                    <h3>Cohort Retention</h3>
+                    <p>Month 3/6/12 retention and churn analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="nrr-calculator-premium.html" class="tool-card">
+                    <h3>NRR Calculator</h3>
+                    <p>Net revenue retention with expansion analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="expansion-revenue-calculator-premium.html" class="tool-card">
+                    <h3>Expansion Revenue</h3>
+                    <p>Upsell impact and growth trajectory</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="activation-rate-calculator-premium.html" class="tool-card">
+                    <h3>Activation Rate</h3>
+                    <p>Onboarding velocity and improvement potential</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="viral-coefficient-calculator-premium.html" class="tool-card">
+                    <h3>Viral Coefficient</h3>
+                    <p>K-factor and viral growth analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="nps-calculator-premium.html" class="tool-card">
+                    <h3>NPS Calculator</h3>
+                    <p>Net Promoter Score with breakdown</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="customer-health-score-calculator-premium.html" class="tool-card">
+                    <h3>Customer Health Score</h3>
+                    <p>Composite scoring and churn prediction</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="product-market-fit-calculator-premium.html" class="tool-card">
+                    <h3>Product-Market Fit</h3>
+                    <p>PMF score and Sean Ellis test</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>🎯 Acquisition & Marketing</h2>
+            <div class="tools-grid">
+                <a href="cac-calculator-premium.html" class="tool-card">
+                    <h3>CAC Calculator</h3>
+                    <p>Customer acquisition cost with channel breakdown</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="payback-period-calculator-premium.html" class="tool-card">
+                    <h3>Payback Period</h3>
+                    <p>CAC payback and unit economics</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="trial-conversion-calculator-premium.html" class="tool-card">
+                    <h3>Trial Conversion</h3>
+                    <p>Funnel benchmarks and revenue per trial</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="freemium-conversion-calculator-premium.html" class="tool-card">
+                    <h3>Freemium Conversion</h3>
+                    <p>Activation rate and industry benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-pricing-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Pricing</h3>
+                    <p>Optimal tiers and willingness-to-pay analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="saas-growth-calculator-premium.html" class="tool-card">
+                    <h3>SaaS Growth</h3>
+                    <p>Growth rate and milestone projections</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>💳 Payments & Recovery</h2>
+            <div class="tools-grid">
+                <a href="recovery-rate-calculator-premium.html" class="tool-card">
+                    <h3>Recovery Rate</h3>
+                    <p>Failed payment recovery with annual impact</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="dunning-calculator-premium.html" class="tool-card">
+                    <h3>Dunning Calculator</h3>
+                    <p>Email funnel analytics and sequence optimization</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="failed-payment-rate-calculator-premium.html" class="tool-card">
+                    <h3>Failed Payment Rate</h3>
+                    <p>Recovery potential and health status</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="payment-retry-success-calculator-premium.html" class="tool-card">
+                    <h3>Payment Retry Success</h3>
+                    <p>Retry benchmarks and revenue analysis</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="chargeback-rate-calculator-premium.html" class="tool-card">
+                    <h3>Chargeback Rate</h3>
+                    <p>Stripe risk assessment and benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="refund-rate-calculator-premium.html" class="tool-card">
+                    <h3>Refund Rate</h3>
+                    <p>Revenue loss and preventable revenue</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="dunning-recovery-rate-calculator-premium.html" class="tool-card">
+                    <h3>Dunning Recovery Rate</h3>
+                    <p>Email recovery and revenue benchmarks</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>📈 Operations & Metrics</h2>
+            <div class="tools-grid">
+                <a href="burn-rate-calculator-premium.html" class="tool-card">
+                    <h3>Burn Rate</h3>
+                    <p>Runway and cash flow analytics</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="mrr-at-risk-calculator-premium.html" class="tool-card">
+                    <h3>MRR At Risk</h3>
+                    <p>Revenue at risk from churn</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="time-to-value-calculator-premium.html" class="tool-card">
+                    <h3>Time-to-Value</h3>
+                    <p>TTV score and completion rate</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="feature-adoption-calculator-premium.html" class="tool-card">
+                    <h3>Feature Adoption</h3>
+                    <p>Core adoption and power users</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="support-ticket-calculator-premium.html" class="tool-card">
+                    <h3>Support Ticket</h3>
+                    <p>Volume, resolution time, satisfaction</p>
+                    <span class="badge">Premium</span>
+                </a>
+                <a href="customer-satisfaction-calculator-premium.html" class="tool-card">
+                    <h3>Customer Satisfaction</h3>
+                    <p>Satisfaction score and trends</p>
+                    <span class="badge">Premium</span>
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Built with ❤️‍🔥 by Komi | <a href="https://komi-projects.github.io/simple-recover-landing/" style="color: #6366f1;">SimpleRecover</a> | <a href="mailto:komi54666@gmail.com" style="color: #6366f1;">Hire Me</a></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('search').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

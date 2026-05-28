@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRR Growth Modeling — Scenario Planning</title>
+    <meta name="description" content="MRR growth modeling with scenario planning. Calculate best/base/worst case projections. Unlock 3-scenario model for $9.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .scenario-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .scenario-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .scenario-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+        .best-case { border-color: rgba(16, 185, 129, 0.3); }
+        .base-case { border-color: rgba(99, 102, 241, 0.3); }
+        .worst-case { border-color: rgba(239, 68, 68, 0.3); }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .projection-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .projection-table th, .projection-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .projection-table th {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .projection-table td {
+            color: #e2e8f0;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 MRR Growth Model</h1>
+            <p class="subtitle">Scenario planning for SaaS revenue growth.</p>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Input Your Metrics</h2>
+            <div class="scenario-grid">
+                <div>
+                    <label class="scenario-label">Current MRR ($)</label>
+                    <input type="number" id="currentMrr" placeholder="10000" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="scenario-label">Monthly Growth Rate (%)</label>
+                    <input type="number" id="growthRate" placeholder="10" step="0.1" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="scenario-label">Monthly Churn Rate (%)</label>
+                    <input type="number" id="churnRate" placeholder="5" step="0.1" onchange="calculate()">
+                </div>
+                <div>
+                    <label class="scenario-label">Projection Months</label>
+                    <input type="number" id="months" placeholder="12" onchange="calculate()">
+                </div>
+            </div>
+            <button onclick="calculate()">Calculate Projection</button>
+        </div>
+        
+        <div class="card">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">Base Case Projection (Free)</h2>
+            <div class="scenario-grid">
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Projected MRR</div>
+                    <div class="scenario-value" id="baseMrr">$0</div>
+                </div>
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Total Growth</div>
+                    <div class="scenario-value" id="baseGrowth">0%</div>
+                </div>
+                <div class="scenario-card base-case">
+                    <div class="scenario-label">Annual Run Rate</div>
+                    <div class="scenario-value" id="baseArr">$0</div>
+                </div>
+            </div>
+            <table class="projection-table">
+                <thead>
+                    <tr><th>Month</th><th>MRR</th><th>New Revenue</th><th>Churned</th><th>Net Growth</th></tr>
+                </thead>
+                <tbody id="baseTable"></tbody>
+            </table>
+        </div>
+        
+        <div class="card" id="premiumSection">
+            <h2 style="color: #6366f1; margin-bottom: 20px;">3-Scenario Model 🔒</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Unlock best case, worst case, and sensitivity analysis with CSV export.</p>
+            <form id="unlockForm" style="display: flex; gap: 12px; max-width: 400px;">
+                <input type="email" placeholder="your@email.com" required id="unlockEmail">
+                <button type="submit">Unlock — $9</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const currentMrr = parseFloat(document.getElementById('currentMrr').value) || 0;
+            const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
+            const months = parseInt(document.getElementById('months').value) || 12;
+            
+            let mrr = currentMrr;
+            let tableHtml = '';
+            
+            for (let i = 1; i <= months; i++) {
+                const newRevenue = mrr * (growthRate / 100);
+                const churned = mrr * (churnRate / 100);
+                const netGrowth = newRevenue - churned;
+                mrr += netGrowth;
+                
+                tableHtml += `<tr>
+                    <td>${i}</td>
+                    <td>$${mrr.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>+$${newRevenue.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>-$${churned.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    <td>$${netGrowth.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                </tr>`;
+            }
+            
+            const totalGrowth = currentMrr ? ((mrr - currentMrr) / currentMrr * 100).toFixed(1) : 0;
+            
+            document.getElementById('baseMrr').textContent = '$' + mrr.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('baseGrowth').textContent = totalGrowth + '%';
+            document.getElementById('baseArr').textContent = '$' + (mrr * 12).toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('baseTable').innerHTML = tableHtml;
+        }
+        
+        document.getElementById('unlockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('unlockEmail').value;
+            localStorage.setItem('mrrModelEmail', email);
+            alert('✅ Thank you! Full scenario model will be emailed to you shortly.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Cohort Analysis Template — Free Download</title>
+    <meta name="description" content="Free SaaS cohort analysis template. Track retention by signup month, identify patterns, and make data-driven decisions to reduce churn.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .cohort {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .cohort-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.85rem;
+        }
+        .cohort-table th, .cohort-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .cohort-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: #c7d2fe;
+            font-size: 0.75rem;
+        }
+        .cohort-table td {
+            color: #cbd5e1;
+        }
+        .retention-good {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            font-weight: 600;
+        }
+        .retention-mid {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+        .retention-bad {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        .insight-box {
+            background: rgba(255,255,255,0.02);
+            border-left: 3px solid #6366f1;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+        .insight-title {
+            color: #c7d2fe;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .insight-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .formula {
+            font-family: 'Courier New', monospace;
+            color: #c7d2fe;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .cohort-table { font-size: 0.7rem; }
+            .cohort-table th, .cohort-table td { padding: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Cohort Analysis Template</h1>
+            <p class="subtitle">Track retention by signup month and identify churn patterns.</p>
+        </div>
+        
+        <div class="cohort">
+            <div class="section">
+                <h2>What is Cohort Analysis?</h2>
+                <p>Cohort analysis groups customers by when they signed up (usually by month) and tracks what percentage remains active over time. It answers: <strong>"Of customers who signed up in January, how many are still paying in Month 3? Month 6?"</strong></p>
+                
+                <p>This is the single most important analysis for understanding if your product is getting stickier over time.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Sample Cohort Table</h2>
+                
+                <table class="cohort-table">
+                    <thead>
+                        <tr>
+                            <th>Cohort</th>
+                            <th>Users</th>
+                            <th>M1</th>
+                            <th>M2</th>
+                            <th>M3</th>
+                            <th>M6</th>
+                            <th>M12</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jan 2024</td>
+                            <td>120</td>
+                            <td class="retention-good">85%</td>
+                            <td class="retention-good">78%</td>
+                            <td class="retention-good">72%</td>
+                            <td class="retention-mid">60%</td>
+                            <td class="retention-mid">45%</td>
+                        </tr>
+                        <tr>
+                            <td>Feb 2024</td>
+                            <td>145</td>
+                            <td class="retention-good">88%</td>
+                            <td class="retention-good">82%</td>
+                            <td class="retention-good">75%</td>
+                            <td class="retention-good">65%</td>
+                            <td class="retention-mid">50%</td>
+                        </tr>
+                        <tr>
+                            <td>Mar 2024</td>
+                            <td>110</td>
+                            <td class="retention-good">90%</td>
+                            <td class="retention-good">85%</td>
+                            <td class="retention-good">80%</td>
+                            <td class="retention-good">70%</td>
+                            <td class="retention-good">58%</td>
+                        </tr>
+                        <tr>
+                            <td>Apr 2024</td>
+                            <td>135</td>
+                            <td class="retention-mid">75%</td>
+                            <td class="retention-mid">68%</td>
+                            <td class="retention-bad">55%</td>
+                            <td class="retention-bad">40%</td>
+                            <td class="retention-bad">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px;">🔍 <strong>Insight:</strong> March cohort has best retention (improving product). April cohort dropped (bad onboarding change?).</p>
+            </div>
+            
+            <div class="section">
+                <h2>Key Formulas</h2>
+                
+                <div class="formula-box">
+                    <div class="formula">Month N Retention = Users Active in Month N / Users in Cohort</div>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula">Cohort LTV = ARPU × (M1 Retention + M2 Retention + ... + MN Retention)</div>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula">Quick Ratio = (New + Resurrected) / (Churned + Contraction)</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>How to Read Your Cohorts</h2>
+                
+                <div class="insight-box">
+                    <div class="insight-title">📊 Horizontal Reading (Time-based)</div>
+                    <div class="insight-text">Look across a row to see how a single cohort ages. Good products show flat or slowly declining curves. Bad products show steep drops in Month 1-2.</div>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">📊 Vertical Reading (Cohort-based)</div>
+                    <div class="insight-text">Look down a column to compare cohorts at the same age. If newer cohorts retain worse, something broke (onboarding, product changes, pricing).</div>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">📊 Diagonal Reading (Seasonal)</div>
+                    <div class="insight-text">Look diagonally to compare the same calendar month across cohorts. Holiday signups often have different patterns than mid-year.</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>SaaS Retention Benchmarks</h2>
+                
+                <p><strong>Good retention by month:</strong></p>
+                <p>• Month 1: > 80% (onboarding success)<br>
+                • Month 3: > 60% (product-market fit signal)<br>
+                • Month 6: > 45% (healthy SaaS)<br>
+                • Month 12: > 35% (strong product)<br>
+                • Month 24: > 25% (best-in-class)</p>
+                
+                <p><strong>If Month 1 retention < 60%,</strong> fix onboarding before anything else. Nothing else matters if customers quit in the first month.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Cohort Analysis in SQL</h2>
+                
+                <div class="formula-box">
+                    <div class="formula">SELECT<br><br>
+  DATE_TRUNC('month', signup_date) AS cohort_month,<br>
+  COUNT(DISTINCT user_id) AS cohort_size,<br>
+  COUNT(DISTINCT CASE WHEN months_active >= 1 THEN user_id END) * 1.0 / COUNT(DISTINCT user_id) AS m1_retention,<br>
+  COUNT(DISTINCT CASE WHEN months_active >= 3 THEN user_id END) * 1.0 / COUNT(DISTINCT user_id) AS m3_retention<br><br>
+FROM user_activity<br>
+GROUP BY 1<br>
+ORDER BY 1;</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Cohort Analysis Template</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete template with Google Sheets/Excel formulas, SQL queries, and interpretation guide.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('cohortAnalysisEmail', email);
+            alert('✅ Template coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

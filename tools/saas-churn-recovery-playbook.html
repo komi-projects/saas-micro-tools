@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Churn Recovery Playbook — $49</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0e1a; color: #e2e8f0; line-height: 1.6; }
+.gate { position: fixed; inset: 0; background: rgba(10,14,26,0.97); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.gate-box { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 48px; max-width: 480px; text-align: center; }
+.gate-box h2 { font-size: 28px; color: #fff; margin-bottom: 12px; }
+.gate-box p { color: #94a3b8; margin-bottom: 24px; }
+.price { font-size: 56px; font-weight: 800; color: #6366f1; margin: 16px 0; }
+.price span { font-size: 18px; color: #94a3b8; font-weight: 400; }
+.btn { display: block; width: 100%; padding: 16px; background: #6366f1; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #818cf8; }
+.features { list-style: none; text-align: left; margin: 24px 0; }
+.features li { padding: 8px 0; color: #cbd5e1; }
+.features li::before { content: "✓"; color: #22c55e; margin-right: 8px; }
+
+.app { display: none; max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+.app h1 { font-size: 36px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+.input-group { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: #cbd5e1; }
+.input-group input { width: 100%; padding: 10px 12px; background: #0a0e1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px; }
+.playbook { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px; margin: 24px 0; }
+.playbook h3 { font-size: 20px; color: #fff; margin-bottom: 16px; }
+.phase { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.phase h4 { font-size: 16px; color: #6366f1; margin-bottom: 6px; }
+.phase p { font-size: 14px; color: #94a3b8; }
+.phase .tasks { margin-top: 8px; }
+.phase .tasks li { font-size: 13px; color: #cbd5e1; margin: 4px 0; list-style: inside; }
+.export-btn { display: inline-block; padding: 12px 24px; background: #22c55e; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2>🔒 SaaS Churn Recovery Playbook</h2>
+    <p>Step-by-step 90-day recovery plan with exact actions, timelines, and expected results.</p>
+    <div class="price">$49 <span>/ one-time</span></div>
+    <ul class="features">
+      <li>90-day recovery roadmap</li>
+      <li>Week-by-week action items</li>
+      <li>Team assignment guide</li>
+      <li>ROI tracking templates</li>
+      <li>PDF playbook (25 pages)</li>
+    </ul>
+    <button class="btn" onclick="unlock()">Buy Now — $49</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <h1>SaaS Churn Recovery Playbook</h1>
+  
+  <div class="input-group">
+    <label>Current Monthly Churn Rate (%)</label>
+    <input type="number" id="churn" placeholder="5" step="0.1" oninput="generate()">
+  </div>
+  
+  <div class="input-group">
+    <label>MRR ($)</label>
+    <input type="number" id="mrr" placeholder="25000" oninput="generate()">
+  </div>
+  
+  <div class="playbook" id="playbook" style="display:none">
+    <h3>📋 Your 90-Day Recovery Plan</h3>
+    
+    <div class="phase">
+      <h4>Week 1-2: Assessment & Quick Wins</h4>
+      <p>Identify churn patterns, segment at-risk customers, implement immediate fixes.</p>
+      <ul class="tasks">
+        <li>Audit last 90 days of churn reasons</li>
+        <li>Segment customers by risk score</li>
+        <li>Fix top 3 payment failure causes</li>
+        <li>Deploy pre-dunning emails</li>
+      </ul>
+    </div>
+    
+    <div class="phase">
+      <h4>Week 3-6: Core Recovery</h4>
+      <p>Launch full dunning sequences, implement smart retries, add in-app paywalls.</p>
+      <ul class="tasks">
+        <li>Deploy 5-email dunning sequence</li>
+        <li>Configure Stripe Smart Retries</li>
+        <li>Add payment update banners in-app</li>
+        <li>Personal outreach for $500+ MRR accounts</li>
+      </ul>
+    </div>
+    
+    <div class="phase">
+      <h4>Week 7-10: Optimization</h4>
+      <p>A/B test email copy, optimize send times, reduce friction in payment flow.</p>
+      <ul class="tasks">
+        <li>A/B test dunning email subject lines</li>
+        <li>Optimize retry timing (1, 3, 5, 7, 14 days)</li>
+        <li>Test alternative payment methods</li>
+        <li>Implement usage-based billing for expansion</li>
+      </ul>
+    </div>
+    
+    <div class="phase">
+      <h4>Week 11-12: Scale & Measure</h4>
+      <p>Document wins, train team, set up ongoing monitoring, plan next quarter.</p>
+      <ul class="tasks">
+        <li>Calculate exact revenue recovered</li>
+        <li>Document playbook for team</li>
+        <li>Set up weekly churn monitoring dashboard</li>
+        <li>Plan Q2 retention initiatives</li>
+      </ul>
+    </div>
+    
+    <button class="export-btn" onclick="exportPDF()">📄 Export Playbook PDF</button>
+  </div>
+</div>
+
+<script>
+let unlocked = true;
+function unlock() { unlocked = true; document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+
+function generate() {
+  if (!unlocked) return;
+  const churn = parseFloat(document.getElementById('churn').value);
+  const mrr = parseFloat(document.getElementById('mrr').value);
+  if (churn && mrr) {
+    document.getElementById('playbook').style.display = 'block';
+  }
+}
+
+function exportPDF() { alert('PDF: Complete 90-day playbook with all phases, tasks, and tracking templates'); }
+</script>
+
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

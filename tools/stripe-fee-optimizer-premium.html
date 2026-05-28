@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Fee Optimizer — Minimize Payment Processing Costs</title>
+    <meta name="description" content="Calculate Stripe fees, compare pricing plans, and optimize for lowest processing costs. Premium optimization strategy unlocks for $9.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #635bff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1rem; }
+        .card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 8px; font-weight: 500; }
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus, select:focus { outline: none; border-color: #635bff; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #635bff 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn:hover { opacity: 0.9; }
+        .results { display: none; }
+        .results.active { display: block; }
+        .result-card {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .result-title { color: #635bff; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .result-value { color: #e2e8f0; font-size: 1.5rem; font-weight: 700; }
+        .result-desc { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .compare-table th, .compare-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .compare-table th { color: #635bff; font-size: 0.85rem; text-transform: uppercase; }
+        .compare-table td { color: #cbd5e1; }
+        .best { color: #10b981; font-weight: 700; }
+        .locked {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%);
+            border: 1px solid rgba(99,102,241,0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 24px;
+        }
+        .locked h2 { color: #e2e8f0; margin-bottom: 12px; }
+        .locked p { color: #94a3b8; margin-bottom: 20px; }
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #635bff;
+            margin-bottom: 16px;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .email-form input { flex: 1; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            .row { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💳 Stripe Fee Optimizer</h1>
+            <p class="subtitle">Calculate fees, compare plans, and minimize processing costs</p>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="input-group">
+                    <label>Monthly Volume ($)</label>
+                    <input type="number" id="volume" placeholder="50000" value="50000">
+                </div>
+                <div class="input-group">
+                    <label>Average Transaction ($)</label>
+                    <input type="number" id="avgTxn" placeholder="49" value="49">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group">
+                    <label>Business Location</label>
+                    <select id="location">
+                        <option value="us" selected>United States</option>
+                        <option value="eu">Europe</option>
+                        <option value="uk">United Kingdom</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Card Type Mix (% Intl)</label>
+                    <input type="number" id="intlPct" placeholder="20" value="20">
+                </div>
+            </div>
+            <button class="btn" onclick="calculate()">Calculate Fees →</button>
+        </div>
+
+        <div class="results" id="results">
+            <div class="card">
+                <div class="row">
+                    <div class="result-card">
+                        <div class="result-title">Monthly Stripe Fees</div>
+                        <div class="result-value" id="monthlyFees">$1,685</div>
+                        <div class="result-desc">Based on standard pricing</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-title">Effective Rate</div>
+                        <div class="result-value" id="effectiveRate">3.37%</div>
+                        <div class="result-desc">Of total volume</div>
+                    </div>
+                </div>
+                <div class="result-card" style="margin-top:16px;">
+                    <div class="result-title">Plan Comparison</div>
+                    <table class="compare-table">
+                        <thead>
+                            <tr><th>Plan</th><th>Rate</th><th>Monthly Fee</th><th>Total Cost</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Standard</td><td>2.9% + 30¢</td><td>$0</td><td id="stdCost">$1,685</td></tr>
+                            <tr><td>Volume (>$1M)</td><td>Custom</td><td>Contact</td><td class="best">~$1,350</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="result-card">
+                    <div class="result-title">Optimization Tips</div>
+                    <p style="color:#cbd5e1; font-size:0.9rem; line-height:1.5;">
+                        • Enable Link/Apple Pay to reduce fees<br>
+                        • Route EU cards through local acquirers<br>
+                        • Negotiate volume pricing at $100K+/mo<br>
+                        • Use ACH for large B2B transactions
+                    </p>
+                </div>
+            </div>
+
+            <div class="locked">
+                <h2>🔒 Premium Fee Optimization Report</h2>
+                <p>Unlock detailed routing strategies, interchange optimization, and a custom savings plan for your volume.</p>
+                <div class="price-tag">$9</div>
+                <form class="email-form" onsubmit="unlock(event)">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn">Unlock Now →</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const volume = parseFloat(document.getElementById('volume').value) || 50000;
+            const avgTxn = parseFloat(document.getElementById('avgTxn').value) || 49;
+            const intlPct = parseFloat(document.getElementById('intlPct').value) || 20;
+
+            const txnCount = volume / avgTxn;
+            const baseRate = 0.029;
+            const fixedFee = 0.30;
+            const intlFee = 0.015; // 1.5% international
+
+            const baseFees = volume * baseRate;
+            const fixedFees = txnCount * fixedFee;
+            const intlFees = volume * (intlPct / 100) * intlFee;
+            const totalFees = baseFees + fixedFees + intlFees;
+            const effectiveRate = (totalFees / volume * 100).toFixed(2);
+
+            document.getElementById('monthlyFees').textContent = '$' + Math.round(totalFees).toLocaleString();
+            document.getElementById('effectiveRate').textContent = effectiveRate + '%';
+            document.getElementById('stdCost').textContent = '$' + Math.round(totalFees).toLocaleString();
+
+            document.getElementById('results').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function unlock(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            localStorage.setItem('stripeFeeReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when the premium report is ready.');
+            e.target.reset();
+        }
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

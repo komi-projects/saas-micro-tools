@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Valuation Calculator — Premium</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #64748b; margin-bottom: 32px; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 32px;
+        }
+        .calculate-btn:hover { opacity: 0.9; }
+        
+        .results { display: none; }
+        .results.show { display: block; }
+        
+        .result-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .result-card h3 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .result-subtitle {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .metric {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .recommendation {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .recommendation h3 {
+            color: #10b981;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .recommendation p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .unlock-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        .unlock-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .unlock-section p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .unlock-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .unlock-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 8px;
+        }
+        .stripe-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 16px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+        }
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .unlock-features { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 SaaS Valuation Calculator</h1>
+        <p class="subtitle">Calculate your SaaS valuation using industry-standard multiples. Unlock premium features for detailed analysis.</p>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label>ARR ($)</label>
+                <input type="number" id="arr" value="500000" placeholder="500000">
+            </div>
+            <div class="input-group">
+                <label>Growth Rate (%)</label>
+                <input type="number" id="growth" value="50" placeholder="50">
+            </div>
+            <div class="input-group">
+                <label>Net Revenue Retention (%)</label>
+                <input type="number" id="nrr" value="110" placeholder="110">
+            </div>
+            <div class="input-group">
+                <label>Gross Margin (%)</label>
+                <input type="number" id="margin" value="80" placeholder="80">
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculate()">Calculate Valuation</button>
+        
+        <div class="results" id="results">
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-value" id="baseMultiple">5x</div>
+                    <div class="metric-label">Base Multiple</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="adjustedMultiple">7.5x</div>
+                    <div class="metric-label">Adjusted Multiple</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="valuation">$3.75M</div>
+                    <div class="metric-label">Valuation</div>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>💵 Base Valuation</h3>
+                <div class="result-value" id="baseValuation">$2.5M</div>
+                <div class="result-subtitle">ARR × Base Multiple</div>
+            </div>
+            
+            <div class="result-card">
+                <h3>📈 Growth-Adjusted Valuation</h3>
+                <div class="result-value" id="growthValuation">$3.75M</div>
+                <div class="result-subtitle">Accounts for 50% YoY growth premium</div>
+            </div>
+            
+            <div class="result-card">
+                <h3>🎯 Rule of 40 Score</div>
+                <div class="result-value" id="rule40">130%</div>
+                <div class="result-subtitle">Growth + Margin = Exceptional (≥40% is good)</div>
+            </div>
+            
+            <div class="recommendation" id="recommendation">
+                <h3>✅ Strong Valuation Position</h3>
+                <p id="recText">Your 50% growth rate and 110% NRR put you in the top quartile. Consider raising at 7-10x ARR.</p>
+            </div>
+            
+            <div class="unlock-section" id="unlockSection">
+                <h2>🔓 Unlock Full Analysis</h2>
+                <p>Get the complete valuation report with:</p>
+                <div class="unlock-features">
+                    <div class="unlock-feature">✅ Detailed comparable analysis</div>
+                    <div class="unlock-feature">✅ Investor-ready valuation memo</div>
+                    <div class="unlock-feature">✅ 5-year growth projections</div>
+                    <div class="unlock-feature">✅ Comparable company multiples</div>
+                    <div class="unlock-feature">✅ Exit scenario modeling</div>
+                    <div class="unlock-feature">✅ PDF report download</div>
+                </div>
+                <div class="price-tag">$9</div>
+                <p style="color: #64748b; margin-bottom: 20px;">One-time payment. Instant delivery.</p>
+                <form class="email-form" id="emailForm">
+                    <input type="email" class="email-input" placeholder="your@email.com" required>
+                    <button type="submit" class="stripe-btn">Get Full Report — $9</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const arr = parseFloat(document.getElementById('arr').value) || 0;
+            const growth = parseFloat(document.getElementById('growth').value) || 0;
+            const nrr = parseFloat(document.getElementById('nrr').value) || 100;
+            const margin = parseFloat(document.getElementById('margin').value) || 80;
+            
+            let baseMultiple = 3;
+            if (arr < 1000000) baseMultiple = 4;
+            else if (arr < 5000000) baseMultiple = 5;
+            else if (arr < 10000000) baseMultiple = 6;
+            else baseMultiple = 7;
+            
+            const growthPremium = Math.min(growth * 0.05, 3);
+            const nrrPremium = Math.max(0, (nrr - 100) * 0.03);
+            const marginPremium = Math.max(0, (margin - 70) * 0.02);
+            
+            const adjustedMultiple = baseMultiple + growthPremium + nrrPremium + marginPremium;
+            const valuation = arr * adjustedMultiple;
+            const rule40 = growth + margin;
+            
+            document.getElementById('baseMultiple').textContent = baseMultiple.toFixed(1) + 'x';
+            document.getElementById('adjustedMultiple').textContent = adjustedMultiple.toFixed(1) + 'x';
+            document.getElementById('valuation').textContent = '$' + (valuation / 1000000).toFixed(2) + 'M';
+            document.getElementById('baseValuation').textContent = '$' + (arr * baseMultiple / 1000000).toFixed(2) + 'M';
+            document.getElementById('growthValuation').textContent = '$' + (valuation / 1000000).toFixed(2) + 'M';
+            document.getElementById('rule40').textContent = rule40.toFixed(0) + '%';
+            
+            let recText = '';
+            if (adjustedMultiple >= 8) {
+                recText = 'Exceptional position. ' + growth + '% growth and ' + nrr + '% NRR justify premium multiples. Consider raising at 8-12x ARR.';
+            } else if (adjustedMultiple >= 5) {
+                recText = 'Strong valuation metrics. ' + growth + '% growth puts you above average. Target 5-8x ARR in fundraising.';
+            } else {
+                recText = 'Valuation multiple below 5x. Focus on accelerating growth to ' + Math.max(30, growth + 20) + '%+ to unlock premium multiples.';
+            }
+            document.getElementById('recText').textContent = recText;
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('valuationReportEmail', email);
+            alert('✅ Payment link coming soon! We\'ll email you when checkout is live.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>

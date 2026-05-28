@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Engineering Guide — Build for Scale</title>
+    <meta name="description" content="Free SaaS engineering guide. Architecture, deployment, and scalability patterns for building production-ready SaaS applications.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        .subtitle { color: #94a3b8; font-size: 1.1rem; }
+        .engineering {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .section { margin-bottom: 32px; }
+        .section:last-child { margin-bottom: 0; }
+        .section h2 {
+            color: #6366f1;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pillar-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .pillar-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .pillar-detail {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Engineering</h1>
+            <p class="subtitle">Build SaaS that scales from day one.</p>
+        </div>
+        
+        <div class="engineering">
+            <div class="section">
+                <h2>Why Engineering Choices Matter for SaaS</h2>
+                
+                <p>The technical decisions you make in the first 6 months of your SaaS will echo for years. A poorly chosen database, a fragile deployment pipeline, or a monolithic architecture that can't scale — these aren't just technical debts, they're business risks. When your product goes viral, your infrastructure either handles it gracefully or collapses under the load.</p>
+                
+                <p>Great SaaS engineering isn't about using the newest framework or the most complex architecture. It's about making pragmatic choices that balance speed now with scalability later. It's about building systems that can evolve as your business evolves — from 10 customers to 10,000, from one developer to twenty.</p>
+                
+                <p>This guide covers the architecture, tools, and practices that let you move fast without breaking things.</p>
+            </div>
+            
+            <div class="section">
+                <h2>SaaS Architecture Patterns</h2>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">1. Multi-Tenancy</div>
+                    <div class="pillar-detail">
+                        Serving multiple customers from a single deployment.
+                        • Single-tenant: Each customer gets their own instance (isolated, expensive)
+                        • Multi-tenant shared: All customers share one database (efficient, complex)
+                        • Hybrid: Shared app, isolated databases (balance of both)
+                        • Decision: Start shared, migrate to hybrid at $5M+ ARR
+                        • Key: Row-level security, tenant ID in every query, no data leaks
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">2. API-First Design</div>
+                    <div class="pillar-detail">
+                        Build the API before the UI — everything else follows.
+                        • REST: Standard, well-understood, good for CRUD
+                        • GraphQL: Flexible, reduces over-fetching, complex caching
+                        • gRPC: High performance, good for microservices, steep learning curve
+                        • Webhooks: Event-driven, essential for integrations
+                        • Versioning: /v1/, /v2/ — never break existing consumers
+                        • Documentation: OpenAPI/Swagger, Postman collections
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">3. Event-Driven Architecture</div>
+                    <div class="pillar-detail">
+                        Loose coupling through events and queues.
+                        • Message queue: Redis, RabbitMQ, SQS, Kafka
+                        • Events: User signed up, payment succeeded, feature used
+                        • Async processing: Send emails, generate reports, sync data
+                        • Benefits: Scalability, resilience, decoupled services
+                        • Trade-off: Eventual consistency, harder to debug
+                    </div>
+                </div>
+                
+                <div class="pillar-box">
+                    <div class="pillar-name">4. Microservices vs. Monolith</div>
+                    <div class="pillar-detail">
+                        Start monolithic, extract services when pain appears.
+                        • Monolith: Single codebase, shared database, simple deployment
+                        • Microservices: Independent deploy, team autonomy, operational complexity
+                        • Modular monolith: Monolith with clear module boundaries (best of both)
+                        • When to split: Different scaling needs, different teams, tech diversity
+                        • Don't split too early: Operational overhead kills small teams
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Tech Stack Recommendations</h2>
+                
+                <p><strong>1. Backend:</strong></p>
+                
+                <p>• Node.js + Express: Fast to build, huge ecosystem, great for I/O-bound SaaS
+                • Python + FastAPI: Modern, fast, excellent for data-heavy products
+                • Go: High performance, compiled, great for microservices and APIs
+                • Ruby on Rails: Rapid development, mature ecosystem, good for MVPs
+                • Laravel: PHP's best framework, great for teams with PHP experience
+                • Rust: Memory-safe, high performance — for when latency matters</p>
+                
+                <p><strong>2. Frontend:</strong></p>
+                
+                <p>• React: Industry standard, huge community, rich ecosystem
+                • Vue: Progressive, gentle learning curve, great documentation
+                • Next.js: React with SSR/SSG, file-based routing, API routes
+                • Svelte: Compiler-based, minimal runtime, excellent performance
+                • HTMX: Server-rendered HTML with AJAX interactions — simplest option</p>
+                
+                <p><strong>3. Database:</strong></p>
+                
+                <p>• PostgreSQL: Best general-purpose database — relational, JSON support, scalable
+                • MySQL: Widely supported, good performance, simpler replication
+                • MongoDB: Document store, flexible schema, good for rapid prototyping
+                • Redis: Caching, sessions, real-time features, message queue
+                • ClickHouse: Analytics, time-series, log aggregation (columnar)
+                • TimescaleDB: Time-series data on PostgreSQL</p>
+                
+                <p><strong>4. Infrastructure:</strong></p>
+                
+                <p>• Docker: Containerize everything for consistency
+                • Kubernetes: Container orchestration (overkill until 10+ services)
+                • Docker Compose: Local development, simple deployments
+                • Terraform: Infrastructure as code — version your infrastructure
+                • Cloud: AWS (most mature), GCP (best for data/ML), Azure (enterprise)</p>
+            </div>
+            
+            <div class="section">
+                <h2>DevOps and Deployment</h2>
+                
+                <p><strong>1. CI/CD pipeline:</strong></p>
+                
+                <p>• GitHub Actions: Native, free tier generous, huge marketplace
+                • GitLab CI: Built-in, good for private repos, integrated with GitLab
+                • CircleCI: Fast, reliable, good Docker support
+                • Jenkins: Self-hosted, highly customizable, older but battle-tested
+                • Pipeline: Lint → Test → Build → Deploy → Monitor</p>
+                
+                <p><strong>2. Deployment strategies:</strong></p>
+                
+                <p>• Blue-green: Two identical environments, instant rollback
+                • Canary: Route 1% traffic to new version, gradually increase
+                • Rolling: Replace instances one by one (zero downtime)
+                • Feature flags: Deploy code, release features independently (LaunchDarkly, PostHog)
+                • Database migrations: Backwards-compatible, run before code deploy</p>
+                
+                <p><strong>3. Monitoring and observability:</strong></p>
+                
+                <p>• Logging: Structured logs (JSON), centralized (Datadog, Splunk, ELK)
+                • Metrics: Prometheus + Grafana, Datadog, New Relic
+                • Tracing: Jaeger, Zipkin, Datadog APM (trace requests across services)
+                • Alerting: PagerDuty, Opsgenie, Slack webhooks
+                • Error tracking: Sentry, Rollbar, Bugsnag (capture and group errors)
+                • Uptime: Pingdom, UptimeRobot, Datadog Synthetics</p>
+                
+                <p><strong>4. Security essentials:</strong></p>
+                
+                <p>• HTTPS everywhere: Let's Encrypt, Cloudflare, custom certs
+                • Authentication: OAuth 2.0, SSO (SAML, OIDC), MFA
+                • Authorization: RBAC (role-based), ABAC (attribute-based), principle of least privilege
+                • Data encryption: At-rest (database), in-transit (TLS), in-use (where applicable)
+                • Secrets management: HashiCorp Vault, AWS Secrets Manager, environment variables
+                • Dependency scanning: Snyk, Dependabot, OWASP Dependency-Check
+                • Penetration testing: Annual third-party assessment
+                • Compliance: SOC 2, GDPR, CCPA — start documenting early</p>
+            </div>
+            
+            <div class="section">
+                <h2>Engineering Checklist</h2>
+                
+                <p>☐ Architecture documented (C4 diagrams, ADRs for major decisions)
+                ☐ API design guide established (REST/GraphQL standards, versioning, pagination)
+                ☐ Database schema designed (normalized or intentionally denormalized)
+                ☐ Multi-tenancy strategy chosen (shared, isolated, hybrid)
+                ☐ Authentication implemented (OAuth, SSO, MFA)
+                ☐ Authorization configured (RBAC, permissions, access control)
+                ☐ Data encryption enabled (at-rest, in-transit)
+                ☐ Secrets management configured (vault, environment variables)
+                ☐ CI/CD pipeline built (lint, test, build, deploy)
+                ☐ Deployment strategy defined (blue-green, canary, rolling)
+                ☐ Feature flag system implemented (LaunchDarkly, PostHog, custom)
+                ☐ Monitoring configured (metrics, logs, tracing, alerts)
+                ☐ Error tracking enabled (Sentry, Rollbar)
+                ☐ Uptime monitoring active (Pingdom, UptimeRobot)
+                ☐ Backups automated (database, files, configuration)
+                ☐ Disaster recovery tested (restore from backup quarterly)
+                ☐ Load testing performed (simulate 10x expected traffic)
+                ☐ Security scanning automated (dependencies, containers, code)
+                ☐ Penetration testing scheduled (annual third-party assessment)
+                ☐ Compliance documentation started (SOC 2, GDPR readiness)
+                ☐ Performance benchmarks established (response times, throughput)
+                ☐ Caching strategy defined (Redis, CDN, browser caching)
+                ☐ CDN configured (Cloudflare, AWS CloudFront, Fastly)
+                ☐ Rate limiting implemented (prevent abuse, ensure fairness)
+                ☐ Webhook system built (event delivery, retries, idempotency)
+                ☐ Search functionality implemented (Elasticsearch, Algolia, PostgreSQL FTS)
+                ☐ File storage configured (S3, GCS, Azure Blob — never local storage)
+                ☐ Queue system set up (Redis, RabbitMQ, SQS, Kafka)
+                ☐ Scheduled jobs configured (cron, Celery, Bull, pg_cron)
+                ☐ Email delivery configured (SendGrid, Mailgun, AWS SES)
+                ☐ SMS delivery configured (Twilio, AWS SNS — if needed)
+                ☐ Push notifications set up (Firebase, OneSignal, Pusher — if needed)
+                ☐ Real-time features implemented (WebSockets, Server-Sent Events, polling)
+                ☐ Mobile-responsive frontend (all pages work on phone and tablet)
+                ☐ Accessibility compliance (WCAG 2.1 AA minimum)
+                ☐ Documentation written (API docs, runbooks, onboarding guide)
+                ☐ Runbook created (how to handle common incidents)
+                ☐ On-call rotation established (who gets paged, escalation policy)
+                ☐ Post-mortem process defined (blameless, actionable, shared)
+                ☐ Engineering blog started (share learnings, attract talent)
+                ☐ Open source contributions (build reputation, give back)
+                ☐ Technical debt tracked (allocate 20% of sprint capacity)
+                ☐ Code review process defined (required reviewers, merge criteria)
+                ☐ Testing strategy defined (unit, integration, e2e, coverage target)
+                ☐ Environments configured (dev, staging, prod — data isolation)
+                ☐ Local development easy (Docker Compose, seed data, one-command setup)</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Get the Full Engineering Guide</h2>
+            <p style="color: #94a3b8; margin-bottom: 16px;">Complete guide with architecture diagrams, deployment playbooks, and security checklists.</p>
+            <form id="emailForm" style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                <input type="email" placeholder="your@email.com" required style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e2e8f0;">
+                <button type="submit" class="cta-btn">Download Free →</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            localStorage.setItem('engineeringEmail', email);
+            alert('✅ Guide coming soon! We\'ll email you the download link when it\'s ready.');
+            this.reset();
+        });
+    </script>
+
+<div style="text-align:center;margin-top:40px;padding:24px;background:#1a1a2e;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#94a3b8;margin-bottom:16px;font-size:0.95rem">Found this useful? Share it →</p>
+  <a id="twitterShare" href="#" target="_blank" style="display:inline-block;padding:12px 24px;background:#1da1f2;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;margin-right:12px;font-size:0.9rem">
+    Share on 𝕏
+  </a>
+  <button onclick="copyLink()" style="padding:12px 24px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem">
+    Copy Link
+  </button>
+  <p id="copyMsg" style="color:#10b981;margin-top:12px;font-size:0.85rem;display:none">✓ Link copied!</p>
+</div>
+<div style="text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)">
+  <p style="color:#64748b;font-size:0.85rem">Powered by <a href="https://simplerecover.com" style="color:#818cf8;text-decoration:none;font-weight:600">SimpleRecover</a> — Stripe payment recovery for SaaS</p>
+</div>
+<script>
+(function(){
+  var pageTitle = document.title.replace(/—.*$/, '').trim();
+  var pageUrl = window.location.href;
+  var shareText = encodeURIComponent('Just used this free ' + pageTitle + ' — check it out: ' + pageUrl + ' #SaaS #metrics');
+  var twitterBtn = document.getElementById('twitterShare');
+  if (twitterBtn) {
+    twitterBtn.href = 'https://twitter.com/intent/tweet?text=' + shareText;
+  }
+})();
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var msg = document.getElementById('copyMsg');
+    if (msg) { msg.style.display = 'block'; setTimeout(function(){ msg.style.display = 'none'; }, 2000); }
+  });
+}
+</script>
+
+</body>
+</html>
